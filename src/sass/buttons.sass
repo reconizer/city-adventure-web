@@ -1,0 +1,26 @@
+.button
+  display: inline-block
+  box-sizing: border-box
+  padding: 0.5rem 1rem
+  background-color: transparent
+  border: 1px solid transparent
+  border-radius: 999em
+  cursor: pointer
+  transition: all 0.3s ease-in-out
+
+  &--full
+    width: 100%
+
+  &--blue
+    background-color: $blue
+    color: $white
+    border-color: $blue
+    box-shadow: 0px 2px 5px -3px rgba($blue, 0.6)
+
+    &:hover, &:focus
+      background-color: darken($blue, 10%)
+      box-shadow: none
+
+    &:active, &:focus:active
+      background-color: lighten($blue, 5%)
+      box-shadow: none
