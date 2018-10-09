@@ -1,5 +1,5 @@
 <template>
-  <div class="hello">
+  <div>
     <h1>{{ msg }}</h1>
   </div>
 </template>
@@ -15,8 +15,3 @@ export default {
   }
 }
 </script>
-
-<style scoped lang="sass">
-.hello
-  color: #c0ffee
-</style>
