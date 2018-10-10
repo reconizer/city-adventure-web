@@ -72,11 +72,3 @@ export  default {
   },
 }
 </script>
-
-<style lang="sass" scoped>
-.login-header
-  font-size: 1.5rem
-  font-weight: bold
-  text-align: center
-  padding-bottom: 2rem
-</style>

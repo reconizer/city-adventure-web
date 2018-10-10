@@ -8,9 +8,7 @@ module.exports = {
   productionSourceMap: false,
   parallel: undefined,
 
-  css: {
-    sourceMap: true,
-  },
+  css: undefined,
 
   chainWebpack: config => {
     const types = ['vue-modules', 'vue', 'normal-modules', 'normal']
