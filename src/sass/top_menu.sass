@@ -1,0 +1,29 @@
+$top-menu-height: 3.0rem
+
+.top-menu
+  height: $top-menu-height
+  background-color: $menu-background
+  display: flex
+  align-items: center
+  z-index: $z-index-top-menu
+
+  &__links
+    height: $top-menu-height
+    display: flex
+    justify-content: flex-end
+    flex: 1
+
+  &__link
+    color: $white
+    display: inline-block
+    height: $top-menu-height
+    line-height: $top-menu-height
+    padding: 0 1rem
+    text-decoration: none
+    transition: all 0.3s ease-in-out
+
+    &:hover, &:focus, &.router-link-active
+      text-decoration: none
+
+    &:hover, &.router-link-active
+      background-color: $menu-background-active

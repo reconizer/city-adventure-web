@@ -1,7 +1,7 @@
 <template>
   <div>
-    <TheTopMenu/>
-    <span>Test</span>
+    <TheTopMenu />
+    <router-view />
   </div>
 </template>
 
@@ -9,7 +9,7 @@
 import TheTopMenu from '@/components/TheTopMenu'
 
 export default {
-  name: 'Home',
+  name: 'BaseLayout',
   components: {
     TheTopMenu
   }

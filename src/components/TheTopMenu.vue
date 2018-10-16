@@ -1,7 +1,26 @@
 <template>
   <nav class="top-menu">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/login">Logout</router-link>
+    <router-view name="top_menu_extra"/>
+
+    <div class="top-menu__links">
+      <router-link
+        to="/"
+        class="top-menu__link">
+        Adventures
+      </router-link>
+
+      <router-link
+        to="/account"
+        class="top-menu__link">
+        Settings
+      </router-link>
+
+      <router-link
+        to="/login"
+        class="top-menu__link">
+        Logout
+      </router-link>
+    </div>
   </nav>
 </template>
 

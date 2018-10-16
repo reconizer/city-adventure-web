@@ -50,6 +50,8 @@
 <script>
 import { LOGIN, LOGOUT } from '@/store/action-types'
 
+const ACTION_NAMESPACE = 'authentication'
+
 export  default {
   name: 'LoginForm',
   data: () => {
@@ -63,11 +65,11 @@ export  default {
     }
   },
   created () {
-    this.$store.dispatch(`authentication/${LOGOUT}`);
+    this.$store.dispatch(`${ACTION_NAMESPACE}/${LOGOUT}`);
   },
   methods: {
     handleSubmit () {
-      this.$store.dispatch(`authentication/${LOGIN}`, this.user.email, this.user.password);
+      this.$store.dispatch(`${ACTION_NAMESPACE}/${LOGIN}`, this.user.email, this.user.password);
     }
   },
 }
