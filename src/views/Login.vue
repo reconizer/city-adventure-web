@@ -1,9 +1,7 @@
-<template>
-  <div class="login-wrapper">
-    <div class="login">
-      <LoginForm />
-    </div>
-  </div>
+<template lang="pug">
+  .login-wrapper
+    .login
+      LoginForm
 </template>
 
 <script>

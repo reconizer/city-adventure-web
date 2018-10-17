@@ -1,50 +1,21 @@
-<template>
-  <form @submit.prevent="handleSubmit">
-    <div class="login-header">
-      Log In
-    </div>
+<template lang="pug">
+  form(@submit.prevent="handleSubmit")
+    .login-header Log In
 
-    <div
-      v-if="error"
-      class="form-control">
-      {{ error }}
-    </div>
+    .form-control(v-if="error") {{ error }}
 
-    <div class="form-control">
-      <label class="form-label form-label--required">
-        Email
-      </label>
-      <input
-        v-model="user.email"
-        class="form-input"
-        type="email"
-        name="user[email]"
-        placeholder="email@domain.com"
-        required="true"
-        autocomplete="off">
-    </div>
+    .form-control
+      label.form-label.form-label--required Email
 
-    <div class="form-control">
-      <label class="form-label form-label--required">
-        Password
-      </label>
-      <input
-        v-model="user.password"
-        class="form-input"
-        type="password"
-        name="user[password]"
-        placeholder="Password"
-        required="true"
-        autocomplete="off">
-    </div>
+      input.form-input(v-model="user.email" type="email" name="user[email]" placeholder="email@domain.com" required="true" autocomplete="off")
 
-    <div class="form-control">
-      <input
-        class="button button--blue button--full"
-        type="submit"
-        value="Submit">
-    </div>
-  </form>
+    .form-control
+      label.form-label.form-label--required Password
+
+      input.form-input(v-model="user.password" type="password" name="user[password]" placeholder="Password" required="true" autocomplete="off")
+
+    .form-control
+      input.button.button--blue.button--full(type="submit" value="Submit")
 </template>
 
 <script>
@@ -52,7 +23,7 @@ import { LOGIN, LOGOUT } from '@/store/action-types'
 
 const ACTION_NAMESPACE = 'authentication'
 
-export  default {
+export default {
   name: 'LoginForm',
   data: () => {
     return {

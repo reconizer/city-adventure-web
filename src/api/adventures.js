@@ -11,6 +11,10 @@ export default {
             {
               id: 1,
               name: "Sekrety Starówki"
+            },
+            {
+              id: 2,
+              name: "Przygoda Dwa"
             }
           ]
         };

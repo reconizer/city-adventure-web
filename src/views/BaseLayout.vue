@@ -1,8 +1,8 @@
-<template>
-  <div>
-    <TheTopMenu />
-    <router-view />
-  </div>
+<template lang="pug">
+  div
+    TheTopMenu
+
+    router-view
 </template>
 
 <script>
