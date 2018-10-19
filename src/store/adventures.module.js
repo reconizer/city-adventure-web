@@ -6,14 +6,14 @@ import { LOAD_ADVENTURES } from './action-types';
 export default {
   namespaced: true,
   state: {
-    adventures: [],
+    list: [],
     newAdventure: { },
     loading: false,
     error: null
   },
   mutations: {
     [SET_ADVENTURES] (state, adventures) {
-      state.adventures = adventures;
+      state.list = adventures;
     },
 
     [CLEAR_NEW_ADVENTURE] (state) {
@@ -29,10 +29,10 @@ export default {
     }
   },
   actions: {
-    [LOAD_ADVENTURES] ({ commit }) {
+    [LOAD_ADVENTURES] ({ commit }, { page }) {
       commit(SET_LOADING, true);
 
-      api.adventures.loadAdventures()
+      api.adventures.loadAdventures(page)
         .then( response => {
           commit(SET_ADVENTURES, response.data);
           commit(SET_LOADING, false);

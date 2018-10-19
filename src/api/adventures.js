@@ -2,26 +2,16 @@ import axios from 'axios';
 
 import { BASE_URL } from '@/config';
 
-export default {
-  loadAdventures () {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        let adventures = {
-          data: [
-            {
-              id: 1,
-              name: "Sekrety Starówki"
-            },
-            {
-              id: 2,
-              name: "Przygoda Dwa"
-            }
-          ]
-        };
+import adventureListMock from './mock/adventure_list';
+import adventurePointsMock from './mock/adventure_points';
 
-        resolve(adventures);
-      }, 500);
-    });
+export default {
+  loadAdventures (page = 1) {
+    return adventureListMock;
     // return axios.get(`${BASE_URL}/adventures`);
+  },
+  loadPoints (adventureId) {
+    return adventurePointsMock;
+    // return axios.get(`${BASE_URL}/points`, { adventure_id: adventureId });
   }
 }
