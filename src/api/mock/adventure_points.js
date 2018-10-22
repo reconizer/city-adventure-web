@@ -8,7 +8,8 @@ export default new Promise((resolve) => {
           parent_id: null,
           position: {
             lat: 53.0098,
-            lng: 18.60216
+            lng: 18.60216,
+            test: "asd"
           },
           clues: [
             {

@@ -21,6 +21,7 @@
     "@vue/cli-plugin-babel": "^3.0.4",
     "@vue/cli-plugin-eslint": "^3.0.4",
     "@vue/cli-service": "^3.0.4",
+    "file-loader": "^2.0.0",
     "node-sass": "^4.9.0",
     "pug": "^2.0.3",
     "pug-loader": "^2.4.0",
