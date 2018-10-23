@@ -19,7 +19,7 @@
 
     .col-1-6
       .text-right
-        router-link.button.button--blue(:to="{ name: 'adventure', params: { adventureId: adventure.id } }") Edit
+        router-link.button.button--blue(:to="{ name: 'adventureMap', params: { adventureId: adventure.id } }") Edit
 </template>
 
 <script>

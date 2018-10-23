@@ -19,6 +19,16 @@ export default {
     loading: false,
     error: null
   },
+  getters: {
+    startingPoint: (state) => {
+      return state.points[0];
+    },
+    puzzlePoints: (state) => {
+      return state.points.filter((element, index) => {
+        return index > 0;
+      });
+    }
+  },
   mutations: {
     [SET_ADVENTURES] (state, adventures) {
       state.list = adventures;
@@ -66,6 +76,9 @@ export default {
         });
     },
     [LOAD_ADVENTURE] ({ commit }, { id }) {
+      commit(CLEAR_ADVENTURE);
+      commit(CLEAR_ADVENTURE_POINTS);
+
       commit(SET_LOADING, true);
 
       api.adventures.loadAdventure(id)

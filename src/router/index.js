@@ -24,8 +24,7 @@ const router = new Router({
           }
         },
         {
-          path: ':adventureId',
-          name: 'adventure',
+          path: 'adventures/:adventureId',
           components: {
             default: Adventure
           },
@@ -38,8 +37,26 @@ const router = new Router({
               }
             },
             {
-              path: '/settings',
+              path: 'settings',
               name: 'adventureSettings',
+              components: {
+              }
+            },
+            {
+              path: 'points/:pointId',
+              name: 'adventurePoint',
+              components: {
+              }
+            },
+            {
+              path: 'points/:pointId/clues/new',
+              name: 'newAdventureClue',
+              components: {
+              }
+            },
+            {
+              path: 'points/:pointId/clues/:clueId',
+              name: 'adventureClue',
               components: {
               }
             }

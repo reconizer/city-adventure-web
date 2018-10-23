@@ -8,13 +8,13 @@ export default new Promise((resolve) => {
           parent_id: null,
           position: {
             lat: 53.0098,
-            lng: 18.60216,
-            test: "asd"
+            lng: 18.60216
           },
+          radius: 20,
           clues: [
             {
               id: 1,
-              type: "sound",
+              type: "audio",
               details: {
                 url: "http://test.com"
               }
@@ -29,6 +29,7 @@ export default new Promise((resolve) => {
             lat: 53.01057,
             lng: 18.59991
           },
+          radius: 20,
           clues: [
             {
               id: 2,
@@ -47,6 +48,7 @@ export default new Promise((resolve) => {
             lat: 53.01105,
             lng: 18.6045
           },
+          radius: 20,
           clues: [
             {
               id: 3,
@@ -65,6 +67,7 @@ export default new Promise((resolve) => {
             lat: 53.0107,
             lng: 18.60881
           },
+          radius: 20,
           clues: [
             {
               id: 4,
@@ -83,6 +86,7 @@ export default new Promise((resolve) => {
             lat: 53.01218,
             lng: 18.60433
           },
+          radius: 20,
           clues: [
             {
               id: 5,
@@ -101,6 +105,7 @@ export default new Promise((resolve) => {
             lat: 53.0103,
             lng: 18.60496
           },
+          radius: 20,
           clues: [
             {
               id: 7,
@@ -125,7 +130,8 @@ export default new Promise((resolve) => {
           position: {
             lat: 53.00855,
             lng: 18.60891
-          }
+          },
+          radius: 20
         }
       ]
     };
