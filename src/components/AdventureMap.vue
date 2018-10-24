@@ -3,7 +3,7 @@
     gmap-map(
       class="adventure-map"
       :center="center",
-      :zoom="15"
+      :zoom="zoom"
       :options="options"
     )
       AdventureMapPoint(
@@ -27,6 +27,7 @@ export default {
   data() {
     return {
       center: { lat: 0, lng: 0 },
+      zoom: 17
     };
   },
   computed: {
