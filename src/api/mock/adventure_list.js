@@ -1,4 +1,4 @@
-export default new Promise((resolve) => {
+export default (page) => new Promise((resolve) => {
   setTimeout(() => {
     let adventures = {
       data: [

@@ -31,9 +31,9 @@ export default {
   },
   computed: {
     ...mapState({
-    points: state => state.adventures.points,
+      points: state => state.adventure.points,
 
-    loading: state => state.adventures.loading
+      loading: state => state.adventure.loading
     }),
     options () {
       return {
@@ -45,14 +45,21 @@ export default {
   },
   mounted () {
     this.geolocate();
+
+    this.$root.$on('center-camera', (position) => {
+      this.centerCamera(position);
+    });
   },
   methods: {
+    centerCamera ( {lat, lng }) {
+      this.center = { lat, lng };
+    },
     geolocate () {
       navigator.geolocation.getCurrentPosition(position => {
-        this.center = {
+        this.centerCamera({
           lat: position.coords.latitude,
           lng: position.coords.longitude
-        };
+        });
       });
     }
   }

@@ -1,4 +1,4 @@
-export default new Promise((resolve) => {
+export default (adventurId) => new Promise((resolve) => {
   setTimeout(() => {
     let points = {
       data: [
@@ -14,6 +14,9 @@ export default new Promise((resolve) => {
           clues: [
             {
               id: 1,
+              order: 0,
+              point_id: 1,
+              tip: false,
               type: "audio",
               details: {
                 url: "http://test.com"
@@ -33,6 +36,9 @@ export default new Promise((resolve) => {
           clues: [
             {
               id: 2,
+              order: 0,
+              point_id: 2,
+              tip: false,
               type: "text",
               details: {
                 text: "Odpowiedzi szukaj u Psa, Smoka i Kury bez Głowy"
@@ -52,6 +58,9 @@ export default new Promise((resolve) => {
           clues: [
             {
               id: 3,
+              order: 0,
+              point_id: 3,
+              tip: false,
               type: "image",
               details: {
                 url: "http://placehold.it/500x500"
@@ -71,6 +80,9 @@ export default new Promise((resolve) => {
           clues: [
             {
               id: 4,
+              order: 0,
+              point_id: 4,
+              tip: false,
               type: "image",
               details: {
                 url: "http://placehold.it/600x600"
@@ -90,6 +102,9 @@ export default new Promise((resolve) => {
           clues: [
             {
               id: 5,
+              order: 0,
+              point_id: 5,
+              tip: false,
               type: "image",
               details: {
                 url: "http://placehold.it/400x500"
@@ -108,14 +123,20 @@ export default new Promise((resolve) => {
           radius: 20,
           clues: [
             {
-              id: 7,
+              id: 6,
+              order: 0,
+              point_id: 6,
+              tip: false,
               type: "image",
               details: {
                 url: "http://placehold.it/400x200"
               }
             },
             {
-              id: 8,
+              id: 7,
+              order: 1,
+              point_id: 6,
+              tip: false,
               type: "image",
               details: {
                 url: "http://placehold.it/500x200"
@@ -131,7 +152,8 @@ export default new Promise((resolve) => {
             lat: 53.00855,
             lng: 18.60891
           },
-          radius: 20
+          radius: 20,
+          clues: []
         }
       ]
     };

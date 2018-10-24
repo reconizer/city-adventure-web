@@ -4,77 +4,61 @@
 
     .adventure-point-wrapper(v-if="startingPoint")
       .adventure-point.adventure-point--start
-        .adventure-point__name Start
+        .adventure-point__name.button.button--pink(@click="goToPoint(startingPoint)") Start
 
-      .adventure-point-clues
-        .adventure-point-clue-wrapper
-          .adventure-point-clue-wrapper__dot
-
-          .adventure-point-clue-wrapper__line
-
-          router-link.adventure-point-clue.adventure-point-clue--new(
-            :to="{ name: 'newAdventureClue', params: { adventureId: adventure.id, pointId: startingPoint.id } }"
-          )
-            span Add new clue
+      AdventurePointClueList(
+        :point="startingPoint",
+        :isLast="false"
+      )
 
     .adventure-point-wrapper(
       v-for="(point, pointIndex) in puzzlePoints"
       :key="point.id"
     )
-      router-link.adventure-point(
-        :to="{ name: 'adventurePoint', params: { adventureId: adventure.id, pointId: point.id } }"
+      .adventure-point
+        .button.button--gray.adventure-point__name(@click="goToPoint(point)") {{ pointIndex + 1 }}
+        .adventure-point__controls
+          router-link.button.button--blue.adventure-point__control(
+            :to="{ name: 'adventurePoint', params: { adventureId: adventure.id, pointId: point.id } }"
+          ) Edit
+
+          .button.button--blue.adventure-point__control Remove
+
+      AdventurePointClueList(
+        :point="point",
+        :isLast="pointIndex + 1 == puzzlePoints.length"
       )
-        .adventure-point__name {{ pointIndex }}
-
-      .adventure-point-clues
-        .adventure-point-clue-wrapper(v-for="(clue, index) in point.clues" :key="clue.id")
-          .adventure-point-clue-wrapper__dot
-
-          .adventure-point-clue-wrapper__line
-
-          router-link.adventure-point-clue(
-            :class="{ 'adventure-point-clue--image': clue.type == 'image' }"
-            :to="{ name: 'adventureClue', params: { adventureId: adventure.id, pointId: point.id, clueId: clue.id } }"
-          )
-            .adventure-point-clue__thumb(v-if="clue.type == 'image'")
-              img(:src="clue.details.url")
-
-            .adventure-point-clue__text(v-else="clue.type == 'text'")
-              .adventure-point-clue__icon
-              .adventure-point-clue__content {{ clue.details.text }}
-
-            .adventure-point-clue__audio(v-else="clue.type == 'audio'")
-
-        .adventure-point-clue-wrapper(v-if="pointIndex + 1 < puzzlePoints.length")
-          .adventure-point-clue-wrapper__dot
-
-          .adventure-point-clue-wrapper__line
-
-          router-link.adventure-point-clue.adventure-point-clue--new(
-            :to="{ name: 'newAdventureClue', params: { adventureId: adventure.id, pointId: point.id } }"
-          )
-            span Add new clue
 
     .adventure-point-wrapper
       .adventure-point.adventure-point--new
-        .adventure-point__name Add new puzzle
+        .button.button--blue.adventure-point__name Add new puzzle
 </template>
 
 <script>
 import { mapState, mapGetters } from 'vuex'
 
+import AdventurePointClueList from '@/components/AdventurePointClueList.vue'
+
 export default {
   name: 'AdventurePointList',
+  components: {
+    AdventurePointClueList
+  },
   computed: {
     ...mapState({
-      adventure: state => state.adventures.item,
+      adventure: state => state.adventure.item,
 
-      loading: state => state.adventures.loading
+      loading: state => state.adventure.loading
     }),
-    ...mapGetters('adventures', {
+    ...mapGetters('adventure', {
       puzzlePoints: 'puzzlePoints',
       startingPoint: 'startingPoint'
     })
+  },
+  methods: {
+    goToPoint (point) {
+      this.$root.$emit('center-camera', point.position);
+    }
   }
 }
 </script>

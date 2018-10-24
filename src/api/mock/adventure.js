@@ -1,4 +1,4 @@
-export default new Promise((resolve) => {
+export default (adventureId) => new Promise((resolve) => {
   setTimeout(() => {
     let adventure = {
       id: 1,

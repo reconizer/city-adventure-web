@@ -9,8 +9,51 @@
   transition: all 0.3s ease-in-out
   text-decoration: none
 
+  &, &:focus, &:hover, &:active
+    text-decoration: none
+
   &--full
     width: 100%
+
+  &--inactive
+    pointer-events: none
+    cursor: default
+
+  &--light-gray
+    background-color: $clue-background
+    color: $black
+    border-color: $clue-background
+    box-shadow: 0px 2px 5px -3px rgba($clue-background, 0.6)
+
+    &:hover, &:focus
+      background-color: darken($clue-background, 10%)
+
+    &:active, &:focus:active
+      background-color: lighten($clue-background, 2%)
+
+  &--gray
+    background-color: $point-background
+    color: $white
+    border-color: $point-background
+    box-shadow: 0px 2px 5px -3px rgba($point-background, 0.6)
+
+    &:hover, &:focus
+      background-color: darken($point-background, 10%)
+
+    &:active, &:focus:active
+      background-color: lighten($point-background, 5%)
+
+  &--pink
+    background-color: $pink
+    color: $white
+    border-color: $pink
+    box-shadow: 0px 2px 5px -3px rgba($pink, 0.6)
+
+    &:hover, &:focus
+      background-color: darken($pink, 10%)
+
+    &:active, &:focus:active
+      background-color: lighten($pink, 5%)
 
   &--blue
     background-color: $blue
@@ -21,12 +64,10 @@
     &:hover, &:focus
       background-color: darken($blue, 10%)
       box-shadow: none
-      text-decoration: none
 
     &:active, &:focus:active
       background-color: lighten($blue, 5%)
       box-shadow: none
-      text-decoration: none
 
   &--disabled
     color: $white !important

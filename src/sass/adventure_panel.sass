@@ -39,36 +39,28 @@
     padding-top: 1rem
 
 .adventure-point
-  border-radius: 999em
-  background-color: $point-background
-  color: $white
-  padding: 0.5rem 1rem
-  display: inline-block
-  transition: all 0.3s ease-in-out
+  display: flex
+  align-items: center
 
-  &, &:hover, &:active, &:focus
-    text-decoration: none
+  &__controls
+    flex: 1
+    padding: 0 1rem
+    display: none
 
-  &:hover
-    background-color: $adventure-menu-background
+  &__control
+    & + &
+      margin-left: 0.5rem
 
-  &--start
-    &, &:hover
-      background-color: $pink
-
-  &--new
-    background-color: $blue
-
-    &:hover
-      background-color: darken($blue, 10%)
-
-  &--new
-    cursor: pointer
+  &:hover &__controls
+    display: block
 
   &__name
     font-size: 1.25rem
 
-.adventure-point-clue-wrapper
+.adventure-point-clues
+  min-height: 1rem
+
+.adventure-point-clue-wrapper, .adventure-point-new-clue
   padding-top: 1rem
   padding-left: 0.9375rem
   display: flex
@@ -94,10 +86,6 @@
   &, &:hover, &:active, &:focus
     text-decoration: none
   
-  &--new
-    border-radius: 999em
-    padding: 0.5rem 1rem
-
   &--image
     padding: 0
     overflow: hidden
@@ -115,3 +103,21 @@
   &__text
     display: flex
     align-items: center
+
+.adventure-loader
+  position: fixed
+  top: 0
+  left: 0
+  right: 0
+  bottom: 0
+  z-index: $z-index-adventure-loader
+  display: flex
+  align-items: center
+  justify-content: center
+
+  &__spinner
+    background-color: rgba($black, 0.6)
+    width: 4rem
+    height: 4rem
+    border-radius: 0.25rem
+    //TODO spinner element w/ animation

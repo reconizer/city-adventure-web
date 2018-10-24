@@ -3,10 +3,8 @@
     gmap-marker(
       :position="point.position"
       :draggable="!loading"
-      :clickable="!loading"
       :label="label"
       :icon="marker"
-      @click="center=point.position"
       @drag="updatePosition($event.latLng)"
       @dragend="savePosition($event.latLng)"
     )
@@ -23,6 +21,10 @@ import { mapState } from 'vuex'
 import defaultMarker from '@/assets/images/marker_default.png'
 import startMarker from '@/assets/images/marker_start.png'
 
+import { UPDATE_POINT } from '@/store/action-types'
+
+const ACTION_NAMESPACE = 'adventure';
+
 export default {
   name: "AdventureMapPoint",
   props: {
@@ -37,7 +39,8 @@ export default {
   },
   computed: {
     ...mapState({
-      loading: state => state.adventures.loading
+      adventure: state => state.adventure.item,
+      loading: state => state.adventure.loading
     }),
     label () {
       if(this.index == 0) {
@@ -92,7 +95,18 @@ export default {
     savePosition (latLng) {
       this.updatePosition(latLng);
 
-      //TODO save point
+      let params = {
+        parent_id: this.point.parent_id,
+        position: this.point.position,
+        radius: this.point.radius,
+        clues: this.point.clues
+      };
+
+      this.$store.dispatch(`${ACTION_NAMESPACE}/${UPDATE_POINT}`, {
+        adventureId: this.adventure.id,
+        pointId: this.point.id,
+        params: params
+      })
     }
   }
 }

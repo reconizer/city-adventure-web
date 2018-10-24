@@ -6,7 +6,7 @@ import authMock from './mock/auth';
 
 export default {
   login (email, password) {
-    return authMock;
+    return authMock(email, password);
 
     //return axios.post(`${BASE_URL}/login`, {
     //  email,
