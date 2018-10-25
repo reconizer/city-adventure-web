@@ -19,9 +19,31 @@
     padding: 0 1rem
     text-decoration: none
     transition: all 0.3s ease-in-out
+    display: flex
+    align-items: center
 
     &:hover, &:focus, &.router-link-active
       text-decoration: none
 
     &:hover, &.router-link-active
       background-color: $menu-background-active
+
+    &--adventures
+      &:before
+        content: ''
+        display: inline-block
+        vertical-align: baseline
+        background-image: url('assets/images/icon-list-a.svg')
+        width: 1.25rem
+        height: 1.25rem
+        margin-right: 0.5rem
+
+    &--settings
+      &:before
+        content: ''
+        display: inline-block
+        vertical-align: baseline
+        background-image: url('assets/images/icon-settings.svg')
+        width: 1.25rem
+        height: 1.25rem
+        margin-right: 0.5rem
