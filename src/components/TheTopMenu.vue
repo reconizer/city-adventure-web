@@ -4,7 +4,7 @@
 
     .top-menu__links
       router-link.top-menu__link(to="/")
-        .icon.icon--list-a.icon--pad-right
+        .icon.icon--list-b.icon--pad-right
         span Adventures
 
       router-link.top-menu__link(to="/account")

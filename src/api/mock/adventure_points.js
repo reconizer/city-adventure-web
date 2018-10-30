@@ -1,4 +1,5 @@
 export default (adventureId) => new Promise((resolve) => {
+  //TODO location hiding as a component in answers?
   setTimeout(() => {
     let points = {
       data: [
