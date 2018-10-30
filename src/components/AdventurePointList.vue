@@ -23,6 +23,7 @@
           .icon.icon--eye.icon--pad-left(v-if="!point.hidden")
           .icon.icon--lock-white.icon--pad-left(v-if="hasPassword(point)")
           .icon.icon--clock.icon--pad-left(v-if="hasTimeConstraint(point)")
+
         .adventure-point__controls
           router-link.button.button--blue.adventure-point__control(
             :to="{ name: 'adventurePoint', params: { adventureId: adventure.id, pointId: point.id } }"
@@ -81,12 +82,13 @@ export default {
         return el.type == "time"
       }).length > 0;
     },
+    //TODO location as a component?
     goToPoint (point) {
       // Handle map centering in AdventureMap component
       this.$root.$emit('center-camera', point.position);
     },
     addNewPuzzle () {
-      // Handle new point creation in AdventureMap component because it has map center position
+      // Handle new point creation in AdventureMap component
       this.$root.$emit('add-new-point');
     }
   }

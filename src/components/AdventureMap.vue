@@ -84,7 +84,7 @@ export default {
       this.createPoint()
     });
 
-    this.$refs.googleMap.$mapPromise.then((map) => {
+    this.$refs.googleMap.$mapPromise.then(() => {
       this.mapLoaded = true;
     });
   },
