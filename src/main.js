@@ -2,15 +2,17 @@ import 'normalize.css'
 
 import './app.sass'
 
-import Vue from 'vue'
-import router from './router'
-import store from './store'
+import Vue from 'vue';
+import VueScrollTo from 'vue-scrollto';
+import router from './router';
+import store from './store';
 
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 import * as VueGoogleMaps from 'vue2-google-maps';
 
 Vue.use(VueAxios, axios);
+Vue.use(VueScrollTo);
 
 Vue.use(VueGoogleMaps, {
   load: {

@@ -31,6 +31,17 @@
     &:active, &:focus:active
       background-color: lighten($clue-background, 2%)
 
+  &--gray-dashed
+    background-color: transparent
+    color: $black
+    border: 2px dashed darken($clue-background, 10%)
+
+    &:hover, &:focus
+      background-color: $clue-background
+
+    &:active, &:focus:active
+      background-color: lighten($clue-background, 2%)
+
   &--gray
     background-color: $point-background
     color: $white

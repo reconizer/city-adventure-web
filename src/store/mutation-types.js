@@ -20,3 +20,4 @@ export const SET_ADVENTURE_POINTS = "setPoints";
 export const CLEAR_ADVENTURE_POINTS = "clearPoints";
 
 export const SET_POINT = "setPoint";
+export const ADD_POINT = "addPoint";

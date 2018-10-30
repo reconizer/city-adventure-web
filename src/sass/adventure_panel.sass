@@ -60,6 +60,14 @@
 .adventure-point-clues
   min-height: 1rem
 
+.adventure-point-new-clue-separator
+  display: none
+  margin-top: 1rem
+  padding-left: 0.9375rem
+  height: 1px
+  width: 100%
+  background-color: $point-background
+
 .adventure-point-clue-wrapper, .adventure-point-new-clue
   padding-top: 1rem
   padding-left: 0.9375rem
@@ -71,17 +79,20 @@
     background-color: $point-background
     width: 0.75rem
     height: 0.75rem
+    flex-shrink: 0
 
   &__line
     height: 2px
     background-color: $point-background
     width: 2rem
+    flex-shrink: 0
 
 .adventure-point-clue
-  padding: 0.5rem
+  padding: 0.5rem 1rem
   background-color: $clue-background
   border-radius: 0.25rem
   color: $black
+  box-sizing: border-box
   
   &, &:hover, &:active, &:focus
     text-decoration: none
@@ -104,6 +115,12 @@
     display: flex
     align-items: center
 
+@keyframes loader
+  0%
+    transform: rotate(0deg)
+  100%
+    transform: rotate(360deg)
+
 .adventure-loader
   position: fixed
   top: 0
@@ -119,5 +136,27 @@
     background-color: rgba($black, 0.6)
     width: 4rem
     height: 4rem
+    position: relative
     border-radius: 0.25rem
-    //TODO spinner element w/ animation
+    &:before
+      content: ''
+      position: absolute
+      left: 0
+      right: 0
+      bottom: 0
+      top: 0
+      background-position: center
+      background-size: 3rem 3rem
+      background-repeat: no-repeat
+      background-image: url('assets/images/icon-loading.svg')
+      animation: loader 1s infinite
+
+.google-map-controls
+  position: fixed
+  top: 4rem
+  right: 1rem
+
+  &__item
+    display: inline-block
+    & + &
+      margin-left: 1rem

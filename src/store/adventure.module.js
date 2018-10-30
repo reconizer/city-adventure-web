@@ -1,16 +1,16 @@
 import api from '@/api';
+import Vue from 'vue';
 
 import {
   SET_LOADING, SET_ERROR,
   SET_ADVENTURE, CLEAR_ADVENTURE,
   SET_ADVENTURE_POINTS, CLEAR_ADVENTURE_POINTS, 
-  SET_POINT
+  SET_POINT, ADD_POINT
 } from './mutation-types';
 
 import {
-  LOAD_ADVENTURE,
-  UPDATE_POINT,
-  UPDATE_CLUES
+  LOAD_ADVENTURE, UPDATE_POINT,
+  UPDATE_CLUES, CREATE_POINT
 } from './action-types';
 
 export default {
@@ -49,10 +49,14 @@ export default {
       state.points = [];
     },
 
+    [ADD_POINT] (state, point) {
+      state.points.push(point);
+    },
+
     [SET_POINT] (state, { id, data }) {
       let index = state.points.findIndex(item => item.id == id);
 
-      state.points[index] = data;
+      Vue.set(state.points, index, data);
     },
 
     [SET_LOADING] (state, loading) {
@@ -103,6 +107,18 @@ export default {
         .then( response => {
           //TODO does not require any response?
           //TODO does it require state manipulation?
+
+          commit(SET_LOADING, false);
+        })
+        .catch( error => commit(SET_ERROR, error));
+    },
+
+    [CREATE_POINT] ({ commit }, { adventureId, parentId, lat, lng }) {
+      commit(SET_LOADING, true);
+
+      api.adventures.createPoint(adventureId, parentId, lat, lng)
+        .then( response => {
+          commit(ADD_POINT, response.data);
 
           commit(SET_LOADING, false);
         })

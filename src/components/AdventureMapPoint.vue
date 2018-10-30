@@ -2,9 +2,11 @@
   .adventure-map-marker
     gmap-marker(
       :position="point.position"
+      :clickable="true"
       :draggable="!loading"
       :label="label"
       :icon="marker"
+      @click="scrollToPoint()"
       @drag="updatePosition($event.latLng)"
       @dragend="savePosition($event.latLng)"
     )
@@ -18,7 +20,10 @@
 <script>
 import { mapState } from 'vuex'
 
+import VueScrollTo from 'vue-scrollto'
+
 import defaultMarker from '@/assets/images/marker_default.png'
+import hiddenMarker from '@/assets/images/marker_hidden.png'
 import startMarker from '@/assets/images/marker_start.png'
 
 import { UPDATE_POINT } from '@/store/action-types'
@@ -64,7 +69,11 @@ export default {
       if(this.index == 0) {
         img.url = startMarker;
       } else {
-        img.url = defaultMarker;
+        if(this.point.hidden) {
+          img.url = hiddenMarker;
+        } else {
+          img.url = defaultMarker;
+        }
       }
 
       return img;
@@ -86,6 +95,13 @@ export default {
     }
   },
   methods: {
+    scrollToPoint () {
+      let id = `#point-${this.point.id}`;
+
+      VueScrollTo.scrollTo(id, 500, {
+        container: '.adventure-structure'
+      });
+    },
     updatePosition (latLng) {
       this.point.position = {
         lat: latLng.lat(),
@@ -99,7 +115,9 @@ export default {
         parent_id: this.point.parent_id,
         position: this.point.position,
         radius: this.point.radius,
-        clues: this.point.clues
+        hidden: this.point.hidden,
+        clues: this.point.clues,
+        answers: this.point.answers
       };
 
       this.$store.dispatch(`${ACTION_NAMESPACE}/${UPDATE_POINT}`, {

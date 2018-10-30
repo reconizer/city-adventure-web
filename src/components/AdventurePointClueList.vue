@@ -18,24 +18,28 @@
             img(:src="clue.details.url")
 
           .adventure-point-clue__text(v-else-if="clue.type == 'text'")
-            .adventure-point-clue__icon
+            .icon.icon--question-mark.icon--pad-right.icon--align-start
             .adventure-point-clue__content {{ clue.details.text }}
 
           .adventure-point-clue__text(v-else-if="clue.type == 'audio'")
-            .adventure-point-clue__icon
+            .icon.icon--audio.icon--pad-right
             .adventure-point-clue__content {{ clue.details.url }}
 
           .adventure-point-clue__text(v-else-if="clue.type == 'movie'")
-            .adventure-point-clue__icon
+            .icon.icon--video.icon--pad-right
             .adventure-point-clue__content {{ clue.details.url }}
+
+    .adventure-point-new-clue-separator
 
     .adventure-point-new-clue(v-if="!isLast")
       .adventure-point-clue-wrapper__dot
       .adventure-point-clue-wrapper__line
 
-      router-link.button.button--light-gray(
+      router-link.button.button--gray-dashed(
         :to="{ name: 'newAdventureClue', params: { adventureId: adventure.id, pointId: point.id } }"
-      ) Add new clue
+      )
+        .icon.icon--add.icon--pad-right
+        span New clue
 </template>
 
 <script>
@@ -77,8 +81,6 @@ export default {
         });
 
         let payload = { clues };
-
-        let pointId = this.point.id;
 
         this.$store.dispatch(`${ACTION_NAMESPACE}/${UPDATE_CLUES}`, { payload });
       }

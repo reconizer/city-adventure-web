@@ -3,9 +3,13 @@
     router-view(name="top_menu_extra")
 
     .top-menu__links
-      router-link.top-menu__link.top-menu__link--adventures(to="/") Adventures
+      router-link.top-menu__link(to="/")
+        .icon.icon--list-a.icon--pad-right
+        span Adventures
 
-      router-link.top-menu__link.top-menu__link--settings(to="/account") Settings
+      router-link.top-menu__link(to="/account")
+        .icon.icon--settings.icon--pad-right
+        span Settings
 
       router-link(to="/login" class="top-menu__link") Logout
 </template>

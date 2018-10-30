@@ -10,7 +10,8 @@ export default (adventurId) => new Promise((resolve) => {
             lat: 53.0098,
             lng: 18.60216
           },
-          radius: 20,
+          radius: 50,
+          hidden: false,
           clues: [
             {
               id: 1,
@@ -22,7 +23,8 @@ export default (adventurId) => new Promise((resolve) => {
                 url: "http://test.com"
               }
             }
-          ]
+          ],
+          answers: []
         },
         //Fontanna
         {
@@ -33,6 +35,7 @@ export default (adventurId) => new Promise((resolve) => {
             lng: 18.59991
           },
           radius: 20,
+          hidden: false,
           clues: [
             {
               id: 2,
@@ -42,6 +45,16 @@ export default (adventurId) => new Promise((resolve) => {
               type: "text",
               details: {
                 text: "Odpowiedzi szukaj u Psa, Smoka i Kury bez Głowy"
+              }
+            }
+          ],
+          answers: [
+            {
+              id: 1,
+              type: "password",
+              details: {
+                password_type: "text",
+                password: "Taniec Eleny"
               }
             }
           ]
@@ -55,6 +68,7 @@ export default (adventurId) => new Promise((resolve) => {
             lng: 18.6045
           },
           radius: 20,
+          hidden: true,
           clues: [
             {
               id: 3,
@@ -66,7 +80,8 @@ export default (adventurId) => new Promise((resolve) => {
                 url: "http://placehold.it/500x500"
               }
             }
-          ]
+          ],
+          answers: []
         },
         //Smok
         {
@@ -77,6 +92,7 @@ export default (adventurId) => new Promise((resolve) => {
             lng: 18.60881
           },
           radius: 20,
+          hidden: true,
           clues: [
             {
               id: 4,
@@ -88,7 +104,8 @@ export default (adventurId) => new Promise((resolve) => {
                 url: "http://placehold.it/600x600"
               }
             }
-          ]
+          ],
+          answers: []
         },
         //Kura
         {
@@ -99,6 +116,7 @@ export default (adventurId) => new Promise((resolve) => {
             lng: 18.60433
           },
           radius: 20,
+          hidden: true,
           clues: [
             {
               id: 5,
@@ -110,7 +128,8 @@ export default (adventurId) => new Promise((resolve) => {
                 url: "http://placehold.it/400x500"
               }
             }
-          ]
+          ],
+          answers: []
         },
         //Kopernik
         {
@@ -121,6 +140,7 @@ export default (adventurId) => new Promise((resolve) => {
             lng: 18.60496
           },
           radius: 20,
+          hidden: false,
           clues: [
             {
               id: 6,
@@ -142,6 +162,16 @@ export default (adventurId) => new Promise((resolve) => {
                 url: "http://placehold.it/500x200"
               }
             }
+          ],
+          answers: [
+            {
+              id: 2,
+              type: "password",
+              details: {
+                password_type: "text",
+                password: "De revolutionibus orbium coelestium"
+              }
+            }
           ]
         },
         // Brama Mostowa
@@ -153,12 +183,23 @@ export default (adventurId) => new Promise((resolve) => {
             lng: 18.60891
           },
           radius: 20,
-          clues: []
+          hidden: true,
+          clues: [],
+          answers: [
+            {
+              id: 7,
+              type: "time",
+              details: {
+                from: 68400, //seconds in day
+                to: 70200
+              }
+            }
+          ]
         }
       ]
     };
 
     resolve(points);
-  }, 500);
+  }, 1000);
 });
 
