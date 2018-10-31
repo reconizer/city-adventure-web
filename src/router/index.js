@@ -5,6 +5,7 @@ import BaseLayout from '@/views/BaseLayout.vue'
 import Adventures from '@/views/Adventures.vue'
 import Adventure from '@/components/Adventure.vue'
 import AdventureMap from '@/components/AdventureMap.vue'
+import AdventureClueForm from '@/components/AdventureClueForm.vue'
 import Login from '@/views/Login.vue'
 
 Vue.use(Router)
@@ -33,7 +34,7 @@ const router = new Router({
               path: '',
               name: 'adventureMap',
               components: {
-                default: AdventureMap
+                default: ''
               }
             },
             {
@@ -52,12 +53,14 @@ const router = new Router({
               path: 'points/:pointId/clues/new',
               name: 'newAdventureClue',
               components: {
+                default: AdventureClueForm
               }
             },
             {
               path: 'points/:pointId/clues/:clueId',
               name: 'adventureClue',
               components: {
+                default: AdventureClueForm
               }
             }
           ]

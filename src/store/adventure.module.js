@@ -5,12 +5,17 @@ import {
   SET_LOADING, SET_ERROR,
   SET_ADVENTURE, CLEAR_ADVENTURE,
   SET_ADVENTURE_POINTS, CLEAR_ADVENTURE_POINTS, 
-  SET_POINT, ADD_POINT
+  SET_POINT, ADD_POINT,
+  SET_CLUE, ADD_CLUE,
+  SET_POINTS, SET_POINTS_ORDER
 } from './mutation-types';
+
 
 import {
   LOAD_ADVENTURE, UPDATE_POINT,
-  UPDATE_CLUES, CREATE_POINT
+  UPDATE_CLUES, CREATE_POINT,
+  UPDATE_CLUE, CREATE_CLUE,
+  UPDATE_POINTS
 } from './action-types';
 
 export default {
@@ -38,7 +43,7 @@ export default {
     },
 
     [CLEAR_ADVENTURE] (state) {
-      state.adventre = { };
+      state.item = { };
     },
 
     [SET_ADVENTURE_POINTS] (state, points) {
@@ -59,11 +64,50 @@ export default {
       Vue.set(state.points, index, data);
     },
 
+    [ADD_CLUE] (state, { pointId, data }) {
+      let index = state.points.findIndex(item => item.id == pointId);
+      let pointData = state.points[index]
+
+      pointData.clues.push(data);
+
+      Vue.set(state.points, index, pointData);
+    },
+
+    [SET_CLUE] (state, { pointId, clueId, data }) {
+      let pointIndex = state.points.findIndex(item => item.id == pointId);
+      let pointData = state.points[pointIndex];
+
+      let index = pointData.clues.findIndex(item => item.id == clueId);
+
+      Vue.set(state.points[pointIndex].clues, index, data)
+    },
+
+    [SET_POINTS] (state, values) {
+      state.points = values;
+    },
+
+    [SET_POINTS_ORDER] (state, values) {
+      let newPoints = [];
+
+      for(let i = 0; i < values.length; i++) {
+        let index = state.points.findIndex(point => point.id == values[i].id);
+
+        let pointData = state.points[index];
+
+        pointData.parent_id = values[i].parent_id;
+
+        newPoints.push(pointData);
+      }
+
+      state.points = [state.points[0], ...newPoints];
+    },
+
     [SET_LOADING] (state, loading) {
       state.loading = loading;
     },
 
     [SET_ERROR] (state, error) {
+      console.log(error);
       state.error = error;
     }
   },
@@ -113,6 +157,20 @@ export default {
         .catch( error => commit(SET_ERROR, error));
     },
 
+    [UPDATE_POINTS] ({ commit }, { payload }) {
+      commit(SET_LOADING, true);
+
+      api.adventures.updatePoints(payload)
+        .then( response => {
+          //TODO does not require any response?
+          //TODO does it require state manipulation?
+
+          commit(SET_POINTS_ORDER, payload);
+          commit(SET_LOADING, false);
+        })
+        .catch( error => commit(SET_ERROR, error));
+    },
+
     [CREATE_POINT] ({ commit }, { adventureId, parentId, lat, lng }) {
       commit(SET_LOADING, true);
 
@@ -121,6 +179,35 @@ export default {
           commit(ADD_POINT, response.data);
 
           commit(SET_LOADING, false);
+        })
+        .catch( error => commit(SET_ERROR, error));
+    },
+
+    [CREATE_CLUE] ({ commit }, { pointId, data }) {
+      commit(SET_LOADING, true);
+
+      api.adventures.createClue(pointId, data)
+        .then( response => {
+          commit(ADD_CLUE, {
+            pointId: pointId,
+            data: response.data
+          });
+
+          commit(SET_LOADING, false);
+        })
+        .catch( error => commit(SET_ERROR, error));
+    },
+
+    UPDATE_CLUE ({ commit }, { pointId, clueId, data }) {
+      commit(SET_LOADING, true);
+
+      api.adventures.updateClue(pointId, clueId, data)
+        .then( response => {
+          commit(SET_CLUE, {
+            pointId: pointId,
+            clueId: clueId,
+            data: response.data
+          })
         })
         .catch( error => commit(SET_ERROR, error));
     }

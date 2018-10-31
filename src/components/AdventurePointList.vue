@@ -1,46 +1,58 @@
 <template lang="pug">
-  .adventure-point-list
-    .adventure-point-list__line
+  div
+    .adventure-point-list(v-if="startingPoint")
+      .adventure-point-list__line
 
-    .adventure-point-wrapper(v-if="startingPoint" :id="elementId(startingPoint)")
-      .adventure-point.adventure-point--start
-        .adventure-point__name.button.button--pink(@click="goToPoint(startingPoint)") Start
+      .adventure-point-start-wrapper
+        router-link.button.button--pink.adventure-point__name(
+          :to="{ name: 'adventureMap', params: { adventureId: adventure.id } }"
+          @click.native="goToPoint(startingPoint)"
+        ) Start
 
-      AdventurePointClueList(
-        :point="startingPoint",
-        :isLast="false"
+        AdventurePointClueList(:point="startingPoint")
+
+      draggable(
+        v-model="points"
+        :options="{ draggable: '.adventure-point-wrapper', group: 'points' }"
       )
+        .adventure-point-wrapper(
+          v-for="(point, pointIndex) in points"
+          :key="point.id"
+          :id="elementId(point)"
+        )
+          .adventure-point
+            router-link.button.button--gray.adventure-point__name(
+              :to="{ name: 'adventureMap', params: { adventureId: adventure.id } }"
+              @click.native="goToPoint(point)"
+            )
+              span {{ pointIndex + 1 }}
+              .icon.icon--eye-inactive.icon--pad-left(v-if="point.hidden")
+                .icon__tooltip-wrapper
+                  .icon__tooltip Hidden
+              .icon.icon--eye.icon--pad-left(v-if="!point.hidden")
+                .icon__tooltip-wrapper
+                  .icon__tooltip Visible
+              .icon.icon--lock-white.icon--pad-left(v-if="hasPassword(point)")
+                .icon__tooltip-wrapper
+                  .icon__tooltip Password Required
+              .icon.icon--clock.icon--pad-left(v-if="hasTimeConstraint(point)")
+                .icon__tooltip-wrapper
+                  .icon__tooltip Time Constraint
 
-    .adventure-point-wrapper(
-      v-for="(point, pointIndex) in puzzlePoints"
-      :key="point.id"
-      :id="elementId(point)"
-    )
-      .adventure-point
-        .button.button--gray.adventure-point__name(@click="goToPoint(point)")
-          span {{ pointIndex + 1 }}
-          .icon.icon--eye-inactive.icon--pad-left(v-if="point.hidden")
-          .icon.icon--eye.icon--pad-left(v-if="!point.hidden")
-          .icon.icon--lock-white.icon--pad-left(v-if="hasPassword(point)")
-          .icon.icon--clock.icon--pad-left(v-if="hasTimeConstraint(point)")
+            .adventure-point__controls
+              router-link.button.button--blue.adventure-point__control(
+                :to="{ name: 'adventurePoint', params: { adventureId: adventure.id, pointId: point.id } }"
+              )
+                .icon.icon--sm.icon--pencil-white.icon--pad-right
+                span Edit
 
-        .adventure-point__controls
-          router-link.button.button--blue.adventure-point__control(
-            :to="{ name: 'adventurePoint', params: { adventureId: adventure.id, pointId: point.id } }"
-          )
-            .icon.icon--sm.icon--pencil-white.icon--pad-right
-            span Edit
+              .button.button--blue.adventure-point__control
+                .icon.icon--sm.icon--close-white.icon--pad-right
+                span Remove
 
-          .button.button--blue.adventure-point__control
-            .icon.icon--sm.icon--close-white.icon--pad-right
-            span Remove
+          AdventurePointClueList(:point="point")
 
-      AdventurePointClueList(
-        :point="point",
-        :isLast="pointIndex + 1 == puzzlePoints.length"
-      )
-
-    .adventure-point-wrapper
+    .adventure-point-new-wrapper(v-if="startingPoint")
       .adventure-point.adventure-point--new
         .button.button--blue.adventure-point__name(@click="addNewPuzzle()")
           .icon.icon--add-white.icon--pad-right
@@ -50,23 +62,52 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 
+import { UPDATE_POINTS } from '@/store/action-types'
+
+import { SET_POINTS_ORDER } from '@/store/mutation-types'
+
+import draggable from 'vuedraggable'
+
 import AdventurePointClueList from '@/components/AdventurePointClueList.vue'
+
+const ACTION_NAMESPACE = 'adventure'
 
 export default {
   name: 'AdventurePointList',
   components: {
-    AdventurePointClueList
+    AdventurePointClueList,
+    draggable
   },
   computed: {
     ...mapState({
       adventure: state => state.adventure.item,
-
       loading: state => state.adventure.loading
     }),
     ...mapGetters('adventure', {
-      puzzlePoints: 'puzzlePoints',
-      startingPoint: 'startingPoint'
-    })
+      startingPoint: 'startingPoint',
+      puzzlePoints: 'puzzlePoints'
+    }),
+
+    points: {
+      get () { return this.puzzlePoints },
+      set (value) {
+        let payload = value.map(point => { 
+          return { id: point.id }
+        });
+
+        for(let i = 0; i < payload.length; i++) {
+          let prev = payload[i - 1];
+
+          if(prev == undefined) {
+            payload[i].parent_id = this.startingPoint.id;
+          } else {
+            payload[i].parent_id = payload[i-1].id;
+          }
+        }
+
+        this.$store.dispatch(`${ACTION_NAMESPACE}/${UPDATE_POINTS}`, { payload: payload })
+      }
+    }
   },
   methods: {
     elementId (point) {

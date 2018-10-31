@@ -10,7 +10,7 @@
   padding: 2rem 2rem
   box-sizing: border-box
 
-.adventure-content, .adventure-map
+.adventure-panel, .adventure-map
   position: fixed
   top: $top-menu-height
   left: 30.0rem
@@ -18,25 +18,47 @@
   bottom: 0
   box-sizing: border-box
 
+.adventure-panel
+  background-color: $white
+  padding: 1rem
+  z-index: $z-index-adventure-content
+
+  &__header
+    padding-bottom: 1rem
+    border-bottom: 3px solid $pink
+    font-size: 1.5rem
+    font-weight: bold
+
+  &__back
+    float: right
+
 .vue-map-container
   position: fixed !important
 
 .adventure-point-list
   position: relative
-  padding-bottom: 2rem
 
   &__line
     background-color: $point-background
     width: 2px
     position: absolute
     top: 0
-    bottom: 2rem
+    bottom: 0rem
     left: 1.25rem
     z-index: $z-index-adventure-line
 
 .adventure-point-wrapper
   & + &
     padding-top: 1rem
+
+  &:last-child
+    padding-bottom: 1rem
+
+.adventure-point-start-wrapper
+  padding-bottom: 1rem
+
+.adventure-point-new-wrapper
+  padding-bottom: 2rem
 
 .adventure-point
   display: flex
@@ -93,6 +115,13 @@
   border-radius: 0.25rem
   color: $black
   box-sizing: border-box
+  transition: all 0.3s ease-in-out
+  border: 2px solid $clue-background
+  box-shadow: 0px 2px 5px -3px rgba($clue-background, 0.6)
+
+  &--active
+    border: 2px solid $pink
+    box-shadow: 0px 2px 5px -3px rgba($pink, 0.6)
   
   &, &:hover, &:active, &:focus
     text-decoration: none

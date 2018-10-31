@@ -19,5 +19,11 @@ export const CLEAR_ADVENTURE = "clearAdventure";
 export const SET_ADVENTURE_POINTS = "setPoints";
 export const CLEAR_ADVENTURE_POINTS = "clearPoints";
 
+export const SET_POINTS = "setPoints";
+export const SET_POINTS_ORDER = "setPointsOrder";
+
 export const SET_POINT = "setPoint";
 export const ADD_POINT = "addPoint";
+
+export const SET_CLUE = "setClue";
+export const ADD_CLUE = "addClue";

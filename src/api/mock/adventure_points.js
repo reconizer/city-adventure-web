@@ -20,9 +20,8 @@ export default (adventureId) => new Promise((resolve) => {
               point_id: 1,
               tip: false,
               type: "audio",
-              details: {
-                url: "http://test.com"
-              }
+              url: "http://test.com",
+              description: "Taniec Eleny"
             }
           ],
           answers: []
@@ -44,9 +43,8 @@ export default (adventureId) => new Promise((resolve) => {
               point_id: 2,
               tip: false,
               type: "text",
-              details: {
-                text: "Odpowiedzi szukaj u Psa, Smoka i Kury bez Głowy"
-              }
+              url: null,
+              description: "Odpowiedzi szukaj u Psa, Smoka i Kury bez Głowy"
             }
           ],
           answers: [
@@ -77,9 +75,8 @@ export default (adventureId) => new Promise((resolve) => {
               point_id: 3,
               tip: false,
               type: "image",
-              details: {
-                url: "http://placehold.it/500x500"
-              }
+              url: "http://placehold.it/500x500",
+              description: null
             }
           ],
           answers: []
@@ -101,9 +98,8 @@ export default (adventureId) => new Promise((resolve) => {
               point_id: 4,
               tip: false,
               type: "image",
-              details: {
-                url: "http://placehold.it/600x600"
-              }
+              url: "http://placehold.it/600x600",
+              description: null
             }
           ],
           answers: []
@@ -125,9 +121,8 @@ export default (adventureId) => new Promise((resolve) => {
               point_id: 5,
               tip: false,
               type: "image",
-              details: {
-                url: "http://placehold.it/400x500"
-              }
+              url: "http://placehold.it/400x500",
+              description: null
             }
           ],
           answers: []
@@ -149,9 +144,8 @@ export default (adventureId) => new Promise((resolve) => {
               point_id: 6,
               tip: false,
               type: "image",
-              details: {
-                url: "http://placehold.it/400x200"
-              }
+              url: "http://placehold.it/400x200",
+              description: null
             },
             {
               id: 7,
@@ -159,9 +153,8 @@ export default (adventureId) => new Promise((resolve) => {
               point_id: 6,
               tip: false,
               type: "image",
-              details: {
-                url: "http://placehold.it/500x200"
-              }
+              url: "http://placehold.it/500x200",
+              description: null
             }
           ],
           answers: [

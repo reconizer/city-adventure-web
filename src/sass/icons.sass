@@ -5,10 +5,43 @@
   height: 1.25rem
   background-repeat: no-repeat
   flex-shrink: 0
+  position: relative
 
   &--sm
     width: 1rem
     height: 1rem
+
+  &__tooltip-wrapper
+    cursor: default
+    position: absolute
+    transform: translate(-50%, -100%)
+    top: -0.5rem
+    white-space: nowrap
+    left: 0.75rem
+    text-align: center
+    z-index: $z-index-tooltips
+    display: none
+    &:after
+      content: ''
+      position: absolute
+      width: 0
+      height: 0
+      border-left: 0.25rem solid transparent
+      border-right: 0.25rem solid transparent
+      border-top: 0.25rem solid $black
+      bottom: -0.25rem
+      left: 50%
+      margin-left: -0.25rem
+
+  &:hover &__tooltip-wrapper
+    display: block
+
+  &__tooltip
+    background: $black
+    border-radius: 0.25rem
+    padding: 0.25rem
+    color: $white
+    font-size: 0.75rem
 
   &--align-start
     align-self: flex-start

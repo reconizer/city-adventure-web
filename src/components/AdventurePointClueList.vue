@@ -1,7 +1,6 @@
 <template lang="pug">
   div
     draggable.adventure-point-clues(
-      v-if="!isLast"
       v-model="point.clues"
       :options="{draggable: '.adventure-point-clue-wrapper', group: 'clues'}"
       @change="updateList($event)"
@@ -13,30 +12,32 @@
         router-link.adventure-point-clue(
           :class="{ 'adventure-point-clue--image': clue.type == 'image' }"
           :to="{ name: 'adventureClue', params: { adventureId: adventure.id, pointId: point.id, clueId: clue.id } }"
+          exact-active-class="adventure-point-clue--active"
         )
           .adventure-point-clue__thumb(v-if="clue.type == 'image'")
-            img(:src="clue.details.url")
+            img(:src="clue.url")
 
           .adventure-point-clue__text(v-else-if="clue.type == 'text'")
             .icon.icon--question-mark.icon--pad-right.icon--align-start
-            .adventure-point-clue__content {{ clue.details.text }}
+            .adventure-point-clue__content {{ clue.description }}
 
           .adventure-point-clue__text(v-else-if="clue.type == 'audio'")
             .icon.icon--audio.icon--pad-right
-            .adventure-point-clue__content {{ clue.details.url }}
+            .adventure-point-clue__content {{ clue.description }}
 
           .adventure-point-clue__text(v-else-if="clue.type == 'movie'")
             .icon.icon--video.icon--pad-right
-            .adventure-point-clue__content {{ clue.details.url }}
+            .adventure-point-clue__content {{ clue.description }}
 
     .adventure-point-new-clue-separator
 
-    .adventure-point-new-clue(v-if="!isLast")
+    .adventure-point-new-clue
       .adventure-point-clue-wrapper__dot
       .adventure-point-clue-wrapper__line
 
       router-link.button.button--gray-dashed(
         :to="{ name: 'newAdventureClue', params: { adventureId: adventure.id, pointId: point.id } }"
+        exact-active-class="button--gray-dashed-active"
       )
         .icon.icon--add.icon--pad-right
         span New clue
@@ -60,10 +61,6 @@ export default {
     point: {
       type: Object,
       default: () => {}
-    },
-    isLast: {
-      type: Boolean,
-      default: () => false
     }
   },
   computed: mapState({

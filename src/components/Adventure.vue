@@ -6,8 +6,9 @@
     .adventure-structure
       AdventurePointList
 
-    .adventure-content
-      router-view
+    AdventureMap
+
+    router-view
 </template>
 
 <script>
@@ -15,6 +16,7 @@ import { mapState } from 'vuex'
 
 import { LOAD_ADVENTURE } from '@/store/action-types'
 
+import AdventureMap from '@/components/AdventureMap.vue'
 import AdventurePointList from '@/components/AdventurePointList.vue'
 
 const ACTION_NAMESPACE = 'adventure'
@@ -22,7 +24,8 @@ const ACTION_NAMESPACE = 'adventure'
 export default {
   name: 'Adventure',
   components: {
-    AdventurePointList
+    AdventurePointList,
+    AdventureMap
   },
   computed: mapState({
     adventure: state => state.adventure.item,
