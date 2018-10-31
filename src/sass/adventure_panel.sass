@@ -25,6 +25,7 @@
 
   &__header
     padding-bottom: 1rem
+    margin-bottom: 1rem
     border-bottom: 3px solid $pink
     font-size: 1.5rem
     font-weight: bold
@@ -143,42 +144,6 @@
   &__text
     display: flex
     align-items: center
-
-@keyframes loader
-  0%
-    transform: rotate(0deg)
-  100%
-    transform: rotate(360deg)
-
-.adventure-loader
-  position: fixed
-  top: 0
-  left: 0
-  right: 0
-  bottom: 0
-  z-index: $z-index-adventure-loader
-  display: flex
-  align-items: center
-  justify-content: center
-
-  &__spinner
-    background-color: rgba($black, 0.6)
-    width: 4rem
-    height: 4rem
-    position: relative
-    border-radius: 0.25rem
-    &:before
-      content: ''
-      position: absolute
-      left: 0
-      right: 0
-      bottom: 0
-      top: 0
-      background-position: center
-      background-size: 3rem 3rem
-      background-repeat: no-repeat
-      background-image: url('assets/images/icon-loading.svg')
-      animation: loader 1s infinite
 
 .google-map-controls
   position: fixed

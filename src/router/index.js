@@ -33,9 +33,6 @@ const router = new Router({
             {
               path: '',
               name: 'adventureMap',
-              components: {
-                default: ''
-              }
             },
             {
               path: 'settings',

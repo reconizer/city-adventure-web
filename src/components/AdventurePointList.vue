@@ -3,7 +3,7 @@
     .adventure-point-list(v-if="startingPoint")
       .adventure-point-list__line
 
-      .adventure-point-start-wrapper
+      .adventure-point-start-wrapper(:id="elementId(startingPoint)")
         router-link.button.button--pink.adventure-point__name(
           :to="{ name: 'adventureMap', params: { adventureId: adventure.id } }"
           @click.native="goToPoint(startingPoint)"
@@ -54,7 +54,10 @@
 
     .adventure-point-new-wrapper(v-if="startingPoint")
       .adventure-point.adventure-point--new
-        .button.button--blue.adventure-point__name(@click="addNewPuzzle()")
+        router-link.button.button--blue.adventure-point__name(
+          :to="{ name: 'adventureMap', params: { adventureId: adventure.id } }"
+          @click.native="addNewPuzzle()"
+        )
           .icon.icon--add-white.icon--pad-right
           span Add new puzzle
 </template>
@@ -123,7 +126,6 @@ export default {
         return el.type == "time"
       }).length > 0;
     },
-    //TODO location as a component?
     goToPoint (point) {
       // Handle map centering in AdventureMap component
       this.$root.$emit('center-camera', point.position);

@@ -4,6 +4,8 @@
 
     AdventureListItem(v-for="adventureItem in adventures" :key="adventureItem.id" :adventure="adventureItem")
 
+    .overlay-loader(v-if="loading")
+      .overlay-loader__spinner
 </template>
 
 <script>
@@ -22,6 +24,8 @@ export default {
   },
   computed: mapState({
     adventures: state => state.adventures.list,
+
+    loading: state => state.adventures.loading
   }),
   created () {
     this.$store.dispatch(`${ACTION_NAMESPACE}/${LOAD_ADVENTURES}`, { page: 1 });

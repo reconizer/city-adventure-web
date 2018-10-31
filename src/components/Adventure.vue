@@ -1,7 +1,7 @@
 <template lang="pug">
   div
-    .adventure-loader(v-if="loading")
-      .adventure-loader__spinner
+    .overlay-loader(v-if="loading")
+      .overlay-loader__spinner
 
     .adventure-structure
       AdventurePointList

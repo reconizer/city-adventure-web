@@ -5,6 +5,10 @@
       span(v-else) New Clue
 
       router-link.icon.icon--close.icon--pad-right.adventure-panel__back(:to="{ name: 'adventureMap', params: { adventureId: adventureId } }")
+
+    .row
+      .col-1-2
+        span t
 </template>
 
 <script>
