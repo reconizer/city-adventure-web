@@ -103,7 +103,7 @@ export default {
       }
     },
     passwordAnswer () {
-      return this.point.answers.find(answer => answer.type == 'password') || { };
+      return this.point.answers.find(answer => answer.type == 'password') || { details: { } };
     },
     puzzleIndex () {
       return this.$store.state.adventure.points.findIndex(point => point.id == this.$route.params.pointId);
