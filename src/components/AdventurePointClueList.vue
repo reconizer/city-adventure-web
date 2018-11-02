@@ -5,7 +5,11 @@
       :options="{draggable: '.adventure-point-clue-wrapper', group: 'clues'}"
       @change="updateList($event)"
     )
-      .adventure-point-clue-wrapper(v-for="(clue, index) in point.clues" :key="clue.id")
+      .adventure-point-clue-wrapper(
+        v-for="(clue, index) in point.clues"
+        :key="clue.id"
+        :class="{ 'adventure-point-clue-wrapper--tip': clue.tip }"
+      )
         .adventure-point-clue-wrapper__dot
         .adventure-point-clue-wrapper__line
 
@@ -28,6 +32,10 @@
           .adventure-point-clue__text(v-else-if="clue.type == 'movie'")
             .icon.icon--video.icon--pad-right
             .adventure-point-clue__content {{ clue.description }}
+
+          .adventure-point-clue__text(v-else-if="clue.type == 'url'")
+            .icon.icon--attachment.icon--pad-right
+            .adventure-point-clue__content {{ clue.url }}
 
     .adventure-point-new-clue-separator
 
@@ -81,7 +89,7 @@ export default {
 
         this.$store.dispatch(`${ACTION_NAMESPACE}/${UPDATE_CLUES}`, { payload });
       }
-    },
+    }
   }
 }
 </script>

@@ -24,6 +24,8 @@ export const SET_POINTS_ORDER = "setPointsOrder";
 
 export const SET_POINT = "setPoint";
 export const ADD_POINT = "addPoint";
+export const REMOVE_POINT = "removePoint";
 
 export const SET_CLUE = "setClue";
 export const ADD_CLUE = "addClue";
+export const REMOVE_CLUE = "removeClue";

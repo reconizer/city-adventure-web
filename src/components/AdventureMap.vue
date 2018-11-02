@@ -5,8 +5,17 @@
       :center="center",
       :zoom="zoom"
       :options="options"
+      @click="closeAddPointWindow"
+      @rightclick="pointDialog"
       ref="googleMap"
     )
+      gmap-info-window(
+        :position="addPointWindowPosition"
+        :opened="addPointWindowOpened"
+        @closeclick="closeAddPointWindow"
+      )
+        a(@click="createPointFromDialog") Create new Puzzle
+
       AdventureMapPoint(
         :key="point.id"
         v-for="(point, index) in points"
@@ -49,7 +58,10 @@ export default {
     return {
       center: { lat: 0, lng: 0 },
       zoom: 17,
-      mapLoaded: false
+      mapLoaded: false,
+
+      addPointWindowPosition: { lat: 0, lng: 0 },
+      addPointWindowOpened: false
     };
   },
   computed: {
@@ -121,6 +133,30 @@ export default {
         lat: center.lat(),
         lng: center.lng()
       });
+    },
+
+    pointDialog (evt) {
+      this.addPointWindowOpened = true;
+
+      this.addPointWindowPosition = {
+        lat: evt.latLng.lat(),
+        lng: evt.latLng.lng()
+      };
+    },
+
+    closeAddPointWindow () {
+      this.addPointWindowOpened = false;
+    },
+
+    createPointFromDialog () {
+      this.$store.dispatch(`${ACTION_NAMESPACE}/${CREATE_POINT}`, {
+        adventureId: this.adventure.id,
+        parentId: this.points[this.points.length - 1].id,
+        lat: this.addPointWindowPosition.lat,
+        lng: this.addPointWindowPosition.lng
+      });
+
+      this.addPointWindowOpened = false;
     }
   }
 }

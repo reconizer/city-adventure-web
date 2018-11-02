@@ -4,10 +4,18 @@
       .adventure-point-list__line
 
       .adventure-point-start-wrapper(:id="elementId(startingPoint)")
-        router-link.button.button--pink.adventure-point__name(
-          :to="{ name: 'adventureMap', params: { adventureId: adventure.id } }"
-          @click.native="goToPoint(startingPoint)"
-        ) Start
+        .adventure-point
+          router-link.button.button--pink.adventure-point__name(
+            :to="{ name: 'adventurePoint', params: { adventureId: adventure.id, pointId: startingPoint.id } }"
+          ) Start
+
+          .adventure-point__controls
+            router-link.button.button--blue.adventure-point__control(
+              :to="{ name: 'adventureMap', params: { adventureId: adventure.id } }"
+              @click.native="goToPoint(startingPoint)"
+            )
+              .icon.icon--sm.icon--marker.icon--pad-right
+              span Locate
 
         AdventurePointClueList(:point="startingPoint")
 
@@ -22,8 +30,7 @@
         )
           .adventure-point
             router-link.button.button--gray.adventure-point__name(
-              :to="{ name: 'adventureMap', params: { adventureId: adventure.id } }"
-              @click.native="goToPoint(point)"
+              :to="{ name: 'adventurePoint', params: { adventureId: adventure.id, pointId: point.id } }"
             )
               span {{ pointIndex + 1 }}
               .icon.icon--eye-inactive.icon--pad-left(v-if="point.hidden")
@@ -41,12 +48,13 @@
 
             .adventure-point__controls
               router-link.button.button--blue.adventure-point__control(
-                :to="{ name: 'adventurePoint', params: { adventureId: adventure.id, pointId: point.id } }"
+                :to="{ name: 'adventureMap', params: { adventureId: adventure.id } }"
+                @click.native="goToPoint(point)"
               )
-                .icon.icon--sm.icon--pencil-white.icon--pad-right
-                span Edit
+                .icon.icon--sm.icon--marker.icon--pad-right
+                span Locate
 
-              .button.button--blue.adventure-point__control
+              .button.button--blue.adventure-point__control(@click="destroyPoint(point)")
                 .icon.icon--sm.icon--close-white.icon--pad-right
                 span Remove
 
@@ -65,7 +73,7 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 
-import { UPDATE_POINTS } from '@/store/action-types'
+import { UPDATE_POINTS, DESTROY_POINT } from '@/store/action-types'
 
 import { SET_POINTS_ORDER } from '@/store/mutation-types'
 
@@ -133,6 +141,12 @@ export default {
     addNewPuzzle () {
       // Handle new point creation in AdventureMap component
       this.$root.$emit('add-new-point');
+    },
+
+    destroyPoint (point) {
+      if(confirm("Are you sure you want to remove this puzzle? It will also remove all clues attached to it")) {
+        this.$store.dispatch(`${ACTION_NAMESPACE}/${DESTROY_POINT}`, { pointId: point.id });
+      }
     }
   }
 }

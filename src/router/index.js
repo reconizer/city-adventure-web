@@ -6,6 +6,7 @@ import Adventures from '@/views/Adventures.vue'
 import Adventure from '@/components/Adventure.vue'
 import AdventureMap from '@/components/AdventureMap.vue'
 import AdventureClueForm from '@/components/AdventureClueForm.vue'
+import AdventurePointForm from '@/components/AdventurePointForm.vue'
 import Login from '@/views/Login.vue'
 
 Vue.use(Router)
@@ -44,6 +45,7 @@ const router = new Router({
               path: 'points/:pointId',
               name: 'adventurePoint',
               components: {
+                default: AdventurePointForm
               }
             },
             {

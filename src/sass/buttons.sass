@@ -8,12 +8,18 @@
   cursor: pointer
   transition: all 0.3s ease-in-out
   text-decoration: none
+  font-size: 1rem
 
   &, &:focus, &:hover, &:active
     text-decoration: none
 
   &--full
+    text-align: center
     width: 100%
+
+  &--large
+    padding: 0.75rem 1.5rem
+    font-size: 1.25rem
 
   &--inactive
     pointer-events: none
@@ -25,7 +31,7 @@
     border-color: $clue-background
     box-shadow: 0px 2px 5px -3px rgba($clue-background, 0.6)
 
-    &:hover, &:focus
+    &:hover
       background-color: darken($clue-background, 10%)
 
     &:active, &:focus:active
@@ -36,7 +42,7 @@
     color: $black
     border: 2px dashed darken($clue-background, 10%)
 
-    &:hover, &:focus
+    &:hover
       background-color: $clue-background
 
     &:active, &:focus:active
@@ -46,7 +52,7 @@
     background-color: lighten($pink, 40%)
     border: 2px dashed $pink
 
-    &:hover, &:focus
+    &:hover
       background-color: lighten($pink, 40%)
 
     &:active, &:focus:active
@@ -58,7 +64,7 @@
     border-color: $point-background
     box-shadow: 0px 2px 5px -3px rgba($point-background, 0.6)
 
-    &:hover, &:focus
+    &:hover
       background-color: darken($point-background, 10%)
 
     &:active, &:focus:active
@@ -70,7 +76,7 @@
     border-color: $pink
     box-shadow: 0px 2px 5px -3px rgba($pink, 0.6)
 
-    &:hover, &:focus
+    &:hover
       background-color: darken($pink, 10%)
 
     &:active, &:focus:active
@@ -82,7 +88,7 @@
     border-color: $blue
     box-shadow: 0px 2px 5px -3px rgba($blue, 0.6)
 
-    &:hover, &:focus
+    &:hover
       background-color: darken($blue, 10%)
       box-shadow: none
 

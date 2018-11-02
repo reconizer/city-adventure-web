@@ -21,6 +21,8 @@
 <script>
 import { LOGIN, LOGOUT } from '@/store/action-types'
 
+import { mapState } from 'vuex'
+
 const ACTION_NAMESPACE = 'authentication'
 
 export default {
@@ -30,11 +32,9 @@ export default {
       user: { }
     }
   },
-  computed: {
-    error () {
-      return this.$store.state.authentication.status.error;
-    }
-  },
+  computed: mapState({
+    error: state => state.authentication.status.error
+  }),
   created () {
     this.$store.dispatch(`${ACTION_NAMESPACE}/${LOGOUT}`);
   },

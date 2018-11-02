@@ -17,5 +17,7 @@ export const UPDATE_CLUES = "updateCluesStructure";
 
 export const UPDATE_CLUE = "updateClue";
 export const CREATE_CLUE = "createClue";
+export const DESTROY_CLUE = "destroyClue";
 
 export const CREATE_POINT = "createPoint";
+export const DESTROY_POINT = "destroyPoint";

@@ -10,9 +10,11 @@ import updatePointMock from './mock/update_point';
 import updateCluesMock from './mock/update_clues';
 import updatePointsMock from './mock/update_points';
 import createNewPointMock from './mock/create_new_point';
+import destroyPointMock from './mock/destroy_point';
 
 import createClueMock from './mock/create_clue';
 import updateClueMock from './mock/update_clue';
+import destroyClueMock from './mock/destroy_clue';
 
 export default {
   loadAdventures (page = 1) {
@@ -39,11 +41,17 @@ export default {
   updatePoints (payload) {
     return updatePointsMock(payload);
   },
+  destroyPoint (pointId) {
+    return destroyPointMock(pointId);
+  },
 
   createClue (pointId, data) {
     return createClueMock(pointId, data);
   },
   updateClue (pointId, clueId, data) {
     return updateClueMock(pointId, clueId, data);
+  },
+  destroyClue (clueId) {
+    return destroyClueMock(clueId);
   }
 }

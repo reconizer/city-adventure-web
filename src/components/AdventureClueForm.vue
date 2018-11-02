@@ -1,52 +1,153 @@
 <template lang="pug">
   .adventure-panel
     .adventure-panel__header
-      span(v-if="isNewClue") Edit Clue
+      router-link.icon.icon--back.icon--pad-right.adventure-panel__back(:to="{ name: 'adventureMap', params: { adventureId: adventure.id } }")
+      span(v-if="existingClue") Edit Clue
       span(v-else) New Clue
 
-      router-link.icon.icon--close.icon--pad-right.adventure-panel__back(:to="{ name: 'adventureMap', params: { adventureId: adventureId } }")
+      a.button.button--pink.adventure-panel__remove(v-if="existingClue" @click="destroyClue()") Remove
 
     .row
       .col-1-2
-        span t
+        .form-control
+          .form-label Clue Type
+          v-select(placeholder="Clue Type" :clearable="false" :value="clueType" :options="clueTypes" @input="updateType($event)")
+
+        .form-control
+          .form-label
+            span Is a Tip?
+            .icon.icon--question-mark.icon--pad-left
+              .icon__tooltip-wrapper
+                .icon__tooltip Tips are optional, on-demand clues
+
+          .form-checkbox(:class="{ 'form-checkbox--active': clue.tip }" @click="updateTip(!clue.tip)")
+            .form-checkbox__toggle
+
+        .form-control(v-if="clue.type != 'image'")
+          .form-label.form-label--required(v-if="clue.type == 'text'") Content
+          .form-label(v-else) Description
+          textarea.form-input(:value="clue.description" @input="updateField('description', $event)")
+
+        //TODO file upload
+        .form-control(v-if="clue.type != 'text'")
+          .form-label.form-label--required URL
+          input.form-input(:value="clue.url" @input="updateField('url', $event)")
+
+        .form-control
+          a.button.button--blue.button--large.button--full(@click="submit()") Submit
 </template>
 
 <script>
 import { mapState } from 'vuex'
 
-import { CREATE_CLUE, UPDATE_CLUE } from '@/store/action-types'
+import { CREATE_CLUE, UPDATE_CLUE, DESTROY_CLUE } from '@/store/action-types'
+
+import vSelect from 'vue-select'
+
+import { clueTypes } from '@/config'
 
 const ACTION_NAMESPACE = 'adventure'
 
 export default {
   name: 'AdventureClueForm',
+  components: {
+    vSelect
+  },
   data () {
     return {
-      newClue: { }
+      clueData: {
+        id: null,
+        type: 'text',
+        tip: false,
+        url: null,
+        description: null,
+        order: 0
+      }
     };
   },
   computed: {
     ...mapState({
-      adventureId: state => state.adventure.item.id,
+      adventure: state => state.adventure.item,
 
       loading: state => state.adventure.loading,
       error: state => state.adventure.error
     }),
+    clueTypes() {
+      return clueTypes;
+    },
     clue () {
-      if(this.$route.params.clueId) {
-        let point = this.$store.state.adventure.points.find(point => point.id == this.$route.params.pointId);
+      let point = this.$store.state.adventure.points.find(point => point.id == this.$route.params.pointId);
 
-        if(!point) {
-          return { };
-        } else {
-          return point.clues.find(clue => clue.id == this.$route.params.clueId);
+      if(this.$route.params.clueId) {
+        if(point) {
+          let clueObject = point.clues.find(clue => clue.id == this.$route.params.clueId);
+
+          if(clueObject) {
+            //eslint-disable-next-line
+            this.clueData = {
+              id: clueObject.id,
+              type: clueObject.type,
+              tip: clueObject.tip,
+              url: clueObject.url,
+              description: clueObject.description,
+              order: clueObject.order
+            };
+          }
         }
       } else {
-        return { };
+        if(point) {
+          this.clueData.order = point.clues.length;
+        }
+      }
+      return this.clueData;
+    },
+    clueType () {
+      return this.clueTypes.find(clueType => clueType.value == this.clue.type);
+    },
+    existingClue () {
+      return this.clue.id != null;
+    }
+  },
+  methods: {
+    updateType (evt) {
+      this.clueData.type = evt.value;
+    },
+    updateTip (value) {
+      this.clueData.tip = value;
+    },
+    updateField (field, evt) {
+      this.clueData[field] = evt.target.value;
+    },
+
+    submit () {
+      let id = this.clueData.id;
+      let data = this.clueData;
+      delete data['id'];
+
+
+      if(id) {
+        this.$store.dispatch(`${ACTION_NAMESPACE}/${UPDATE_CLUE}`, {
+          pointId: this.$route.params.pointId,
+          clueId: id,
+          data: data
+        });
+      } else {
+        this.$store.dispatch(`${ACTION_NAMESPACE}/${CREATE_CLUE}`, {
+          pointId: this.$route.params.pointId,
+          data: data
+        });
       }
     },
-    isNewClue () {
-      return this.clue.id != undefined;
+
+    destroyClue () {
+      if(this.clue.id) {
+        if(confirm("Are you sure you want to remove this clue?")) {
+          this.$store.dispatch(`${ACTION_NAMESPACE}/${DESTROY_CLUE}`, {
+            pointId: this.$route.params.pointId,
+            clueId: this.clue.id
+          });
+        }
+      }
     }
   }
 }
