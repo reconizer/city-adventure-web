@@ -112,6 +112,7 @@ export default {
       let point = this.$store.state.adventure.points.find(point => point.id == this.$route.params.pointId);
 
       if(point) {
+        //eslint-disable-next-line
         this.pointData = {
           id: point.id,
           radius: point.radius,

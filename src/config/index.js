@@ -45,3 +45,8 @@ export const passwordTypes = [
     label: 'Number Push Lock'
   }
 ]
+
+export const RADIUS_CONSTRAINTS = {
+  MIN: 10,
+  MAX: 500
+}

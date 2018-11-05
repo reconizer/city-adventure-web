@@ -5,7 +5,7 @@
       :center="center",
       :zoom="zoom"
       :options="options"
-      @click="closeAddPointWindow"
+      @click="closeWindows"
       @rightclick="pointDialog"
       ref="googleMap"
     )
@@ -15,6 +15,14 @@
         @closeclick="closeAddPointWindow"
       )
         a(@click="createPointFromDialog") Create new Puzzle
+
+      gmap-info-window(
+        :position="pointOptionsWindowPosition"
+        :opened="pointOptionsWindowOpened"
+        @closeclick="closePointOptionsWindow"
+      )
+        a.map-window-option(@click="editPointFromDialog") Edit Puzzle
+        a.map-window-option(@click="removePointFromDialog") Remove Puzzle
 
       AdventureMapPoint(
         :key="point.id"
@@ -31,19 +39,12 @@
           .icon.icon--reposition.icon--pad-right
           span Reposition
 
-      .google-map-controls__item
-        .button.button--blue(
-          @click="createPoint()"
-        )
-          .icon.icon--add-white.icon--pad-right
-          span Add new puzzle
-
 </template>
 
 <script>
 import { mapState } from 'vuex';
 
-import { CREATE_POINT } from '@/store/action-types';
+import { CREATE_POINT, DESTROY_POINT } from '@/store/action-types';
 
 import AdventureMapPoint from '@/components/AdventureMapPoint.vue';
 
@@ -61,7 +62,11 @@ export default {
       mapLoaded: false,
 
       addPointWindowPosition: { lat: 0, lng: 0 },
-      addPointWindowOpened: false
+      addPointWindowOpened: false,
+
+      pointOptionsWindowPosition: { lat: 0, lng: 0 },
+      pointOptionsWindowOpened: false,
+      currentPoint: null
     };
   },
   computed: {
@@ -94,6 +99,14 @@ export default {
 
     this.$root.$on('add-new-point', () => {
       this.createPoint()
+    });
+
+    this.$root.$on('right-click-marker', (point) => {
+      this.pointOptionsWindowOpened = true;
+
+      this.currentPoint = point;
+
+      this.pointOptionsWindowPosition = point.position;
     });
 
     this.$refs.googleMap.$mapPromise.then(() => {
@@ -135,6 +148,28 @@ export default {
       });
     },
 
+    removePointFromDialog () {
+      if(!this.currentPoint) {
+        return;
+      }
+
+      this.pointOptionsWindowOpened = false;
+
+      if(confirm("Are you sure you want to remove this puzzle? It will also remove all clues attached to it")) {
+        this.$store.dispatch(`${ACTION_NAMESPACE}/${DESTROY_POINT}`, { pointId: this.currentPoint.id });
+      }
+    },
+
+    editPointFromDialog () {
+      if(!this.currentPoint) {
+        return;
+      }
+
+      this.$router.push({ name: 'adventurePoint', params: { adventureId: this.adventure.id, pointId: this.currentPoint.id } });
+
+      this.pointOptionsWindowOpened = false;
+    },
+
     pointDialog (evt) {
       this.addPointWindowOpened = true;
 
@@ -146,6 +181,14 @@ export default {
 
     closeAddPointWindow () {
       this.addPointWindowOpened = false;
+    },
+
+    closePointOptionsWindow () {
+      this.pointOptionsWindowOpened = false;
+    },
+
+    closeWindows () {
+      this.addPointWindowOpened = this.pointOptionsWindowOpened = false;
     },
 
     createPointFromDialog () {
