@@ -15,12 +15,19 @@
             .puzzle-component__header
               .puzzle-component__name Location
 
-            .row.row--align-center
-              .col-1-2
-                span Location Hidden?
-              .col-1-2
-                .form-checkbox.form-checkbox--small(:class="{ 'form-checkbox--active': point.hidden }")
-                  .form-checkbox__toggle
+            .form-control
+              label.form-label.form-label--required
+                span Radius (in meters)
+
+                .icon.icon--question-mark.icon--pad-left
+                  .icon__tooltip-wrapper
+                    .icon__tooltip Range in which player can access the puzzle
+
+              .slider-wrapper
+                vue-slider(
+                  v-model="point.radius"
+                  v-bind="sliderOptions"
+                )
 
       .row(v-else)
         .col-1-2
@@ -31,13 +38,22 @@
               .form-checkbox(:class="{ 'form-checkbox--active': passwordRequired }" @click="togglePasswordRequired")
                 .form-checkbox__toggle
 
-            div(v-show="passwordRequired")
+            div(v-if="passwordRequired")
               .form-control
                 .form-label Password Type
                 v-select(placeholder="Password Type" :clearable="false" :value="passwordType" :options="passwordTypes" @input="updatePasswordType($event)")
 
-              .form-control(v-if="passwordAnswer.details.password_type == 'text'")
-                input.form-input(:value="passwordAnswer.details.password" @input="updatePassword")
+              .form-control(v-if="passwordAnswer.details.password_type != 'text'")
+                .form-label.form-label--required Length Variant
+                v-select(placeholder="Length Variant" :clearable="false" :options="lengthOptions" :value="passwordLength" @input="updatePasswordLength")
+
+              .form-control(v-if="passwordAnswer.details.password_type != 'directionLock'")
+                .form-label.form-label--required Enter password
+                input.form-input(type="text" placeholder="Password" :value="passwordAnswer.details.password" @input="updatePassword")
+
+              .form-control(v-if="passwordAnswer.details.password_type == 'directionLock'")
+                .form-label.form-label--required Enter password using arrow keys
+                input.form-input(type="text" placeholder="Password" :value="passwordAnswer.details.password" @keypress="filterToArrows")
 
           .puzzle-component.puzzle-component--left
             .puzzle-component__header
@@ -46,15 +62,54 @@
               .form-checkbox(:class="{ 'form-checkbox--active': timeConstraint }" @click="toggleTimeConstraint")
                 .form-checkbox__toggle
 
+            .form-control(v-if="timeConstraint")
+              .row
+                .col-1-2
+                  .form-control
+                    .form-label Start Time
+                    v-select(placeholder="Start Time" :clearable="false" :value="startingTime" :options="timeOptions" @input="updateStartingTime($event)")
+
+                  .form-control
+                    .form-label Duration (hours:minutes)
+                    v-select(placeholder="Duration" :clearable="false" :value="duration" :options="durationOptions" @input="updateDuration($event)")
+
+                .col-1-2
+                  .form-control
+                    .form-label End Time
+                    .form-static-text {{ endingTime }}
+
         .col-1-2
           .puzzle-component.puzzle-component--right
             .puzzle-component__header
               .puzzle-component__name Location
 
-            .align-items-center
-              span Location Hidden?
-              .form-checkbox.form-checkbox--small(:class="{ 'form-checkbox--active': point.hidden }")
-                .form-checkbox__toggle
+            .form-control
+              .row.row--align-center
+                .col-2-3
+                  span Location Hidden?
+                .col-1-3
+                  .form-checkbox.form-checkbox--small(:class="{ 'form-checkbox--active': point.hidden }" @click="updateHidden(!point.hidden)")
+                    .form-checkbox__toggle
+
+            .form-control
+              label.form-label.form-label--required
+                span Radius (in meters)
+
+                .icon.icon--question-mark.icon--pad-left
+                  .icon__tooltip-wrapper
+                    .icon__tooltip Range in which player can access the puzzle
+
+              .slider-wrapper
+                vue-slider(
+                  v-model="point.radius"
+                  v-bind="sliderOptions"
+                )
+
+      .form-control-separator
+      .row
+        .col-1-2
+          .form-control
+            a.button.button--blue.button--large.button--full(@click="submit") Submit
 </template>
 
 <script>
@@ -62,16 +117,20 @@ import { mapState } from 'vuex'
 
 import { UPDATE_POINT, DESTROY_POINT } from '@/store/action-types'
 
-import { passwordTypes } from '@/config'
+import { TIME_CONSTRAINT_OPTIONS, RADIUS_CONSTRAINTS, passwordTypes } from '@/config'
+
+import { pad, codeToArrowUnicode, arrowUnicodeToChar, charToArrowUnicode } from '@/utils'
 
 import vSelect from 'vue-select'
+import vueSlider from 'vue-slider-component'
 
 const ACTION_NAMESPACE = 'adventure'
 
 export default {
   name: 'AdventurePointForm',
   components: {
-    vSelect
+    vSelect,
+    vueSlider
   },
   data () {
     return {
@@ -80,7 +139,9 @@ export default {
         radius: null,
         hidden: false,
         answers: []
-      }
+      },
+      timeConstraint: false,
+      passwordRequired: false
     }
   },
   computed: {
@@ -90,61 +151,294 @@ export default {
       loading: state => state.adventure.loading,
       error: state => state.adventure.error
     }),
+
+    sliderOptions () {
+      return {
+        min: RADIUS_CONSTRAINTS.MIN,
+        max: RADIUS_CONSTRAINTS.MAX,
+        interval: 1
+      }
+    },
+
     passwordTypes () {
       return passwordTypes;
     },
     passwordType () {
       let answer = this.passwordAnswer;
 
-      if(!answer) {
-        return this.passwordTypes[0];
-      } else {
+      if(answer && answer.details.password_type) {
         return this.passwordTypes.find(passwordType => passwordType.value == answer.details.password_type);
+      } else {
+        return this.passwordTypes[0];
       }
     },
-    passwordAnswer () {
-      return this.point.answers.find(answer => answer.type == 'password') || { details: { } };
+    passwordLength () {
+      let answer = this.passwordAnswer;
+
+      if(answer && answer.details.password_length) {
+        return answer.details.password_length
+      } else {
+        return this.lengthOptions[0] || null;
+      }
     },
+
+    lengthOptions () {
+      let type = this.passwordType;
+
+      switch(type.value) {
+          case 'numberLock':
+            return [3, 4, 5, 6];
+          case 'cryptex':
+            return [3, 4, 5, 6, 7, 8, 9, 10];
+          case 'directionLock':
+            return [4, 5, 6, 7, 8, 9, 10];
+          case 'numberPushLock':
+            return [3, 4]
+          case 'text':
+          default:
+            return [];
+      }
+    },
+
+    passwordAnswer () {
+      return this.point.answers.find(answer => answer.type == 'password') || null;
+    },
+    timeAnswer () {
+      return this.point.answers.find(answer => answer.type == 'time') || null;
+    },
+
     puzzleIndex () {
       return this.$store.state.adventure.points.findIndex(point => point.id == this.$route.params.pointId);
     },
     point () {
       let point = this.$store.state.adventure.points.find(point => point.id == this.$route.params.pointId);
 
-      if(point) {
+      if(point && !this.pointData.id) {
         //eslint-disable-next-line
         this.pointData = {
           id: point.id,
           radius: point.radius,
           hidden: point.hidden,
-          answers: point.answers
+          answers: point.answers.slice()
         };
+
+        let passwordAnswer = this.pointData.answers.find(answer => answer.type == 'password');
+
+        if(passwordAnswer) {
+          //eslint-disable-next-line
+          this.passwordRequired = true;
+
+          if(passwordAnswer.details.password_type == 'directionLock') {
+            passwordAnswer.details.password = this.decodeDirectionPassword(passwordAnswer.details.password);
+          }
+        }
+
+        //eslint-disable-next-line
+        this.timeConstraint = this.pointData.answers.findIndex(answer => answer.type == 'time') >= 0;
       }
 
       return this.pointData;
     },
-    passwordRequired () {
-      return this.point.answers.findIndex(answer => answer.type == 'password') >= 0;
+    startingTime () {
+      let answer = this.timeAnswer;
+
+      if(answer && answer.details.starting_time) {
+        return this.timeOptions.find(option => option.value == answer.details.starting_time);
+      } else {
+        return this.timeOptions[0];
+      }
     },
-    timeConstraint () {
-      return this.point.answers.findIndex(answer => answer.type == 'time') >= 0;
+
+    endingTime () {
+      let start = this.startingTime.value;
+
+      let endingTime = start + this.duration.value;
+
+      let hour = Math.floor(endingTime / 3600);
+      let minutes = (endingTime % 3600) / TIME_CONSTRAINT_OPTIONS.INTERVAL * (TIME_CONSTRAINT_OPTIONS.INTERVAL / 60);
+
+      if(hour >= 24) {
+        hour -= 24;
+
+        if(minutes == 0) {
+          return `${pad(hour, 2)}:${pad(minutes, 2)}`;
+        } else {
+          return `Next day on ${pad(hour, 2)}:${pad(minutes, 2)}`;
+        }
+      } else {
+        return `${pad(hour, 2)}:${pad(minutes, 2)}`;
+      }
+    },
+
+    timeOptions () {
+      let options = 24*(60*60/TIME_CONSTRAINT_OPTIONS.INTERVAL);
+
+      let optionsMap = [...Array(options)].map((_, i) => {
+        let current = i * TIME_CONSTRAINT_OPTIONS.INTERVAL;
+
+        let hour = Math.floor(current / 3600);
+        let minutes = (current % 3600) / TIME_CONSTRAINT_OPTIONS.INTERVAL * (TIME_CONSTRAINT_OPTIONS.INTERVAL / 60);
+
+        return {
+          value: current,
+          label: `${pad(hour, 2)}:${pad(minutes, 2)}`
+        };
+      });
+
+      return optionsMap;
+    },
+
+    durationOptions () {
+      return this.timeOptions.filter(item => 0 < item.value && item.value <= 23*60*60);
+    },
+    duration () {
+      let answer = this.timeAnswer;
+
+      if (answer && answer.details.duration) {
+        return this.durationOptions.find(option => option.value == answer.details.duration);
+      } else {
+        return this.durationOptions[0];
+      }
     }
   },
   methods: {
     togglePasswordRequired () {
+      this.passwordRequired = !this.passwordRequired;
+
+      let answer = this.passwordAnswer;
+
+      if(!answer) {
+        this.point.answers.push({ type: 'password', details: { password_type: null, password: null, password_length: null } });
+      }
     },
     
     toggleTimeConstraint () {
+      this.timeConstraint = !this.timeConstraint;
+
+      let answer = this.timeAnswer;
+
+      if(!answer) {
+        this.point.answers.push({ type: 'time', details: { starting_time: null, duration: null } });
+      }
     },
 
     updatePasswordType (evt) {
-      let answer = this.pointData.answers.find(answer => answer.type == 'password');
+      if(!evt) {
+        return;
+      }
+
+      let answer = this.passwordAnswer;
 
       answer.details.password_type = evt.value;
+      answer.details.password_length = this.lengthOptions[0];
     },
+
     updatePassword (evt) {
       this.passwordAnswer.password = evt.target.value;
     },
+
+    updateHidden (value) {
+      this.point.hidden = value;
+    },
+
+    updateRadius (evt) {
+      if(evt.target.value.length == 0) {
+        this.point.radius = null;
+      } else {
+        this.point.radius = +evt.target.value;
+      }
+    },
+
+    updateStartingTime (evt) {
+      if(!evt) {
+        return;
+      }
+
+      let answer = this.timeAnswer;
+
+      answer.details.starting_time = evt.value;
+    },
+
+    updateDuration (evt) {
+      if(!evt) {
+        return;
+      }
+
+      let answer = this.timeAnswer;
+
+      answer.details.duration = evt.value;
+    },
+
+    updatePasswordLength (evt) {
+      if(!evt) {
+        return;
+      }
+
+      let answer = this.passwordAnswer;
+
+      answer.details.password_length = evt.value;
+      answer.details.password = "";
+    },
+
+    filterToArrows (evt) {
+      evt = (evt) ? evt : window.event;
+
+      evt.preventDefault();
+
+      let charCode = (evt.which) ? evt.which : evt.keyCode;
+
+      if(37 <= charCode && charCode <= 40) {
+        let answer = this.passwordAnswer;
+
+        answer.details.password += codeToArrowUnicode[charCode];
+      }
+    },
+    encodeDirectionPassword (password) {
+      let str = '';
+
+      for(let i = 0; i < password.length; i++) {
+        str += arrowUnicodeToChar[password.charAt(i)];
+      }
+
+      return str;
+    },
+
+    decodeDirectionPassword (password) {
+      let str = '';
+
+      for(let i = 0; i < password.length; i++) {
+        str += charToArrowUnicode[password.charAt(i)];
+      }
+
+      return str;
+    },
+
+    submit () {
+      //TODO validate form
+      let params = JSON.parse(JSON.stringify(this.pointData));
+
+      let answerIndex = params.answers.findIndex(answer => answer.type == 'password');
+
+      if(!this.passwordRequired) {
+        params.answers.splice(answerIndex, 1);
+      } else if(answerIndex >= 0) {
+        if(params.answers[answerIndex].details.password_type == 'directionLock') {
+          params.answers[answerIndex].details.password = this.encodeDirectionPassword(params.answers[answerIndex].details.password);
+        }
+      }
+
+      if(!this.timeConstraint) {
+        let answerIndex = params.answers.findIndex(answer => answer.type == 'time');
+
+        params.answers.splice(answerIndex, 1);
+      }
+
+      this.$store.dispatch(`${ACTION_NAMESPACE}/${UPDATE_POINT}`, {
+        adventureId: this.adventure.id,
+        pointId: this.point.id,
+        params: params
+      })
+    }
   }
 }
 </script>

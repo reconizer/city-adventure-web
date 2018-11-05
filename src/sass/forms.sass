@@ -7,6 +7,23 @@
   & + &
     margin-top: 1rem
 
+.form-control-separator
+  margin: 1rem 0
+  height: 2px
+  background-color: $clue-background
+  width: 100%
+  display: block
+
+.error-label
+  display: none
+  color: $red
+  font-size: 0.875rem
+  font-weight: bold
+
+.form-static-text
+  line-height: 2.1875rem
+  height: 2.1875rem
+
 .form-label
   font-size: 0.875rem
   display: block
@@ -20,7 +37,8 @@
 
 .form-label + .form-input,
 .form-label + .v-select,
-.form-label + .form-checkbox
+.form-label + .form-checkbox,
+.form-label + .form-static-text
   margin-top: 0.5rem
 
 .form-input
@@ -79,3 +97,6 @@
 
   input
     display: none
+
+.slider-wrapper
+  padding-top: 2rem

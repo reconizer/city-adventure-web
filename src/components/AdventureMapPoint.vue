@@ -238,12 +238,7 @@ export default {
       this.updatePosition(latLng);
 
       let params = {
-        parent_id: this.point.parent_id,
-        position: this.point.position,
-        radius: this.point.radius,
-        hidden: this.point.hidden,
-        clues: this.point.clues,
-        answers: this.point.answers
+        position: this.point.position
       };
 
       this.$store.dispatch(`${ACTION_NAMESPACE}/${UPDATE_POINT}`, {
@@ -272,6 +267,8 @@ export default {
         distance = RADIUS_CONSTRAINTS.MAX;
       }
 
+      distance = Math.round(distance);
+
       this.point.radius = distance;
     },
 
@@ -279,12 +276,7 @@ export default {
       this.updateRadius(latLng);
 
       let params = {
-        parent_id: this.point.parent_id,
-        position: this.point.position,
-        radius: this.point.radius,
-        hidden: this.point.hidden,
-        clues: this.point.clues,
-        answers: this.point.answers
+        radius: this.point.radius
       };
 
       this.$store.dispatch(`${ACTION_NAMESPACE}/${UPDATE_POINT}`, {

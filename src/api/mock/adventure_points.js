@@ -184,8 +184,8 @@ export default (adventureId) => new Promise((resolve) => {
               id: 7,
               type: "time",
               details: {
-                from: 68400, //seconds in day
-                to: 70200
+                starting_time: 19 * 60 * 60 + 15 * 60, //seconds in day
+                duration: 15 * 60 //in seconds
               }
             }
           ]

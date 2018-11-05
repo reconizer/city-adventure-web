@@ -23,18 +23,30 @@
 
           .adventure-point-clue__text(v-else-if="clue.type == 'text'")
             .icon.icon--question-mark.icon--pad-right.icon--align-start
+              .icon__tooltip-wrapper
+                .icon__tooltip Text Clue
+
             .adventure-point-clue__content {{ clue.description }}
 
           .adventure-point-clue__text(v-else-if="clue.type == 'audio'")
             .icon.icon--audio.icon--pad-right
+              .icon__tooltip-wrapper
+                .icon__tooltip Audio Clip
+
             .adventure-point-clue__content {{ clue.description }}
 
-          .adventure-point-clue__text(v-else-if="clue.type == 'movie'")
+          .adventure-point-clue__text(v-else-if="clue.type == 'video'")
             .icon.icon--video.icon--pad-right
+              .icon__tooltip-wrapper
+                .icon__tooltip Video
+
             .adventure-point-clue__content {{ clue.description }}
 
           .adventure-point-clue__text(v-else-if="clue.type == 'url'")
             .icon.icon--attachment.icon--pad-right
+              .icon__tooltip-wrapper
+                .icon__tooltip External URL
+
             .adventure-point-clue__content {{ clue.url }}
 
     .adventure-point-new-clue-separator
@@ -73,6 +85,7 @@ export default {
   },
   computed: mapState({
     adventure: state => state.adventure.item
+
   }),
   methods: {
     updateList (evt) {
@@ -84,6 +97,21 @@ export default {
             order: index
           };
         });
+
+        let currentRoute = this.$router.currentRoute;
+
+        //If user drags and drops clue which has currently opened form - fix url so we operate on real objects still
+
+        if(currentRoute.name == "adventureClue" && evt.added && evt.added.element.id == currentRoute.params.clueId) {
+          this.$router.replace({
+            name: currentRoute.name,
+            params: {
+              adventureId: currentRoute.params.adventureId,
+              clueId: currentRoute.params.clueId,
+              pointId: this.point.id
+            }
+          });
+        }
 
         let payload = { clues };
 

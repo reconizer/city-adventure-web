@@ -14,7 +14,7 @@
         :opened="addPointWindowOpened"
         @closeclick="closeAddPointWindow"
       )
-        a(@click="createPointFromDialog") Create new Puzzle
+        a.map-window-option(@click="createPointFromDialog") Create new Puzzle
 
       gmap-info-window(
         :position="pointOptionsWindowPosition"
@@ -116,6 +116,8 @@ export default {
   methods: {
     centerCamera ( { lat, lng }) {
       this.center = { lat, lng };
+
+      this.$refs.googleMap.$mapObject.setCenter(this.center);
     },
     geolocate () {
       navigator.geolocation.getCurrentPosition(position => {

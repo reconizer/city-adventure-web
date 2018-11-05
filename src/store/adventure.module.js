@@ -63,7 +63,9 @@ export default {
     [SET_POINT] (state, { id, data }) {
       let index = state.points.findIndex(item => item.id == id);
 
-      Vue.set(state.points, index, data);
+      let params = Object.assign({ }, state.points[index], data);
+
+      Vue.set(state.points, index, params);
     },
 
     [REMOVE_POINT] (state, pointId) {
@@ -209,7 +211,7 @@ export default {
         .catch( error => commit(SET_ERROR, error));
     },
 
-    [DESTROY_POINT] ({ commit }, { pointId }) {
+    [DESTROY_POINT] ({ commit, state }, { pointId }) {
       commit(SET_LOADING, true);
 
       api.adventures.destroyPoint(pointId)
@@ -217,6 +219,11 @@ export default {
           commit(REMOVE_POINT, pointId);
 
           commit(SET_LOADING, false);
+
+          // If we remove a point which has currently opened form - go to map
+          if(router.currentRoute.name == "adventurePoint" && router.currentRoute.params.pointId == pointId) {
+            router.push({ name: 'adventureMap', params: { adventureId: state.item.id } });
+          }
         })
         .catch( error => commit(SET_ERROR, error));
     },

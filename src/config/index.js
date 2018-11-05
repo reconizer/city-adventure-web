@@ -50,3 +50,7 @@ export const RADIUS_CONSTRAINTS = {
   MIN: 10,
   MAX: 500
 }
+
+export const TIME_CONSTRAINT_OPTIONS = {
+  INTERVAL: 15 * 60, // 15 minute intervals
+}

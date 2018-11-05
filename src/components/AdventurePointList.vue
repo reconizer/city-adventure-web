@@ -7,6 +7,7 @@
         .adventure-point
           router-link.button.button--pink.adventure-point__name(
             :to="{ name: 'adventurePoint', params: { adventureId: adventure.id, pointId: startingPoint.id } }"
+            exact-active-class="adventure-point__name--active"
           ) Start
 
           .adventure-point__controls
@@ -15,7 +16,7 @@
               @click.native="goToPoint(startingPoint)"
             )
               .icon.icon--sm.icon--marker.icon--pad-right
-              span Locate
+              span Go to
 
         AdventurePointClueList(:point="startingPoint")
 
@@ -31,6 +32,7 @@
           .adventure-point
             router-link.button.button--gray.adventure-point__name(
               :to="{ name: 'adventurePoint', params: { adventureId: adventure.id, pointId: point.id } }"
+              exact-active-class="adventure-point__name--active"
             )
               span {{ pointIndex + 1 }}
               .icon.icon--eye-inactive.icon--pad-left(v-if="point.hidden")
@@ -52,7 +54,7 @@
                 @click.native="goToPoint(point)"
               )
                 .icon.icon--sm.icon--marker.icon--pad-right
-                span Locate
+                span Go to
 
               .button.button--blue.adventure-point__control(@click="destroyPoint(point)")
                 .icon.icon--sm.icon--close-white.icon--pad-right
