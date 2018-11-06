@@ -4,7 +4,7 @@ import Router from 'vue-router'
 import BaseLayout from '@/views/BaseLayout.vue'
 import Adventures from '@/views/Adventures.vue'
 import Adventure from '@/components/Adventure.vue'
-import AdventureMap from '@/components/AdventureMap.vue'
+import AdventureSettings from '@/components/AdventureSettings.vue'
 import AdventureClueForm from '@/components/AdventureClueForm.vue'
 import AdventurePointForm from '@/components/AdventurePointForm.vue'
 import Login from '@/views/Login.vue'
@@ -39,6 +39,7 @@ const router = new Router({
               path: 'settings',
               name: 'adventureSettings',
               components: {
+                default: AdventureSettings
               }
             },
             {

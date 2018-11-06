@@ -4,6 +4,18 @@
       .overlay-loader__spinner
 
     .adventure-structure
+      .adventure-structure__header
+        router-link.adventure-structure__title(
+          v-if="adventure.id"
+          :to="{ name: 'adventureMap', params: { adventureId: adventure.id } }"
+        ) {{ adventure.name }}
+
+        router-link.adventure-structure__edit(
+          v-if="adventure.id"
+          :to="{ name: 'adventureSettings', params: { adventureId: adventure.id } }"
+        )
+          .icon.icon--pencil-white
+
       AdventurePointList
 
     AdventureMap

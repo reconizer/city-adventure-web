@@ -4,6 +4,8 @@ import { BASE_URL } from '@/config';
 
 import adventureListMock from './mock/adventure_list';
 import adventureMock from './mock/adventure';
+import updateAdventureMock from './mock/update_adventure';
+import createAdventureMock from './mock/create_adventure';
 import adventurePointsMock from './mock/adventure_points';
 
 import updatePointMock from './mock/update_point';
@@ -23,6 +25,12 @@ export default {
   },
   loadAdventure (adventureId) {
     return adventureMock(adventureId);
+  },
+  updateAdventure (adventureId, params) {
+    return updateAdventureMock(adventureId, params);
+  },
+  createAdventure (params) {
+    return createAdventureMock(params);
   },
 
   loadPoints (adventureId) {

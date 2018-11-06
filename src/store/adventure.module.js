@@ -14,10 +14,11 @@ import {
 
 
 import {
-  LOAD_ADVENTURE, UPDATE_POINT,
-  UPDATE_CLUES, CREATE_POINT, DESTROY_POINT,
+  LOAD_ADVENTURE, UPDATE_ADVENTURE,
+  UPDATE_POINT, CREATE_POINT, DESTROY_POINT,
+  UPDATE_POINTS,
   UPDATE_CLUE, CREATE_CLUE, DESTROY_CLUE,
-  UPDATE_POINTS
+  UPDATE_CLUES
 } from './action-types';
 
 export default {
@@ -154,6 +155,18 @@ export default {
         })
         .then( response => {
           commit(SET_ADVENTURE_POINTS, response.data);
+
+          commit(SET_LOADING, false);
+        })
+        .catch( error => commit(SET_ERROR, error));
+    },
+
+    [UPDATE_ADVENTURE] ({ commit }, { adventureId, params }) {
+      commit(SET_LOADING, true);
+
+      api.adventures.updateAdventure(adventureId, params)
+        .then( response => {
+          commit(SET_ADVENTURE, response.data);
 
           commit(SET_LOADING, false);
         })

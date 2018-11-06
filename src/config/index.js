@@ -54,3 +54,24 @@ export const RADIUS_CONSTRAINTS = {
 export const TIME_CONSTRAINT_OPTIONS = {
   INTERVAL: 15 * 60, // 15 minute intervals
 }
+
+export const ADVENTURE_DURATION_OPTIONS = {
+  MIN: 30,
+  MAX: 360,
+  INTERVAL: 15
+}
+
+export const DIFFICULTY_LEVELS = [
+  {
+    value: 1,
+    label: 'Easy'
+  },
+  {
+    value: 2,
+    label: 'Medium'
+  },
+  {
+    value: 3,
+    label: 'Hard'
+  }
+]

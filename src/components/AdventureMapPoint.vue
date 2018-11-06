@@ -210,6 +210,12 @@ export default {
     },
 
     setEditable (value) {
+      if(value && this.$refs.circle) {
+        if(this.$refs.circle.$map.zoom < 17) { // do not show controls on more zoomed out camera when hovering
+          value = false;
+        }
+      }
+
       this.circleEditable = value;
     },
 

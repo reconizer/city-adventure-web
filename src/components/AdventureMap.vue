@@ -38,7 +38,6 @@
         )
           .icon.icon--reposition.icon--pad-right
           span Reposition
-
 </template>
 
 <script>
@@ -117,7 +116,7 @@ export default {
     centerCamera ( { lat, lng }) {
       this.center = { lat, lng };
 
-      if(this.mapLoaded) {
+      if(this.$refs.googleMap && this.mapLoaded) {
         this.$refs.googleMap.$mapObject.setCenter(this.center);
       }
     },
@@ -133,13 +132,15 @@ export default {
       if(this.points.length == 0)
         return;
 
-      let bounds = this.$refs.googleMap.$mapObject.getBounds();
+      if(this.$refs.googleMap && this.mapLoaded) {
+        let bounds = this.$refs.googleMap.$mapObject.getBounds();
 
-      this.points.forEach( (point) => {
-        bounds.extend(point.position);
-      });
+        this.points.forEach( (point) => {
+          bounds.extend(point.position);
+        });
 
-      this.$refs.googleMap.fitBounds(bounds, 0);
+        this.$refs.googleMap.fitBounds(bounds, 0);
+      }
     },
     createPoint () {
       let center = this.$refs.googleMap.$mapObject.center;

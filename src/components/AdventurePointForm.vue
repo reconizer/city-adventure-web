@@ -179,7 +179,10 @@ export default {
       return {
         min: RADIUS_CONSTRAINTS.MIN,
         max: RADIUS_CONSTRAINTS.MAX,
-        interval: 1
+        interval: 1,
+        formatter: (value) => {
+          return `${value}m`;
+        }
       }
     },
 
