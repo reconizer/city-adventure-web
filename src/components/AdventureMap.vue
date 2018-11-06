@@ -117,7 +117,9 @@ export default {
     centerCamera ( { lat, lng }) {
       this.center = { lat, lng };
 
-      this.$refs.googleMap.$mapObject.setCenter(this.center);
+      if(this.mapLoaded) {
+        this.$refs.googleMap.$mapObject.setCenter(this.center);
+      }
     },
     geolocate () {
       navigator.geolocation.getCurrentPosition(position => {

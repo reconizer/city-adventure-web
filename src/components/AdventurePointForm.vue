@@ -1,6 +1,6 @@
 <template lang="pug">
-  .adventure-panel
-    div(v-if="point.id")
+  .adventure-panel.adventure-panel--scrollable
+    .adventure-panel__inner(v-if="point.id")
       .adventure-panel__header
         router-link.icon.icon--back.icon--pad-right.adventure-panel__back(:to="{ name: 'adventureMap', params: { adventureId: adventure.id } }")
         span(v-if="puzzleIndex == 0") Edit Starting Point
@@ -52,8 +52,25 @@
                 input.form-input(type="text" placeholder="Password" :value="passwordAnswer.details.password" @input="updatePassword")
 
               .form-control(v-if="passwordAnswer.details.password_type == 'directionLock'")
-                .form-label.form-label--required Enter password using arrow keys
-                input.form-input(type="text" placeholder="Password" :value="passwordAnswer.details.password" @keypress="filterToArrows")
+                .form-control
+                  .form-label.form-label--required Enter password by pressing buttons below
+ 
+                .form-control
+                  .row
+                    .col-1-2
+                      a.button.button--circle.button--blue(@click="onArrow('l')") ←
+                      a.button.button--circle.button--blue(@click="onArrow('u')") ↑
+                      a.button.button--circle.button--blue(@click="onArrow('d')") ↓
+                      a.button.button--circle.button--blue(@click="onArrow('r')") →
+
+                    .col-1-2.text-right
+                      a.button.button--pink(@click="clearArrows()") Clear
+
+                .form-control
+                  span Password: {{ transformedPassword }}
+
+            .puzzle-component-filler(v-else)
+              .puzzle-component-filler__header No password is required to complete this puzzle
 
           .puzzle-component.puzzle-component--left
             .puzzle-component__header
@@ -77,6 +94,9 @@
                   .form-control
                     .form-label End Time
                     .form-static-text {{ endingTime }}
+
+            .puzzle-component-filler(v-else)
+              .puzzle-component-filler__header There is no time constraint to complete this puzzle
 
         .col-1-2
           .puzzle-component.puzzle-component--right
@@ -119,7 +139,9 @@ import { UPDATE_POINT, DESTROY_POINT } from '@/store/action-types'
 
 import { TIME_CONSTRAINT_OPTIONS, RADIUS_CONSTRAINTS, passwordTypes } from '@/config'
 
-import { pad, codeToArrowUnicode, arrowUnicodeToChar, charToArrowUnicode } from '@/utils'
+import { pad, arrowUnicodeToChar, charToArrowUnicode } from '@/utils'
+
+import cloneDeep from 'lodash.clonedeep'
 
 import vSelect from 'vue-select'
 import vueSlider from 'vue-slider-component'
@@ -141,7 +163,8 @@ export default {
         answers: []
       },
       timeConstraint: false,
-      passwordRequired: false
+      passwordRequired: false,
+      transformedPassword: ""
     }
   },
   computed: {
@@ -229,7 +252,8 @@ export default {
           this.passwordRequired = true;
 
           if(passwordAnswer.details.password_type == 'directionLock') {
-            passwordAnswer.details.password = this.decodeDirectionPassword(passwordAnswer.details.password);
+            //eslint-disable-next-line
+            this.transformedPassword = this.decodeDirectionPassword(passwordAnswer.details.password);
           }
         }
 
@@ -330,11 +354,12 @@ export default {
       let answer = this.passwordAnswer;
 
       answer.details.password_type = evt.value;
-      answer.details.password_length = this.lengthOptions[0];
+
+      answer.details.password_length = this.lengthOptions[0] || null;
     },
 
     updatePassword (evt) {
-      this.passwordAnswer.password = evt.target.value;
+      this.passwordAnswer.details.password = evt.target.value;
     },
 
     updateHidden (value) {
@@ -376,23 +401,9 @@ export default {
 
       let answer = this.passwordAnswer;
 
-      answer.details.password_length = evt.value;
-      answer.details.password = "";
+      answer.details.password_length = evt;
     },
 
-    filterToArrows (evt) {
-      evt = (evt) ? evt : window.event;
-
-      evt.preventDefault();
-
-      let charCode = (evt.which) ? evt.which : evt.keyCode;
-
-      if(37 <= charCode && charCode <= 40) {
-        let answer = this.passwordAnswer;
-
-        answer.details.password += codeToArrowUnicode[charCode];
-      }
-    },
     encodeDirectionPassword (password) {
       let str = '';
 
@@ -401,6 +412,18 @@ export default {
       }
 
       return str;
+    },
+
+    onArrow (direction) {
+      let answer = this.passwordAnswer;
+
+      if(this.transformedPassword.length < answer.details.password_length) {
+        this.transformedPassword += charToArrowUnicode[direction];
+      }
+    },
+
+    clearArrows () {
+      this.transformedPassword = "";
     },
 
     decodeDirectionPassword (password) {
@@ -415,22 +438,26 @@ export default {
 
     submit () {
       //TODO validate form
-      let params = JSON.parse(JSON.stringify(this.pointData));
+      let params = cloneDeep(this.pointData);
 
       let answerIndex = params.answers.findIndex(answer => answer.type == 'password');
 
       if(!this.passwordRequired) {
-        params.answers.splice(answerIndex, 1);
+        if(answerIndex >= 0) {
+          params.answers.splice(answerIndex, 1);
+        }
       } else if(answerIndex >= 0) {
         if(params.answers[answerIndex].details.password_type == 'directionLock') {
-          params.answers[answerIndex].details.password = this.encodeDirectionPassword(params.answers[answerIndex].details.password);
+          params.answers[answerIndex].details.password = this.encodeDirectionPassword(this.transformedPassword);
         }
       }
 
       if(!this.timeConstraint) {
         let answerIndex = params.answers.findIndex(answer => answer.type == 'time');
 
-        params.answers.splice(answerIndex, 1);
+        if(answerIndex >= 0) {
+          params.answers.splice(answerIndex, 1);
+        }
       }
 
       this.$store.dispatch(`${ACTION_NAMESPACE}/${UPDATE_POINT}`, {

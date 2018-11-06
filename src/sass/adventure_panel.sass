@@ -22,7 +22,12 @@
   background-color: $white
   padding: 1rem
   z-index: $z-index-adventure-content
-  overflow-y: scroll
+
+  &--scrollable
+    overflow-y: scroll
+
+  &__inner
+    padding-bottom: 2rem
 
   &__header
     padding-bottom: 1rem
@@ -187,6 +192,12 @@
     font-size: 1.25rem
     font-weight: bold
     margin-right: 1rem
+
+.puzzle-component-filler
+  min-height: 5rem
+
+  &__header
+    padding: 1.5rem 0
 
 .map-window-option
   display: block
