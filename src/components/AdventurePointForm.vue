@@ -11,7 +11,7 @@
 
       .row(v-if="puzzleIndex == 0")
         .col-1-2
-          .puzzle-component.puzzle-component--left
+          .puzzle-component
             .puzzle-component__header
               .puzzle-component__name Location
 
@@ -31,7 +31,7 @@
 
       .row(v-else)
         .col-1-2
-          .puzzle-component.puzzle-component--left
+          .puzzle-component
             .puzzle-component__header
               .puzzle-component__name Password Required
 
@@ -72,7 +72,7 @@
             .puzzle-component-filler(v-else)
               .puzzle-component-filler__header No password is required to complete this puzzle
 
-          .puzzle-component.puzzle-component--left
+          .puzzle-component
             .puzzle-component__header
               .puzzle-component__name Time Constraint
 
@@ -99,7 +99,7 @@
               .puzzle-component-filler__header There is no time constraint to complete this puzzle
 
         .col-1-2
-          .puzzle-component.puzzle-component--right
+          .puzzle-component
             .puzzle-component__header
               .puzzle-component__name Location
 
@@ -215,11 +215,11 @@ export default {
           case 'numberLock':
             return [3, 4, 5, 6];
           case 'cryptex':
-            return [3, 4, 5, 6, 7, 8, 9, 10];
+            return [4, 5, 6, 7];
           case 'directionLock':
             return [4, 5, 6, 7, 8, 9, 10];
           case 'numberPushLock':
-            return [3, 4]
+            return [3, 4, 5]
           case 'text':
           default:
             return [];

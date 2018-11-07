@@ -102,6 +102,7 @@ export default {
 
     this.$root.$on('right-click-marker', (point) => {
       this.pointOptionsWindowOpened = true;
+      this.addPointWindowOpened = false;
 
       this.currentPoint = point;
 
@@ -177,6 +178,7 @@ export default {
 
     pointDialog (evt) {
       this.addPointWindowOpened = true;
+      this.pointOptionsWindowOpened = false;
 
       this.addPointWindowPosition = {
         lat: evt.latLng.lat(),

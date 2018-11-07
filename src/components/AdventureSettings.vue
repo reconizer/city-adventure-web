@@ -1,5 +1,5 @@
 <template lang="pug">
-  .adventure-panel
+  .adventure-panel.adventure-panel--scrollable
     .adventure-panel__inner(v-if="adventure.id")
       .adventure-panel__header
         router-link.icon.icon--back.icon--pad-right.adventure-panel__back(:to="{ name: 'adventureMap', params: { adventureId: adventure.id } }")
@@ -17,11 +17,22 @@
 
           .form-control
             label.form-label Duration
-            .slider-wrapper
+            .row.row--align-center
+              .col-2-3
+                span Specified Duration
+                .icon.icon--question-mark.icon--pad-left
+                  .icon__tooltip-wrapper.icon__tooltip-wrapper--multiline
+                    .icon__tooltip Only specify duration for shorter adventures which take up to few hours
+              .col-1-3
+                .form-checkbox.form-checkbox--small(:class="{ 'form-checkbox--active': specifiedDuration }" @click="updateSpecifiedDuration(!specifiedDuration)")
+                  .form-checkbox__toggle
+
+            .slider-wrapper.slider-wrapper--padded(v-if="specifiedDuration")
               vue-slider(
                 ref="durationSlider"
                 :value="duration"
                 v-bind="sliderOptions"
+                @callback="sliderCallback"
               )
 
           .form-control
@@ -35,6 +46,20 @@
 
             .adventure-cover
               img(:src="adventure.cover_url")
+
+          .form-control
+            label.form-label Promo Images
+
+          .form-control
+            draggable(
+              v-model="adventure.images"
+              @change="updateList"
+            )
+              .adventure-promo-image(
+                v-for="image in adventure.images"
+                :key="image.id"
+              )
+                img(:src="image.url")
 
       .form-control-separator
       .row
@@ -79,16 +104,22 @@ export default {
         },
         description: null,
         images: []
-      }
+      },
+      specifiedDuration: true
     }
   },
   computed: {
     adventure () {
       let adventure = this.$store.state.adventure.item;
 
-      if(adventure) {
+      if(adventure.id) {
         //eslint-disable-next-line
         this.adventureData = cloneDeep(adventure);
+
+        if(adventure.duration.min == null || adventure.duration.max == null) {
+          //eslint-disable-next-line
+          this.specifiedDuration = false;
+        }
       }
 
       return this.adventureData;
@@ -99,19 +130,16 @@ export default {
         max: ADVENTURE_DURATION_OPTIONS.MAX,
         interval: ADVENTURE_DURATION_OPTIONS.INTERVAL,
         formatter: (value) => {
-          if(value < 60) {
-            return `${value}min`;
+          return this.formatSliderLabel(value);
+        },
+        "merge-formatter": (v1, v2) => {
+          if(v1 == v2) {
+            return `Around ${this.formatSliderLabel(v1)}`;
           } else {
-            let minutes = value % 60;
-            let hours = Math.floor(value / 60);
-
-            if(minutes == 0) {
-              return `${hours}h`;
-            } else {
-              return `${hours}h ${minutes}min`;
-            }
+            return `${this.formatSliderLabel(v1)} - ${this.formatSliderLabel(v2)}`;
           }
-        }
+        },
+        processDragable: true //yes, it has to be a typo and not 'draggable'
       }
     },
     duration () {
@@ -126,23 +154,62 @@ export default {
     }
   },
   methods: {
+    formatSliderLabel (value) {
+      if(value < 60) {
+        return `${value}min`;
+      } else {
+        let minutes = value % 60;
+        let hours = Math.floor(value / 60);
+
+        if(minutes == 0) {
+          return `${hours}h`;
+        } else {
+          return `${hours}h ${minutes}min`;
+        }
+      }
+    },
+    sliderCallback (value) {
+      this.adventureData.duration.min = value[0];
+      this.adventureData.duration.max = value[1];
+    },
+
     updateName (evt) {
       this.adventureData.name = evt.value;
     },
-
     changeDifficulty (evt) {
       this.adventureData.difficulty = evt.value;
     },
 
-    submit () {
-      let durationValue = this.$refs.durationSlider.getValue();
+    updateSpecifiedDuration (value) {
+      this.specifiedDuration = value;
 
-      this.adventureData.duration.min = durationValue[0];
-      this.adventureData.duration.max = durationValue[1];
+      if(this.specifiedDuration) {
+        if(this.adventureData.duration.min == null || this.adventureData.duration.max == null) {
+          this.adventureData.duration = {
+            min: ADVENTURE_DURATION_OPTIONS.MIN,
+            max: Math.min(ADVENTURE_DURATION_OPTIONS.MIN + 60, ADVENTURE_DURATION_OPTIONS.MAX)
+          }
+        }
+      }
+    },
+
+    updateList (evt) {
+      this.adventureData.images.forEach( (image, index) => {
+        image.order = index;
+      });
+    },
+
+    submit () {
+      let params = cloneDeep(this.adventureData);
+
+      if(!this.specifiedDuration) {
+        params.duration.min = null;
+        params.duration.max = null;
+      }
 
       this.$store.dispatch(`${ACTION_NAMESPACE}/${UPDATE_ADVENTURE}`, {
         adventureId: this.adventureData.id,
-        params: this.adventureData
+        params: params
       });
       //TODO validate form
     }
