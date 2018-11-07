@@ -15,24 +15,26 @@
             v-select(placeholder="Clue Type" :clearable="false" :value="clueType" :options="clueTypes" @input="updateType($event)")
 
           .form-control
-            .form-label
-              span Is a Tip?
-              .icon.icon--question-mark.icon--pad-left
-                .icon__tooltip-wrapper
-                  .icon__tooltip Tips are optional, on-demand clues
-
-            .form-checkbox(:class="{ 'form-checkbox--active': clue.tip }" @click="updateTip(!clue.tip)")
-              .form-checkbox__toggle
+            .row.row--align-center
+              .col-1-2
+                label.form-label
+                  span Is a Tip?
+                  .icon.icon--question-mark.icon--pad-left
+                    .icon__tooltip-wrapper
+                      .icon__tooltip Tips are optional, on-demand clues
+              .col-1-2
+                .form-checkbox.form-checkbox--small(:class="{ 'form-checkbox--active': clue.tip }" @click="updateTip(!clue.tip)")
+                  .form-checkbox__toggle
 
           .form-control(v-if="clue.type != 'image'")
             .form-label.form-label--required(v-if="clue.type == 'text'") Content
             .form-label(v-else) Description
-            textarea.form-input(:value="clue.description" @input="updateField('description', $event)")
+            textarea.form-input(v-model="clue.description")
 
           //TODO file upload
           .form-control(v-if="clue.type != 'text'")
             .form-label.form-label--required URL
-            input.form-input(:value="clue.url" @input="updateField('url', $event)")
+            input.form-input(v-model="clue.url")
 
           .form-control
             a.button.button--blue.button--large.button--full(@click="submit()") Submit
@@ -46,6 +48,8 @@ import { CREATE_CLUE, UPDATE_CLUE, DESTROY_CLUE } from '@/store/action-types'
 import vSelect from 'vue-select'
 
 import { clueTypes } from '@/config'
+
+import cloneDeep from 'lodash.clonedeep'
 
 const ACTION_NAMESPACE = 'adventure'
 
@@ -85,14 +89,7 @@ export default {
 
           if(clueObject) {
             //eslint-disable-next-line
-            this.clueData = {
-              id: clueObject.id,
-              type: clueObject.type,
-              tip: clueObject.tip,
-              url: clueObject.url,
-              description: clueObject.description,
-              order: clueObject.order
-            };
+            this.clueData = cloneDeep(clueObject);
           }
         }
       }
@@ -111,9 +108,6 @@ export default {
     },
     updateTip (value) {
       this.clueData.tip = value;
-    },
-    updateField (field, evt) {
-      this.clueData[field] = evt.target.value;
     },
 
     submit () {

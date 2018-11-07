@@ -1,5 +1,5 @@
 <template lang="pug">
-  .google-map-wrapper
+  .google-map-wrapper.adventure-edit-map
     gmap-map(
       class="adventure-map"
       :center="center",

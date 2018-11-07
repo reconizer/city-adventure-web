@@ -3,6 +3,7 @@ import Router from 'vue-router'
 
 import BaseLayout from '@/views/BaseLayout.vue'
 import Adventures from '@/views/Adventures.vue'
+import AdventureCreateForm from '@/components/AdventureCreateForm'
 import Adventure from '@/components/Adventure.vue'
 import AdventureSettings from '@/components/AdventureSettings.vue'
 import AdventureClueForm from '@/components/AdventureClueForm.vue'
@@ -23,6 +24,13 @@ const router = new Router({
           name: 'home',
           components: {
             default: Adventures
+          }
+        },
+        {
+          path: 'adventures/new',
+          name: 'newAdventure',
+          components: {
+            default: AdventureCreateForm
           }
         },
         {

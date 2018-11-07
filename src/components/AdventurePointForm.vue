@@ -49,7 +49,7 @@
 
               .form-control(v-if="passwordAnswer.details.password_type != 'directionLock'")
                 .form-label.form-label--required Enter password
-                input.form-input(type="text" placeholder="Password" :value="passwordAnswer.details.password" @input="updatePassword")
+                input.form-input(type="text" placeholder="Password" v-model="passwordAnswer.details.password")
 
               .form-control(v-if="passwordAnswer.details.password_type == 'directionLock'")
                 .form-control
@@ -241,12 +241,7 @@ export default {
 
       if(point && !this.pointData.id) {
         //eslint-disable-next-line
-        this.pointData = {
-          id: point.id,
-          radius: point.radius,
-          hidden: point.hidden,
-          answers: point.answers.slice()
-        };
+        this.pointData = cloneDeep(point);
 
         let passwordAnswer = this.pointData.answers.find(answer => answer.type == 'password');
 
@@ -359,10 +354,6 @@ export default {
       answer.details.password_type = evt.value;
 
       answer.details.password_length = this.lengthOptions[0] || null;
-    },
-
-    updatePassword (evt) {
-      this.passwordAnswer.details.password = evt.target.value;
     },
 
     updateHidden (value) {

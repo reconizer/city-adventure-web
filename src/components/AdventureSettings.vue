@@ -5,6 +5,8 @@
         router-link.icon.icon--back.icon--pad-right.adventure-panel__back(:to="{ name: 'adventureMap', params: { adventureId: adventure.id } }")
         span Edit Adventure 
 
+        a.button.button--blue.adventure-panel__submit(@click="submit()") Submit
+
       .row
         .col-1-2
           .form-control
@@ -60,12 +62,6 @@
                 :key="image.id"
               )
                 img(:src="image.url")
-
-      .form-control-separator
-      .row
-        .col-1-2
-          .form-control
-            a.button.button--blue.button--large.button--full(@click="submit") Submit
 </template>
 
 <script>

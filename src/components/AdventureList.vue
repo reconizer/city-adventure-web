@@ -1,6 +1,12 @@
 <template lang="pug">
   .adventure-list
-    .adventure-list__header Your Adventures
+    .adventure-list__header
+      .row.row--align-center
+        .col-1-2 Your Adventures
+        .col-1-2.text-right
+          router-link.button.button--blue(
+            :to="{ name: 'newAdventure' }"
+          ) Create New
 
     AdventureListItem(v-for="adventureItem in adventures" :key="adventureItem.id" :adventure="adventureItem")
 

@@ -16,7 +16,8 @@ Vue.use(VueScrollTo);
 
 Vue.use(VueGoogleMaps, {
   load: {
-    key: 'AIzaSyD5g_ydCAPz2_9DhMw_qcjxCwP2axqIbJo'
+    key: 'AIzaSyD5g_ydCAPz2_9DhMw_qcjxCwP2axqIbJo',
+    libraries: 'places'
   }
 });
 

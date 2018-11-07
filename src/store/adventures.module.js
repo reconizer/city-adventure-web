@@ -1,7 +1,9 @@
 import api from '@/api';
 
 import { SET_ADVENTURES, SET_LOADING, SET_ERROR } from './mutation-types';
-import { LOAD_ADVENTURES } from './action-types';
+import { LOAD_ADVENTURES, CREATE_ADVENTURE } from './action-types';
+
+import router from '@/router'
 
 export default {
   namespaced: true,
@@ -32,6 +34,25 @@ export default {
         .then( response => {
           commit(SET_ADVENTURES, response.data);
           commit(SET_LOADING, false);
+        })
+        .catch( error => {
+          commit(SET_ERROR, error);
+        });
+    },
+
+    [CREATE_ADVENTURE] ({ commit }, { params }) {
+      commit(SET_LOADING, true);
+
+      api.adventures.createAdventure(params)
+        .then( response => {
+          commit(SET_LOADING, false);
+
+          router.push({
+            name: 'adventureMap',
+            params: {
+              adventureId: response.data.id
+            }
+          });
         })
         .catch( error => {
           commit(SET_ERROR, error);
