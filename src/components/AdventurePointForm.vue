@@ -430,6 +430,12 @@ export default {
       return str;
     },
 
+    destroyPuzzle () {
+      if(confirm("Are you sure you want to remove this puzzle? It will also remove all clues attached to it")) {
+        this.$store.dispatch(`${ACTION_NAMESPACE}/${DESTROY_POINT}`, { pointId: this.pointData.id });
+      }
+    },
+
     submit () {
       //TODO validate form
       let params = cloneDeep(this.pointData);
