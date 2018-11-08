@@ -8,16 +8,20 @@ module.exports = {
   productionSourceMap: false,
   parallel: undefined,
 
-  css: {
-    sourceMap: true,
-  },
+  css: undefined,
 
   chainWebpack: config => {
-    const types = ['vue-modules', 'vue', 'normal-modules', 'normal']
+    const types = ['vue-modules', 'vue', 'normal-modules', 'normal'];
 
     types.forEach(type => {
       addStyleResource(config.module.rule('sass').oneOf(type))
-    })
+    });
+
+    // Do not use url loader; use file loader instead
+    config.module.rules.delete('images');
+    config.module.rule('images')
+      .test(/\.(png|jpe?g|gif|webp)(\?.*)?$/)
+      .use('file-loader').loader('file-loader');
   },
 
   lintOnSave: undefined

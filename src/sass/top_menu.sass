@@ -1,0 +1,32 @@
+.top-menu-wrapper
+  height: $top-menu-height
+  background-color: $menu-background
+
+.top-menu
+  display: flex
+  align-items: center
+  z-index: $z-index-top-menu
+  box-sizing: border-box
+
+  &__links
+    height: $top-menu-height
+    display: flex
+    justify-content: flex-end
+    flex: 1
+
+  &__link
+    color: $white
+    display: inline-block
+    height: $top-menu-height
+    line-height: $top-menu-height
+    padding: 0 1rem
+    text-decoration: none
+    transition: all 0.3s ease-in-out
+    display: flex
+    align-items: center
+
+    &:hover, &:focus, &.router-link-exact-active
+      text-decoration: none
+
+    &:hover, &.router-link-exact-active
+      background-color: $menu-background-active

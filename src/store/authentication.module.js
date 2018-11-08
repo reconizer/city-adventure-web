@@ -4,12 +4,19 @@ import { LOGIN, LOGOUT } from './action-types';
 import router from '@/router';
 
 import api from '@/api';
+import axios from 'axios';
+
+import { authHeader } from '@/utils';
 
 const user = JSON.parse(localStorage.getItem('user'));
 
 const initialState = user
   ? { status: { loggedIn: true, error: null }, user }
   : { status: { loggedIn: false, error: null }, user: null };
+
+if(user && user.token) {
+  axios.defaults.headers.common['Authorization'] = authHeader();
+}
 
 export default {
   namespaced: true,
@@ -35,9 +42,12 @@ export default {
     [LOGIN] ({ commit }, { email, password }) {
       api.authentication.login(email, password)
         .then( response => {
-          console.log(response);
-
           commit(STORE_USER, response.data);
+
+          localStorage.setItem('user', JSON.stringify(response.data));
+
+          axios.defaults.headers.common['Authorization'] = authHeader();
+
           router.push('/');
         })
         .catch( error => {
@@ -47,6 +57,10 @@ export default {
 
     [LOGOUT] ({ commit }) {
       commit(REMOVE_USER);
+
+      localStorage.removeItem('user');
+
+      delete axios.defaults.headers.common['Authorization'];
     }
   }
 }

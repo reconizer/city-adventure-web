@@ -1,0 +1,312 @@
+.adventure-structure
+  position: fixed
+  top: $top-menu-height
+  left: 0
+  bottom: 0
+  width: 30.0rem
+  background-color: $white
+  border-right: 1px solid $border-color
+  box-shadow: 0px 2px 5px -3px rgba($black, 0.7)
+  padding: 2rem 2rem
+  box-sizing: border-box
+  overflow-y: auto
+  z-index: $z-index-adventure-structure
+
+  &__header
+    height: $top-menu-height
+    background-color: $adventure-menu-background
+    position: fixed
+    top: 0
+    left: 0
+    width: 30rem
+    color: $white
+    padding: 0rem 2rem
+    box-sizing: border-box
+    font-size: 1.25rem
+    font-weight: bold
+    display: flex
+    align-items: center
+    justify-content: space-between
+
+  &__back
+    color: $white
+
+  &__title
+    color: $white
+
+  &__edit
+    flex-shrink: 0
+    cursor: pointer
+    color: $white
+    width: 2.5rem
+    height: 2.5rem
+    display: flex
+    align-items: center
+    justify-content: center
+    transition: all 0.3s ease-in-out
+    border-radius: 999em
+
+    &:hover, &:active
+      background-color: lighten($adventure-menu-background, 10%)
+
+.adventure-panel, .adventure-map
+  position: fixed
+  top: $top-menu-height
+  left: 30.0rem
+  right: 0
+  bottom: 0
+  box-sizing: border-box
+
+.adventure-panel
+  background-color: $white
+  padding: 1rem
+  z-index: $z-index-adventure-content
+
+  &--scrollable
+    overflow-y: scroll
+
+  &__inner
+    padding-bottom: 2rem
+
+  &__header
+    padding-bottom: 1rem
+    margin-bottom: 1rem
+    border-bottom: 3px solid $pink
+    font-size: 1.5rem
+    font-weight: bold
+
+  &__back
+    vertical-align: text-top
+
+  &__remove, &__submit
+    float: right
+
+.adventure-edit-map .vue-map-container
+  position: fixed !important
+
+.adventure-point-list
+  position: relative
+
+  &__line
+    background-color: $point-background
+    width: 2px
+    position: absolute
+    top: 0
+    bottom: 0rem
+    left: 1.25rem
+    z-index: $z-index-adventure-line
+
+.adventure-point-wrapper
+  & + &
+    padding-top: 1rem
+
+  &:last-child
+    padding-bottom: 1rem
+
+.adventure-point-start-wrapper
+  padding-bottom: 1rem
+
+.adventure-point-new-wrapper
+  padding-bottom: 2rem
+
+.adventure-point
+  display: flex
+  align-items: center
+
+  &__controls
+    flex: 1
+    padding: 0 1rem
+    display: none
+
+  &__control
+    & + &
+      margin-left: 0.5rem
+
+  &:hover &__controls
+    display: block
+
+  &__name
+    font-size: 1.25rem
+    border: 2px solid transparent
+
+    &--active
+      border-color: $pink
+
+.adventure-point-clues
+  min-height: 1rem
+
+.adventure-point-new-clue-separator
+  display: none
+  margin-top: 1rem
+  padding-left: 0.9375rem
+  height: 1px
+  width: 100%
+  background-color: $point-background
+
+.adventure-point-clue-wrapper, .adventure-point-new-clue
+  padding-top: 1rem
+  padding-left: 0.9375rem
+  display: flex
+  align-items: center
+
+  &--tip &__line
+    border-bottom: 2px dashed $point-background
+
+  &__dot
+    border-radius: 999em
+    background-color: $point-background
+    width: 0.75rem
+    height: 0.75rem
+    flex-shrink: 0
+
+  &__line
+    border-bottom: 2px solid $point-background
+    width: 2.5rem
+    flex-shrink: 0
+
+.adventure-point-clue
+  padding: 0.5rem 1rem
+  background-color: $clue-background
+  border-radius: 0.25rem
+  color: $black
+  box-sizing: border-box
+  transition: all 0.3s ease-in-out
+  border: 2px solid $clue-background
+  box-shadow: 0px 2px 5px -3px rgba($clue-background, 0.6)
+
+  &--active
+    border: 2px solid $pink
+    box-shadow: 0px 2px 5px -3px rgba($pink, 0.6)
+  
+  &, &:hover, &:active, &:focus
+    text-decoration: none
+  
+  &--image
+    padding: 0
+    overflow: hidden
+
+  &__thumb
+    width: 7rem
+    height: 7rem
+    position: relative
+
+    img
+      object-fit: cover
+      width: 100%
+      height: 100%
+
+  &__text
+    display: flex
+    align-items: center
+
+.google-map-controls
+  position: fixed
+  top: 4rem
+  right: 1rem
+
+  &__item
+    display: inline-block
+    & + &
+      margin-left: 1rem
+
+.puzzle-component
+  padding-top: 1rem
+
+  &__header
+    display: flex
+    align-items: center
+    border-bottom: 2px solid $clue-background
+    padding-bottom: 1rem
+    margin-bottom: 1rem
+    height: 3.125rem
+    line-height: 3.125rem
+
+  &__name
+    font-size: 1.25rem
+    font-weight: bold
+    margin-right: 1rem
+
+.puzzle-component-filler
+  min-height: 5rem
+
+  &__header
+    padding: 1.5rem 0
+
+.map-window-option
+  display: block
+  color: $black
+  cursor: pointer
+
+  &:hover
+    text-decoration: underline
+
+  & + &
+    padding-top: 0.5rem
+
+.adventure-cover
+  padding-top: 1rem
+  width: 100%
+  position: relative
+
+  img
+    object-fit: cover
+    width: 100%
+    height: 100%
+
+.adventure-promo-image
+  & + &
+    margin-top: 0.5rem
+
+  height: 0
+  position: relative
+  padding-bottom: 56.25%
+
+  img
+    position: absolute
+    left: 0
+    right: 0
+    top: 0
+    bottom: 0
+    object-fit: cover
+    width: 100%
+    height: 100%
+
+.new-adventure-form
+  &__header
+    padding-bottom: 1rem
+    margin-bottom: 1rem
+    border-bottom: 3px solid $pink
+    font-size: 1.5rem
+    font-weight: bold
+
+  &__map-controls
+    top: $top-menu-height
+    height: $top-menu-height
+    right: 0
+    width: 50%
+    position: fixed
+    padding: 0.25rem
+    background-color: $white
+    box-sizing: border-box
+    z-index: 3
+
+  &__map
+    position: fixed !important
+    right: 0
+    bottom: 0
+    top: $top-menu-height * 2
+    width: 50%
+
+  &__contents
+    position: fixed
+    width: 50%
+    bottom: 0
+    top: $top-menu-height
+    left: 0
+    background-color: $white
+    padding: 1rem
+    border-right: 1px solid $border-color
+    box-shadow: 0px 2px 5px -3px rgba($black, 0.7)
+    box-sizing: border-box
+    z-index: 4
+    overflow-y: auto
