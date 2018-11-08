@@ -8,16 +8,17 @@
       .adventure-list-item__name {{ adventure.name }}
 
     .col-1-6
-      div
-        .adventure-list-item__label Status
-        .adventure-list-item__status(:class="{'adventure-list-item__status--published': adventure.status == 'published' }") {{ adventureStatus }}
+      .adventure-list-item__label Status
+      .adventure-list-item__status(:class="{'adventure-list-item__status--published': adventure.status == 'published' }") {{ adventureStatus }}
 
     .col-1-6
-      .row.row--align-center
+      .row
         .col-1-2
           .adventure-list-item__label Rating
           span {{ adventure.rating }}
+
         .col-1-2
+          .adventure-list-item__label Visibility
           span(v-if="adventure.hidden") Hidden
           span(v-else) Public
 
