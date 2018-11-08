@@ -1,7 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import Home from '@/views/Home.vue'
+import BaseLayout from '@/views/BaseLayout.vue'
+import Adventures from '@/views/Adventures.vue'
+import AdventureCreateForm from '@/components/AdventureCreateForm'
+import Adventure from '@/components/Adventure.vue'
+import AdventureSettings from '@/components/AdventureSettings.vue'
+import AdventureClueForm from '@/components/AdventureClueForm.vue'
+import AdventurePointForm from '@/components/AdventurePointForm.vue'
 import Login from '@/views/Login.vue'
 
 Vue.use(Router)
@@ -11,10 +17,67 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      component: Home
+      component: BaseLayout,
+      children: [
+        {
+          path: '',
+          name: 'home',
+          components: {
+            default: Adventures
+          }
+        },
+        {
+          path: 'adventures/new',
+          name: 'newAdventure',
+          components: {
+            default: AdventureCreateForm
+          }
+        },
+        {
+          path: 'adventures/:adventureId',
+          components: {
+            default: Adventure
+          },
+          children: [
+            {
+              path: '',
+              name: 'adventureMap',
+            },
+            {
+              path: 'settings',
+              name: 'adventureSettings',
+              components: {
+                default: AdventureSettings
+              }
+            },
+            {
+              path: 'points/:pointId',
+              name: 'adventurePoint',
+              components: {
+                default: AdventurePointForm
+              }
+            },
+            {
+              path: 'points/:pointId/clues/new',
+              name: 'newAdventureClue',
+              components: {
+                default: AdventureClueForm
+              }
+            },
+            {
+              path: 'points/:pointId/clues/:clueId',
+              name: 'adventureClue',
+              components: {
+                default: AdventureClueForm
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       path: '/login',
+      name: 'login',
       component: Login
     },
     {

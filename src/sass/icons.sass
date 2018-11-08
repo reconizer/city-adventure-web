@@ -1,0 +1,131 @@
+.icon
+  display: inline-block
+  vertical-align: middle
+  width: 1.25rem
+  height: 1.25rem
+  background-repeat: no-repeat
+  flex-shrink: 0
+  position: relative
+
+  &--sm
+    width: 1rem
+    height: 1rem
+
+  &--sm &__tooltip-wrapper
+    left: 0.5rem
+
+  &__tooltip-wrapper
+    cursor: default
+    position: absolute
+    transform: translate(-50%, -100%)
+    top: -0.5rem
+    left: 0.625rem
+    text-align: center
+    z-index: $z-index-tooltips
+    white-space: nowrap
+    display: none
+
+    &--multiline
+      width: 10rem
+      white-space: normal
+
+    &:after
+      content: ''
+      position: absolute
+      width: 0
+      height: 0
+      border-left: 0.25rem solid transparent
+      border-right: 0.25rem solid transparent
+      border-top: 0.25rem solid $black
+      bottom: -0.25rem
+      left: 50%
+      margin-left: -0.25rem
+
+  &:hover &__tooltip-wrapper
+    display: block
+
+  &__tooltip
+    background: $black
+    border-radius: 0.25rem
+    padding: 0.25rem 0.5rem
+    color: $white
+    font-size: 0.875rem
+    font-weight: normal
+
+  &--align-start
+    align-self: flex-start
+
+  &--pad-right
+    margin-right: 0.5rem
+
+  &--pad-left
+    margin-left: 0.5rem
+
+  &--add
+    background-image: url('assets/images/icon-add.svg')
+
+  &--add-white
+    background-image: url('assets/images/icon-add-white.svg')
+
+  &--add-white
+    background-image: url('assets/images/icon-add-white.svg')
+
+  &--attachment
+    background-image: url('assets/images/icon-attachment.svg')
+
+  &--audio
+    background-image: url('assets/images/icon-audio.svg')
+
+  &--back
+    background-image: url('assets/images/icon-back.svg')
+
+  &--clock
+    background-image: url('assets/images/icon-clock.svg')
+
+  &--close
+    background-image: url('assets/images/icon-close.svg')
+
+  &--close-white
+    background-image: url('assets/images/icon-close-white.svg')
+
+  &--eye
+    background-image: url('assets/images/icon-eye.svg')
+
+  &--eye-inactive
+    background-image: url('assets/images/icon-eye-inactive.svg')
+
+  &--info
+    background-image: url('assets/images/icon-info.svg')
+
+  &--list-a
+    background-image: url('assets/images/icon-list-a.svg')
+
+  &--list-b
+    background-image: url('assets/images/icon-list-b.svg')
+
+  &--lock
+    background-image: url('assets/images/icon-lock.svg')
+
+  &--lock-white
+    background-image: url('assets/images/icon-lock-white.svg')
+
+  &--marker
+    background-image: url('assets/images/icon-marker.svg')
+
+  &--pencil
+    background-image: url('assets/images/icon-pencil.svg')
+
+  &--pencil-white
+    background-image: url('assets/images/icon-pencil-white.svg')
+
+  &--question-mark
+    background-image: url('assets/images/icon-question-mark.svg')
+
+  &--reposition
+    background-image: url('assets/images/icon-reposition.svg')
+
+  &--settings
+    background-image: url('assets/images/icon-settings.svg')
+
+  &--video
+    background-image: url('assets/images/icon-video.svg')

@@ -1,5 +1,4 @@
 .form-control
-
   +input-placeholder
     color: $border-color
     font-size: 1rem
@@ -7,6 +6,23 @@
 
   & + &
     margin-top: 1rem
+
+.form-control-separator
+  margin: 1rem 0
+  height: 2px
+  background-color: $clue-background
+  width: 100%
+  display: block
+
+.error-label
+  display: none
+  color: $red
+  font-size: 0.875rem
+  font-weight: bold
+
+.form-static-text
+  line-height: 2.1875rem
+  height: 2.1875rem
 
 .form-label
   font-size: 0.875rem
@@ -18,8 +34,12 @@
       content: '*'
       color: $red
       display: inline-block
+      margin-left: 0.5rem
 
-.form-label + .form-input
+.form-label + .form-input,
+.form-label + .v-select,
+.form-label + .form-checkbox,
+.form-label + .form-static-text
   margin-top: 0.5rem
 
 .form-input
@@ -39,3 +59,56 @@
     border-color: $blue
     box-shadow: 0px 2px 5px -3px rgba($blue, 0.6) !important
 
+textarea.form-input
+  transition-property: border-color, box-shadow
+  width: 100%
+  min-width: 100%
+  min-height: 7rem
+
+.form-checkbox
+  display: inline-block
+  vertical-align: middle
+  position: relative
+  cursor: pointer
+  width: 4rem
+  height: 2rem
+  border-radius: 999em
+  background-color: $checkbox-background
+  transition: all 0.3s ease-in-out
+
+  &--small
+    height: 1.5rem
+    width: 3rem
+
+  &--small &__toggle
+    width: 1rem
+    height: 1rem
+
+  &--small.form-checkbox--active &__toggle
+    left: 1.75rem
+
+  &__toggle
+    border-radius: 999em
+    height: 1.5rem
+    width: 1.5rem
+    position: absolute
+    top: 0.25rem
+    left: 0.25rem
+    background-color: $white
+    transition: all 0.3s ease-in-out
+
+  &--active
+    background-color: $checkbox-background-active
+
+  &--active &__toggle
+    left: 2.25rem
+
+  input
+    display: none
+
+.slider-wrapper
+  padding-top: 2rem
+
+  &--padded
+    padding-left: 1.25rem
+    padding-right: 1.25rem

@@ -7,9 +7,91 @@
   border-radius: 999em
   cursor: pointer
   transition: all 0.3s ease-in-out
+  text-decoration: none
+  font-size: 1rem
+
+  &, &:focus, &:hover, &:active
+    text-decoration: none
 
   &--full
+    text-align: center
     width: 100%
+
+  &--small
+    padding: 0.25rem 0.5rem
+    font-size: 0.875rem
+
+  &--circle
+    padding: 0
+    width: 2rem
+    height: 2rem
+    line-height: 2rem
+    text-align: center
+
+  &--large
+    padding: 0.75rem 1.5rem
+    font-size: 1.25rem
+
+  &--inactive
+    pointer-events: none
+    cursor: default
+
+  &--light-gray
+    background-color: $clue-background
+    color: $black
+    border-color: $clue-background
+    box-shadow: 0px 2px 5px -3px rgba($clue-background, 0.6)
+
+    &:hover
+      background-color: darken($clue-background, 10%)
+
+    &:active, &:focus:active
+      background-color: lighten($clue-background, 2%)
+
+  &--gray-dashed
+    background-color: transparent
+    color: $black
+    border: 2px dashed darken($clue-background, 10%)
+
+    &:hover
+      background-color: $clue-background
+
+    &:active, &:focus:active
+      background-color: lighten($clue-background, 2%)
+
+  &--gray-dashed-active
+    background-color: lighten($pink, 40%)
+    border: 2px dashed $pink
+
+    &:hover
+      background-color: lighten($pink, 40%)
+
+    &:active, &:focus:active
+      background-color: lighten($pink, 40%)
+
+  &--gray
+    background-color: $point-background
+    color: $white
+    border-color: $point-background
+    box-shadow: 0px 2px 5px -3px rgba($point-background, 0.6)
+
+    &:hover
+      background-color: darken($point-background, 10%)
+
+    &:active, &:focus:active
+      background-color: lighten($point-background, 5%)
+
+  &--pink
+    background-color: $pink
+    color: $white
+    border-color: $pink
+    box-shadow: 0px 2px 5px -3px rgba($pink, 0.6)
+
+    &:hover
+      background-color: darken($pink, 10%)
+
+    &:active, &:focus:active
+      background-color: lighten($pink, 5%)
 
   &--blue
     background-color: $blue
@@ -17,10 +99,17 @@
     border-color: $blue
     box-shadow: 0px 2px 5px -3px rgba($blue, 0.6)
 
-    &:hover, &:focus
+    &:hover
       background-color: darken($blue, 10%)
       box-shadow: none
 
     &:active, &:focus:active
       background-color: lighten($blue, 5%)
       box-shadow: none
+
+  &--disabled
+    color: $white !important
+    background-color: #ccc !important
+    border-color: #ccc !important
+    box-shadow: none !important
+    cursor: not-allowed
