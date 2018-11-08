@@ -179,8 +179,6 @@ export default {
         startingPointPosition: this.startingPointPosition
       };
 
-      console.log(params);
-
       this.$store.dispatch(`${ACTION_NAMESPACE}/${CREATE_ADVENTURE}`, { params });
     }
   }

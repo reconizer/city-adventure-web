@@ -5,6 +5,7 @@ export default (adventureId) => new Promise((resolve) => {
       name: "Sekrety Starówki",
       cover_url: "http://placehold.it/320x180",
       status: "published",
+      hidden: false,
       rating: 4.75,
       difficulty: 2,
       duration: {

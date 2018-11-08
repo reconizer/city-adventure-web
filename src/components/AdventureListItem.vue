@@ -13,9 +13,13 @@
         .adventure-list-item__status(:class="{'adventure-list-item__status--published': adventure.status == 'published' }") {{ adventureStatus }}
 
     .col-1-6
-      div
-        .adventure-list-item__label Rating
-        span {{ adventure.rating }}
+      .row.row--align-center
+        .col-1-2
+          .adventure-list-item__label Rating
+          span {{ adventure.rating }}
+        .col-1-2
+          span(v-if="adventure.hidden") Hidden
+          span(v-else) Public
 
     .col-1-6
       .text-right

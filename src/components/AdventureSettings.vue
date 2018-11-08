@@ -18,13 +18,12 @@
             textarea.form-input(placeholder="Description" v-model="adventure.description")
 
           .form-control
-            label.form-label Duration
             .row.row--align-center
               .col-2-3
-                span Specified Duration
+                span Estimated Duration
                 .icon.icon--question-mark.icon--pad-left
                   .icon__tooltip-wrapper.icon__tooltip-wrapper--multiline
-                    .icon__tooltip Only specify duration for shorter adventures which take up to few hours
+                    .icon__tooltip Only estimate duration for shorter adventures which take up to few hours
               .col-1-3
                 .form-checkbox.form-checkbox--small(:class="{ 'form-checkbox--active': specifiedDuration }" @click="updateSpecifiedDuration(!specifiedDuration)")
                   .form-checkbox__toggle
@@ -40,6 +39,17 @@
           .form-control
             label.form-label Difficulty
             v-select(placeholder="Difficulty" :clearable="false" :options="difficultyLevels" :value="difficulty" @input="changeDifficulty")
+
+          .form-control
+            .row.row--align-center
+              .col-2-3
+                span Hidden
+                .icon.icon--question-mark.icon--pad-left
+                  .icon__tooltip-wrapper.icon__tooltip-wrapper--multiline
+                    .icon__tooltip Hidden Adventures will only be accessible by secret code and not visible on the map by default
+              .col-1-3
+                .form-checkbox.form-checkbox--small(:class="{ 'form-checkbox--active': adventure.hidden }" @click="updateHidden(!adventure.hidden)")
+                  .form-checkbox__toggle
 
         .col-1-2
           .form-control
@@ -187,6 +197,10 @@ export default {
           }
         }
       }
+    },
+
+    updateHidden (value) {
+      this.adventureData.hidden = value;
     },
 
     updateList (evt) {
