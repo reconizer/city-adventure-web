@@ -382,8 +382,13 @@ export default {
       answer.details.password_type = evt.value;
 
       if(answer.details.password_type.match(/direction_lock/)) {
-        let match = answer.details.password.match
-        this.transformedPassword = "";
+        let match = this.transformedPassword.match(this.passwordPattern);
+
+        if(match) {
+          this.transformedPassword = match[0];
+        } else {
+          this.transformedPassword = "";
+        }
       } else if(answer.details.password) {
         let match = answer.details.password.match(this.passwordPattern);
 
