@@ -26,23 +26,78 @@ export const clueTypes = [
 export const passwordTypes = [
   {
     value: 'text',
-    label: 'Text'
+    label: 'Text (upto 50 characters)',
+    length: 50
   },
   {
-    value: 'numberLock',
-    label: 'Number Lock'
+    value: 'number_lock_3',
+    label: 'Number Lock (3 numbers)',
+    length: 3
   },
   {
-    value: 'cryptex',
-    label: 'Cryptex'
+    value: 'number_lock_4',
+    label: 'Number Lock (4 numbers)',
+    length: 4
   },
   {
-    value: 'directionLock',
-    label: 'Direction Lock'
+    value: 'number_lock_5',
+    label: 'Number Lock (5 numbers)',
+    length: 5
   },
   {
-    value: 'numberPushLock',
-    label: 'Number Push Lock'
+    value: 'number_lock_6',
+    label: 'Number Lock (6 numbers)',
+    length: 6
+  },
+  {
+    value: 'cryptex_lock_4',
+    label: 'Cryptex Lock (4 letters)',
+    length: 4
+  },
+  {
+    value: 'cryptex_lock_5',
+    label: 'Cryptex Lock (5 letters)',
+    length: 5
+  },
+  {
+    value: 'cryptex_lock_6',
+    label: 'Cryptex Lock (6 letters)',
+    length: 6
+  },
+  {
+    value: 'cryptex_lock_7',
+    label: 'Cryptex Lock (7 letters)',
+    length: 7
+  },
+  {
+    value: 'direction_lock_4',
+    label: 'Direction Lock (4 directions)',
+    length: 4
+  },
+  {
+    value: 'direction_lock_6',
+    label: 'Direction Lock (6 directions)',
+    length: 6
+  },
+  {
+    value: 'direction_lock_8',
+    label: 'Direction Lock (8 directions)',
+    length: 8
+  },
+  {
+    value: 'number_push_lock_6',
+    label: 'Number Push Lock (6 buttons)',
+    length: 3
+  },
+  {
+    value: 'number_push_lock_8',
+    label: 'Number Push Lock (8 buttons)',
+    length: 4
+  },
+  {
+    value: 'number_push_lock_10',
+    label: 'Number Push Lock (10 buttons)',
+    length: 5
   }
 ]
 

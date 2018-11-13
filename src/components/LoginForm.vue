@@ -40,7 +40,10 @@ export default {
   },
   methods: {
     handleSubmit () {
-      this.$store.dispatch(`${ACTION_NAMESPACE}/${LOGIN}`, this.user.email, this.user.password);
+      this.$store.dispatch(`${ACTION_NAMESPACE}/${LOGIN}`, {
+        email: this.user.email,
+        password: this.user.password
+      });
     }
   },
 }

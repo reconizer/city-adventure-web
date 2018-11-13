@@ -7,6 +7,9 @@
   & + &
     margin-top: 1rem
 
+  &--with-error .error-label
+    display: block
+
 .form-control-separator
   margin: 1rem 0
   height: 2px
@@ -39,7 +42,9 @@
 .form-label + .form-input,
 .form-label + .v-select,
 .form-label + .form-checkbox,
-.form-label + .form-static-text
+.form-label + .form-static-text,
+.form-label + .error-label,
+.error-label + .form-input
   margin-top: 0.5rem
 
 .form-input

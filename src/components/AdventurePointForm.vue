@@ -43,17 +43,26 @@
                 .form-label Password Type
                 v-select(placeholder="Password Type" :clearable="false" :value="passwordType" :options="passwordTypes" @input="updatePasswordType($event)")
 
-              .form-control(v-if="passwordAnswer.details.password_type != 'text'")
-                .form-label.form-label--required Length Variant
-                v-select(placeholder="Length Variant" :clearable="false" :options="lengthOptions" :value="passwordLength" @input="updatePasswordLength")
-
-              .form-control(v-if="passwordAnswer.details.password_type != 'directionLock'")
+              .form-control(
+                :class="{ 'form-control--with-error': passwordError || passwordAnswer.details.password.length == 0 }"
+                v-if="!this.passwordType.value.match(/direction_lock/)"
+              )
                 .form-label.form-label--required Enter password
-                input.form-input(type="text" placeholder="Password" v-model="passwordAnswer.details.password")
+                label.error-label Password Invalid
+                input.form-input(
+                  type="text"
+                  placeholder="Password"
+                  :maxlength="passwordLength"
+                  :pattern="passwordPattern.source"
+                  v-model="passwordAnswer.details.password"
+                )
 
-              .form-control(v-if="passwordAnswer.details.password_type == 'directionLock'")
-                .form-control
+              .form-control(v-if="this.passwordType.value.match(/direction_lock/)")
+                .form-control(
+                  :class="{ 'form-control--with-error': passwordError }"
+                )
                   .form-label.form-label--required Enter password by pressing buttons below
+                  .error-label Password Invalid
  
                 .form-control
                   .row
@@ -198,31 +207,50 @@ export default {
         return this.passwordTypes[0];
       }
     },
+    isDirectionPassword () {
+      let passwordType = this.passwordType;
+
+      return passwordType.value == 'direction_lock_4' ||
+        passwordType.value == 'direction_lock_6' ||
+        passwordType.value == 'direction_lock_8'
+    },
     passwordLength () {
       let answer = this.passwordAnswer;
 
-      if(answer && answer.details.password_length) {
-        return answer.details.password_length
+      if(answer && answer.details) {
+        return this.passwordType.length;
       } else {
-        return this.lengthOptions[0] || null;
+        return null;
       }
     },
+    passwordError () {
+      let answer = this.passwordAnswer;
 
-    lengthOptions () {
-      let type = this.passwordType;
+      if(answer && answer.details.password) {
+        return !answer.details.password.match(this.passwordPattern);
+      } else if( answer && answer.details.password_type.match(/direction_lock/)) {
+        return !this.transformedPassword.match(this.passwordPattern);
+      } else {
+        return false;
+      }
+    },
+    passwordPattern () {
+      let answer = this.passwordAnswer;
 
-      switch(type.value) {
-          case 'numberLock':
-            return [3, 4, 5, 6];
-          case 'cryptex':
-            return [4, 5, 6, 7];
-          case 'directionLock':
-            return [4, 5, 6, 7, 8, 9, 10];
-          case 'numberPushLock':
-            return [3, 4, 5]
-          case 'text':
-          default:
-            return [];
+      if(answer && answer.details.password_type) {
+        let type = answer.details.password_type;
+
+        if(type == 'text') {
+          return new RegExp(`.{1,${this.passwordLength}}`);
+        } else if(type.match(/number_lock/) || type.match(/number_push_lock/)) {
+          return new RegExp(`[0-9]{${this.passwordLength}}`);
+        } else if(type.match(/cryptex_lock/)) {
+          return new RegExp(`[a-zA-Z]{${this.passwordLength}}`);
+        } else if(type.match(/direction_lock/)) {
+          return new RegExp(`[←↑↓→]{${this.passwordLength}}`);
+        } else {
+          return new RegExp('.*') || "";
+        }
       }
     },
 
@@ -330,7 +358,7 @@ export default {
       let answer = this.passwordAnswer;
 
       if(!answer) {
-        this.point.answers.push({ type: 'password', details: { password_type: null, password: null, password_length: null } });
+        this.point.answers.push({ type: 'password', details: { password_type: 'text', password: "" } });
       }
     },
     
@@ -353,7 +381,18 @@ export default {
 
       answer.details.password_type = evt.value;
 
-      answer.details.password_length = this.lengthOptions[0] || null;
+      if(answer.details.password_type.match(/direction_lock/)) {
+        let match = answer.details.password.match
+        this.transformedPassword = "";
+      } else if(answer.details.password) {
+        let match = answer.details.password.match(this.passwordPattern);
+
+        if(match) {
+          answer.details.password = match[0];
+        } else {
+          answer.details.password = "";
+        }
+      }
     },
 
     updateHidden (value) {
@@ -388,16 +427,6 @@ export default {
       answer.details.duration = evt.value;
     },
 
-    updatePasswordLength (evt) {
-      if(!evt) {
-        return;
-      }
-
-      let answer = this.passwordAnswer;
-
-      answer.details.password_length = evt;
-    },
-
     encodeDirectionPassword (password) {
       let str = '';
 
@@ -409,9 +438,7 @@ export default {
     },
 
     onArrow (direction) {
-      let answer = this.passwordAnswer;
-
-      if(this.transformedPassword.length < answer.details.password_length) {
+      if(this.transformedPassword.length < this.passwordLength) {
         this.transformedPassword += charToArrowUnicode[direction];
       }
     },
