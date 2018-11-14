@@ -24,28 +24,28 @@
           .adventure-point-clue__text(v-else-if="clue.type == 'text'")
             .icon.icon--question-mark.icon--pad-right.icon--align-start
               .icon__tooltip-wrapper
-                .icon__tooltip Text Clue
+                .icon__tooltip {{ $t("adventure.text_clue") }}
 
             .adventure-point-clue__content {{ clue.description }}
 
           .adventure-point-clue__text(v-else-if="clue.type == 'audio'")
             .icon.icon--audio.icon--pad-right
               .icon__tooltip-wrapper
-                .icon__tooltip Audio Clip
+                .icon__tooltip {{ $t("adventure.audio_clue") }}
 
             .adventure-point-clue__content {{ clue.description }}
 
           .adventure-point-clue__text(v-else-if="clue.type == 'video'")
             .icon.icon--video.icon--pad-right
               .icon__tooltip-wrapper
-                .icon__tooltip Video
+                .icon__tooltip {{ $t("adventure.video_clue") }}
 
             .adventure-point-clue__content {{ clue.description }}
 
           .adventure-point-clue__text(v-else-if="clue.type == 'url'")
             .icon.icon--attachment.icon--pad-right
               .icon__tooltip-wrapper
-                .icon__tooltip External URL
+                .icon__tooltip {{ $t("adventure.url_clue") }}
 
             .adventure-point-clue__content {{ clue.url }}
 
@@ -60,7 +60,7 @@
         exact-active-class="button--gray-dashed-active"
       )
         .icon.icon--add.icon--pad-right
-        span New clue
+        span {{ $t("adventure.new_clue") }}
 </template>
 
 <script>

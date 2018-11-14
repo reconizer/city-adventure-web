@@ -3,7 +3,10 @@
     .account-settings
       .row
         .col-1-2
-          h1 Test
+          h1 Locale Test
+          button(@click="setLocale('pl')") PL
+          button(@click="setLocale('en')") EN
+
 </template>
 
 <script>
@@ -15,6 +18,11 @@ export default {
   name: 'AccountSettings',
   computed: mapState({
     user: state => state.authentication.user
-  })
+  }),
+  methods: {
+    setLocale (locale) {
+      this.$i18n.locale = locale;
+    }
+  }
 }
 </script>

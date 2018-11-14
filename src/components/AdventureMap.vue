@@ -14,15 +14,15 @@
         :opened="addPointWindowOpened"
         @closeclick="closeAddPointWindow"
       )
-        a.map-window-option(@click="createPointFromDialog") Create new Puzzle
+        a.map-window-option(@click="createPointFromDialog") {{ $t("adventure.add_new_puzzle") }}
 
       gmap-info-window(
         :position="pointOptionsWindowPosition"
         :opened="pointOptionsWindowOpened"
         @closeclick="closePointOptionsWindow"
       )
-        a.map-window-option(@click="editPointFromDialog") Edit Puzzle
-        a.map-window-option(@click="removePointFromDialog") Remove Puzzle
+        a.map-window-option(@click="editPointFromDialog") {{ $t("adventure.edit_puzzle") }}
+        a.map-window-option(@click="removePointFromDialog") {{ $t("adventure.remove_puzzle") }}
 
       AdventureMapPoint(
         :key="point.id"
@@ -37,7 +37,7 @@
           @click="locatePoints()"
         )
           .icon.icon--reposition.icon--pad-right
-          span Reposition
+          span {{ $t("adventure.reposition") }}
 </template>
 
 <script>
@@ -161,7 +161,7 @@ export default {
 
       this.pointOptionsWindowOpened = false;
 
-      if(confirm("Are you sure you want to remove this puzzle? It will also remove all clues attached to it")) {
+      if(confirm(this.$t("adventure.remove_puzzle_confirm"))) {
         this.$store.dispatch(`${ACTION_NAMESPACE}/${DESTROY_POINT}`, { pointId: this.currentPoint.id });
       }
     },

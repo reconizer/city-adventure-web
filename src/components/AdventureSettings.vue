@@ -3,27 +3,27 @@
     .adventure-panel__inner(v-if="adventure.id")
       .adventure-panel__header
         router-link.icon.icon--back.icon--pad-right.adventure-panel__back(:to="{ name: 'adventureMap', params: { adventureId: adventure.id } }")
-        span Edit Adventure 
+        span {{ $t('adventure.edit_adventure') }}
 
-        a.button.button--blue.adventure-panel__submit(@click="submit()") Submit
+        a.button.button--blue.adventure-panel__submit(@click="submit()") {{ $t('general.submit') }}
 
       .row
         .col-1-2
           .form-control
-            label.form-label.form-label--required Name
-            input.form-input(type="text" placeholder="Name" v-model="adventure.name")
+            label.form-label.form-label--required {{ $t('general.name') }}
+            input.form-input(type="text" :placeholder="$t('general.name')" v-model="adventure.name")
 
           .form-control
-            label.form-label.form-label--required Description
-            textarea.form-input(placeholder="Description" v-model="adventure.description")
+            label.form-label.form-label--required {{ $t("general.description") }}
+            textarea.form-input(:placeholder="$t('general.description')" v-model="adventure.description")
 
           .form-control
             .row.row--align-center
               .col-2-3
-                span Estimated Duration
+                span {{ $t("adventure.estimated_duration") }}
                 .icon.icon--question-mark.icon--pad-left
                   .icon__tooltip-wrapper.icon__tooltip-wrapper--multiline
-                    .icon__tooltip Only estimate duration for shorter adventures which take up to few hours
+                    .icon__tooltip {{ $t("adventure.estimated_duration_explanation") }}
               .col-1-3
                 .form-checkbox.form-checkbox--small(:class="{ 'form-checkbox--active': specifiedDuration }" @click="updateSpecifiedDuration(!specifiedDuration)")
                   .form-checkbox__toggle
@@ -37,30 +37,30 @@
               )
 
           .form-control
-            label.form-label Difficulty
-            v-select(placeholder="Difficulty" :clearable="false" :options="difficultyLevels" :value="difficulty" @input="changeDifficulty")
+            label.form-label {{ $t("adventure.difficulty") }}
+            v-select(:placeholder="$t('adventure.difficulty')" :clearable="false" :options="difficultyLevels" :value="difficulty" @input="changeDifficulty")
 
           .form-control
             .row.row--align-center
               .col-2-3
-                span Hidden
+                span {{ $t("adventure.adventure_hidden") }}
                 .icon.icon--question-mark.icon--pad-left
                   .icon__tooltip-wrapper.icon__tooltip-wrapper--multiline
-                    .icon__tooltip Hidden Adventures will only be accessible by secret code and not visible on the map by default
+                    .icon__tooltip {{ $t("adventure.adventure_hidden_explanation") }}
               .col-1-3
                 .form-checkbox.form-checkbox--small(:class="{ 'form-checkbox--active': adventure.hidden }" @click="updateHidden(!adventure.hidden)")
                   .form-checkbox__toggle
 
         .col-1-2
           .form-control
-            label.form-label.form-label--required Cover Image
-            input.form-input(type="text" placeholder="Cover Image URL" v-model="adventure.cover_url")
+            label.form-label.form-label--required {{ $t("adventure.cover_image") }}
+            input.form-input(type="text" :placeholder="$t('adventure.cover_image')" v-model="adventure.cover_url")
 
             .adventure-cover
               img(:src="adventure.cover_url")
 
           .form-control
-            label.form-label Promo Images
+            label.form-label {{ $t("adventure.promo_images") }}
 
           .form-control
             draggable(
@@ -156,7 +156,12 @@ export default {
       return this.difficultyLevels.find(level => level.value == this.adventure.difficulty);
     },
     difficultyLevels () {
-      return DIFFICULTY_LEVELS;
+      return DIFFICULTY_LEVELS.map(level => {
+        return {
+          value: level,
+          label: this.$t(`adventure.difficulty_${level}`)
+        }
+      });
     }
   },
   methods: {

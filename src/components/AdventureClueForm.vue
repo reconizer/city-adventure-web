@@ -3,41 +3,41 @@
     .adventure-panel__inner(v-if="adventure.id")
       .adventure-panel__header
         router-link.icon.icon--back.icon--pad-right.adventure-panel__back(:to="{ name: 'adventureMap', params: { adventureId: adventure.id } }")
-        span(v-if="existingClue") Edit Clue
-        span(v-else) New Clue
+        span(v-if="existingClue") {{ $t("clue.edit") }}
+        span(v-else) {{ $t("clue.new") }}
 
-        a.button.button--pink.adventure-panel__remove(v-if="existingClue" @click="destroyClue()") Remove
+        a.button.button--pink.adventure-panel__remove(v-if="existingClue" @click="destroyClue()") {{ $t("general.remove") }}
 
       .row
         .col-1-2
           .form-control
-            .form-label Clue Type
-            v-select(placeholder="Clue Type" :clearable="false" :value="clueType" :options="clueTypes" @input="updateType($event)")
+            .form-label {{ $t("clue.type") }}
+            v-select(:placeholder="$t('clue.type')" :clearable="false" :value="clueType" :options="clueTypes" @input="updateType($event)")
 
           .form-control
             .row.row--align-center
               .col-1-2
                 label.form-label
-                  span Is a Tip?
+                  span {{ $t("clue.is_tip") }}
                   .icon.icon--question-mark.icon--pad-left
                     .icon__tooltip-wrapper
-                      .icon__tooltip Tips are optional, on-demand clues
+                      .icon__tooltip {{ $t("clue.is_tip_explanation") }}
               .col-1-2
                 .form-checkbox.form-checkbox--small(:class="{ 'form-checkbox--active': clue.tip }" @click="updateTip(!clue.tip)")
                   .form-checkbox__toggle
 
           .form-control(v-if="clue.type != 'image'")
-            .form-label.form-label--required(v-if="clue.type == 'text'") Content
-            .form-label(v-else) Description
+            .form-label.form-label--required(v-if="clue.type == 'text'") {{ $t("clue.content") }}
+            .form-label(v-else) {{ $t("general.description") }}
             textarea.form-input(v-model="clue.description")
 
           //TODO file upload
           .form-control(v-if="clue.type != 'text'")
-            .form-label.form-label--required URL
+            .form-label.form-label--required {{ $t("clue.url") }}
             input.form-input(v-model="clue.url")
 
           .form-control
-            a.button.button--blue.button--large.button--full(@click="submit()") Submit
+            a.button.button--blue.button--large.button--full(@click="submit()") {{ $t("general.submit") }}
 </template>
 
 <script>
@@ -78,7 +78,13 @@ export default {
       error: state => state.adventure.error
     }),
     clueTypes() {
-      return clueTypes;
+      return clueTypes.map(type => {
+
+        return {
+          value: type,
+          label: this.$t(`clue_type.${type}`)
+        }
+      });
     },
     clue () {
       let point = this.$store.state.adventure.points.find(point => point.id == this.$route.params.pointId);
@@ -138,7 +144,7 @@ export default {
 
     destroyClue () {
       if(this.clue.id) {
-        if(confirm("Are you sure you want to remove this clue?")) {
+        if(confirm(this.$t("clue.remove_confirm"))) {
           this.$store.dispatch(`${ACTION_NAMESPACE}/${DESTROY_CLUE}`, {
             pointId: this.$route.params.pointId,
             clueId: this.clue.id

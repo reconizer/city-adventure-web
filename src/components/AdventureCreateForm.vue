@@ -3,24 +3,21 @@
     .new-adventure-form__contents
       .new-adventure-form__header
         router-link.icon.icon--back.icon--pad-right.adventure-panel__back(:to="{ name: 'home' }")
-        span Create New Adventure
+        span {{ $t("adventures.create_new_adventure") }}
 
       .form-control
-        label.form-label.form-label--required Name
-        input.form-input(type="text" placeholder="Name" v-model="adventure.name")
+        label.form-label.form-label--required {{ $t("general.name") }}
+        input.form-input(type="text" :placeholder="$t('general.name')" v-model="adventure.name")
 
       .form-control
-        label.form-label Description
-        textarea.form-input(type="text" placeholder="Name" v-model="adventure.description")
-
-      .form-control
-        a.button.button--blue.button--full(@click="submit") Submit
+        a.button.button--blue.button--full(@click="submit") {{ $t("general.submit") }}
 
     .new-adventure-form__map-controls
       .row
         .col-1
           gmap-autocomplete(
             class="form-input"
+            :placeholder="$t('adventures.set_place')"
             @place_changed="setPlace"
           )
 
@@ -37,14 +34,14 @@
         :opened="addPointOpened"
         @closeclick="closeDialog"
       )
-        a.map-window-option(@click="createPoint") Set starting point here
+        a.map-window-option(@click="createPoint") {{ $t("adventures.set_starting_point") }}
 
       gmap-info-window(
         :position="dialogPosition"
         :opened="movePointOpened"
         @closeclick="closeDialog"
       )
-        a.map-window-option(@click="movePoint") Move starting point here
+        a.map-window-option(@click="movePoint") {{ $t("adventures.move_starting_point") }}
 
       gmap-marker(
         v-if="startingPointSet"
@@ -72,7 +69,6 @@ export default {
     return {
       adventure: {
         name: null,
-        description: null,
       },
       zoom: 17,
       center: { lat: 0, lng: 0 },

@@ -3,25 +3,25 @@
     .adventure-panel__inner(v-if="point.id")
       .adventure-panel__header
         router-link.icon.icon--back.icon--pad-right.adventure-panel__back(:to="{ name: 'adventureMap', params: { adventureId: adventure.id } }")
-        span(v-if="puzzleIndex == 0") Edit Starting Point
-        span(v-else) Edit Puzzle 
-        span(v-if="puzzleIndex > 0") \#{{ puzzleIndex }}
+        span(v-if="puzzleIndex == 0") {{ $t("adventure_point.edit_start") }}
+        span(v-else) {{ $t("adventure_point.edit") }}
+        span(v-if="puzzleIndex > 0") &nbsp;\#{{ puzzleIndex }}
 
-        a.button.button--pink.adventure-panel__remove(v-if="puzzleIndex > 0" @click="destroyPuzzle()") Remove
+        a.button.button--pink.adventure-panel__remove(v-if="puzzleIndex > 0" @click="destroyPuzzle()") {{ $t("general.remove") }}
 
       .row(v-if="puzzleIndex == 0")
         .col-1-2
           .puzzle-component
             .puzzle-component__header
-              .puzzle-component__name Location
+              .puzzle-component__name {{ $t("adventure_point.location") }}
 
             .form-control
               label.form-label.form-label--required
-                span Radius (in meters)
+                span {{ $t("adventure_point.radius") }}
 
                 .icon.icon--question-mark.icon--pad-left
                   .icon__tooltip-wrapper
-                    .icon__tooltip Range in which player can access the puzzle
+                    .icon__tooltip {{ $t("adventure_point.radius_explanation") }}
 
               .slider-wrapper
                 vue-slider(
@@ -33,22 +33,22 @@
         .col-1-2
           .puzzle-component
             .puzzle-component__header
-              .puzzle-component__name Password Required
+              .puzzle-component__name {{ $t("adventure_point.password_required") }}
 
               .form-checkbox(:class="{ 'form-checkbox--active': passwordRequired }" @click="togglePasswordRequired")
                 .form-checkbox__toggle
 
             div(v-if="passwordRequired")
               .form-control
-                .form-label Password Type
-                v-select(placeholder="Password Type" :clearable="false" :value="passwordType" :options="passwordTypes" @input="updatePasswordType($event)")
+                .form-label {{ $t("adventure_point.password_type") }}
+                v-select(:placeholder="$t('adventure_point.password_type')" :clearable="false" :value="passwordType" :options="passwordTypes" @input="updatePasswordType($event)")
 
               .form-control(
                 :class="{ 'form-control--with-error': passwordError || passwordAnswer.details.password.length == 0 }"
                 v-if="!this.passwordType.value.match(/direction_lock/)"
               )
-                .form-label.form-label--required Enter password
-                label.error-label Password Invalid
+                .form-label.form-label--required {{ $t("adventure_point.enter_password") }}
+                label.error-label {{ $t("adventure_point.password_invalid") }}
                 input.form-input(
                   type="text"
                   placeholder="Password"
@@ -61,8 +61,8 @@
                 .form-control(
                   :class="{ 'form-control--with-error': passwordError }"
                 )
-                  .form-label.form-label--required Enter password by pressing buttons below
-                  .error-label Password Invalid
+                  .form-label.form-label--required {{ $t("adventure_point.password_by_buttons") }}
+                  .error-label {{ $t("adventure_point.password_invalid") }}
  
                 .form-control
                   .row
@@ -73,17 +73,17 @@
                       a.button.button--circle.button--blue(@click="onArrow('r')") →
 
                     .col-1-2.text-right
-                      a.button.button--pink(@click="clearArrows()") Clear
+                      a.button.button--pink(@click="clearArrows()") {{ $t("adventure_point.password_clear") }}
 
                 .form-control
-                  span Password: {{ transformedPassword }}
+                  span {{ $t("adventure_point.transformed_password", { password: transformedPassword }) }}
 
             .puzzle-component-filler(v-else)
-              .puzzle-component-filler__header No password is required to complete this puzzle
+              .puzzle-component-filler__header {{ $t("adventure_point.no_password_required") }}
 
           .puzzle-component
             .puzzle-component__header
-              .puzzle-component__name Time Constraint
+              .puzzle-component__name {{ $t("adventure_point.time_constraint") }}
 
               .form-checkbox(:class="{ 'form-checkbox--active': timeConstraint }" @click="toggleTimeConstraint")
                 .form-checkbox__toggle
@@ -92,41 +92,41 @@
               .row
                 .col-1-2
                   .form-control
-                    .form-label Start Time
-                    v-select(placeholder="Start Time" :clearable="false" :value="startingTime" :options="timeOptions" @input="updateStartingTime($event)")
+                    .form-label {{ $t("adventure_point.start_time") }}
+                    v-select(:placeholder="$t('adventure_point.start_time')" :clearable="false" :value="startingTime" :options="timeOptions" @input="updateStartingTime($event)")
 
                   .form-control
-                    .form-label Duration (hours:minutes)
-                    v-select(placeholder="Duration" :clearable="false" :value="duration" :options="durationOptions" @input="updateDuration($event)")
+                    .form-label {{ $t("adventure_point.duration") }}
+                    v-select(:placeholder="$t('adventure_point.duration')" :clearable="false" :value="duration" :options="durationOptions" @input="updateDuration($event)")
 
                 .col-1-2
                   .form-control
-                    .form-label End Time
+                    .form-label {{ $t("adventure_point.end_time") }}
                     .form-static-text {{ endingTime }}
 
             .puzzle-component-filler(v-else)
-              .puzzle-component-filler__header There is no time constraint to complete this puzzle
+              .puzzle-component-filler__header {{ $t("adventure_point.no_time_constraint") }}
 
         .col-1-2
           .puzzle-component
             .puzzle-component__header
-              .puzzle-component__name Location
+              .puzzle-component__name {{ $t("adventure_point.location") }}
 
             .form-control
               .row.row--align-center
                 .col-2-3
-                  span Location Hidden?
+                  span {{ $t("adventure_point.location_hidden") }}
                 .col-1-3
                   .form-checkbox.form-checkbox--small(:class="{ 'form-checkbox--active': point.hidden }" @click="updateHidden(!point.hidden)")
                     .form-checkbox__toggle
 
             .form-control
               label.form-label.form-label--required
-                span Radius (in meters)
+                span {{ $t("adventure_point.radius") }}
 
                 .icon.icon--question-mark.icon--pad-left
                   .icon__tooltip-wrapper
-                    .icon__tooltip Range in which player can access the puzzle
+                    .icon__tooltip {{ $t("adventure_point.radius_explanation") }}
 
               .slider-wrapper
                 vue-slider(
@@ -138,7 +138,7 @@
       .row
         .col-1-2
           .form-control
-            a.button.button--blue.button--large.button--full(@click="submit") Submit
+            a.button.button--blue.button--large.button--full(@click="submit") {{ $t("general.submit") }}
 </template>
 
 <script>
@@ -196,7 +196,11 @@ export default {
     },
 
     passwordTypes () {
-      return passwordTypes;
+      return passwordTypes.map(type => {
+        type.label = this.$t(`password_type.${type.value}`);
+
+        return type;
+      });
     },
     passwordType () {
       let answer = this.passwordAnswer;
@@ -463,7 +467,7 @@ export default {
     },
 
     destroyPuzzle () {
-      if(confirm("Are you sure you want to remove this puzzle? It will also remove all clues attached to it")) {
+      if(confirm(this.$t("adventure.remove_puzzle_confirm"))) {
         this.$store.dispatch(`${ACTION_NAMESPACE}/${DESTROY_POINT}`, { pointId: this.pointData.id });
       }
     },
@@ -479,7 +483,7 @@ export default {
           params.answers.splice(answerIndex, 1);
         }
       } else if(answerIndex >= 0) {
-        if(params.answers[answerIndex].details.password_type == 'directionLock') {
+        if(params.answers[answerIndex].details.password_type.match(/direction_lock/)) {
           params.answers[answerIndex].details.password = this.encodeDirectionPassword(this.transformedPassword);
         }
       }
