@@ -38,6 +38,18 @@
         )
           .icon.icon--reposition.icon--pad-right
           span {{ $t("adventure.reposition") }}
+
+      .google-map-controls__item
+        .button.button--blue(
+          @click="showHelpModal"
+        )
+          .icon.icon--question-mark-white.icon--pad-right
+          span {{ $t("adventure.help") }}
+
+    Modal(v-if="showHelp" @close="closeHelpModal")
+      div(slot="header") Map Controls
+
+      div Lorem ipsum
 </template>
 
 <script>
@@ -45,6 +57,7 @@ import { mapState } from 'vuex';
 
 import { CREATE_POINT, DESTROY_POINT } from '@/store/action-types';
 
+import Modal from '@/components/Modal.vue'
 import AdventureMapPoint from '@/components/AdventureMapPoint.vue';
 
 const ACTION_NAMESPACE = 'adventure';
@@ -52,7 +65,8 @@ const ACTION_NAMESPACE = 'adventure';
 export default {
   name: "AdventureMap",
   components: {
-    AdventureMapPoint
+    AdventureMapPoint,
+    Modal
   },
   data() {
     return {
@@ -65,7 +79,9 @@ export default {
 
       pointOptionsWindowPosition: { lat: 0, lng: 0 },
       pointOptionsWindowOpened: false,
-      currentPoint: null
+      currentPoint: null,
+
+      showHelp: false
     };
   },
   computed: {
@@ -111,7 +127,16 @@ export default {
 
     this.$refs.googleMap.$mapPromise.then(() => {
       this.mapLoaded = true;
+
+      console.log('yeh');
+
+      let mapHelpShown = localStorage.getItem('mapHelpShown');
+
+      if(!mapHelpShown) {
+        this.showHelpModal();
+      }
     });
+
   },
   methods: {
     centerCamera ( { lat, lng }) {
@@ -207,6 +232,16 @@ export default {
       });
 
       this.addPointWindowOpened = false;
+    },
+
+    showHelpModal () {
+      this.showHelp = true;
+    },
+
+    closeHelpModal () {
+      this.showHelp = false;
+
+      localStorage.setItem('mapHelpShown', true);
     }
   }
 }

@@ -44,6 +44,7 @@ export default {
 
     start: "Start",
     reposition: "Znajdź punkty", //TODO shitty text
+    help: "Pomoc",
 
     add_new_puzzle: "Dodaj nowy punkt",
     edit_puzzle: "Edytuj punkt",

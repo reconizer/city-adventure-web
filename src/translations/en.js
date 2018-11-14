@@ -42,6 +42,7 @@ export default {
 
     start: "Start",
     reposition: "Reposition",
+    help: "Help",
 
     add_new_puzzle: "Create new Puzzle",
     edit_puzzle: "Edit Puzzle",
