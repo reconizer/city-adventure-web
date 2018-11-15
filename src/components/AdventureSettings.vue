@@ -115,6 +115,10 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      loading: state => state.adventures.loading,
+      error: state => state.adventure.error
+    }),
     adventure () {
       let adventure = this.$store.state.adventure.item;
 

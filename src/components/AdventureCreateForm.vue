@@ -12,15 +12,6 @@
       .form-control
         a.button.button--blue.button--full(@click="submit") {{ $t("general.submit") }}
 
-    .new-adventure-form__map-controls
-      .row
-        .col-1
-          gmap-autocomplete(
-            class="form-input"
-            :placeholder="$t('adventures.set_place')"
-            @place_changed="setPlace"
-          )
-
     gmap-map(
       class="new-adventure-form__map"
       :center="center",
@@ -28,6 +19,7 @@
       :options="options"
       @click="closeDialog"
       @rightclick="startingPointDialog"
+      ref="googleMap"
     )
       gmap-info-window(
         :position="dialogPosition"
@@ -52,6 +44,31 @@
         @drag="updatePosition($event.latLng)"
         @dragend="updatePosition($event.latLng)"
       )
+
+    .google-map-controls
+      .google-map-controls__item
+        gmap-autocomplete(
+          class="form-input form-input--google"
+          :placeholder="$t('adventures.set_place')"
+          @place_changed="setPlace"
+        )
+
+      .google-map-controls__item
+        .button.button--blue(
+          @click="showHelpModal"
+        )
+          .icon.icon--question-mark-white.icon--pad-right
+          span {{ $t("adventure.help") }}
+
+    Modal(v-if="showHelp" @close="closeHelpModal")
+      div(slot="header") {{ $t("adventures.new_adventure_help_header") }}
+
+      p {{ $t("adventures.new_adventure_help_content_1") }}
+
+      p {{ $t("adventures.new_adventure_help_content_2") }}
+
+      .text-center
+        a.button.button--blue(@click="closeHelpModal") {{ $t("adventures.new_adventure_help_confirm") }}
 </template>
 
 <script>
@@ -61,10 +78,15 @@ import startMarker from '@/assets/images/marker_start.png'
 
 import { CREATE_ADVENTURE } from '@/store/action-types'
 
+import Modal from '@/components/Modal.vue'
+
 const ACTION_NAMESPACE = 'adventures';
 
 export default {
   name: 'AdventureCreateForm',
+  components: {
+    Modal,
+  },
   data () {
     return {
       adventure: {
@@ -78,7 +100,9 @@ export default {
 
       dialogPosition: { lat: 0, lng: 0 },
       addPointOpened: false,
-      movePointOpened: false
+      movePointOpened: false,
+
+      showHelp: false
     }
   },
   computed: {
@@ -110,6 +134,12 @@ export default {
   },
   mounted () {
     this.geolocate();
+
+    let mapHelpShown = localStorage.getItem('createAdventureMapHelpShown');
+
+    if(!mapHelpShown) {
+      this.showHelpModal();
+    }
   },
   methods: {
     closeDialog () {
@@ -129,6 +159,10 @@ export default {
         lat: place.geometry.location.lat(),
         lng: place.geometry.location.lng()
       };
+
+      if(this.$refs.googleMap) {
+        this.$refs.googleMap.$mapObject.setCenter(this.center);
+      }
     },
 
     startingPointDialog (evt) {
@@ -176,6 +210,16 @@ export default {
       };
 
       this.$store.dispatch(`${ACTION_NAMESPACE}/${CREATE_ADVENTURE}`, { params });
+    },
+
+    showHelpModal () {
+      this.showHelp = true;
+    },
+
+    closeHelpModal () {
+      this.showHelp = false;
+
+      localStorage.setItem('createAdventureMapHelpShown', true);
     }
   }
 }

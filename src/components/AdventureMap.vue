@@ -33,6 +33,13 @@
 
     .google-map-controls(v-if="mapLoaded")
       .google-map-controls__item
+        gmap-autocomplete(
+          class="form-input form-input--google"
+          :placeholder="$t('adventures.set_place')"
+          @place_changed="setPlace"
+        )
+
+      .google-map-controls__item
         .button.button--blue(
           @click="locatePoints()"
         )
@@ -157,6 +164,12 @@ export default {
       if(this.$refs.googleMap && this.mapLoaded) {
         this.$refs.googleMap.$mapObject.setCenter(this.center);
       }
+    },
+    setPlace (place) {
+      this.centerCamera({
+        lat: place.geometry.location.lat(),
+        lng: place.geometry.location.lng()
+      });
     },
     geolocate () {
       navigator.geolocation.getCurrentPosition(position => {

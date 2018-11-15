@@ -81,31 +81,6 @@
             .puzzle-component-filler(v-else)
               .puzzle-component-filler__header {{ $t("adventure_point.no_password_required") }}
 
-          .puzzle-component
-            .puzzle-component__header
-              .puzzle-component__name {{ $t("adventure_point.time_constraint") }}
-
-              .form-checkbox(:class="{ 'form-checkbox--active': timeConstraint }" @click="toggleTimeConstraint")
-                .form-checkbox__toggle
-
-            .form-control(v-if="timeConstraint")
-              .row
-                .col-1-2
-                  .form-control
-                    .form-label {{ $t("adventure_point.start_time") }}
-                    v-select(:placeholder="$t('adventure_point.start_time')" :clearable="false" :value="startingTime" :options="timeOptions" @input="updateStartingTime($event)")
-
-                  .form-control
-                    .form-label {{ $t("adventure_point.duration") }}
-                    v-select(:placeholder="$t('adventure_point.duration')" :clearable="false" :value="duration" :options="durationOptions" @input="updateDuration($event)")
-
-                .col-1-2
-                  .form-control
-                    .form-label {{ $t("adventure_point.end_time") }}
-                    .form-static-text {{ endingTime }}
-
-            .puzzle-component-filler(v-else)
-              .puzzle-component-filler__header {{ $t("adventure_point.no_time_constraint") }}
 
         .col-1-2
           .puzzle-component
@@ -133,6 +108,36 @@
                   v-model="point.radius"
                   v-bind="sliderOptions"
                 )
+
+        .col-1
+          .puzzle-component
+            .puzzle-component__header
+              .puzzle-component__name {{ $t("adventure_point.time_constraint") }}
+
+              .form-checkbox(:class="{ 'form-checkbox--active': timeConstraint }" @click="toggleTimeConstraint")
+                .form-checkbox__toggle
+
+            .row(v-if="timeConstraint")
+              .col-1-2
+                .form-control
+                  .form-label {{ $t("adventure_point.start_time") }}
+                  .slider-wrapper.slider-wrapper--padded
+                    vue-slider(
+                      v-model="timeAnswer.details.starting_time"
+                      v-bind="startingTimeSliderOptions"
+                    )
+
+              .col-1-2
+                .form-control
+                  .form-label {{ $t("adventure_point.end_time") }}
+                  .slider-wrapper.slider-wrapper--padded
+                    vue-slider(
+                      v-model="timeAnswer.details.duration"
+                      v-bind="durationSliderOptions"
+                    )
+
+            .puzzle-component-filler(v-else)
+              .puzzle-component-filler__header {{ $t("adventure_point.no_time_constraint") }}
 
       .form-control-separator
       .row
@@ -283,7 +288,7 @@ export default {
           //eslint-disable-next-line
           this.passwordRequired = true;
 
-          if(passwordAnswer.details.password_type == 'directionLock') {
+          if(passwordAnswer.details.password_type.match(/direction_lock/)) {
             //eslint-disable-next-line
             this.transformedPassword = this.decodeDirectionPassword(passwordAnswer.details.password);
           }
@@ -295,65 +300,41 @@ export default {
 
       return this.pointData;
     },
-    startingTime () {
-      let answer = this.timeAnswer;
 
-      if(answer && answer.details.starting_time) {
-        return this.timeOptions.find(option => option.value == answer.details.starting_time);
-      } else {
-        return this.timeOptions[0];
-      }
-    },
+    startingTimeSliderOptions () {
+      return {
+        min: 0,
+        max: 24 * 60 * 60 - TIME_CONSTRAINT_OPTIONS.INTERVAL,
+        interval: TIME_CONSTRAINT_OPTIONS.INTERVAL,
+        formatter: (value) => {
+          let hour = Math.floor(value / 3600) % 24;
+          let minutes = (value % 3600) / TIME_CONSTRAINT_OPTIONS.INTERVAL * (TIME_CONSTRAINT_OPTIONS.INTERVAL / 60);
 
-    endingTime () {
-      let start = this.startingTime.value;
-
-      let endingTime = start + this.duration.value;
-
-      let hour = Math.floor(endingTime / 3600);
-      let minutes = (endingTime % 3600) / TIME_CONSTRAINT_OPTIONS.INTERVAL * (TIME_CONSTRAINT_OPTIONS.INTERVAL / 60);
-
-      if(hour >= 24) {
-        hour -= 24;
-
-        if(minutes == 0) {
           return `${pad(hour, 2)}:${pad(minutes, 2)}`;
-        } else {
-          return `Next day on ${pad(hour, 2)}:${pad(minutes, 2)}`;
         }
-      } else {
-        return `${pad(hour, 2)}:${pad(minutes, 2)}`;
       }
     },
 
-    timeOptions () {
-      let options = 24*(60*60/TIME_CONSTRAINT_OPTIONS.INTERVAL);
+    durationSliderOptions () {
+      return {
+        min: TIME_CONSTRAINT_OPTIONS.INTERVAL,
+        max: 24 * 60 * 60 - TIME_CONSTRAINT_OPTIONS.INTERVAL,
+        interval: TIME_CONSTRAINT_OPTIONS.INTERVAL,
+        formatter: (value) => {
+          let current = this.timeAnswer.details.starting_time + value;
 
-      let optionsMap = [...Array(options)].map((_, i) => {
-        let current = i * TIME_CONSTRAINT_OPTIONS.INTERVAL;
+          let hour = Math.floor(current / 3600) % 24;
+          let minutes = (current % 3600) / TIME_CONSTRAINT_OPTIONS.INTERVAL * (TIME_CONSTRAINT_OPTIONS.INTERVAL / 60);
 
-        let hour = Math.floor(current / 3600);
-        let minutes = (current % 3600) / TIME_CONSTRAINT_OPTIONS.INTERVAL * (TIME_CONSTRAINT_OPTIONS.INTERVAL / 60);
-
-        return {
-          value: current,
-          label: `${pad(hour, 2)}:${pad(minutes, 2)}`
-        };
-      });
-
-      return optionsMap;
-    },
-
-    durationOptions () {
-      return this.timeOptions.filter(item => 0 < item.value && item.value <= 23*60*60);
-    },
-    duration () {
-      let answer = this.timeAnswer;
-
-      if (answer && answer.details.duration) {
-        return this.durationOptions.find(option => option.value == answer.details.duration);
-      } else {
-        return this.durationOptions[0];
+          return `${pad(hour, 2)}:${pad(minutes, 2)}`;
+        }
+      }
+    }
+  },
+  mounted () {
+    if(this.adventure.id && !this.loading) {
+      if(!this.point.id) {
+        this.$router.push({ name: 'adventureMap', params: { adventureId: this.adventure.id } });
       }
     }
   },
@@ -374,7 +355,7 @@ export default {
       let answer = this.timeAnswer;
 
       if(!answer) {
-        this.point.answers.push({ type: 'time', details: { starting_time: null, duration: null } });
+        this.point.answers.push({ type: 'time', details: { starting_time: 0, duration: TIME_CONSTRAINT_OPTIONS.INTERVAL } });
       }
     },
 
@@ -392,26 +373,29 @@ export default {
 
       // Handle direction lock separately
       if(currentType.match(/direction_lock/)) {
-        // If it has same family type
+        // If it has same family type just trim it to proper length
         if(currentType.replace(/\d/, '') == previousType.replace(/\d/, '')) {
-          // Just trim it to proper length
           this.transformedPassword = this.transformedPassword.substr(0, evt.length);
         } else {
           this.transformedPassword = "";
         }
       } else if(answer.details.password) {
-        // If it has same family type
+        // If it has same family type just trim it to proper length
         if(currentType.replace(/\d/, '') == previousType.replace(/\d/, '')) {
-          // Just trim it to proper length
           answer.details.password = answer.details.password.substr(0, evt.length);
         } else {
-          // Try to infer password from exisiting one
-          let match = answer.details.password.match(this.passwordPattern);
-
-          if(match) {
-            answer.details.password = match[0];
-          } else {
+          // In case of coming back from direction lock type - clear the password to avoid 'lrdu' passwords presented
+          if(previousType.match(/direction_lock/)) {
             answer.details.password = "";
+          } else {
+            // Try to infer password from exisiting one
+            let match = answer.details.password.match(this.passwordPattern);
+
+            if(match) {
+              answer.details.password = match[0];
+            } else {
+              answer.details.password = "";
+            }
           }
         }
       }
@@ -437,16 +421,6 @@ export default {
       let answer = this.timeAnswer;
 
       answer.details.starting_time = evt.value;
-    },
-
-    updateDuration (evt) {
-      if(!evt) {
-        return;
-      }
-
-      let answer = this.timeAnswer;
-
-      answer.details.duration = evt.value;
     },
 
     encodeDirectionPassword (password) {

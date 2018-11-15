@@ -29,7 +29,12 @@ export default {
 
     set_starting_point: "Ustaw punkt startowy w tym miejscu",
     move_starting_point: "Przenieś punkt startowy w to miejsce",
-    create_new_adventure: "Stwórz Nową Przygodę"
+    create_new_adventure: "Stwórz Nową Przygodę",
+
+    new_adventure_help_header: "Interfejs Mapy",
+    new_adventure_help_content_1: "Kliknij prawym przyciskiem myszy na miejscu w którym chciałbyś ustawić punkt startowy. Punkt startowy możesz przestawić w ten sam sposób lub poprzez przeciąganie go na mapie.",
+    new_adventure_help_content_2: "Możesz wpisać też lokalizację w której pobliżu chciałbyś ustawić punkt startowy, aby mapa przesunęła się do tego miejsca.",
+    new_adventure_help_confirm: "Jasne, rozumiem",
   },
 
   adventure: {

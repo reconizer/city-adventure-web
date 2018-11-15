@@ -27,7 +27,12 @@ export default {
 
     set_starting_point: "Set starting point here",
     move_starting_point: "Move starting point here",
-    create_new_adventure: "Create New Adventure"
+    create_new_adventure: "Create New Adventure",
+
+    new_adventure_help_header: "Map Controls",
+    new_adventure_help_content_1: "Right click using your mouse to set starting point in given location. You can move it in the same way or you can simply drag it around the map.",
+    new_adventure_help_content_2: "You can also enter location in which you would like to set the starting point and the map will move to it.",
+    new_adventure_help_confirm: "Okay, got it"
   },
 
   adventure: {

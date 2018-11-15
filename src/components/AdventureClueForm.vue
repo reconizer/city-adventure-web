@@ -86,12 +86,13 @@ export default {
         }
       });
     },
+    point () {
+      return this.$store.state.adventure.points.find(point => point.id == this.$route.params.pointId);
+    },
     clue () {
-      let point = this.$store.state.adventure.points.find(point => point.id == this.$route.params.pointId);
-
       if(this.$route.params.clueId) {
-        if(point) {
-          let clueObject = point.clues.find(clue => clue.id == this.$route.params.clueId);
+        if(this.point) {
+          let clueObject = this.point.clues.find(clue => clue.id == this.$route.params.clueId);
 
           if(clueObject) {
             //eslint-disable-next-line
@@ -106,6 +107,13 @@ export default {
     },
     existingClue () {
       return this.clue.id != null;
+    }
+  },
+  mounted () {
+    if(this.adventure.id && !this.loading) {
+      if(!this.point || (this.$route.params.clueId && !this.clue.id)) {
+        this.$router.push({ name: 'adventureMap', params: { adventureId: this.adventure.id } });
+      }
     }
   },
   methods: {

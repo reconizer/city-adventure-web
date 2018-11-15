@@ -141,7 +141,7 @@ export default {
     }
   },
   actions: {
-    [LOAD_ADVENTURE] ({ commit }, { id }) {
+    [LOAD_ADVENTURE] ({ commit, state }, { id }) {
       commit(CLEAR_ADVENTURE);
       commit(CLEAR_ADVENTURE_POINTS);
 
@@ -157,8 +157,32 @@ export default {
           commit(SET_ADVENTURE_POINTS, response.data);
 
           commit(SET_LOADING, false);
+
+          if(router.currentRoute.params.pointId) {
+            let pointId = router.currentRoute.params.pointId;
+
+            let point = state.points.find(point => point.id == pointId);
+
+            if(point) {
+              if(router.currentRoute.params.clueId) {
+                let clue = point.clues.find(clue => clue.id == router.currentRoute.params.clueId);
+
+                if(!clue) {
+                  router.push({ name: 'adventureMap', params: { adventureId: state.item.id } });
+                }
+              }
+            } else {
+              router.push({ name: 'adventureMap', params: { adventureId: state.item.id } });
+            }
+
+          }
+
         })
-        .catch( error => commit(SET_ERROR, error));
+        .catch( error => {
+          commit(SET_ERROR, error)
+
+          router.push({ name: 'home' });
+        });
     },
 
     [UPDATE_ADVENTURE] ({ commit }, { adventureId, params }) {
