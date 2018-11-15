@@ -47,9 +47,16 @@
           span {{ $t("adventure.help") }}
 
     Modal(v-if="showHelp" @close="closeHelpModal")
-      div(slot="header") Map Controls
+      div(slot="header") {{ $t("adventure.help_header") }}
 
-      div Lorem ipsum
+      p {{ $t("adventure.help_paragraph_1") }}
+
+      p {{ $t("adventure.help_paragraph_2") }}
+
+      p {{ $t("adventure.help_paragraph_3") }}
+
+      .text-center
+        a.button.button--blue(@click="closeHelpModal") {{ $t("adventure.help_confirm") }}
 </template>
 
 <script>
@@ -116,6 +123,13 @@ export default {
       this.createPoint()
     });
 
+    // Clear map info window for this point if any are present
+    this.$root.$on('point-removed', (pointId) => {
+      if(this.currentPoint && this.currentPoint.id == pointId) {
+        this.pointOptionsWindowOpened = false;
+      }
+    });
+
     this.$root.$on('right-click-marker', (point) => {
       this.pointOptionsWindowOpened = true;
       this.addPointWindowOpened = false;
@@ -127,8 +141,6 @@ export default {
 
     this.$refs.googleMap.$mapPromise.then(() => {
       this.mapLoaded = true;
-
-      console.log('yeh');
 
       let mapHelpShown = localStorage.getItem('mapHelpShown');
 

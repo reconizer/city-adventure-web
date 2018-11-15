@@ -10,6 +10,7 @@ export const passwordTypes = [
     value: 'text',
     length: 50
   },
+
   {
     value: 'number_lock_3',
     length: 3
@@ -26,6 +27,7 @@ export const passwordTypes = [
     value: 'number_lock_6',
     length: 6
   },
+
   {
     value: 'cryptex_lock_4',
     length: 4
@@ -42,6 +44,7 @@ export const passwordTypes = [
     value: 'cryptex_lock_7',
     length: 7
   },
+
   {
     value: 'direction_lock_4',
     length: 4
@@ -54,16 +57,17 @@ export const passwordTypes = [
     value: 'direction_lock_8',
     length: 8
   },
+
   {
-    value: 'number_push_lock_6',
+    value: 'number_push_lock_3',
     length: 3
   },
   {
-    value: 'number_push_lock_8',
+    value: 'number_push_lock_4',
     length: 4
   },
   {
-    value: 'number_push_lock_10',
+    value: 'number_push_lock_5',
     length: 5
   }
 ]

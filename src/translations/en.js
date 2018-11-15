@@ -44,6 +44,12 @@ export default {
     reposition: "Reposition",
     help: "Help",
 
+    help_header: "Map Controls",
+    help_paragraph_1: "You can quickly change point's position or radius by using your mouse and dragging the point marker or radius controls around.",
+    help_paragraph_2: "You can also quickly create or remove points by right clicking.",
+    help_paragraph_3: "The reposition button will zoom out the camera unless all of the points are visible.",
+    help_confirm: "Okay, got it",
+
     add_new_puzzle: "Create new Puzzle",
     edit_puzzle: "Edit Puzzle",
     remove_puzzle: "Remove Puzzle",
@@ -127,9 +133,9 @@ export default {
     direction_lock_6: 'Direction Lock (6 directions)',
     direction_lock_8: 'Direction Lock (8 directions)',
 
-    number_push_lock_6: '3 Numbers Combo Lock (6 buttons)',
-    number_push_lock_8: '4 Numbers Combo Lock (8 buttons)',
-    number_push_lock_10: '5 Numbers Combo Lock (10 buttons)'
+    number_push_lock_3: '3 Numbers Combo Lock (6 buttons)',
+    number_push_lock_4: '4 Numbers Combo Lock (8 buttons)',
+    number_push_lock_5: '5 Numbers Combo Lock (10 buttons)'
   },
 
 

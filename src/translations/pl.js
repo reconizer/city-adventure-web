@@ -46,6 +46,12 @@ export default {
     reposition: "Znajdź punkty", //TODO shitty text
     help: "Pomoc",
 
+    help_header: "Interfejs Mapy",
+    help_paragraph_1: "Możesz szybko zmienić pozycję punktu lub zasięg interakcji poprzez przeciąganie znacznika punktu lub kontrolek promienia na mapie.",
+    help_paragraph_2: "Możesz także szybko tworzyć nowe punkty lub usuwać istniejące poprzez wciskanie prawego przycisku myszy.",
+    help_paragraph_3: "Przycisk 'Znajdź punkty' oddali kamerę tak by wszystkie punkty były widoczne.",
+    help_confirm: "Jasne, rozumiem",
+
     add_new_puzzle: "Dodaj nowy punkt",
     edit_puzzle: "Edytuj punkt",
     remove_puzzle: "Usuń punkt",
@@ -129,9 +135,9 @@ export default {
     direction_lock_6: 'Kłódka kierunkowa (6 kierunków)',
     direction_lock_8: 'Kłódka kierunkowa (8 kierunków)',
 
-    number_push_lock_6: 'Kłódka kombinacji 3 cyfr (6 przycisków)',
-    number_push_lock_8: 'Kłódka kombinacji 4 cyfr (8 przycisków)',
-    number_push_lock_10: 'Kłódka kombinacji 5 cyfr (10 przyciski)'
+    number_push_lock_3: 'Kłódka kombinacji 3 cyfr (6 przycisków)',
+    number_push_lock_4: 'Kłódka kombinacji 4 cyfr (8 przycisków)',
+    number_push_lock_5: 'Kłódka kombinacji 5 cyfr (10 przyciski)'
   },
 
   general: {

@@ -231,9 +231,11 @@ export default {
       let answer = this.passwordAnswer;
 
       if(answer && answer.details.password) {
-        return !answer.details.password.match(this.passwordPattern);
-      } else if( answer && answer.details.password_type.match(/direction_lock/)) {
-        return !this.transformedPassword.match(this.passwordPattern);
+        if(answer.details.password_type.match(/direction_lock/)) {
+          return !this.transformedPassword.match(this.passwordPattern);
+        } else {
+          return !answer.details.password.match(this.passwordPattern);
+        }
       } else {
         return false;
       }
@@ -383,23 +385,34 @@ export default {
 
       let answer = this.passwordAnswer;
 
-      answer.details.password_type = evt.value;
+      let previousType = answer.details.password_type;
+      let currentType = evt.value;
 
-      if(answer.details.password_type.match(/direction_lock/)) {
-        let match = this.transformedPassword.match(this.passwordPattern);
+      answer.details.password_type = currentType;
 
-        if(match) {
-          this.transformedPassword = match[0];
+      // Handle direction lock separately
+      if(currentType.match(/direction_lock/)) {
+        // If it has same family type
+        if(currentType.replace(/\d/, '') == previousType.replace(/\d/, '')) {
+          // Just trim it to proper length
+          this.transformedPassword = this.transformedPassword.substr(0, evt.length);
         } else {
           this.transformedPassword = "";
         }
       } else if(answer.details.password) {
-        let match = answer.details.password.match(this.passwordPattern);
-
-        if(match) {
-          answer.details.password = match[0];
+        // If it has same family type
+        if(currentType.replace(/\d/, '') == previousType.replace(/\d/, '')) {
+          // Just trim it to proper length
+          answer.details.password = answer.details.password.substr(0, evt.length);
         } else {
-          answer.details.password = "";
+          // Try to infer password from exisiting one
+          let match = answer.details.password.match(this.passwordPattern);
+
+          if(match) {
+            answer.details.password = match[0];
+          } else {
+            answer.details.password = "";
+          }
         }
       }
     },
