@@ -3,7 +3,7 @@
     .overlay-loader(v-if="loading")
       .overlay-loader__spinner
 
-    .adventure-structure
+    .adventure-structure(:class="{ 'adventure-structure--expanded': this.expanded }")
       .adventure-structure__header
         router-link.adventure-structure__title(
           v-if="adventure.id"
@@ -16,7 +16,11 @@
         )
           .icon.icon--pencil-white
 
+
       AdventurePointList
+
+    .adventure-structure-expander(@click="toggleExpand")
+      span Expand
 
     AdventureMap
 
@@ -39,6 +43,11 @@ export default {
     AdventurePointList,
     AdventureMap
   },
+  data () {
+    return {
+      expanded: true
+    }
+  },
   computed: mapState({
     adventure: state => state.adventure.item,
     points: state => state.adventure.points,
@@ -48,6 +57,11 @@ export default {
   }),
   created () {
     this.$store.dispatch(`${ACTION_NAMESPACE}/${LOAD_ADVENTURE}`, { id: this.$route.params.adventureId });
+  },
+  methods: {
+    toggleExpand () {
+      this.expanded = !this.expanded;
+    }
   }
 }
 </script>

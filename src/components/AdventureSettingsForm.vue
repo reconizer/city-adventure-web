@@ -1,77 +1,72 @@
 <template lang="pug">
-  .adventure-panel.adventure-panel--scrollable
-    .adventure-panel__inner(v-if="adventure.id")
-      .adventure-panel__header
-        router-link.icon.icon--back.icon--pad-right.adventure-panel__back(:to="{ name: 'adventureMap', params: { adventureId: adventure.id } }")
-        span {{ $t('adventure.edit_adventure') }}
+  .row
+    .col-1-2
+      .form-control
+        label.form-label.form-label--required {{ $t('general.name') }}
+        input.form-input(type="text" :placeholder="$t('general.name')" v-model="adventure.name")
 
-        a.button.button--blue.adventure-panel__submit(@click="submit()") {{ $t('general.submit') }}
+      .form-control
+        label.form-label.form-label--required {{ $t("general.description") }}
+        textarea.form-input(:placeholder="$t('general.description')" v-model="adventure.description")
 
-      .row
-        .col-1-2
-          .form-control
-            label.form-label.form-label--required {{ $t('general.name') }}
-            input.form-input(type="text" :placeholder="$t('general.name')" v-model="adventure.name")
+      .form-control
+        .row.row--align-center
+          .col-2-3
+            span {{ $t("adventure.estimated_duration") }}
+            .icon.icon--question-mark.icon--pad-left
+              .icon__tooltip-wrapper.icon__tooltip-wrapper--multiline
+                .icon__tooltip {{ $t("adventure.estimated_duration_explanation") }}
+          .col-1-3
+            .form-checkbox.form-checkbox--small(:class="{ 'form-checkbox--active': specifiedDuration }" @click="updateSpecifiedDuration(!specifiedDuration)")
+              .form-checkbox__toggle
 
-          .form-control
-            label.form-label.form-label--required {{ $t("general.description") }}
-            textarea.form-input(:placeholder="$t('general.description')" v-model="adventure.description")
+        .slider-wrapper.slider-wrapper--padded(v-if="specifiedDuration")
+          vue-slider(
+            ref="durationSlider"
+            :value="duration"
+            v-bind="sliderOptions"
+            @callback="sliderCallback"
+          )
 
-          .form-control
-            .row.row--align-center
-              .col-2-3
-                span {{ $t("adventure.estimated_duration") }}
-                .icon.icon--question-mark.icon--pad-left
-                  .icon__tooltip-wrapper.icon__tooltip-wrapper--multiline
-                    .icon__tooltip {{ $t("adventure.estimated_duration_explanation") }}
-              .col-1-3
-                .form-checkbox.form-checkbox--small(:class="{ 'form-checkbox--active': specifiedDuration }" @click="updateSpecifiedDuration(!specifiedDuration)")
-                  .form-checkbox__toggle
+      .form-control
+        label.form-label {{ $t("adventure.difficulty") }}
+        v-select(:placeholder="$t('adventure.difficulty')" :clearable="false" :options="difficultyLevels" :value="difficulty" @input="changeDifficulty")
 
-            .slider-wrapper.slider-wrapper--padded(v-if="specifiedDuration")
-              vue-slider(
-                ref="durationSlider"
-                :value="duration"
-                v-bind="sliderOptions"
-                @callback="sliderCallback"
-              )
+      .form-control
+        .row.row--align-center
+          .col-2-3
+            span {{ $t("adventure.adventure_hidden") }}
+            .icon.icon--question-mark.icon--pad-left
+              .icon__tooltip-wrapper.icon__tooltip-wrapper--multiline
+                .icon__tooltip {{ $t("adventure.adventure_hidden_explanation") }}
+          .col-1-3
+            .form-checkbox.form-checkbox--small(:class="{ 'form-checkbox--active': adventure.hidden }" @click="updateHidden(!adventure.hidden)")
+              .form-checkbox__toggle
 
-          .form-control
-            label.form-label {{ $t("adventure.difficulty") }}
-            v-select(:placeholder="$t('adventure.difficulty')" :clearable="false" :options="difficultyLevels" :value="difficulty" @input="changeDifficulty")
+      .form-control
+        button.button.button--submit.button--blue.button--large.button--full(@click="submit()") {{ $t('general.submit') }}
 
-          .form-control
-            .row.row--align-center
-              .col-2-3
-                span {{ $t("adventure.adventure_hidden") }}
-                .icon.icon--question-mark.icon--pad-left
-                  .icon__tooltip-wrapper.icon__tooltip-wrapper--multiline
-                    .icon__tooltip {{ $t("adventure.adventure_hidden_explanation") }}
-              .col-1-3
-                .form-checkbox.form-checkbox--small(:class="{ 'form-checkbox--active': adventure.hidden }" @click="updateHidden(!adventure.hidden)")
-                  .form-checkbox__toggle
+    .col-1-2
+      .form-control
+        label.form-label.form-label--required {{ $t("adventure.cover_image") }}
+        input.form-input(type="text" :placeholder="$t('adventure.cover_image')" v-model="adventure.cover_url")
 
-        .col-1-2
-          .form-control
-            label.form-label.form-label--required {{ $t("adventure.cover_image") }}
-            input.form-input(type="text" :placeholder="$t('adventure.cover_image')" v-model="adventure.cover_url")
+        .adventure-cover
+          img(:src="adventure.cover_url")
 
-            .adventure-cover
-              img(:src="adventure.cover_url")
+      .form-control
+        label.form-label {{ $t("adventure.promo_images") }}
 
-          .form-control
-            label.form-label {{ $t("adventure.promo_images") }}
-
-          .form-control
-            draggable(
-              v-model="adventure.images"
-              @change="updateList"
-            )
-              .adventure-promo-image(
-                v-for="image in adventure.images"
-                :key="image.id"
-              )
-                img(:src="image.url")
+      .form-control
+        draggable(
+          v-model="adventure.images"
+          @change="updateList"
+        )
+          .adventure-promo-image(
+            v-for="image in adventure.images"
+            :key="image.id"
+          )
+            img(:src="image.url")
 </template>
 
 <script>

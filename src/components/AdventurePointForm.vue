@@ -2,10 +2,13 @@
   .adventure-panel.adventure-panel--scrollable
     .adventure-panel__inner(v-if="point.id")
       .adventure-panel__header
-        router-link.icon.icon--back.icon--pad-right.adventure-panel__back(:to="{ name: 'adventureMap', params: { adventureId: adventure.id } }")
-        span(v-if="puzzleIndex == 0") {{ $t("adventure_point.edit_start") }}
-        span(v-else) {{ $t("adventure_point.edit") }}
-        span(v-if="puzzleIndex > 0") &nbsp;\#{{ puzzleIndex }}
+        router-link.button.button--icon(:to="{ name: 'adventureMap', params: { adventureId: adventure.id } }")
+          .icon.icon--back
+
+        .adventure-panel__title
+          span(v-if="puzzleIndex == 0") {{ $t("adventure_point.edit_start") }}
+          span(v-else) {{ $t("adventure_point.edit") }}
+          span(v-if="puzzleIndex > 0") &nbsp;\#{{ puzzleIndex }}
 
         a.button.button--pink.adventure-panel__remove(v-if="puzzleIndex > 0" @click="destroyPuzzle()") {{ $t("general.remove") }}
 

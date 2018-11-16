@@ -2,9 +2,12 @@
   .adventure-panel
     .adventure-panel__inner(v-if="adventure.id")
       .adventure-panel__header
-        router-link.icon.icon--back.icon--pad-right.adventure-panel__back(:to="{ name: 'adventureMap', params: { adventureId: adventure.id } }")
-        span(v-if="existingClue") {{ $t("clue.edit") }}
-        span(v-else) {{ $t("clue.new") }}
+        router-link.button.button--icon(:to="{ name: 'adventureMap', params: { adventureId: adventure.id } }")
+          .icon.icon--back
+
+        .adventure-panel__title
+          span(v-if="existingClue") {{ $t("clue.edit") }}
+          span(v-else) {{ $t("clue.new") }}
 
         a.button.button--pink.adventure-panel__remove(v-if="existingClue" @click="destroyClue()") {{ $t("general.remove") }}
 

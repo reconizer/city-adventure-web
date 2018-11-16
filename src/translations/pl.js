@@ -79,6 +79,18 @@ export default {
     difficulty_3: 'Trudna'
   },
 
+  adventure_publishing: {
+    title: "Publikacja"
+  },
+
+  adventure_analytics: {
+    title: "Analityka"
+  },
+
+  adventure_testing: {
+    title: "Testy"
+  },
+
   adventure_point: {
     edit_start: "Edytuj Punkt Startowy",
     edit: "Edytuj Punkt",
