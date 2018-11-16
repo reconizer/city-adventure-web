@@ -207,7 +207,7 @@ export default {
       this.adventureData.hidden = value;
     },
 
-    updateList (evt) {
+    updateList () {
       this.adventureData.images.forEach( (image, index) => {
         image.order = index;
       });

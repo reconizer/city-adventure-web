@@ -23,7 +23,7 @@
                 label.form-label
                   span {{ $t("clue.is_tip") }}
                   .icon.icon--question-mark.icon--pad-left
-                    .icon__tooltip-wrapper
+                    .icon__tooltip-wrapper.icon__tooltip-wrapper--multiline
                       .icon__tooltip {{ $t("clue.is_tip_explanation") }}
               .col-1-2
                 .form-checkbox.form-checkbox--small(:class="{ 'form-checkbox--active': clue.tip }" @click="updateTip(!clue.tip)")

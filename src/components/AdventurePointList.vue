@@ -77,8 +77,6 @@ import { mapState, mapGetters } from 'vuex'
 
 import { UPDATE_POINTS, DESTROY_POINT } from '@/store/action-types'
 
-import { SET_POINTS_ORDER } from '@/store/mutation-types'
-
 import draggable from 'vuedraggable'
 
 import AdventurePointClueList from '@/components/AdventurePointClueList.vue'
