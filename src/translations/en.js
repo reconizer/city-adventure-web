@@ -95,6 +95,7 @@ export default {
 
     location: "Location",
     location_hidden: "Location hidden",
+    hidden_explanation: "Hidden points will not be visible on the map until the players will manually find them by verifying their location",
     radius: "Radius (in meters)",
     radius_explanation: "Radius within which players can access this puzzle",
 

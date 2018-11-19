@@ -19,7 +19,7 @@
 
       AdventurePointList
 
-    .adventure-structure-expander(@click="toggleExpand")
+    //.adventure-structure-expander(@click="toggleExpand")
       span Expand
 
     AdventureMap

@@ -9,6 +9,7 @@
         v-for="(clue, index) in point.clues"
         :key="clue.id"
         :class="{ 'adventure-point-clue-wrapper--tip': clue.tip }"
+        :id="elementId(clue)"
       )
         .adventure-point-clue-wrapper__dot
         .adventure-point-clue-wrapper__line
@@ -85,9 +86,11 @@ export default {
   },
   computed: mapState({
     adventure: state => state.adventure.item
-
   }),
   methods: {
+    elementId (clue) {
+      return `clue-${clue.id}`;
+    },
     updateList (evt) {
       if(evt.added || evt.moved) {
         let clues = this.point.clues.map( (clue, index) => {

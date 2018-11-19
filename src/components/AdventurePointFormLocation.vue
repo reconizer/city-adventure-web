@@ -7,6 +7,10 @@
       .row.row--align-center
         .col-2-3
           span {{ $t("adventure_point.location_hidden") }}
+
+          .icon.icon--question-mark.icon--pad-left
+            .icon__tooltip-wrapper.icon__tooltip-wrapper--multiline
+              .icon__tooltip {{ $t("adventure_point.hidden_explanation") }}
         .col-1-3
           .form-checkbox.form-checkbox--small(:class="{ 'form-checkbox--active': point.hidden }" @click="updateHidden(!point.hidden)")
             .form-checkbox__toggle

@@ -97,6 +97,7 @@ export default {
 
     location: "Lokalizacja",
     location_hidden: "Lokalizacja ukryta",
+    hidden_explanation: "Punkty ukryte nie będą widoczne na mapie dopóki gracze nie odnajdą ich poprzez weryfikowanie swojego obecnego położenia",
     radius: "Promień (w metrach)",
     radius_explanation: "Promień, w którym gracz może rozwiązać zagadkę",
 

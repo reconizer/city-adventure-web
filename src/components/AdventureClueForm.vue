@@ -115,7 +115,7 @@ export default {
   mounted () {
     if(this.adventure.id && !this.loading) {
       if(!this.point || (this.$route.params.clueId && !this.clue.id)) {
-        this.$router.push({ name: 'adventureMap', params: { adventureId: this.adventure.id } });
+        this.$router.replace({ name: 'adventureMap', params: { adventureId: this.adventure.id } });
       }
     }
   },
