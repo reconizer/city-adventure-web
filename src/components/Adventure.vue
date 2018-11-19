@@ -14,7 +14,7 @@
           v-if="adventure.id"
           :to="{ name: 'adventureSettings', params: { adventureId: adventure.id } }"
         )
-          .icon.icon--pencil-white
+          .icon.icon--settings
 
 
       AdventurePointList

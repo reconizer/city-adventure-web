@@ -2,8 +2,10 @@
   .new-adventure-form
     .new-adventure-form__contents
       .new-adventure-form__header
-        router-link.icon.icon--back.icon--pad-right.adventure-panel__back(:to="{ name: 'home' }")
-        span {{ $t("adventures.create_new_adventure") }}
+        router-link.button.button--icon(:to="{ name: 'home' }")
+          .icon.icon--back
+
+        .new-adventure-form__title {{ $t("adventures.create_new_adventure") }}
 
       .form-control
         label.form-label.form-label--required {{ $t("general.name") }}

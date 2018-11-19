@@ -10,7 +10,8 @@ export default {
   top_menu: {
     adventures: "Adventures",
     settings: "Settings",
-    logout: "Log Out"
+    logout: "Log Out",
+    language: "Language"
   },
 
   adventures: {
