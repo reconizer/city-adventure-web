@@ -153,7 +153,7 @@ export default {
         },
         "merge-formatter": (v1, v2) => {
           if(v1 == v2) {
-            return `Around ${this.formatSliderLabel(v1)}`;
+            return this.$t("general.around", { value: this.formatSliderLabel(v1) });
           } else {
             return `${this.formatSliderLabel(v1)} - ${this.formatSliderLabel(v2)}`;
           }

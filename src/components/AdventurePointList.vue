@@ -6,7 +6,10 @@
     )
       .adventure-point-list__line
 
-      .adventure-point-start-wrapper(:id="elementId(startingPoint)")
+      .adventure-point-start-wrapper(
+        :id="elementId(startingPoint)"
+        :class="{ 'adventure-point-start-wrapper--only': points.length == 0 }"
+      )
         .adventure-point
           router-link.button.button--pink.adventure-point__name(
             :to="{ name: 'adventurePoint', params: { adventureId: adventure.id, pointId: startingPoint.id } }"

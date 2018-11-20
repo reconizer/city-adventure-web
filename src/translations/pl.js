@@ -170,6 +170,8 @@ export default {
 
     edit: "Edytuj",
     remove: "Usuń",
-    submit: "Zatwierdź"
+    submit: "Zatwierdź",
+
+    around: "Około {value}"
   }
 }

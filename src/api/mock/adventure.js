@@ -1,7 +1,7 @@
 export default (adventureId) => new Promise((resolve) => {
   setTimeout(() => {
     let adventure = {
-      id: 1,
+      id: adventureId,
       name: "Sekrety Starówki",
       cover_url: "http://placehold.it/320x180",
       published: adventureId == 1,

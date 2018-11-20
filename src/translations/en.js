@@ -19,6 +19,8 @@ export default {
     create_new: "Create New",
 
     adventure_status: "Status",
+    adventure_published: "Published",
+    adventure_unpublished: "Unpublished",
     adventure_rating: "Rating",
     adventure_visibility: "Visibility",
     adventure_public: "Public",
@@ -162,13 +164,14 @@ export default {
     number_push_lock_5: '5 Numbers Combo Lock (10 buttons)'
   },
 
-
   general: {
     name: "Name",
     description: "Description",
 
     edit: "Edit",
     remove: "Remove",
-    submit: "Submit"
+    submit: "Submit",
+    
+    around: "Around {value}"
   }
 }
