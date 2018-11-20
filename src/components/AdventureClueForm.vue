@@ -34,7 +34,10 @@
                     .icon__tooltip-wrapper.icon__tooltip-wrapper--multiline
                       .icon__tooltip {{ $t("clue.is_tip_explanation") }}
               .col-1-2
-                .form-checkbox.form-checkbox--small(:class="{ 'form-checkbox--active': clue.tip }" @click="updateTip(!clue.tip)")
+                .form-checkbox.form-checkbox--small(
+                  :class="{ 'form-checkbox--active': clue.tip, 'form-checkbox--disabled': adventure.published }"
+                  @click="updateTip(!clue.tip)"
+                )
                   .form-checkbox__toggle
 
           .form-control(v-if="clue.type != 'image'")
@@ -132,6 +135,10 @@ export default {
       this.clueData.type = evt.value;
     },
     updateTip (value) {
+      if(this.adventure.published) {
+        return;
+      }
+
       this.clueData.tip = value;
     },
 

@@ -1,5 +1,6 @@
 export default (adventureId) => new Promise((resolve) => {
   setTimeout(() => {
+    // Let adventure with id 1 be published and act accordingly
     let adventure = {
       id: adventureId,
       name: "Sekrety Starówki",
