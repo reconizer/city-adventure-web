@@ -40,6 +40,7 @@ export default {
 
   adventure: {
     edit_adventure: "Edytuj Przygodę",
+    adventure_details: "Szczegóły Przygody",
     cover_image: "Zdjęcie Główne", //TODO shitty text
     promo_images: "Zdjęcia Promujące",
     estimated_duration: "Przewidywany czas trwania",
@@ -60,6 +61,7 @@ export default {
 
     add_new_puzzle: "Dodaj nowy punkt",
     edit_puzzle: "Edytuj punkt",
+    puzzle_details: "Zobacz szczegóły",
     remove_puzzle: "Usuń punkt",
     remove_puzzle_confirm: "Jesteś pewien, że chcesz usunąć ten punkt? Wszystkie wskazówki z nim połączone zostaną usunięte",
 
@@ -93,8 +95,10 @@ export default {
   },
 
   adventure_point: {
-    edit_start: "Edytuj Punkt Startowy",
-    edit: "Edytuj Punkt",
+    edit_start_title: "Edytuj Punkt Startowy",
+    start_title: "Punkt Startowy",
+    edit_title: "Edytuj Punkt #{index}",
+    title: "Punkt #{index}",
 
     location: "Lokalizacja",
     location_hidden: "Lokalizacja ukryta",
@@ -120,7 +124,8 @@ export default {
 
   clue: {
     new: "Nowa wskazówka",
-    edit: "Edytuj wskazówkę",
+    edit_title: "Edytuj wskazówkę",
+    show_title: "Szczegóły wskazówki",
     type: "Typ wskazówki",
     is_tip: "Jest podpowiedzią?",
     is_tip_explanation: "Podpowiedzi są opcjonalnymi wskazówkami dostępnymi na życzenie użytkownika",

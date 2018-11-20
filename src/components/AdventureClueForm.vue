@@ -6,16 +6,24 @@
           .icon.icon--back
 
         .adventure-panel__title
-          span(v-if="existingClue") {{ $t("clue.edit") }}
+          span(v-if="existingClue")
+            span(v-if="adventure.published") {{ $t("clue.show_title") }}
+            span(v-else) {{ $t("clue.edit_title") }}
           span(v-else) {{ $t("clue.new") }}
 
-        a.button.button--pink.adventure-panel__remove(v-if="existingClue" @click="destroyClue()") {{ $t("general.remove") }}
+        a.button.button--pink.adventure-panel__remove(v-if="existingClue && !adventure.published" @click="destroyClue()") {{ $t("general.remove") }}
 
       .row
         .col-1-2
           .form-control
             .form-label {{ $t("clue.type") }}
-            v-select(:placeholder="$t('clue.type')" :clearable="false" :value="clueType" :options="clueTypes" @input="updateType($event)")
+            v-select(
+              :placeholder="$t('clue.type')" 
+              :clearable="false" 
+              :value="clueType" 
+              :options="clueTypes" 
+              :disabled="adventure.published"
+              @input="updateType($event)")
 
           .form-control
             .row.row--align-center
@@ -32,14 +40,14 @@
           .form-control(v-if="clue.type != 'image'")
             .form-label.form-label--required(v-if="clue.type == 'text'") {{ $t("clue.content") }}
             .form-label(v-else) {{ $t("general.description") }}
-            textarea.form-input(v-model="clue.description")
+            textarea.form-input(v-model="clue.description" :disabled="adventure.published")
 
           //TODO file upload
           .form-control(v-if="clue.type != 'text'")
             .form-label.form-label--required {{ $t("clue.url") }}
-            input.form-input(v-model="clue.url")
+            input.form-input(v-model="clue.url" :disabled="adventure.published")
 
-          .form-control
+          .form-control(v-if="!adventure.published")
             a.button.button--blue.button--large.button--full(@click="submit()") {{ $t("general.submit") }}
 </template>
 

@@ -9,8 +9,8 @@
 
     .col-1-6
       .adventure-list-item__label {{ $t("adventures.adventure_status") }}
-      .adventure-list-item__status(:class="{'adventure-list-item__status--published': adventure.status == 'published' }")
-        span(v-if="adventure.status == 'published'") {{ $t("adventures.adventure_published") }}
+      .adventure-list-item__status(:class="{'adventure-list-item__status--published': adventure.published }")
+        span(v-if="adventure.published") {{ $t("adventures.adventure_published") }}
         span(v-else) {{ $t("adventures.adventure_unpublished") }}
 
     .col-1-6

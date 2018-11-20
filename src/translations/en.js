@@ -38,6 +38,7 @@ export default {
 
   adventure: {
     edit_adventure: "Edit Adventure",
+    adventure_details: "Adventure Details",
     cover_image: "Cover Photo",
     promo_images: "Promo Images",
     estimated_duration: "Estimated Duration",
@@ -58,6 +59,7 @@ export default {
 
     add_new_puzzle: "Create new Puzzle",
     edit_puzzle: "Edit Puzzle",
+    puzzle_details: "Puzzle Details",
     remove_puzzle: "Remove Puzzle",
     remove_puzzle_confirm: "Are you sure you want to remove this puzzle? All associated clues will also be removed",
 
@@ -91,8 +93,10 @@ export default {
   },
 
   adventure_point: {
-    edit_start: "Edit Starting Point",
-    edit: "Edit Puzzle",
+    edit_start_title: "Edit Starting Point",
+    start_title: "Starting Point",
+    edit_title: "Edit Puzzle #{index}",
+    title: "Puzzle #{index}",
 
     location: "Location",
     location_hidden: "Location hidden",
@@ -118,7 +122,8 @@ export default {
 
   clue: {
     new: "New Clue",
-    edit: "Edit Clue",
+    edit_title: "Edit Clue Details",
+    show_title: "Clue Details",
     type: "Clue Type",
     is_tip: "Is a tip?",
     is_tip_explanation: "Tips are optional clues, given to users when they require additional help",

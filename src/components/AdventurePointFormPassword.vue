@@ -3,13 +3,23 @@
     .puzzle-component__header
       .puzzle-component__name {{ $t("adventure_point.password_required") }}
 
-      .form-checkbox(:class="{ 'form-checkbox--active': passwordRequired }" @click="$emit('toggle-password')")
+      .form-checkbox(
+        :class="{ 'form-checkbox--active': passwordRequired, 'form-checkbox--disabled': adventure.published }"
+        @click="$emit('toggle-password')"
+      )
         .form-checkbox__toggle
 
     div(v-if="passwordRequired")
       .form-control
         .form-label {{ $t("adventure_point.password_type") }}
-        v-select(:placeholder="$t('adventure_point.password_type')" :clearable="false" :value="passwordType" :options="passwordTypes" @input="updatePasswordType($event)")
+        v-select(
+          :placeholder="$t('adventure_point.password_type')"
+          :clearable="false"
+          :value="passwordType"
+          :options="passwordTypes"
+          :disabled="adventure.published"
+          @input="updatePasswordType($event)"
+        )
 
       .form-control(
         :class="{ 'form-control--with-error': passwordError || passwordAnswer.details.password.length == 0 }"
@@ -22,6 +32,7 @@
           placeholder="Password"
           :maxlength="passwordLength"
           :pattern="passwordPattern.source"
+          :disabled="adventure.published"
           v-model="passwordAnswer.details.password"
         )
 
@@ -35,10 +46,22 @@
         .form-control
           .row
             .col-1-2
-              a.button.button--circle.button--blue(@click="onArrow('l')") ←
-              a.button.button--circle.button--blue(@click="onArrow('u')") ↑
-              a.button.button--circle.button--blue(@click="onArrow('d')") ↓
-              a.button.button--circle.button--blue(@click="onArrow('r')") →
+              a.button.button--circle.button--blue(
+                :class="{ 'button--disabled': adventure.published }"
+                @click="onArrow('l')"
+              ) ←
+              a.button.button--circle.button--blue(
+                :class="{ 'button--disabled': adventure.published }"
+                @click="onArrow('u')"
+              ) ↑
+              a.button.button--circle.button--blue(
+                :class="{ 'button--disabled': adventure.published }"
+                @click="onArrow('d')"
+              ) ↓
+              a.button.button--circle.button--blue(
+                :class="{ 'button--disabled': adventure.published }"
+                @click="onArrow('r')"
+              ) →
 
             .col-1-2.text-right
               a.button.button--pink(@click="clearArrows()") {{ $t("adventure_point.password_clear") }}
@@ -51,6 +74,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 import { passwordTypes } from '@/config'
 
 import { arrowUnicodeToChar, charToArrowUnicode } from '@/utils'
@@ -78,6 +103,9 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      adventure: state => state.adventure.item
+    }),
     passwordTypes () {
       return passwordTypes.map(type => {
         type.label = this.$t(`password_type.${type.value}`);
@@ -202,6 +230,10 @@ export default {
     },
 
     onArrow (direction) {
+      if(this.adventure.published) {
+        return;
+      }
+
       let answer = this.passwordAnswer;
 
       if(this.transformedPassword.length < this.passwordLength) {
@@ -212,6 +244,10 @@ export default {
     },
 
     clearArrows () {
+      if(this.adventure.published) {
+        return;
+      }
+
       this.transformedPassword = "";
     },
 

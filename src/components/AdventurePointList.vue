@@ -1,6 +1,9 @@
 <template lang="pug">
   div
-    .adventure-point-list(v-if="startingPoint")
+    .adventure-point-list(
+      v-if="startingPoint"
+      :class="{ 'adventure-point-list--published': adventure.published }"
+    )
       .adventure-point-list__line
 
       .adventure-point-start-wrapper(:id="elementId(startingPoint)")
@@ -22,7 +25,7 @@
 
       draggable(
         v-model="points"
-        :options="{ draggable: '.adventure-point-wrapper', group: 'points' }"
+        :options="{ draggable: '.adventure-point-wrapper', group: 'points', disabled: adventure.published }"
       )
         .adventure-point-wrapper(
           v-for="(point, pointIndex) in points"
@@ -56,13 +59,13 @@
                 .icon.icon--sm.icon--marker.icon--pad-right
                 span {{ $t("adventure.go_to_puzzle") }}
 
-              .button.button--blue.adventure-point__control(@click="destroyPoint(point)")
+              .button.button--blue.adventure-point__control(v-if="!adventure.published" @click="destroyPoint(point)")
                 .icon.icon--sm.icon--close-white.icon--pad-right
                 span {{ $t("general.remove") }}
 
           AdventurePointClueList(:point="point")
 
-    .adventure-point-new-wrapper(v-if="startingPoint")
+    .adventure-point-new-wrapper(v-if="startingPoint && !adventure.published")
       .adventure-point.adventure-point--new
         router-link.button.button--blue.adventure-point__name(
           :to="{ name: 'adventureMap', params: { adventureId: adventure.id } }"

@@ -2,7 +2,7 @@
   div
     draggable.adventure-point-clues(
       v-model="point.clues"
-      :options="{draggable: '.adventure-point-clue-wrapper', group: 'clues'}"
+      :options="{ draggable: '.adventure-point-clue-wrapper', group: 'clues', disabled: adventure.published }"
       @change="updateList($event)"
     )
       .adventure-point-clue-wrapper(
@@ -50,9 +50,9 @@
 
             .adventure-point-clue__content {{ clue.url }}
 
-    .adventure-point-new-clue-separator
+    .adventure-point-new-clue-separator(v-if="!adventure.published")
 
-    .adventure-point-new-clue
+    .adventure-point-new-clue(v-if="!adventure.published")
       .adventure-point-clue-wrapper__dot
       .adventure-point-clue-wrapper__line
 

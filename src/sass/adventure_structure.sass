@@ -7,7 +7,7 @@
   background-color: $white
   border-right: 1px solid $border-color
   box-shadow: 0px 2px 5px -3px rgba($black, 0.7)
-  padding: 1rem 2rem 2rem
+  padding: 0 2rem 2rem
   box-sizing: border-box
   overflow-y: auto
   z-index: $z-index-adventure-structure
@@ -88,10 +88,13 @@
     background-color: $point-background
     width: 2px
     position: absolute
-    top: 1rem
+    top: 2rem
     bottom: 0rem
     left: 1.25rem
     z-index: $z-index-adventure-line
+
+  &--published &__line
+    bottom: 2rem
 
 .adventure-point-wrapper
   & + &
@@ -101,7 +104,7 @@
     padding-bottom: 1rem
 
 .adventure-point-start-wrapper
-  padding-top: 1rem
+  padding-top: 2rem
   padding-bottom: 1rem
 
 .adventure-point-new-wrapper

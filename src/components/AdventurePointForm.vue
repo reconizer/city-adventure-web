@@ -5,12 +5,9 @@
         router-link.button.button--icon(:to="{ name: 'adventureMap', params: { adventureId: adventure.id } }")
           .icon.icon--back
 
-        .adventure-panel__title
-          span(v-if="puzzleIndex == 0") {{ $t("adventure_point.edit_start") }}
-          span(v-else) {{ $t("adventure_point.edit") }}
-          span(v-if="puzzleIndex > 0") &nbsp;\#{{ puzzleIndex }}
+        .adventure-panel__title {{ formTitle }}
 
-        a.button.button--pink.adventure-panel__remove(v-if="puzzleIndex > 0" @click="destroyPuzzle()") {{ $t("general.remove") }}
+        a.button.button--pink.adventure-panel__remove(v-if="puzzleIndex > 0 && !adventure.published" @click="destroyPuzzle()") {{ $t("general.remove") }}
 
       .row(v-if="puzzleIndex == 0")
         .col-1-2
@@ -40,8 +37,8 @@
             @toggle-time-constraint="toggleTimeConstraint"
           )
 
-      .form-control-separator
-      .row
+      .form-control-separator(v-if="!adventure.published")
+      .row(v-if="!adventure.published")
         .col-1-2
           .form-control
             a.button.button--blue.button--large.button--full(@click="submit") {{ $t("general.submit") }}
@@ -115,6 +112,21 @@ export default {
 
       return this.pointData;
     },
+    formTitle () {
+      if(this.puzzleIndex == 0) {
+        if(this.adventure.published) {
+          return this.$t("adventure_point.start_title");
+        } else {
+          return this.$t("adventure_point.edit_start_title");
+        }
+      } else {
+        if(this.adventure.published) {
+          return this.$t("adventure_point.title", { index: this.puzzleIndex });
+        } else {
+          return this.$t("adventure_point.edit_title", { index: this.puzzleIndex });
+        }
+      }
+    }
   },
   mounted () {
     if(this.adventure.id && !this.loading) {
@@ -125,6 +137,10 @@ export default {
   },
   methods: {
     togglePasswordRequired () {
+      if(this.adventure.published) {
+        return;
+      }
+
       this.passwordRequired = !this.passwordRequired;
 
       let answer = this.passwordAnswer;
@@ -135,6 +151,10 @@ export default {
     },
     
     toggleTimeConstraint () {
+      if(this.adventure.published) {
+        return;
+      }
+
       this.timeConstraint = !this.timeConstraint;
 
       let answer = this.timeAnswer;

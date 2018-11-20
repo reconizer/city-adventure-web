@@ -3,11 +3,11 @@
     .col-1-2
       .form-control
         label.form-label.form-label--required {{ $t('general.name') }}
-        input.form-input(type="text" :placeholder="$t('general.name')" v-model="adventure.name")
+        input.form-input(type="text" :disabled="adventure.published" :placeholder="$t('general.name')" v-model="adventure.name")
 
       .form-control
         label.form-label.form-label--required {{ $t("general.description") }}
-        textarea.form-input(:placeholder="$t('general.description')" v-model="adventure.description")
+        textarea.form-input(:placeholder="$t('general.description')" :disabled="adventure.published" v-model="adventure.description")
 
       .form-control
         .row.row--align-center
@@ -17,7 +17,10 @@
               .icon__tooltip-wrapper.icon__tooltip-wrapper--multiline
                 .icon__tooltip {{ $t("adventure.estimated_duration_explanation") }}
           .col-1-3
-            .form-checkbox.form-checkbox--small(:class="{ 'form-checkbox--active': specifiedDuration }" @click="updateSpecifiedDuration(!specifiedDuration)")
+            .form-checkbox.form-checkbox--small(
+              :class="{ 'form-checkbox--active': specifiedDuration, 'form-checkbox--disabled': adventure.published }" 
+              @click="updateSpecifiedDuration(!specifiedDuration)"
+            )
               .form-checkbox__toggle
 
         .slider-wrapper.slider-wrapper--padded(v-if="specifiedDuration")
@@ -30,7 +33,13 @@
 
       .form-control
         label.form-label {{ $t("adventure.difficulty") }}
-        v-select(:placeholder="$t('adventure.difficulty')" :clearable="false" :options="difficultyLevels" :value="difficulty" @input="changeDifficulty")
+        v-select(
+          :placeholder="$t('adventure.difficulty')" 
+          :clearable="false" 
+          :options="difficultyLevels" 
+          :value="difficulty" 
+          :disabled="adventure.published"
+          @input="changeDifficulty")
 
       .form-control
         .row.row--align-center
@@ -40,16 +49,19 @@
               .icon__tooltip-wrapper.icon__tooltip-wrapper--multiline
                 .icon__tooltip {{ $t("adventure.adventure_hidden_explanation") }}
           .col-1-3
-            .form-checkbox.form-checkbox--small(:class="{ 'form-checkbox--active': adventure.hidden }" @click="updateHidden(!adventure.hidden)")
+            .form-checkbox.form-checkbox--small(
+              :class="{ 'form-checkbox--active': adventure.hidden, 'form-checkbox--disabled': adventure.published }" 
+              @click="updateHidden(!adventure.hidden)"
+            )
               .form-checkbox__toggle
 
-      .form-control
+      .form-control(v-if="!adventure.published")
         button.button.button--submit.button--blue.button--large.button--full(@click="submit()") {{ $t('general.submit') }}
 
     .col-1-2
       .form-control
         label.form-label.form-label--required {{ $t("adventure.cover_image") }}
-        input.form-input(type="text" :placeholder="$t('adventure.cover_image')" v-model="adventure.cover_url")
+        input.form-input(type="text" :disabled="adventure.published" :placeholder="$t('adventure.cover_image')" v-model="adventure.cover_url")
 
         .adventure-cover
           img(:src="adventure.cover_url")
@@ -60,6 +72,7 @@
       .form-control
         draggable(
           v-model="adventure.images"
+          :options="{ disabled: adventure.published }"
           @change="updateList"
         )
           .adventure-promo-image(
@@ -134,6 +147,7 @@ export default {
         min: ADVENTURE_DURATION_OPTIONS.MIN,
         max: ADVENTURE_DURATION_OPTIONS.MAX,
         interval: ADVENTURE_DURATION_OPTIONS.INTERVAL,
+        disabled: this.adventure.published,
         formatter: (value) => {
           return this.formatSliderLabel(value);
         },
@@ -191,6 +205,10 @@ export default {
     },
 
     updateSpecifiedDuration (value) {
+      if(this.adventure.published) {
+        return;
+      }
+
       this.specifiedDuration = value;
 
       if(this.specifiedDuration) {
@@ -204,6 +222,10 @@ export default {
     },
 
     updateHidden (value) {
+      if(this.adventure.published) {
+        return;
+      }
+
       this.adventureData.hidden = value;
     },
 

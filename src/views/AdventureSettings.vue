@@ -8,7 +8,9 @@
         router-link.tabs__item(
           :to="{ name: 'adventureSettings', params: { adventureId: adventure.id } }"
           exact-active-class="tabs__item--active"
-        ) {{ $t('adventure.edit_adventure') }}
+        )
+          span(v-if="adventure.published") {{ $t('adventure.adventure_details') }}
+          span(v-else) {{ $t('adventure.edit_adventure') }}
 
         router-link.tabs__item(
           :to="{ name: 'adventurePublishing', params: { adventureId: adventure.id } }"
@@ -16,6 +18,7 @@
         ) {{ $t('adventure_publishing.title') }}
 
         router-link.tabs__item(
+          v-if="adventure.published"
           :to="{ name: 'adventureAnalytics', params: { adventureId: adventure.id } }"
           exact-active-class="tabs__item--active"
         ) {{ $t('adventure_analytics.title') }}

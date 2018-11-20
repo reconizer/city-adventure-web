@@ -21,8 +21,10 @@
         :opened="pointOptionsWindowOpened"
         @closeclick="closePointOptionsWindow"
       )
-        a.map-window-option(@click="editPointFromDialog") {{ $t("adventure.edit_puzzle") }}
-        a.map-window-option(@click="removePointFromDialog") {{ $t("adventure.remove_puzzle") }}
+        a.map-window-option(@click="editPointFromDialog")
+          span(v-if="adventure.published") {{ $t("adventure.puzzle_details") }}
+          span(v-else) {{ $t("adventure.edit_puzzle") }}
+        a.map-window-option(v-if="!adventure.published" @click="removePointFromDialog") {{ $t("adventure.remove_puzzle") }}
 
       AdventureMapPoint(
         :key="point.id"
@@ -227,6 +229,10 @@ export default {
     },
 
     pointDialog (evt) {
+      if(this.adventure.published) {
+        return;
+      }
+
       this.addPointWindowOpened = true;
       this.pointOptionsWindowOpened = false;
 

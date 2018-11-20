@@ -12,7 +12,10 @@
             .icon__tooltip-wrapper.icon__tooltip-wrapper--multiline
               .icon__tooltip {{ $t("adventure_point.hidden_explanation") }}
         .col-1-3
-          .form-checkbox.form-checkbox--small(:class="{ 'form-checkbox--active': point.hidden }" @click="updateHidden(!point.hidden)")
+          .form-checkbox.form-checkbox--small(
+            :class="{ 'form-checkbox--active': point.hidden, 'form-checkbox--disabled': adventure.published }"
+            @click="updateHidden(!point.hidden)"
+          )
             .form-checkbox__toggle
 
     .form-control
@@ -31,6 +34,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 
 import vueSlider from 'vue-slider-component'
 
@@ -52,10 +56,14 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      adventure: state => state.adventure.item
+    }),
     sliderOptions () {
       return {
         min: RADIUS_CONSTRAINTS.MIN,
         max: RADIUS_CONSTRAINTS.MAX,
+        disabled: this.adventure.published,
         interval: 1,
         formatter: (value) => {
           return `${value}m`;
@@ -65,6 +73,9 @@ export default {
   },
   methods: {
     updateHidden (value) {
+      if(this.adventure.published) {
+        return;
+      }
       this.point.hidden = value;
     }
   }
