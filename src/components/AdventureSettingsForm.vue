@@ -1,85 +1,87 @@
 <template lang="pug">
-  .row
-    .col-1-2
-      .form-control
-        label.form-label.form-label--required {{ $t('general.name') }}
-        input.form-input(type="text" :disabled="adventure.published" :placeholder="$t('general.name')" v-model="adventure.name")
+  .adventure-settings
+    .row
+      .col-1-2
+        .form-control
+          label.form-label.form-label--required {{ $t('general.name') }}
+          input.form-input(type="text" :disabled="adventure.published" :placeholder="$t('general.name')" v-model="adventure.name")
 
-      .form-control
-        label.form-label.form-label--required {{ $t("general.description") }}
-        textarea.form-input(:placeholder="$t('general.description')" :disabled="adventure.published" v-model="adventure.description")
+        .form-control
+          label.form-label.form-label--required {{ $t("general.description") }}
+          textarea.form-input(:placeholder="$t('general.description')" :disabled="adventure.published" v-model="adventure.description")
 
-      .form-control
-        .row.row--align-center
-          .col-2-3
-            span {{ $t("adventure.estimated_duration") }}
-            .icon.icon--question-mark.icon--pad-left
-              .icon__tooltip-wrapper.icon__tooltip-wrapper--multiline
-                .icon__tooltip {{ $t("adventure.estimated_duration_explanation") }}
-          .col-1-3
-            .form-checkbox.form-checkbox--small(
-              :class="{ 'form-checkbox--active': specifiedDuration, 'form-checkbox--disabled': adventure.published }" 
-              @click="updateSpecifiedDuration(!specifiedDuration)"
+        .form-control
+          .row.row--align-center
+            .col-2-3
+              span {{ $t("adventure.estimated_duration") }}
+              .icon.icon--question-mark.icon--pad-left
+                .icon__tooltip-wrapper.icon__tooltip-wrapper--multiline
+                  .icon__tooltip {{ $t("adventure.estimated_duration_explanation") }}
+            .col-1-3
+              .form-checkbox.form-checkbox--small(
+                :class="{ 'form-checkbox--active': specifiedDuration, 'form-checkbox--disabled': adventure.published }" 
+                @click="updateSpecifiedDuration(!specifiedDuration)"
+              )
+                .form-checkbox__toggle
+
+          .slider-wrapper.slider-wrapper--padded(v-if="specifiedDuration")
+            vue-slider(
+              ref="durationSlider"
+              :value="duration"
+              v-bind="sliderOptions"
+              @callback="sliderCallback"
             )
-              .form-checkbox__toggle
 
-        .slider-wrapper.slider-wrapper--padded(v-if="specifiedDuration")
-          vue-slider(
-            ref="durationSlider"
-            :value="duration"
-            v-bind="sliderOptions"
-            @callback="sliderCallback"
+        .form-control
+          label.form-label {{ $t("adventure.difficulty") }}
+          v-select(
+            :placeholder="$t('adventure.difficulty')" 
+            :clearable="false" 
+            :options="difficultyLevels" 
+            :value="difficulty" 
+            :disabled="adventure.published"
+            @input="changeDifficulty"
           )
 
-      .form-control
-        label.form-label {{ $t("adventure.difficulty") }}
-        v-select(
-          :placeholder="$t('adventure.difficulty')" 
-          :clearable="false" 
-          :options="difficultyLevels" 
-          :value="difficulty" 
-          :disabled="adventure.published"
-          @input="changeDifficulty")
+        .form-control
+          .row.row--align-center
+            .col-2-3
+              span {{ $t("adventure.adventure_hidden") }}
+              .icon.icon--question-mark.icon--pad-left
+                .icon__tooltip-wrapper.icon__tooltip-wrapper--multiline
+                  .icon__tooltip {{ $t("adventure.adventure_hidden_explanation") }}
+            .col-1-3
+              .form-checkbox.form-checkbox--small(
+                :class="{ 'form-checkbox--active': adventure.hidden, 'form-checkbox--disabled': adventure.published }" 
+                @click="updateHidden(!adventure.hidden)"
+              )
+                .form-checkbox__toggle
 
-      .form-control
-        .row.row--align-center
-          .col-2-3
-            span {{ $t("adventure.adventure_hidden") }}
-            .icon.icon--question-mark.icon--pad-left
-              .icon__tooltip-wrapper.icon__tooltip-wrapper--multiline
-                .icon__tooltip {{ $t("adventure.adventure_hidden_explanation") }}
-          .col-1-3
-            .form-checkbox.form-checkbox--small(
-              :class="{ 'form-checkbox--active': adventure.hidden, 'form-checkbox--disabled': adventure.published }" 
-              @click="updateHidden(!adventure.hidden)"
-            )
-              .form-checkbox__toggle
+        .form-control(v-if="!adventure.published")
+          button.button.button--submit.button--blue.button--large.button--full(@click="submit()") {{ $t('general.submit') }}
 
-      .form-control(v-if="!adventure.published")
-        button.button.button--submit.button--blue.button--large.button--full(@click="submit()") {{ $t('general.submit') }}
+      .col-1-2
+        .form-control
+          label.form-label.form-label--required {{ $t("adventure.cover_image") }}
+          input.form-input(type="text" :disabled="adventure.published" :placeholder="$t('adventure.cover_image')" v-model="adventure.cover_url")
 
-    .col-1-2
-      .form-control
-        label.form-label.form-label--required {{ $t("adventure.cover_image") }}
-        input.form-input(type="text" :disabled="adventure.published" :placeholder="$t('adventure.cover_image')" v-model="adventure.cover_url")
+          .adventure-cover
+            img(:src="adventure.cover_url")
 
-        .adventure-cover
-          img(:src="adventure.cover_url")
+        .form-control
+          label.form-label {{ $t("adventure.promo_images") }}
 
-      .form-control
-        label.form-label {{ $t("adventure.promo_images") }}
-
-      .form-control
-        draggable(
-          v-model="adventure.images"
-          :options="{ disabled: adventure.published }"
-          @change="updateList"
-        )
-          .adventure-promo-image(
-            v-for="image in adventure.images"
-            :key="image.id"
+        .form-control
+          draggable(
+            v-model="adventure.images"
+            :options="{ disabled: adventure.published }"
+            @change="updateList"
           )
-            img(:src="image.url")
+            .adventure-promo-image(
+              v-for="image in adventure.images"
+              :key="image.id"
+            )
+              img(:src="image.url")
 </template>
 
 <script>

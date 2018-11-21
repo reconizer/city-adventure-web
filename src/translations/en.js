@@ -9,7 +9,7 @@ export default {
 
   top_menu: {
     adventures: "Adventures",
-    settings: "Settings",
+    settings: "Account",
     logout: "Log Out",
     language: "Language"
   },
@@ -171,7 +171,7 @@ export default {
     edit: "Edit",
     remove: "Remove",
     submit: "Submit",
-    
+
     around: "Around {value}"
   }
 }

@@ -9,7 +9,7 @@ export default {
 
   top_menu: {
     adventures: "Przygody",
-    settings: "Opcje",
+    settings: "Konto",
     logout: "Wyloguj Się",
     language: "Język"
   },

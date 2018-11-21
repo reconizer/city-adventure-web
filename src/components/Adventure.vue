@@ -1,7 +1,6 @@
 <template lang="pug">
   div
-    .overlay-loader(v-if="loading")
-      .overlay-loader__spinner
+    Loader(v-if="loading")
 
     .adventure-structure(:class="{ 'adventure-structure--expanded': this.expanded }")
       .adventure-structure__header
@@ -10,12 +9,13 @@
           :to="{ name: 'adventureMap', params: { adventureId: adventure.id } }"
         ) {{ adventure.name }}
 
+        .adventure-structure__label(v-if="adventure.published") {{ $t("adventures.adventure_published") }}
+
         router-link.adventure-structure__edit(
           v-if="adventure.id"
           :to="{ name: 'adventureSettings', params: { adventureId: adventure.id } }"
         )
           .icon.icon--settings
-
 
       AdventurePointList
 
@@ -35,13 +35,17 @@ import { LOAD_ADVENTURE } from '@/store/action-types'
 import AdventureMap from '@/components/AdventureMap.vue'
 import AdventurePointList from '@/components/AdventurePointList.vue'
 
+import Loader from '@/views/Loader.vue'
+
 const ACTION_NAMESPACE = 'adventure'
 
 export default {
   name: 'Adventure',
   components: {
     AdventurePointList,
-    AdventureMap
+    AdventureMap,
+
+    Loader
   },
   data () {
     return {

@@ -13,6 +13,8 @@ import AdventureSettingsForm from '@/components/AdventureSettingsForm.vue'
 import AdventureClueForm from '@/components/AdventureClueForm.vue'
 import AdventurePointForm from '@/components/AdventurePointForm.vue'
 
+import AdventureAnalytics from '@/views/AdventureAnalytics.vue'
+
 import Login from '@/views/Login.vue'
 
 Vue.use(Router)
@@ -62,7 +64,21 @@ const router = new Router({
                 },
                 {
                   path: 'analytics',
-                  name: 'adventureAnalytics'
+                  component: AdventureAnalytics,
+                  children: [
+                    {
+                      path: '',
+                      name: 'adventureAnalytics'
+                    },
+                    {
+                      path: 'progression',
+                      name: 'adventureAnalyticsProgression'
+                    },
+                    {
+                      path: 'monetization',
+                      name: 'adventureAnalyticsMonetization'
+                    }
+                  ]
                 },
                 {
                   path: 'testing',
