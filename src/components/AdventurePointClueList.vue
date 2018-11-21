@@ -2,13 +2,14 @@
   div
     draggable.adventure-point-clues(
       v-model="point.clues"
-      :options="{draggable: '.adventure-point-clue-wrapper', group: 'clues'}"
+      :options="{ draggable: '.adventure-point-clue-wrapper', group: 'clues', disabled: adventure.published }"
       @change="updateList($event)"
     )
       .adventure-point-clue-wrapper(
         v-for="(clue, index) in point.clues"
         :key="clue.id"
         :class="{ 'adventure-point-clue-wrapper--tip': clue.tip }"
+        :id="elementId(clue)"
       )
         .adventure-point-clue-wrapper__dot
         .adventure-point-clue-wrapper__line
@@ -24,34 +25,34 @@
           .adventure-point-clue__text(v-else-if="clue.type == 'text'")
             .icon.icon--question-mark.icon--pad-right.icon--align-start
               .icon__tooltip-wrapper
-                .icon__tooltip Text Clue
+                .icon__tooltip {{ $t("adventure.text_clue") }}
 
             .adventure-point-clue__content {{ clue.description }}
 
           .adventure-point-clue__text(v-else-if="clue.type == 'audio'")
             .icon.icon--audio.icon--pad-right
               .icon__tooltip-wrapper
-                .icon__tooltip Audio Clip
+                .icon__tooltip {{ $t("adventure.audio_clue") }}
 
             .adventure-point-clue__content {{ clue.description }}
 
           .adventure-point-clue__text(v-else-if="clue.type == 'video'")
             .icon.icon--video.icon--pad-right
               .icon__tooltip-wrapper
-                .icon__tooltip Video
+                .icon__tooltip {{ $t("adventure.video_clue") }}
 
             .adventure-point-clue__content {{ clue.description }}
 
           .adventure-point-clue__text(v-else-if="clue.type == 'url'")
             .icon.icon--attachment.icon--pad-right
               .icon__tooltip-wrapper
-                .icon__tooltip External URL
+                .icon__tooltip {{ $t("adventure.url_clue") }}
 
             .adventure-point-clue__content {{ clue.url }}
 
-    .adventure-point-new-clue-separator
+    .adventure-point-new-clue-separator(v-if="!adventure.published")
 
-    .adventure-point-new-clue
+    .adventure-point-new-clue(v-if="!adventure.published")
       .adventure-point-clue-wrapper__dot
       .adventure-point-clue-wrapper__line
 
@@ -60,7 +61,7 @@
         exact-active-class="button--gray-dashed-active"
       )
         .icon.icon--add.icon--pad-right
-        span New clue
+        span {{ $t("adventure.new_clue") }}
 </template>
 
 <script>
@@ -85,9 +86,11 @@ export default {
   },
   computed: mapState({
     adventure: state => state.adventure.item
-
   }),
   methods: {
+    elementId (clue) {
+      return `clue-${clue.id}`;
+    },
     updateList (evt) {
       if(evt.added || evt.moved) {
         let clues = this.point.clues.map( (clue, index) => {

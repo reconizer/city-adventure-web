@@ -2,11 +2,11 @@
   .adventure-list
     .adventure-list__header
       .row.row--align-center
-        .col-1-2 Your Adventures
+        .col-1-2 {{ $t("adventures.list_title") }}
         .col-1-2.text-right
           router-link.button.button--blue(
             :to="{ name: 'newAdventure' }"
-          ) Create New
+          ) {{ $t("adventures.create_new") }}
 
     AdventureListItem(v-for="adventureItem in adventures" :key="adventureItem.id" :adventure="adventureItem")
 

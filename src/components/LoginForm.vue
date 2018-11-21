@@ -1,21 +1,21 @@
 <template lang="pug">
   form(@submit.prevent="handleSubmit")
-    .login-header Log In
+    .login-header {{ $t("login.title") }}
 
     .form-control(v-if="error") {{ error }}
 
     .form-control
-      label.form-label.form-label--required Email
+      label.form-label.form-label--required {{ $t("login.email") }}
 
-      input.form-input(v-model="user.email" type="email" name="user[email]" placeholder="email@domain.com" required="true" autocomplete="off")
-
-    .form-control
-      label.form-label.form-label--required Password
-
-      input.form-input(v-model="user.password" type="password" name="user[password]" placeholder="Password" required="true" autocomplete="off")
+      input.form-input(v-model="user.email" type="email" name="user[email]" :placeholder="$t('login.email_placeholder')" required="true" autocomplete="off")
 
     .form-control
-      input.button.button--blue.button--full(type="submit" value="Submit")
+      label.form-label.form-label--required {{ $t("login.password") }}
+
+      input.form-input(v-model="user.password" type="password" name="user[password]" :placeholder="$t('login.password_placeholder')" required="true" autocomplete="off")
+
+    .form-control
+      input.button.button--blue.button--full(type="submit" :value="$t('general.submit')")
 </template>
 
 <script>
@@ -40,7 +40,10 @@ export default {
   },
   methods: {
     handleSubmit () {
-      this.$store.dispatch(`${ACTION_NAMESPACE}/${LOGIN}`, this.user.email, this.user.password);
+      this.$store.dispatch(`${ACTION_NAMESPACE}/${LOGIN}`, {
+        email: this.user.email,
+        password: this.user.password
+      });
     }
   },
 }

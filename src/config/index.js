@@ -1,48 +1,74 @@
 export const BASE_URL = process.env.VUE_APP_API_URL;
 
 export const clueTypes = [
-  {
-    value: 'text',
-    label: 'Text'
-  },
-  {
-    value: 'audio',
-    label: 'Audio'
-  },
-  {
-    value: 'video',
-    label: 'Video'
-  },
-  {
-    value: 'image',
-    label: 'Image'
-  },
-  {
-    value: 'url',
-    label: 'URL'
-  }
+  'text', 'audio', 'video',
+  'image', 'url'
 ]
 
 export const passwordTypes = [
   {
     value: 'text',
-    label: 'Text'
+    length: 50
+  },
+
+  {
+    value: 'number_lock_3',
+    length: 3
   },
   {
-    value: 'numberLock',
-    label: 'Number Lock'
+    value: 'number_lock_4',
+    length: 4
   },
   {
-    value: 'cryptex',
-    label: 'Cryptex'
+    value: 'number_lock_5',
+    length: 5
   },
   {
-    value: 'directionLock',
-    label: 'Direction Lock'
+    value: 'number_lock_6',
+    length: 6
+  },
+
+  {
+    value: 'cryptex_lock_4',
+    length: 4
   },
   {
-    value: 'numberPushLock',
-    label: 'Number Push Lock'
+    value: 'cryptex_lock_5',
+    length: 5
+  },
+  {
+    value: 'cryptex_lock_6',
+    length: 6
+  },
+  {
+    value: 'cryptex_lock_7',
+    length: 7
+  },
+
+  {
+    value: 'direction_lock_4',
+    length: 4
+  },
+  {
+    value: 'direction_lock_6',
+    length: 6
+  },
+  {
+    value: 'direction_lock_8',
+    length: 8
+  },
+
+  {
+    value: 'number_push_lock_3',
+    length: 3
+  },
+  {
+    value: 'number_push_lock_4',
+    length: 4
+  },
+  {
+    value: 'number_push_lock_5',
+    length: 5
   }
 ]
 
@@ -61,17 +87,4 @@ export const ADVENTURE_DURATION_OPTIONS = {
   INTERVAL: 15
 }
 
-export const DIFFICULTY_LEVELS = [
-  {
-    value: 1,
-    label: 'Easy'
-  },
-  {
-    value: 2,
-    label: 'Medium'
-  },
-  {
-    value: 3,
-    label: 'Hard'
-  }
-]
+export const DIFFICULTY_LEVELS = [ 1, 2, 3 ]
