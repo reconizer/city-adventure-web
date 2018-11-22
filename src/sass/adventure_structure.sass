@@ -75,6 +75,43 @@
     &:hover, &:active
       background-color: lighten($adventure-menu-background, 10%)
 
+.submenu-mask
+  position: fixed
+  z-index: $z-index-modal-mask
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  transition: all 0.3s ease-in-out
+
+.submenu-enter .adventure-header-submenu,
+.submenu-leave-to .adventure-header-submenu
+  display: none
+
+.adventure-header-submenu
+  position: fixed
+  border-radius: 0.25rem
+  border: 1px solid $border-color
+  background-color: $white
+  transition: all 0.3s ease-in-out
+  top: $top-menu-height - 2.5rem
+  left: (30rem - 10rem - 2.5rem)
+  width: 10rem
+  box-shadow: 0px 4px 7px -3px $border-color
+  overflow: hidden
+
+  &__item
+    display: block
+    color: $black
+    padding: 0.5rem 1rem
+    font-size: 1rem
+    font-weight: normal
+    text-decoration: none
+
+    &:hover
+      text-decoration: none
+      background-color: $clue-background
+
 .adventure-structure-expander
   transition: all 0.3s ease-in-out
   opacity: 1

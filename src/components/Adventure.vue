@@ -11,13 +11,36 @@
 
         .adventure-structure__label(v-if="adventure.published") {{ $t("adventures.adventure_published") }}
 
-        router-link.adventure-structure__edit(
+        .adventure-structure__edit(
           v-if="adventure.id"
-          :to="{ name: 'adventureSettings', params: { adventureId: adventure.id } }"
+          @click="openSubmenu"
         )
           .icon.icon--settings
 
       AdventurePointList
+
+    transition(name="submenu" v-if="submenu")
+      .submenu-mask(@click="closeSubmenu")
+        .adventure-header-submenu
+          router-link.adventure-header-submenu__item(
+            :to="{ name: 'adventureSettings', params: { adventureId: adventure.id } }"
+          ) 
+            span(v-if="adventure.published") {{ $t("adventure.adventure_details") }}
+            span(v-else) {{ $t("adventure.edit_adventure") }}
+
+          router-link.adventure-header-submenu__item(
+            v-if="adventure.published"
+            :to="{ name: 'adventurePublishing', params: { adventureId: adventure.id } }"
+          ) {{ $t("adventure_publishing.title") }}
+
+          router-link.adventure-header-submenu__item(
+            v-if="adventure.published"
+            :to="{ name: 'adventureAnalytics', params: { adventureId: adventure.id } }"
+          ) {{ $t("adventure_analytics.title") }}
+
+          router-link.adventure-header-submenu__item(
+            :to="{ name: 'adventureTesting', params: { adventureId: adventure.id } }"
+          ) {{ $t("adventure_testing.title") }}
 
     //.adventure-structure-expander(@click="toggleExpand")
       span Expand
@@ -49,7 +72,8 @@ export default {
   },
   data () {
     return {
-      expanded: true
+      expanded: true,
+      submenu: false
     }
   },
   computed: mapState({
@@ -65,6 +89,13 @@ export default {
   methods: {
     toggleExpand () {
       this.expanded = !this.expanded;
+    },
+
+    openSubmenu () {
+      this.submenu = true;
+    },
+    closeSubmenu () {
+      this.submenu = false;
     }
   }
 }

@@ -14,6 +14,7 @@ import AdventureClueForm from '@/components/AdventureClueForm.vue'
 import AdventurePointForm from '@/components/AdventurePointForm.vue'
 
 import AdventureAnalytics from '@/views/AdventureAnalytics.vue'
+import AdventureAnalyticsOverview from '@/components/AdventureAnalyticsOverview.vue'
 
 import Login from '@/views/Login.vue'
 
@@ -68,7 +69,8 @@ const router = new Router({
                   children: [
                     {
                       path: '',
-                      name: 'adventureAnalytics'
+                      name: 'adventureAnalytics',
+                      component: AdventureAnalyticsOverview
                     },
                     {
                       path: 'progression',

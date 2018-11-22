@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "chart.js": "^2.7.3",
     "lodash.clonedeep": "^4.5.0",
     "moment": "^2.22.2",
     "normalize.css": "^8.0.1",
