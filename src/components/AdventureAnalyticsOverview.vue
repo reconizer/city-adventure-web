@@ -2,49 +2,44 @@
   .adventure-analytics
     .row
       .col-2-3
-        .analytics-chart-header Purchases
+        .analytics-chart-header Purchases ({{ overviewPurchases }})
         AreaChart(:chart-data="purchasesData" :styles="chartStyles" :options="lineChartOptions")
       .col-1-3
-        .analytics-total-ratings Total ratings: {{ this.overviewRatingsCount }}
+        .analytics-total-ratings Total ratings: {{ overviewRatingsCount }}
 
         .analytics-stars
           .icon.icon--full-star.icon--pad-right(v-for="i in fullStars")
           .icon.icon--half-star.icon--pad-right(v-if="hasHalfStar")
           .icon.icon--empty-star.icon--pad-right(v-for="i in emptyStars")
-          .analytics-stars__label {{ this.overviewRating }} out of 5 stars
+          .analytics-stars__label {{ overviewRating }} out of 5 stars
 
         .analytics-rating
           .analytics-rating__label 5 stars
-          .analytics-rating__progress
+          .analytics-rating__progress(:title="ratings.rating_5")
             .rating-progress(:class="'rating-progress--' + ratings5Percent")
-          .analytics-rating__percent {{ ratings5Percent }}%
 
         .analytics-rating
           .analytics-rating__label 4 stars
-          .analytics-rating__progress
+          .analytics-rating__progress(:title="ratings.rating_4")
             .rating-progress(:class="'rating-progress--' + ratings4Percent")
-          .analytics-rating__percent {{ ratings4Percent }}%
 
         .analytics-rating
           .analytics-rating__label 3 stars
-          .analytics-rating__progress
+          .analytics-rating__progress(:title="ratings.rating_3")
             .rating-progress(:class="'rating-progress--' + ratings3Percent")
-          .analytics-rating__percent {{ ratings3Percent }}%
 
         .analytics-rating
           .analytics-rating__label 2 stars
-          .analytics-rating__progress
+          .analytics-rating__progress(:title="ratings.rating_2")
             .rating-progress(:class="'rating-progress--' + ratings2Percent")
-          .analytics-rating__percent {{ ratings2Percent }}%
 
         .analytics-rating
-          .analytics-rating__label 1 stars
-          .analytics-rating__progress
+          .analytics-rating__label 1 star
+          .analytics-rating__progress(:title="ratings.rating_1")
             .rating-progress(:class="'rating-progress--' + ratings1Percent")
-          .analytics-rating__percent {{ ratings1Percent }}%
 
       .col-2-3
-        .analytics-chart-header Views
+        .analytics-chart-header Views ({{ overviewViews }})
         AreaChart(:chart-data="viewsData" :styles="chartStyles" :options="lineChartOptions")
 </template>
 
