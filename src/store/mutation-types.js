@@ -29,3 +29,8 @@ export const REMOVE_POINT = "removePoint";
 export const SET_CLUE = "setClue";
 export const ADD_CLUE = "addClue";
 export const REMOVE_CLUE = "removeClue";
+
+//Analytics
+export const CLEAR_OVERVIEW = "clearOverview";
+export const SET_OVERVIEW_PURCHASES = "setOverviewPurchases";
+export const SET_OVERVIEW_VIEWS = "setOverviewViews";

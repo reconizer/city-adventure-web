@@ -44,12 +44,8 @@
     top: 2rem
     cursor: pointer
 
-.modal-enter
+.modal-enter, .modal-leave-active
   opacity: 0
 
-.modal-leave-active
-  opacity: 0
-
-.modal-enter .modal,
-.modal-leave-active .modal
-  transform: translateY(-2rem)
+  .modal
+    transform: translateY(-2rem)

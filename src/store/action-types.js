@@ -21,3 +21,6 @@ export const DESTROY_CLUE = "destroyClue";
 
 export const CREATE_POINT = "createPoint";
 export const DESTROY_POINT = "destroyPoint";
+
+//Analytics
+export const LOAD_ANALYTICS_OVERVIEW = "loadAnalyticsOverview";

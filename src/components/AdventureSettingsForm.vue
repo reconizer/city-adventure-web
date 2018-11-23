@@ -1,5 +1,13 @@
 <template lang="pug">
   .adventure-settings
+    .adventure-panel__header
+      router-link.button.button--icon(:to="{ name: 'adventureMap', params: { adventureId: adventure.id } }")
+        .icon.icon--back
+
+      .adventure-panel__title
+        span(v-if="adventure.published") {{ $t("adventure.adventure_details") }}
+        span(v-else) {{ $t("adventure.edit_adventure") }}
+
     .row
       .col-1-2
         .form-control
