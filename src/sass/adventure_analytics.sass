@@ -5,3 +5,34 @@
   font-weight: bold
   text-align: center
   margin-bottom: 1rem
+
+.analytics-rating
+  display: flex
+  align-items: center
+
+  & + &
+    margin-top: 0.5rem
+
+  &__label
+    width: 4rem
+    flex-shrink: 0
+
+  &__progress
+    flex: 1
+
+  &__percent
+    flex-shrink: 0
+    padding-left: 1rem
+    width: 2rem
+
+.analytics-total-ratings
+  margin-bottom: 1rem
+  font-weight: bold
+
+.analytics-stars
+  margin-bottom: 1rem
+  display: flex
+  align-items: flex-end
+
+  &__label
+    display: inline-block
