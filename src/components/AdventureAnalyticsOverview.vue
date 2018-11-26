@@ -1,10 +1,14 @@
 <template lang="pug">
   .adventure-analytics
     .row
-      .col-2-3
+      .col-2-3(v-if="purchases.length > 0")
         .analytics-chart-header Purchases ({{ overviewPurchases }})
         AreaChart(:chart-data="purchasesData" :styles="chartStyles" :options="lineChartOptions")
-      .col-1-3
+
+        .analytics-chart-header Views ({{ overviewViews }})
+        AreaChart(:chart-data="viewsData" :styles="chartStyles" :options="lineChartOptions")
+
+      .col-1-3(v-if="ratings.rating_5")
         .analytics-total-ratings Total ratings: {{ overviewRatingsCount }}
 
         .analytics-stars
@@ -37,10 +41,6 @@
           .analytics-rating__label 1 star
           .analytics-rating__progress(:title="ratings.rating_1")
             .rating-progress(:class="'rating-progress--' + ratings1Percent")
-
-      .col-2-3
-        .analytics-chart-header Views ({{ overviewViews }})
-        AreaChart(:chart-data="viewsData" :styles="chartStyles" :options="lineChartOptions")
 </template>
 
 <script>
@@ -131,7 +131,7 @@ export default {
     },
     viewsData () {
       return {
-        labels: this.views.map((view, index) => {
+        labels: this.views.map((view) => {
           return moment(view.timestamp).format('ll');
         }),
         datasets: [
@@ -162,17 +162,17 @@ export default {
         legend: {
           display: false
         },
+        tooltips: {
+          mode: 'index',
+          intersect: false
+        },
         scales: {
           xAxes: [{
-            autoSkip: false,
-            afterTickToLabelConversion: (data) => {
-              let xLabels = data.ticks;
-
-              data.ticks.forEach((labels, i) => {
-                if(i % 2 == 1) {
-                  xLabels[i] = '';
-                }
-              });
+            ticks: {
+              autoSkip: false,
+              userCallback: (item, index) => {
+                if(!(index % 2)) return item;
+              }
             }
           }]
         }

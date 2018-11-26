@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    Loader(v-if="loading")
+    Loader(v-if="loading || analyticsLoading")
 
     .adventure-structure(:class="{ 'adventure-structure--expanded': this.expanded }")
       .adventure-structure__header
@@ -81,6 +81,7 @@ export default {
     points: state => state.adventure.points,
 
     loading: state => state.adventure.loading,
+    analyticsLoading: state => state.analytics.loading,
     error: state => state.adventure.error
   }),
   created () {

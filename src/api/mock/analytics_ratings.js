@@ -2,12 +2,17 @@ import moment from 'moment'
 
 export default (adventureId, startDate, endDate) => new Promise((resolve) => {
   setTimeout(() =>{
+    let start = moment(startDate);
+    let end = moment(endDate);
+
+    let diffDays = end.diff(start, 'days');
+
     let statData = {
-      rating_5: 20 + Math.floor(Math.random()*40),
-      rating_4: 35 + Math.floor(Math.random()*80),
-      rating_3: 10 + Math.floor(Math.random()*25),
-      rating_2: 10 + Math.floor(Math.random()*30),
-      rating_1: 15 + Math.floor(Math.random()*15)
+      rating_5: 20 + Math.floor(Math.random()* 3 * diffDays),
+      rating_4: 35 + Math.floor(Math.random()* 6 * diffDays),
+      rating_3: 10 + Math.floor(Math.random()* 1 * diffDays),
+      rating_2: 10 + Math.floor(Math.random()* 3 * diffDays),
+      rating_1: 15 + Math.floor(Math.random()* 1 * diffDays)
     };
 
     resolve({
