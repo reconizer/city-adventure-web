@@ -34,3 +34,4 @@ export const REMOVE_CLUE = "removeClue";
 export const CLEAR_OVERVIEW = "clearOverview";
 export const SET_OVERVIEW_PURCHASES = "setOverviewPurchases";
 export const SET_OVERVIEW_VIEWS = "setOverviewViews";
+export const SET_OVERVIEW_RATINGS = "setOverviewRatings";
