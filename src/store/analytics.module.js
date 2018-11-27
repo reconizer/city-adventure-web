@@ -1,7 +1,4 @@
 import api from '@/api'
-import Vue from 'vue'
-
-import router from '@/router'
 
 import moment from 'moment'
 
@@ -23,10 +20,12 @@ export default {
     overview: {
       purchases: [],
       views: [],
-      ratings: {},
-      rankings: {}
+      ratings: {}
     },
     userProgress: {
+      completion: {},
+      rankings: [],
+      tipUsage: []
     },
     monetization: {
     },
