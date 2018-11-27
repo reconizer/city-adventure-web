@@ -3,29 +3,36 @@ import api from '@/api'
 import moment from 'moment'
 
 import {
-  SET_LOADING, SET_ERROR,
-  SET_OVERVIEW_PURCHASES,
-  SET_OVERVIEW_VIEWS,
-  SET_OVERVIEW_RATINGS,
-  CLEAR_OVERVIEW
+  CLEAR_OVERVIEW,
+  SET_OVERVIEW_SUMMARY, SET_OVERVIEW_PURCHASES,
+  SET_OVERVIEW_VIEWS, SET_OVERVIEW_RATINGS,
+
+  CLEAR_USER_PROGRESS,
+  SET_USER_PROGRESS_PARTICIPANTS, SET_USER_PROGRESS_RANKINGS,
+  SET_USER_PROGRESS_TIP_USAGE, SET_USER_PROGRESS_TIME_SPENT_PER_POINT,
+
+  SET_LOADING, SET_ERROR
 } from './mutation-types'
 
 import {
-  LOAD_ANALYTICS_OVERVIEW
+  LOAD_ANALYTICS_OVERVIEW,
+  LOAD_ANALYTICS_USER_PROGRESS
 } from './action-types'
 
 export default {
   namespaced: true,
   state: {
     overview: {
+      summary: {},
       purchases: [],
       views: [],
       ratings: {}
     },
     userProgress: {
-      completion: {},
+      participants: {},
       rankings: [],
-      tipUsage: []
+      tipUsage: [],
+      timeSpentPerPoint: []
     },
     monetization: {
     },
@@ -69,11 +76,18 @@ export default {
     }
   },
   mutations: {
+    /**
+     * OVERVIEW
+     */
     [CLEAR_OVERVIEW] (state) {
       state.overview.purchases = [];
       state.overview.views = [];
       state.overview.ratings = {};
       state.overview.rankings = {};
+    },
+
+    [SET_OVERVIEW_SUMMARY] (state, summary) {
+      state.overview.summary = summary;
     },
 
     [SET_OVERVIEW_PURCHASES] (state, purchases) {
@@ -88,6 +102,35 @@ export default {
       state.overview.ratings = ratings;
     },
 
+    /**
+     * USER PROGRESS
+     */
+    [CLEAR_USER_PROGRESS] (state) {
+      state.userProgress.participants = {};
+      state.userProgress.rankings = [];
+      state.userProgress.tipUsage = [];
+      state.userProgress.timeSpentPerPoint = [];
+    },
+
+    [SET_USER_PROGRESS_PARTICIPANTS] (state, participants) {
+      state.userProgress.participants = participants;
+    },
+
+    [SET_USER_PROGRESS_RANKINGS] (state, rankings) {
+      state.userProgress.rankings = rankings;
+    },
+
+    [SET_USER_PROGRESS_TIP_USAGE] (state, tipUsage) {
+      state.userProgress.tipUsage = tipUsage;
+    },
+
+    [SET_USER_PROGRESS_TIME_SPENT_PER_POINT] (state, timeSpentPerPoint) {
+      state.userProgress.timeSpentPerPoint = timeSpentPerPoint;
+    },
+
+    /**
+     * GENERAL
+     */
     [SET_LOADING] (state, loading) {
       state.loading = loading;
     },
@@ -103,14 +146,47 @@ export default {
 
       commit(SET_LOADING, true);
 
+      let start = moment().subtract(30, 'days').toDate();
+      let end = moment().toDate();
+
       return Promise.all([
-        api.analytics.purchases(id, moment().subtract(30, 'days').toDate(), moment().toDate()),
-        api.analytics.views(id, moment().subtract(30, 'days').toDate(), moment().toDate()),
-        api.analytics.ratings(id, moment().subtract(30, 'days').toDate(), moment().toDate())
+        api.analytics.overview.summary(id, start, end),
+
+        api.analytics.overview.purchases(id, start, end),
+        api.analytics.overview.views(id, start, end),
+        api.analytics.overview.ratings(id, start, end)
       ]).then( (values) => {
-        commit(SET_OVERVIEW_PURCHASES, values[0].data.statistics);
-        commit(SET_OVERVIEW_VIEWS, values[1].data.statistics);
-        commit(SET_OVERVIEW_RATINGS, values[2].data.ratings);
+        commit(SET_OVERVIEW_SUMMARY, values[0].data.overview);
+
+        commit(SET_OVERVIEW_PURCHASES, values[1].data.statistics);
+        commit(SET_OVERVIEW_VIEWS, values[2].data.statistics);
+        commit(SET_OVERVIEW_RATINGS, values[3].data.ratings);
+
+        commit(SET_LOADING, false);
+      })
+      .catch( error => {
+        commit(SET_ERROR, error);
+      })
+    },
+
+    [LOAD_ANALYTICS_USER_PROGRESS] ({ commit }, { id }) {
+      commit(CLEAR_USER_PROGRESS);
+
+      commit(SET_LOADING, true);
+
+      let start = moment().subtract(30, 'days').toDate();
+      let end = moment().toDate();
+
+      return Promise.all([
+        api.analytics.userProgress.participants(id, start, end),
+        api.analytics.userProgress.rankings(id, start, end),
+        api.analytics.userProgress.tipUsage(id, start, end),
+        api.analytics.userProgress.timeSpentPerPoint(id, start, end),
+      ]).then( (values) => {
+        commit(SET_USER_PROGRESS_PARTICIPANTS, values[0].data.participants);
+        commit(SET_USER_PROGRESS_RANKINGS, values[1].data.rankings);
+        commit(SET_USER_PROGRESS_TIP_USAGE, values[2].data.tip_usage);
+        commit(SET_USER_PROGRESS_TIME_SPENT_PER_POINT, values[3].data.time_spent);
 
         commit(SET_LOADING, false);
       })

@@ -1,9 +1,9 @@
 <script>
-import { Line, mixins } from 'vue-chartjs'
+import { Bar, mixins } from 'vue-chartjs'
 
 export default {
-  name: 'AreaChart',
-  extends: Line,
+  name: 'BarChart',
+  extends: Bar,
   mixins: [mixins.reactiveProp],
   props: ['options'],
   mounted () {

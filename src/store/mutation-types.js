@@ -32,6 +32,13 @@ export const REMOVE_CLUE = "removeClue";
 
 //Analytics
 export const CLEAR_OVERVIEW = "clearOverview";
+export const SET_OVERVIEW_SUMMARY = "setOverviewSummary";
 export const SET_OVERVIEW_PURCHASES = "setOverviewPurchases";
 export const SET_OVERVIEW_VIEWS = "setOverviewViews";
 export const SET_OVERVIEW_RATINGS = "setOverviewRatings";
+
+export const CLEAR_USER_PROGRESS = "clearUserProgress";
+export const SET_USER_PROGRESS_PARTICIPANTS = "setUserProgressParticipants";
+export const SET_USER_PROGRESS_RANKINGS = "setUserProgressRankings";
+export const SET_USER_PROGRESS_TIP_USAGE = "setUserProgressTipUsage";
+export const SET_USER_PROGRESS_TIME_SPENT_PER_POINT = "setUserProgressTimeSpentPerPoint";

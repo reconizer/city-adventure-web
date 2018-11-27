@@ -2,20 +2,47 @@ import axios from 'axios';
 
 import { BASE_URL } from '@/config';
 
-import purchasesMock from './mock/analytics_purchasing';
-import viewsMock from './mock/analytics_views';
-import ratingsMock from './mock/analytics_ratings';
+import overviewSummaryMock from './mock/analytics/overview_summary';
+import purchasesMock from './mock/analytics/purchasing';
+import viewsMock from './mock/analytics/views';
+import ratingsMock from './mock/analytics/ratings';
+
+import participantsMock from './mock/analytics/participants';
+import rankingsMock from './mock/analytics/rankings';
+import tipUsageMock from './mock/analytics/tip_usage';
+import timeSpentPerPointMock from './mock/analytics/time_spent_per_point';
 
 export default {
-  purchases (adventureId, startDate, endDate) {
-    return purchasesMock(adventureId, startDate, endDate);
+  overview: {
+    summary (adventureId, startDate, endDate) {
+      return overviewSummaryMock(adventureId, startDate, endDate);
+    },
+
+    purchases (adventureId, startDate, endDate) {
+      return purchasesMock(adventureId, startDate, endDate);
+    },
+
+    views (adventureId, startDate, endDate) {
+      return viewsMock(adventureId, startDate, endDate);
+    },
+
+    ratings (adventureId, startDate, endDate) {
+      return ratingsMock(adventureId, startDate, endDate);
+    }
   },
 
-  views (adventureId, startDate, endDate) {
-    return viewsMock(adventureId, startDate, endDate);
-  },
-  
-  ratings (adventureId, startDate, endDate) {
-    return ratingsMock(adventureId, startDate, endDate);
+  userProgress: {
+    participants (adventureId, startDate, endDate) {
+      return participantsMock(adventureId, startDate, endDate);
+    },
+    rankings (adventureId, startDate, endDate) {
+      return rankingsMock(adventureId, startDate, endDate);
+    },
+    tipUsage (adventureId, startDate, endDate) {
+      return tipUsageMock(adventureId, startDate, endDate);
+    },
+    timeSpentPerPoint (adventureId, startDate, endDate) {
+      return timeSpentPerPointMock(adventureId, startDate, endDate);
+    },
   }
 }

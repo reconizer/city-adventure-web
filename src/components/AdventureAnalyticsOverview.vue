@@ -15,7 +15,7 @@
           .icon.icon--full-star.icon--pad-right(v-for="i in fullStars")
           .icon.icon--half-star.icon--pad-right(v-if="hasHalfStar")
           .icon.icon--empty-star.icon--pad-right(v-for="i in emptyStars")
-          .analytics-stars__label {{ overviewRating }} out of 5 stars
+          .analytics-stars__label {{ overviewRating }} out of 5
 
         .analytics-rating
           .analytics-rating__label 5 stars
@@ -62,10 +62,10 @@ export default {
     ...mapState({
       adventure: state => state.adventure.item,
 
+      summary: state => state.analytics.overview.summary,
       purchases: state => state.analytics.overview.purchases,
       views: state => state.analytics.overview.views,
       ratings: state => state.analytics.overview.ratings,
-      rankings: state => state.analytics.overview.rankings,
 
       loading: state => state.analytics.loading,
       error: state => state.analytics.error
