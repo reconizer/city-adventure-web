@@ -121,3 +121,15 @@ export const ADVENTURE_DURATION_OPTIONS = {
 }
 
 export const DIFFICULTY_LEVELS = [ 1, 2, 3 ]
+
+export const AREA_BORDER_COLOR = '#ff2b848f'
+export const AREA_BACKGROUND_COLOR = '#ff2b845f'
+export const AREA_POINT_BACKGROUND_COLOR = '#ffffff'
+export const AREA_POINT_BORDER_COLOR = '#ff65a5'
+
+export const COMPLETED_COLOR = '#7bc043'
+export const COMPLETED_WITH_TIP_COLOR = '#ffdc00'
+export const IN_PROGRESS_COLOR = '#ff851b'
+export const ABANDONED_COLOR = '#ff4136'
+
+export const BAR_BACKGROUND_COLOR = '#ff88ba'

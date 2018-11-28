@@ -29,7 +29,6 @@
             span(v-else) {{ $t("adventure.edit_adventure") }}
 
           router-link.adventure-header-submenu__item(
-            v-if="adventure.published"
             :to="{ name: 'adventurePublishing', params: { adventureId: adventure.id } }"
           ) {{ $t("adventure_publishing.title") }}
 

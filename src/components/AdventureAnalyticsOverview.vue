@@ -51,6 +51,11 @@ import moment from 'moment'
 
 import { LOAD_ANALYTICS_OVERVIEW } from '@/store/action-types'
 
+import {
+  AREA_BORDER_COLOR, AREA_BACKGROUND_COLOR,
+  AREA_POINT_BORDER_COLOR, AREA_POINT_BACKGROUND_COLOR
+} from '@/config'
+
 const ACTION_NAMESPACE = 'analytics'
 
 export default {
@@ -117,13 +122,13 @@ export default {
         }),
         datasets: [
           {
-            borderColor: '#ff2b848f',
-            backgroundColor: '#ff2b845f',
+            borderColor: AREA_BORDER_COLOR,
+            backgroundColor: AREA_BACKGROUND_COLOR,
             lineTension: 0,
             pointRadius: 6,
             pointBorderWidth: 2,
-            pointBackgroundColor: 'white',
-            pointBorderColor: '#ff65a5',
+            pointBackgroundColor: AREA_POINT_BACKGROUND_COLOR,
+            pointBorderColor: AREA_POINT_BORDER_COLOR,
             data: this.purchases.map(purchase => purchase.data)
           }
         ]
@@ -136,13 +141,13 @@ export default {
         }),
         datasets: [
           {
-            borderColor: '#ff2b848f',
-            backgroundColor: '#ff2b845f',
+            borderColor: AREA_BORDER_COLOR,
+            backgroundColor: AREA_BACKGROUND_COLOR,
             lineTension: 0,
             pointRadius: 6,
             pointBorderWidth: 2,
-            pointBackgroundColor: 'white',
-            pointBorderColor: '#ff65a5',
+            pointBackgroundColor: AREA_POINT_BACKGROUND_COLOR,
+            pointBorderColor: AREA_POINT_BORDER_COLOR,
             data: this.views.map(view => view.data)
           }
         ]

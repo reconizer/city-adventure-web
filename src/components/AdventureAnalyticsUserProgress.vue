@@ -24,6 +24,8 @@ import BarChart from '@/components/charts/BarChart.vue'
 
 import { LOAD_ANALYTICS_USER_PROGRESS } from '@/store/action-types'
 
+import { BAR_BACKGROUND_COLOR } from '@/config'
+
 const ACTION_NAMESPACE = 'analytics'
 
 export default {
@@ -52,7 +54,7 @@ export default {
         }),
         datasets: [
           {
-            backgroundColor: '#ff88ba',
+            backgroundColor: BAR_BACKGROUND_COLOR,
             data: this.tipUsage.map(tipUsage => tipUsage.percentage)
           }
         ]
@@ -99,7 +101,7 @@ export default {
         }),
         datasets: [
           {
-            backgroundColor: '#ff88ba',
+            backgroundColor: BAR_BACKGROUND_COLOR,
             data: this.timeSpentPerPoint.map(timeSpent => timeSpent.average)
           }
         ]
@@ -147,7 +149,7 @@ export default {
         }),
         datasets: [
           {
-            backgroundColor: '#ff88ba',
+            backgroundColor: BAR_BACKGROUND_COLOR,
             data: this.wrongEntries.map(wrongEntry => wrongEntry.percentage)
           }
         ]

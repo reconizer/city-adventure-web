@@ -36,6 +36,13 @@ import BarChart from '@/components/charts/BarChart.vue'
 
 import { LOAD_ANALYTICS_USER_COMPLETION } from '@/store/action-types'
 
+import {
+  COMPLETED_COLOR, COMPLETED_WITH_TIP_COLOR,
+  IN_PROGRESS_COLOR, ABANDONED_COLOR,
+
+  BAR_BACKGROUND_COLOR
+} from '@/config'
+
 const ACTION_NAMESPACE = 'analytics'
 
 export default {
@@ -66,10 +73,10 @@ export default {
         datasets: [
           {
             backgroundColor: [
-              '#7bc043',
-              '#ffdc00',
-              '#ff851b',
-              '#ff4136'
+              COMPLETED_COLOR,
+              COMPLETED_WITH_TIP_COLOR,
+              IN_PROGRESS_COLOR,
+              ABANDONED_COLOR
             ],
             data: [
               this.participants.completed,
@@ -110,7 +117,7 @@ export default {
         }),
         datasets: [
           {
-            backgroundColor: '#ff88ba',
+            backgroundColor: BAR_BACKGROUND_COLOR,
             data: this.rankings.map(ranking => ranking.count)
           }
         ]
