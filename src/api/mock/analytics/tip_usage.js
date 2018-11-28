@@ -4,11 +4,11 @@ export default (adventureId, startDate, endDate) => new Promise((resolve) => {
   setTimeout(() => {
     let tip_usage = [
       {
-        usage: 0,
+        percentage: 0,
         count: 0
       },
       {
-        usage: 0,
+        percentage: 0,
         count: 0
       },
       {
@@ -16,7 +16,7 @@ export default (adventureId, startDate, endDate) => new Promise((resolve) => {
         count: 10
       },
       {
-        usage: 0,
+        percentage: 0,
         count: 0
       },
       {

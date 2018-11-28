@@ -11,6 +11,7 @@ import participantsMock from './mock/analytics/participants';
 import rankingsMock from './mock/analytics/rankings';
 import tipUsageMock from './mock/analytics/tip_usage';
 import timeSpentPerPointMock from './mock/analytics/time_spent_per_point';
+import wrongPasswordEntiresMock from './mock/analytics/wrong_password_entries';
 
 export default {
   overview: {
@@ -44,5 +45,8 @@ export default {
     timeSpentPerPoint (adventureId, startDate, endDate) {
       return timeSpentPerPointMock(adventureId, startDate, endDate);
     },
+    wrongPasswordEntires (adventureId, startDate, endDate) {
+      return wrongPasswordEntiresMock(adventureId, startDate, endDate);
+    }
   }
 }

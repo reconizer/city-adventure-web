@@ -12,7 +12,7 @@ export default (adventureId, startDate, endDate) => new Promise((resolve) => {
     for(let i = 0; i < diffDays; i++) {
       statData.push({
         timestamp: start.clone().add(i, 'days').toDate().getTime(),
-        data: Math.floor(Math.random() * 15)
+        data: 2 + Math.floor(Math.random() * 15)
       });
     }
 

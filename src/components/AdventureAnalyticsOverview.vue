@@ -158,6 +158,11 @@ export default {
 
     lineChartOptions () {
       return {
+        layout: {
+          padding: {
+            top: 10
+          }
+        },
         maintainAspectRatio: false,
         legend: {
           display: false

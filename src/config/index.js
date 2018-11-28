@@ -5,70 +5,103 @@ export const clueTypes = [
   'image', 'url'
 ]
 
+import directionLock from '@/assets/images/puzzles/direction_lock.png'
+
+import letterLock4 from '@/assets/images/puzzles/letter_lock_4.png'
+import letterLock5 from '@/assets/images/puzzles/letter_lock_5.png'
+import letterLock6 from '@/assets/images/puzzles/letter_lock_6.png'
+import letterLock7 from '@/assets/images/puzzles/letter_lock_7.png'
+
+import numberLock3 from '@/assets/images/puzzles/number_lock_3.png'
+import numberLock4 from '@/assets/images/puzzles/number_lock_4.png'
+import numberLock5 from '@/assets/images/puzzles/number_lock_5.png'
+import numberLock6 from '@/assets/images/puzzles/number_lock_6.png'
+
+import numberPushLock6 from '@/assets/images/puzzles/number_push_lock_6.png'
+import numberPushLock8 from '@/assets/images/puzzles/number_push_lock_8.png'
+import numberPushLock10 from '@/assets/images/puzzles/number_push_lock_10.png'
+
+import textPassword from '@/assets/images/puzzles/text_password.png'
+
 export const passwordTypes = [
   {
     value: 'text',
-    length: 50
+    length: 50,
+    image_url: textPassword
   },
 
   {
     value: 'number_lock_3',
-    length: 3
+    length: 3,
+    image_url: numberLock3
   },
   {
     value: 'number_lock_4',
-    length: 4
+    length: 4,
+    image_url: numberLock4
   },
   {
     value: 'number_lock_5',
-    length: 5
+    length: 5,
+    image_url: numberLock5
   },
   {
     value: 'number_lock_6',
-    length: 6
+    length: 6,
+    image_url: numberLock6
   },
 
   {
     value: 'cryptex_lock_4',
-    length: 4
+    length: 4,
+    image_url: letterLock4
   },
   {
     value: 'cryptex_lock_5',
-    length: 5
+    length: 5,
+    image_url: letterLock5
   },
   {
     value: 'cryptex_lock_6',
-    length: 6
+    length: 6,
+    image_url: letterLock6
   },
   {
     value: 'cryptex_lock_7',
-    length: 7
+    length: 7,
+    image_url: letterLock7
   },
 
   {
     value: 'direction_lock_4',
-    length: 4
+    length: 4,
+    image_url: directionLock
   },
   {
     value: 'direction_lock_6',
-    length: 6
+    length: 6,
+    image_url: directionLock
   },
   {
     value: 'direction_lock_8',
-    length: 8
+    length: 8,
+    image_url: directionLock
   },
 
   {
     value: 'number_push_lock_3',
-    length: 3
+    length: 3,
+    image_url: numberPushLock6
   },
   {
     value: 'number_push_lock_4',
-    length: 4
+    length: 4,
+    image_url: numberPushLock8
   },
   {
     value: 'number_push_lock_5',
-    length: 5
+    length: 5,
+    image_url: numberPushLock10
   }
 ]
 

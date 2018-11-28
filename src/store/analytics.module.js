@@ -10,6 +10,7 @@ import {
   CLEAR_USER_PROGRESS,
   SET_USER_PROGRESS_PARTICIPANTS, SET_USER_PROGRESS_RANKINGS,
   SET_USER_PROGRESS_TIP_USAGE, SET_USER_PROGRESS_TIME_SPENT_PER_POINT,
+  SET_USER_PROGRESS_WRONG_ENTRIES,
 
   SET_LOADING, SET_ERROR
 } from './mutation-types'
@@ -32,7 +33,8 @@ export default {
       participants: {},
       rankings: [],
       tipUsage: [],
-      timeSpentPerPoint: []
+      timeSpentPerPoint: [],
+      wrongEntries: []
     },
     monetization: {
     },
@@ -110,6 +112,7 @@ export default {
       state.userProgress.rankings = [];
       state.userProgress.tipUsage = [];
       state.userProgress.timeSpentPerPoint = [];
+      state.userProgress.wrongEntries = [];
     },
 
     [SET_USER_PROGRESS_PARTICIPANTS] (state, participants) {
@@ -126,6 +129,10 @@ export default {
 
     [SET_USER_PROGRESS_TIME_SPENT_PER_POINT] (state, timeSpentPerPoint) {
       state.userProgress.timeSpentPerPoint = timeSpentPerPoint;
+    },
+
+    [SET_USER_PROGRESS_WRONG_ENTRIES] (state, wrongEntries) {
+      state.userProgress.wrongEntries = wrongEntries;
     },
 
     /**
@@ -182,11 +189,13 @@ export default {
         api.analytics.userProgress.rankings(id, start, end),
         api.analytics.userProgress.tipUsage(id, start, end),
         api.analytics.userProgress.timeSpentPerPoint(id, start, end),
+        api.analytics.userProgress.wrongPasswordEntires(id, start, end)
       ]).then( (values) => {
         commit(SET_USER_PROGRESS_PARTICIPANTS, values[0].data.participants);
         commit(SET_USER_PROGRESS_RANKINGS, values[1].data.rankings);
         commit(SET_USER_PROGRESS_TIP_USAGE, values[2].data.tip_usage);
         commit(SET_USER_PROGRESS_TIME_SPENT_PER_POINT, values[3].data.time_spent);
+        commit(SET_USER_PROGRESS_WRONG_ENTRIES, values[4].data.wrong_entries);
 
         commit(SET_LOADING, false);
       })
