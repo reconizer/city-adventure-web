@@ -87,7 +87,36 @@ export default {
   },
 
   adventure_analytics: {
-    title: "Analytics"
+    title: "Analytics",
+
+    overview: "Overview",
+    overview_purchases: "Purchases ({value})",
+    overview_ratings: "Total ratings: {value}",
+    overview_views: "Adventure description views ({value})",
+    overview_stars: "{value} out of 5",
+    overview_stars_5: "5 stars",
+    overview_stars_4: "4 stars",
+    overview_stars_3: "3 stars",
+    overview_stars_2: "2 stars",
+    overview_stars_1: " 1 star",
+
+    completion: "Adventure Completion",
+    completion_participants: "Participants ({value})",
+    completion_abandoned_tip: "Abandoned means no user activity in incomplete adventure in last two days",
+    completion_clear_times: "Clear Times",
+    completion_worst_time: "Worst Time",
+    completion_best_time: "Best Time",
+
+    completion_completed: "Completed",
+    completion_completed_with_tips: "Completed with tips",
+    completion_in_progress: "In Progress",
+    completion_abandoned: "Abandoned",
+
+    progression: "Adventure Progression",
+
+    progression_tip_usage: "Tip usage per point",
+    progression_average_time: "Average time spent per point",
+    progression_wrong_entries: "Wrong passwords entered by point"
   },
 
   adventure_testing: {

@@ -10,17 +10,17 @@
       router-link.tabs__item(
         exact-active-class="tabs__item--active"
         :to="{ name: 'adventureAnalytics', params: { adventureId: adventure.id } }"
-      ) Overview
+      ) {{ $t("adventure_analytics.overview") }}
+
+      router-link.tabs__item(
+        exact-active-class="tabs__item--active"
+        :to="{ name: 'adventureAnalyticsCompletion', params: { adventureId: adventure.id } }"
+      ) {{ $t("adventure_analytics.completion") }}
 
       router-link.tabs__item(
         exact-active-class="tabs__item--active"
         :to="{ name: 'adventureAnalyticsProgression', params: { adventureId: adventure.id } }"
-      ) User Progression
-
-      router-link.tabs__item(
-        exact-active-class="tabs__item--active"
-        :to="{ name: 'adventureAnalyticsMonetization', params: { adventureId: adventure.id } }"
-      ) Monetization
+      ) {{ $t("adventure_analytics.progression") }}
 
     router-view(:key="$route.fullPath")
 </template>

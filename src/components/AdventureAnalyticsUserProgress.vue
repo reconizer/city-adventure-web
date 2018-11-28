@@ -1,35 +1,16 @@
 <template lang="pug">
   .adventure-analytics
     .row
-      .col-1-2(v-if="participants.completed != undefined")
-        .analytics-chart-header Participants ({{ totalParticipants }})
-        PieChart(:chart-data="participantsData" :styles="pieChartStyles" :options="pieChartOptions")
-
-      .col-1-2(v-if="rankings.length")
-        .analytics-chart-header Clear Times
-        .row.analytics-chart-subheader
-          .col-1-2
-            b Worst Time
-            br
-            span {{ minTime }}
-
-          .col-1-2
-            b Best Time
-            br
-            span {{ maxTime }}
-
-        BarChart(:chart-data="rankingsData" :styles="rankingsChartStyles" :options="rankingsChartOptions")
-
       .col-1-2(v-if="tipUsage.length")
-        .analytics-chart-header.analytics-chart-header--pad-top Tip Usage per Point
+        .analytics-chart-header.analytics-chart-header--pad-top {{ $t("adventure_analytics.progression_tip_usage") }}
         BarChart(:chart-data="tipUsageData" :styles="tipUsageStyles" :options="tipUsageOptions")
 
       .col-1-2(v-if="timeSpentPerPoint.length")
-        .analytics-chart-header.analytics-chart-header--pad-top Average Time Spent Per Point
+        .analytics-chart-header.analytics-chart-header--pad-top {{ $t("adventure_analytics.progression_average_time") }}
         BarChart(:chart-data="timeSpentPerPointData" :styles="timeSpentStyles" :options="timeSpentOptions")
 
       .col-1-2(v-if="wrongEntries.length")
-        .analytics-chart-header.analytics-chart-header--pad-top Wrong Password Per Point
+        .analytics-chart-header.analytics-chart-header--pad-top {{ $t("adventure_analytics.progression_wrong_entries") }}
         BarChart(:chart-data="wrongEntriesData" :styles="wrongEntriesStyles" :options="wrongEntriesOptions")
 </template>
 
@@ -55,8 +36,6 @@ export default {
     ...mapState({
       adventure: state => state.adventure.item,
 
-      participants: state => state.analytics.userProgress.participants,
-      rankings: state => state.analytics.userProgress.rankings,
       tipUsage: state => state.analytics.userProgress.tipUsage,
       timeSpentPerPoint: state => state.analytics.userProgress.timeSpentPerPoint,
       wrongEntries: state => state.analytics.userProgress.wrongEntries,
@@ -64,96 +43,6 @@ export default {
       loading: state => state.analytics.loading,
       error: state => state.analytics.error
     }),
-
-    participantsData () {
-      return {
-        labels: ['Completed', 'Completed with Tips', 'In Progress', 'Abandoned'],
-        datasets: [
-          {
-            backgroundColor: [
-              '#7bc043',
-              '#ffdc00',
-              '#ff851b',
-              '#ff4136'
-            ],
-            data: [
-              this.participants.completed,
-              this.participants.completed_with_tips,
-              this.participants.in_progress,
-              this.participants.abandoned
-            ]
-          }
-        ]
-      }
-    },
-    pieChartOptions () {
-      return {
-        maintainAspectRatio: false,
-        cutoutPercentage: 50
-      }
-    },
-    pieChartStyles () {
-      return {
-        height: "300px",
-        position: "relative"
-      }
-    },
-
-    totalParticipants () {
-      return this.participants.completed +
-        this.participants.completed_with_tips +
-        this.participants.in_progress +
-        this.participants.abandoned;
-    },
-
-    rankingsData () {
-      return {
-        labels: this.rankings.map((ranking) => {
-          let avg = Math.floor((ranking.lower + ranking.higher) / 2);
-
-          return `About ${this.formatTime(avg)}`;
-        }),
-        datasets: [
-          {
-            backgroundColor: '#ff88ba',
-            data: this.rankings.map(ranking => ranking.count)
-          }
-        ]
-      }
-    },
-    rankingsChartOptions () {
-      return {
-        maintainAspectRatio: false,
-        legend: {
-          display: false
-        },
-        tooltips: {
-          mode: 'index',
-          intersect: false
-        },
-        scales: {
-          xAxes: [{
-            ticks: {
-              userCallback: (item, index) => null
-            }
-          }]
-        }
-      }
-    },
-    rankingsChartStyles () {
-      return {
-        height: "300px",
-        position: "relative"
-      }
-    },
-
-    minTime () {
-      return this.formatTime(this.rankings[0].lower);
-    },
-
-    maxTime () {
-      return this.formatTime(this.rankings[this.rankings.length - 1].higher);
-    },
 
     tipUsageData () {
       return {

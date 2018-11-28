@@ -7,8 +7,10 @@ import {
   SET_OVERVIEW_SUMMARY, SET_OVERVIEW_PURCHASES,
   SET_OVERVIEW_VIEWS, SET_OVERVIEW_RATINGS,
 
+  CLEAR_USER_COMPLETION,
+  SET_USER_COMPLETION_PARTICIPANTS, SET_USER_COMPLETION_RANKINGS,
+
   CLEAR_USER_PROGRESS,
-  SET_USER_PROGRESS_PARTICIPANTS, SET_USER_PROGRESS_RANKINGS,
   SET_USER_PROGRESS_TIP_USAGE, SET_USER_PROGRESS_TIME_SPENT_PER_POINT,
   SET_USER_PROGRESS_WRONG_ENTRIES,
 
@@ -17,6 +19,7 @@ import {
 
 import {
   LOAD_ANALYTICS_OVERVIEW,
+  LOAD_ANALYTICS_USER_COMPLETION,
   LOAD_ANALYTICS_USER_PROGRESS
 } from './action-types'
 
@@ -29,14 +32,14 @@ export default {
       views: [],
       ratings: {}
     },
-    userProgress: {
+    userCompletion: {
       participants: {},
-      rankings: [],
+      rankings: []
+    },
+    userProgress: {
       tipUsage: [],
       timeSpentPerPoint: [],
       wrongEntries: []
-    },
-    monetization: {
     },
 
     loading: false,
@@ -105,22 +108,28 @@ export default {
     },
 
     /**
+     * USER COMPLETION
+     */
+    [CLEAR_USER_COMPLETION] (state) {
+      state.userCompletion.participants = {};
+      state.userCompletion.rankings = [];
+    },
+
+    [SET_USER_COMPLETION_PARTICIPANTS] (state, participants) {
+      state.userCompletion.participants = participants;
+    },
+
+    [SET_USER_COMPLETION_RANKINGS] (state, rankings) {
+      state.userCompletion.rankings = rankings;
+    },
+
+    /**
      * USER PROGRESS
      */
     [CLEAR_USER_PROGRESS] (state) {
-      state.userProgress.participants = {};
-      state.userProgress.rankings = [];
       state.userProgress.tipUsage = [];
       state.userProgress.timeSpentPerPoint = [];
       state.userProgress.wrongEntries = [];
-    },
-
-    [SET_USER_PROGRESS_PARTICIPANTS] (state, participants) {
-      state.userProgress.participants = participants;
-    },
-
-    [SET_USER_PROGRESS_RANKINGS] (state, rankings) {
-      state.userProgress.rankings = rankings;
     },
 
     [SET_USER_PROGRESS_TIP_USAGE] (state, tipUsage) {
@@ -176,6 +185,28 @@ export default {
       })
     },
 
+    [LOAD_ANALYTICS_USER_COMPLETION] ({ commit }, { id }) {
+      commit(CLEAR_USER_COMPLETION);
+
+      commit(SET_LOADING, true);
+
+      let start = moment().subtract(30, 'days').toDate();
+      let end = moment().toDate();
+
+      return Promise.all([
+        api.analytics.userCompletion.participants(id, start, end),
+        api.analytics.userCompletion.rankings(id, start, end)
+      ]).then( (values) => {
+        commit(SET_USER_COMPLETION_PARTICIPANTS, values[0].data.participants);
+        commit(SET_USER_COMPLETION_RANKINGS, values[1].data.rankings);
+
+        commit(SET_LOADING, false);
+      })
+      .catch( error => {
+        commit(SET_ERROR, error);
+      })
+    },
+
     [LOAD_ANALYTICS_USER_PROGRESS] ({ commit }, { id }) {
       commit(CLEAR_USER_PROGRESS);
 
@@ -185,17 +216,13 @@ export default {
       let end = moment().toDate();
 
       return Promise.all([
-        api.analytics.userProgress.participants(id, start, end),
-        api.analytics.userProgress.rankings(id, start, end),
         api.analytics.userProgress.tipUsage(id, start, end),
         api.analytics.userProgress.timeSpentPerPoint(id, start, end),
         api.analytics.userProgress.wrongPasswordEntires(id, start, end)
       ]).then( (values) => {
-        commit(SET_USER_PROGRESS_PARTICIPANTS, values[0].data.participants);
-        commit(SET_USER_PROGRESS_RANKINGS, values[1].data.rankings);
-        commit(SET_USER_PROGRESS_TIP_USAGE, values[2].data.tip_usage);
-        commit(SET_USER_PROGRESS_TIME_SPENT_PER_POINT, values[3].data.time_spent);
-        commit(SET_USER_PROGRESS_WRONG_ENTRIES, values[4].data.wrong_entries);
+        commit(SET_USER_PROGRESS_TIP_USAGE, values[0].data.tip_usage);
+        commit(SET_USER_PROGRESS_TIME_SPENT_PER_POINT, values[1].data.time_spent);
+        commit(SET_USER_PROGRESS_WRONG_ENTRIES, values[2].data.wrong_entries);
 
         commit(SET_LOADING, false);
       })

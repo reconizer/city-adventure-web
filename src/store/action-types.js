@@ -24,5 +24,5 @@ export const DESTROY_POINT = "destroyPoint";
 
 //Analytics
 export const LOAD_ANALYTICS_OVERVIEW = "loadAnalyticsOverview";
-
+export const LOAD_ANALYTICS_USER_COMPLETION = "loadAnalyticsUserCompletion";
 export const LOAD_ANALYTICS_USER_PROGRESS = "loadAnalyticsUserProgress";

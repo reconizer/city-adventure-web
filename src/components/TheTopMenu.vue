@@ -31,6 +31,8 @@ export default {
 
       localStorage.setItem('locale', locale);
       moment.locale(locale);
+
+      this.$root.$emit('locale-changed', locale);
     }
   }
 }

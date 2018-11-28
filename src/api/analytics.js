@@ -32,13 +32,16 @@ export default {
     }
   },
 
-  userProgress: {
+  userCompletion: {
     participants (adventureId, startDate, endDate) {
       return participantsMock(adventureId, startDate, endDate);
     },
     rankings (adventureId, startDate, endDate) {
       return rankingsMock(adventureId, startDate, endDate);
-    },
+    }
+  },
+
+  userProgress: {
     tipUsage (adventureId, startDate, endDate) {
       return tipUsageMock(adventureId, startDate, endDate);
     },

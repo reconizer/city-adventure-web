@@ -15,6 +15,7 @@ import AdventurePointForm from '@/components/AdventurePointForm.vue'
 
 import AdventureAnalytics from '@/views/AdventureAnalytics.vue'
 import AdventureAnalyticsOverview from '@/components/AdventureAnalyticsOverview.vue'
+import AdventureAnalyticsUserCompletion from '@/components/AdventureAnalyticsUserCompletion.vue'
 import AdventureAnalyticsUserProgress from '@/components/AdventureAnalyticsUserProgress.vue'
 
 import Login from '@/views/Login.vue'
@@ -74,13 +75,14 @@ const router = new Router({
                       component: AdventureAnalyticsOverview
                     },
                     {
+                      path: 'completion',
+                      name: 'adventureAnalyticsCompletion',
+                      component: AdventureAnalyticsUserCompletion
+                    },
+                    {
                       path: 'progression',
                       name: 'adventureAnalyticsProgression',
                       component: AdventureAnalyticsUserProgress
-                    },
-                    {
-                      path: 'monetization',
-                      name: 'adventureAnalyticsMonetization'
                     }
                   ]
                 },
