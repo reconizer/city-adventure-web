@@ -21,6 +21,10 @@
           @input="updatePasswordType($event)"
         )
 
+      .form-control
+        .puzzle-preview
+          img(:src="passwordType.image_url")
+
       .form-control(
         :class="{ 'form-control--with-error': passwordError || passwordAnswer.details.password.length == 0 }"
         v-if="!isDirectionPassword"

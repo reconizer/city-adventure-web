@@ -147,14 +147,12 @@ export default {
 
       commit(SET_LOADING, true);
 
-      return api.adventures.loadAdventure(id)
-        .then( response => {
-          commit(SET_ADVENTURE, response.data);
-
-          return api.adventures.loadPoints(id);
-        })
-        .then( response => {
-          commit(SET_ADVENTURE_POINTS, response.data);
+      return Promise.all([
+        api.adventures.loadAdventure(id),
+        api.adventures.loadPoints(id)
+      ]).then( (values) => {
+          commit(SET_ADVENTURE, values[0].data);
+          commit(SET_ADVENTURE_POINTS, values[1].data);
 
           commit(SET_LOADING, false);
 

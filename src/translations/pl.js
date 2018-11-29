@@ -9,8 +9,8 @@ export default {
 
   top_menu: {
     adventures: "Przygody",
-    settings: "Opcje",
-    logout: "Wyloguj Się",
+    settings: "Konto",
+    logout: "Wyloguj się",
     language: "Język"
   },
 
@@ -87,7 +87,36 @@ export default {
   },
 
   adventure_analytics: {
-    title: "Analityka"
+    title: "Analityka",
+
+    overview: "Ogólne",
+    overview_purchases: "Kupna trasy ({value})",
+    overview_ratings: "Łącznie ocen: {value}",
+    overview_views: "Wyświetlenia opisu trasy ({value})",
+    overview_stars: "{value} na 5",
+    overview_stars_5: "Liczba gwiazdek: 5",
+    overview_stars_4: "Liczba gwiazdek: 4",
+    overview_stars_3: "Liczba gwiazdek: 3",
+    overview_stars_2: "Liczba gwiazdek: 2",
+    overview_stars_1: "Liczba gwiazdek: 1",
+
+    completion: "Ukończenia przygody",
+    completion_participants: "Uczestnicy ({value})",
+    completion_abandoned_tip: "Porzucenia oznaczają brak aktywności w nieukończonej przygodzie w przeciągu ostatnich 2 dni",
+    completion_clear_times: "Czasy ukończenia",
+    completion_worst_time: "Najgorszy czas",
+    completion_best_time: "Najlepszy czas",
+
+    completion_completed: "Ukończona",
+    completion_completed_with_tips: "Ukończona z użyciem podpowiedzi",
+    completion_in_progress: "W trakcie rozwiązywania",
+    completion_abandoned: "Porzucona",
+
+    progression: "Przechodzenie przygody",
+
+    progression_tip_usage: "Ilość graczy która wykorzystała podpowiedzi w danym punkcie",
+    progression_average_time: "Średni czas na rozwiązanie danego punktu",
+    progression_wrong_entries: "Wprowadzone niepoprawne hasła w danym punkcie"
   },
 
   adventure_testing: {

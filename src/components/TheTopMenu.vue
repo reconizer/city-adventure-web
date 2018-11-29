@@ -21,6 +21,8 @@
 </template>
 
 <script>
+import moment from 'moment'
+
 export default {
   name: 'TheTopMenu',
   methods: {
@@ -28,6 +30,9 @@ export default {
       this.$i18n.locale = locale;
 
       localStorage.setItem('locale', locale);
+      moment.locale(locale);
+
+      this.$root.$emit('locale-changed', locale);
     }
   }
 }

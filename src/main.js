@@ -15,6 +15,8 @@ import axios from 'axios';
 import VueAxios from 'vue-axios';
 import * as VueGoogleMaps from 'vue2-google-maps';
 
+import moment from 'moment';
+
 Vue.use(VueAxios, axios);
 Vue.use(VueScrollTo);
 Vue.use(VueI18n);
@@ -33,6 +35,8 @@ if(!currentLocale) {
 
   localStorage.setItem('locale', currentLocale);
 }
+
+moment.locale(currentLocale);
 
 const i18n = new VueI18n({
   locale: currentLocale,

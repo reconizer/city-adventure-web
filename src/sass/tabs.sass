@@ -1,6 +1,5 @@
 .tabs
-  margin-bottom: 2rem
-  border-bottom: 2px solid $point-background
+  border-bottom: 3px solid $point-background
 
   &__item
     font-size: 1.25rem
@@ -11,16 +10,15 @@
     background-color: $clue-background
     border-top-left-radius: 0.25rem
     border-top-right-radius: 0.25rem
-    border-left: 2px solid $point-background
-    border-top: 2px solid $point-background
-    border-right: 2px solid $point-background
-    border-bottom: 2px solid $point-background
-    margin-bottom: -2px
+    border: 3px solid $point-background
+    margin-bottom: -3px
     color: $black
+
+    &, &:focus, &:hover
+      text-decoration: none
 
     &:hover, &--active
       background-color: $white
-      text-decoration: none
 
     &--active
       background-color: $white
@@ -38,3 +36,21 @@
   &__button + &__item
     margin-left: 1.5rem
     
+  &--analytics &__item
+    border-left: none
+    border-right: none
+    border-top: none
+    border-radius: 0
+    background-color: $white
+
+    &:hover
+      background-color: $clue-background
+
+    &--active
+      border-color: $blue
+      &:hover
+        background-color: $white
+        border-color: $blue
+
+  &--analytics &__item + &__item
+    margin-left: 0

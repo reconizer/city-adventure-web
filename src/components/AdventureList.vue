@@ -10,8 +10,7 @@
 
     AdventureListItem(v-for="adventureItem in adventures" :key="adventureItem.id" :adventure="adventureItem")
 
-    .overlay-loader(v-if="loading")
-      .overlay-loader__spinner
+    Loader(v-if="loading")
 </template>
 
 <script>
@@ -21,12 +20,16 @@ import { LOAD_ADVENTURES } from '@/store/action-types'
 
 import AdventureListItem from '@/components/AdventureListItem'
 
+import Loader from '@/views/Loader.vue'
+
 const ACTION_NAMESPACE = 'adventures'
 
 export default {
   name: 'AdventureList',
   components: {
-    AdventureListItem
+    AdventureListItem,
+
+    Loader
   },
   computed: mapState({
     adventures: state => state.adventures.list,
