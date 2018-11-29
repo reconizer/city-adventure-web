@@ -22,6 +22,7 @@
     padding: 0 1rem
     text-decoration: none
     transition: all 0.3s ease-in-out
+    position: relative
     display: flex
     align-items: center
 
@@ -29,4 +30,26 @@
       text-decoration: none
 
     &:hover, &.router-link-exact-active
+      background-color: $menu-background-active
+
+  &__link:hover &__dropdown
+    display: block
+
+  &__dropdown
+    display: none
+    position: absolute
+    left: 0
+    top: $top-menu-height
+    right: 0
+    z-index: $z-index-top-menu-dropdown
+
+  &__dropdown-option
+    cursor: pointer
+    background-color: $menu-background
+    height: 1.5rem
+    line-height: 1.5rem
+    padding: 0.5rem
+    color: $white
+    text-align: center
+    &:hover
       background-color: $menu-background-active

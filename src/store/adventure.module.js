@@ -141,24 +141,44 @@ export default {
     }
   },
   actions: {
-    [LOAD_ADVENTURE] ({ commit }, { id }) {
+    [LOAD_ADVENTURE] ({ commit, state }, { id }) {
       commit(CLEAR_ADVENTURE);
       commit(CLEAR_ADVENTURE_POINTS);
 
       commit(SET_LOADING, true);
 
-      return api.adventures.loadAdventure(id)
-        .then( response => {
-          commit(SET_ADVENTURE, response.data);
-
-          return api.adventures.loadPoints(id);
-        })
-        .then( response => {
-          commit(SET_ADVENTURE_POINTS, response.data);
+      return Promise.all([
+        api.adventures.loadAdventure(id),
+        api.adventures.loadPoints(id)
+      ]).then( (values) => {
+          commit(SET_ADVENTURE, values[0].data);
+          commit(SET_ADVENTURE_POINTS, values[1].data);
 
           commit(SET_LOADING, false);
+
+          if(router.currentRoute.params.pointId) {
+            let pointId = router.currentRoute.params.pointId;
+
+            let point = state.points.find(point => point.id == pointId);
+
+            if(point) {
+              if(router.currentRoute.params.clueId) {
+                let clue = point.clues.find(clue => clue.id == router.currentRoute.params.clueId);
+
+                if(!clue) {
+                  router.replace({ name: 'adventureMap', params: { adventureId: state.item.id } });
+                }
+              }
+            } else {
+              router.replace({ name: 'adventureMap', params: { adventureId: state.item.id } });
+            }
+          }
         })
-        .catch( error => commit(SET_ERROR, error));
+        .catch( error => {
+          commit(SET_ERROR, error)
+
+          router.replace({ name: 'home' });
+        });
     },
 
     [UPDATE_ADVENTURE] ({ commit }, { adventureId, params }) {
@@ -235,7 +255,9 @@ export default {
 
           // If we remove a point which has currently opened form - go to map
           if(router.currentRoute.name == "adventurePoint" && router.currentRoute.params.pointId == pointId) {
-            router.push({ name: 'adventureMap', params: { adventureId: state.item.id } });
+            setTimeout(() => {
+              router.replace({ name: 'adventureMap', params: { adventureId: state.item.id } });
+            }, 0);
           }
         })
         .catch( error => commit(SET_ERROR, error));
@@ -253,14 +275,17 @@ export default {
 
           commit(SET_LOADING, false);
 
-          router.push({
-            name: 'adventureClue',
-            params: {
-              adventureId: state.item.id,
-              pointId: pointId,
-              clueId: response.data.id
-            }
-          });
+          setTimeout(() => {
+            router.replace({
+              name: 'adventureClue',
+              params: {
+                adventureId: state.item.id,
+                pointId: pointId,
+                clueId: response.data.id
+              }
+            });
+          }, 0);
+
         })
         .catch( error => commit(SET_ERROR, error));
     },
@@ -290,12 +315,14 @@ export default {
 
           commit(SET_LOADING, false);
 
-          router.push({
-            name: 'adventureMap',
-            params: {
-              adventureId: state.item.id,
-            }
-          });
+          setTimeout(() => {
+            router.replace({
+              name: 'adventureMap',
+              params: {
+                adventureId: state.item.id,
+              }
+            });
+          }, 0);
         })
         .catch( error => commit(SET_ERROR, error));
     }

@@ -1,14 +1,20 @@
 <template lang="pug">
   div
-    .adventure-point-list(v-if="startingPoint")
+    .adventure-point-list(
+      v-if="startingPoint"
+      :class="{ 'adventure-point-list--published': adventure.published }"
+    )
       .adventure-point-list__line
 
-      .adventure-point-start-wrapper(:id="elementId(startingPoint)")
+      .adventure-point-start-wrapper(
+        :id="elementId(startingPoint)"
+        :class="{ 'adventure-point-start-wrapper--only': points.length == 0 }"
+      )
         .adventure-point
           router-link.button.button--pink.adventure-point__name(
             :to="{ name: 'adventurePoint', params: { adventureId: adventure.id, pointId: startingPoint.id } }"
             exact-active-class="adventure-point__name--active"
-          ) Start
+          ) {{ $t("adventure.start") }}
 
           .adventure-point__controls
             router-link.button.button--blue.adventure-point__control(
@@ -16,13 +22,13 @@
               @click.native="goToPoint(startingPoint)"
             )
               .icon.icon--sm.icon--marker.icon--pad-right
-              span Go to
+              span {{ $t("adventure.go_to_puzzle") }}
 
         AdventurePointClueList(:point="startingPoint")
 
       draggable(
         v-model="points"
-        :options="{ draggable: '.adventure-point-wrapper', group: 'points' }"
+        :options="{ draggable: '.adventure-point-wrapper', group: 'points', disabled: adventure.published }"
       )
         .adventure-point-wrapper(
           v-for="(point, pointIndex) in points"
@@ -37,16 +43,16 @@
               span {{ pointIndex + 1 }}
               .icon.icon--eye-inactive.icon--pad-left(v-if="point.hidden")
                 .icon__tooltip-wrapper
-                  .icon__tooltip Hidden
+                  .icon__tooltip {{ $t("adventure.hidden") }}
               .icon.icon--eye.icon--pad-left(v-if="!point.hidden")
                 .icon__tooltip-wrapper
-                  .icon__tooltip Visible
+                  .icon__tooltip {{ $t("adventure.visible") }}
               .icon.icon--lock-white.icon--pad-left(v-if="hasPassword(point)")
                 .icon__tooltip-wrapper
-                  .icon__tooltip Password Required
+                  .icon__tooltip {{ $t("adventure.password_required") }}
               .icon.icon--clock.icon--pad-left(v-if="hasTimeConstraint(point)")
                 .icon__tooltip-wrapper
-                  .icon__tooltip Time Constraint
+                  .icon__tooltip {{ $t("adventure.time_constraint") }}
 
             .adventure-point__controls
               router-link.button.button--blue.adventure-point__control(
@@ -54,30 +60,28 @@
                 @click.native="goToPoint(point)"
               )
                 .icon.icon--sm.icon--marker.icon--pad-right
-                span Go to
+                span {{ $t("adventure.go_to_puzzle") }}
 
-              .button.button--blue.adventure-point__control(@click="destroyPoint(point)")
+              .button.button--blue.adventure-point__control(v-if="!adventure.published" @click="destroyPoint(point)")
                 .icon.icon--sm.icon--close-white.icon--pad-right
-                span Remove
+                span {{ $t("general.remove") }}
 
           AdventurePointClueList(:point="point")
 
-    .adventure-point-new-wrapper(v-if="startingPoint")
+    .adventure-point-new-wrapper(v-if="startingPoint && !adventure.published")
       .adventure-point.adventure-point--new
         router-link.button.button--blue.adventure-point__name(
           :to="{ name: 'adventureMap', params: { adventureId: adventure.id } }"
           @click.native="addNewPuzzle()"
         )
           .icon.icon--add-white.icon--pad-right
-          span Add new puzzle
+          span {{ $t("adventure.add_new_puzzle") }}
 </template>
 
 <script>
 import { mapState, mapGetters } from 'vuex'
 
 import { UPDATE_POINTS, DESTROY_POINT } from '@/store/action-types'
-
-import { SET_POINTS_ORDER } from '@/store/mutation-types'
 
 import draggable from 'vuedraggable'
 
@@ -146,8 +150,11 @@ export default {
     },
 
     destroyPoint (point) {
-      if(confirm("Are you sure you want to remove this puzzle? It will also remove all clues attached to it")) {
+      if(confirm(this.$t("adventure.remove_puzzle_confirm"))) {
         this.$store.dispatch(`${ACTION_NAMESPACE}/${DESTROY_POINT}`, { pointId: point.id });
+
+        // Clear map info window for this point if any are present
+        this.$root.$emit('point-removed', point.id);
       }
     }
   }

@@ -6,7 +6,7 @@ export default (page) => new Promise((resolve) => {
           id: 1,
           name: "Sekrety Starówki",
           cover_url: "http://placehold.it/320x180",
-          status: "published",
+          published: true,
           hidden: false,
           rating: 4.75
         },
@@ -14,7 +14,7 @@ export default (page) => new Promise((resolve) => {
           id: 2,
           name: "Przygoda Dwa",
           cover_url: "http://placehold.it/400x400",
-          status: "unpublished",
+          published: false,
           hidden: false,
           rating: 0
         },
@@ -22,7 +22,7 @@ export default (page) => new Promise((resolve) => {
           id: 3,
           name: "Inna przygoda",
           cover_url: "http://placehold.it/1000x600",
-          status: "unpublished",
+          published: false,
           hidden: true,
           rating: 0
         }

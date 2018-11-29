@@ -2,16 +2,15 @@
   .adventure-list
     .adventure-list__header
       .row.row--align-center
-        .col-1-2 Your Adventures
+        .col-1-2 {{ $t("adventures.list_title") }}
         .col-1-2.text-right
           router-link.button.button--blue(
             :to="{ name: 'newAdventure' }"
-          ) Create New
+          ) {{ $t("adventures.create_new") }}
 
     AdventureListItem(v-for="adventureItem in adventures" :key="adventureItem.id" :adventure="adventureItem")
 
-    .overlay-loader(v-if="loading")
-      .overlay-loader__spinner
+    Loader(v-if="loading")
 </template>
 
 <script>
@@ -21,12 +20,16 @@ import { LOAD_ADVENTURES } from '@/store/action-types'
 
 import AdventureListItem from '@/components/AdventureListItem'
 
+import Loader from '@/views/Loader.vue'
+
 const ACTION_NAMESPACE = 'adventures'
 
 export default {
   name: 'AdventureList',
   components: {
-    AdventureListItem
+    AdventureListItem,
+
+    Loader
   },
   computed: mapState({
     adventures: state => state.adventures.list,

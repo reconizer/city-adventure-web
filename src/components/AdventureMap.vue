@@ -14,15 +14,17 @@
         :opened="addPointWindowOpened"
         @closeclick="closeAddPointWindow"
       )
-        a.map-window-option(@click="createPointFromDialog") Create new Puzzle
+        a.map-window-option(@click="createPointFromDialog") {{ $t("adventure.add_new_puzzle") }}
 
       gmap-info-window(
         :position="pointOptionsWindowPosition"
         :opened="pointOptionsWindowOpened"
         @closeclick="closePointOptionsWindow"
       )
-        a.map-window-option(@click="editPointFromDialog") Edit Puzzle
-        a.map-window-option(@click="removePointFromDialog") Remove Puzzle
+        a.map-window-option(@click="editPointFromDialog")
+          span(v-if="adventure.published") {{ $t("adventure.puzzle_details") }}
+          span(v-else) {{ $t("adventure.edit_puzzle") }}
+        a.map-window-option(v-if="!adventure.published" @click="removePointFromDialog") {{ $t("adventure.remove_puzzle") }}
 
       AdventureMapPoint(
         :key="point.id"
@@ -33,11 +35,37 @@
 
     .google-map-controls(v-if="mapLoaded")
       .google-map-controls__item
+        gmap-autocomplete(
+          class="form-input form-input--google"
+          :placeholder="$t('adventures.set_place')"
+          @place_changed="setPlace"
+        )
+
+      .google-map-controls__item
         .button.button--blue(
           @click="locatePoints()"
         )
           .icon.icon--reposition.icon--pad-right
-          span Reposition
+          span {{ $t("adventure.reposition") }}
+
+      .google-map-controls__item
+        .button.button--blue(
+          @click="showHelpModal"
+        )
+          .icon.icon--question-mark-white.icon--pad-right
+          span {{ $t("adventure.help") }}
+
+    Modal(v-if="showHelp" @close="closeHelpModal")
+      div(slot="header") {{ $t("adventure.help_header") }}
+
+      p {{ $t("adventure.help_paragraph_1") }}
+
+      p {{ $t("adventure.help_paragraph_2") }}
+
+      p {{ $t("adventure.help_paragraph_3") }}
+
+      .text-center
+        a.button.button--blue(@click="closeHelpModal") {{ $t("adventure.help_confirm") }}
 </template>
 
 <script>
@@ -45,6 +73,7 @@ import { mapState } from 'vuex';
 
 import { CREATE_POINT, DESTROY_POINT } from '@/store/action-types';
 
+import Modal from '@/components/Modal.vue'
 import AdventureMapPoint from '@/components/AdventureMapPoint.vue';
 
 const ACTION_NAMESPACE = 'adventure';
@@ -52,7 +81,8 @@ const ACTION_NAMESPACE = 'adventure';
 export default {
   name: "AdventureMap",
   components: {
-    AdventureMapPoint
+    AdventureMapPoint,
+    Modal
   },
   data() {
     return {
@@ -65,7 +95,9 @@ export default {
 
       pointOptionsWindowPosition: { lat: 0, lng: 0 },
       pointOptionsWindowOpened: false,
-      currentPoint: null
+      currentPoint: null,
+
+      showHelp: false
     };
   },
   computed: {
@@ -100,6 +132,13 @@ export default {
       this.createPoint()
     });
 
+    // Clear map info window for this point if any are present
+    this.$root.$on('point-removed', (pointId) => {
+      if(this.currentPoint && this.currentPoint.id == pointId) {
+        this.pointOptionsWindowOpened = false;
+      }
+    });
+
     this.$root.$on('right-click-marker', (point) => {
       this.pointOptionsWindowOpened = true;
       this.addPointWindowOpened = false;
@@ -111,7 +150,14 @@ export default {
 
     this.$refs.googleMap.$mapPromise.then(() => {
       this.mapLoaded = true;
+
+      let mapHelpShown = localStorage.getItem('mapHelpShown');
+
+      if(!mapHelpShown) {
+        this.showHelpModal();
+      }
     });
+
   },
   methods: {
     centerCamera ( { lat, lng }) {
@@ -120,6 +166,12 @@ export default {
       if(this.$refs.googleMap && this.mapLoaded) {
         this.$refs.googleMap.$mapObject.setCenter(this.center);
       }
+    },
+    setPlace (place) {
+      this.centerCamera({
+        lat: place.geometry.location.lat(),
+        lng: place.geometry.location.lng()
+      });
     },
     geolocate () {
       navigator.geolocation.getCurrentPosition(position => {
@@ -161,7 +213,7 @@ export default {
 
       this.pointOptionsWindowOpened = false;
 
-      if(confirm("Are you sure you want to remove this puzzle? It will also remove all clues attached to it")) {
+      if(confirm(this.$t("adventure.remove_puzzle_confirm"))) {
         this.$store.dispatch(`${ACTION_NAMESPACE}/${DESTROY_POINT}`, { pointId: this.currentPoint.id });
       }
     },
@@ -177,6 +229,10 @@ export default {
     },
 
     pointDialog (evt) {
+      if(this.adventure.published) {
+        return;
+      }
+
       this.addPointWindowOpened = true;
       this.pointOptionsWindowOpened = false;
 
@@ -207,6 +263,16 @@ export default {
       });
 
       this.addPointWindowOpened = false;
+    },
+
+    showHelpModal () {
+      this.showHelp = true;
+    },
+
+    closeHelpModal () {
+      this.showHelp = false;
+
+      localStorage.setItem('mapHelpShown', true);
     }
   }
 }

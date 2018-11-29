@@ -1,0 +1,56 @@
+.tabs
+  border-bottom: 3px solid $point-background
+
+  &__item
+    font-size: 1.25rem
+    display: inline-block
+    padding: 0.75rem 1.25rem
+    cursor: pointer
+    transition: all 0.3s ease-in-out
+    background-color: $clue-background
+    border-top-left-radius: 0.25rem
+    border-top-right-radius: 0.25rem
+    border: 3px solid $point-background
+    margin-bottom: -3px
+    color: $black
+
+    &, &:focus, &:hover
+      text-decoration: none
+
+    &:hover, &--active
+      background-color: $white
+
+    &--active
+      background-color: $white
+      border-bottom-color: $white
+
+    & + &
+      margin-left: 1.5rem
+
+  &__button
+    vertical-align: middle
+    display: inline-flex
+    align-items: center
+    justify-content: center
+
+  &__button + &__item
+    margin-left: 1.5rem
+    
+  &--analytics &__item
+    border-left: none
+    border-right: none
+    border-top: none
+    border-radius: 0
+    background-color: $white
+
+    &:hover
+      background-color: $clue-background
+
+    &--active
+      border-color: $blue
+      &:hover
+        background-color: $white
+        border-color: $blue
+
+  &--analytics &__item + &__item
+    margin-left: 0
