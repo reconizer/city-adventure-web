@@ -5,11 +5,11 @@
         .analytics-chart-header {{ $t("adventure_analytics.overview_purchases", { value: overviewPurchases }) }}
         AreaChart(:chart-data="purchasesData" :styles="chartStyles" :options="lineChartOptions")
 
-        .analytics-chart-header {{ $t("adventure_analytics.overview_views", { value: overviewPurchases }) }}
+        .analytics-chart-header {{ $t("adventure_analytics.overview_views", { value: overviewViews }) }}
         AreaChart(:chart-data="viewsData" :styles="chartStyles" :options="lineChartOptions")
 
       .col-1-3(v-if="ratings.rating_5")
-        .analytics-total-ratings {{ $t("adventure_analytics.overview_ratings", { value: overviewPurchases }) }}
+        .analytics-total-ratings {{ $t("adventure_analytics.overview_ratings", { value: overviewRatingsCount }) }}
 
         .analytics-stars
           .icon.icon--full-star.icon--pad-right(v-for="i in fullStars")

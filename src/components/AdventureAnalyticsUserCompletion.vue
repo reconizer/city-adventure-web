@@ -113,7 +113,7 @@ export default {
         labels: this.rankings.map((ranking) => {
           let avg = Math.floor((ranking.lower + ranking.higher) / 2);
 
-          return `~ ${this.formatTime(avg, true)}`;
+          return `${this.formatTime(ranking.lower, true)} ~ ${this.formatTime(ranking.higher, true)}`;
         }),
         datasets: [
           {

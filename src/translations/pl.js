@@ -10,7 +10,7 @@ export default {
   top_menu: {
     adventures: "Przygody",
     settings: "Konto",
-    logout: "Wyloguj Się",
+    logout: "Wyloguj się",
     language: "Język"
   },
 
@@ -114,9 +114,9 @@ export default {
 
     progression: "Przechodzenie przygody",
 
-    progression_tip_usage: "Wykorzystanie podpowiedzi w danym punkcie",
+    progression_tip_usage: "Ilość graczy która wykorzystała podpowiedzi w danym punkcie",
     progression_average_time: "Średni czas na rozwiązanie danego punktu",
-    progression_wrong_entries: "Niepoprawnego hasła w danym punkcie"
+    progression_wrong_entries: "Wprowadzone niepoprawne hasła w danym punkcie"
   },
 
   adventure_testing: {

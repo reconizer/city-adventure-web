@@ -114,7 +114,7 @@ export default {
 
     progression: "Adventure Progression",
 
-    progression_tip_usage: "Tip usage per point",
+    progression_tip_usage: "Players who used tips in given points",
     progression_average_time: "Average time spent per point",
     progression_wrong_entries: "Wrong passwords entered by point"
   },

@@ -23,7 +23,7 @@ export default (adventureId, startDate, endDate) => new Promise((resolve) => {
       rankings.push({
         lower: Math.floor(lowerBound - diff * i),
         higher: Math.floor(lowerBound - diff * (i + 1)),
-        count: Math.floor(alpha * alpha * diffDays * 3 + Math.random() * 10)
+        count: Math.max(1, Math.floor(alpha * alpha * diffDays * 3 + Math.random() * 10))
       });
     }
 
