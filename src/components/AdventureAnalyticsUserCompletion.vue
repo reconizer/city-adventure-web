@@ -12,16 +12,6 @@
 
       .col-1-2(v-if="rankings.length")
         .analytics-chart-header {{ $t("adventure_analytics.completion_clear_times") }}
-        .row.analytics-chart-subheader
-          .col-1-2
-            .analytics-time
-              .analytics-time__label {{ $t("adventure_analytics.completion_worst_time") }}
-              .analytics-time__value {{ worstTime }}
-
-          .col-1-2
-            .analytics-time
-              .analytics-time__label {{ $t("adventure_analytics.completion_best_time") }}
-              .analytics-time__value {{ bestTime }}
 
         BarChart(:chart-data="rankingsData" :styles="rankingsChartStyles" :options="rankingsChartOptions")
 </template>
@@ -110,10 +100,11 @@ export default {
 
     rankingsData () {
       return {
-        labels: this.rankings.map((ranking) => {
-          let avg = Math.floor((ranking.lower + ranking.higher) / 2);
-
-          return `${this.formatTime(ranking.lower, true)} ~ ${this.formatTime(ranking.higher, true)}`;
+        labels: this.rankings.map((ranking, index) => {
+          // return whatever; the array has to be populated with something
+          // to generate proper number of ticks but the display is overriden
+          // in proper callbacks below in regards to tooltips and first/last xAxis tick
+          return index;
         }),
         datasets: [
           {
@@ -131,12 +122,31 @@ export default {
         },
         tooltips: {
           mode: 'index',
-          intersect: false
+          intersect: false,
+          callbacks: {
+            title: (tooltipItems, data) => {
+              let item = this.rankings[tooltipItems[0].index];
+
+              return `${this.formatTime(item.lower, true)} - ${this.formatTime(item.higher, true)}`;
+            },
+            label: (tooltipItem, data) => {
+              let item = this.rankings[tooltipItem.index];
+
+              return item.count;
+            }
+          }
         },
         scales: {
           xAxes: [{
             ticks: {
-              userCallback: (item, index) => null
+              maxRotation: 0,
+              userCallback: (item, index) => {
+                if(index == 0) {
+                  return this.worstTime;
+                } else if (index == this.rankings.length - 1) {
+                  return this.bestTime;
+                }
+              }
             }
           }]
         }
