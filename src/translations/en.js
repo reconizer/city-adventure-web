@@ -137,6 +137,7 @@ export default {
 
     password_required: "Password Required",
     password_type: "Password Type",
+    password_placeholder: "Password",
     enter_password: "Enter Password",
     password_invalid: "Password Invalid",
     password_by_buttons: "Enter password by pressing buttons below",

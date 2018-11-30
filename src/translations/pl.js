@@ -137,6 +137,7 @@ export default {
 
     password_required: "Wymaga Hasła",
     password_type: "Rodzaj i metoda wprowadzania",
+    password_placeholder: "Hasło",
     enter_password: "Wprowadź hasło",
     password_invalid: "Hasło Niepoprawne",
     password_by_buttons: "Wprowadź hasło za pomocą przycisków poniżej",

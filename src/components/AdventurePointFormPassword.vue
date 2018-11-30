@@ -33,7 +33,7 @@
         label.error-label {{ $t("adventure_point.password_invalid") }}
         input.form-input(
           type="text"
-          placeholder="Password"
+          :placeholder="$t('adventure_point.password_placeholder')"
           :maxlength="passwordLength"
           :pattern="passwordPattern.source"
           :disabled="adventure.published"
