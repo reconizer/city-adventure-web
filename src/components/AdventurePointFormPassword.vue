@@ -23,7 +23,12 @@
 
       .form-control
         .puzzle-preview
-          img(:src="passwordType.image_url")
+          transition
+            img(
+              :src="passwordType.image_url"
+              v-show="previewLoaded"
+              @load="passwordPreviewLoaded"
+            )
 
       .form-control(
         :class="{ 'form-control--with-error': passwordError || passwordAnswer.details.password.length == 0 }"
@@ -103,7 +108,8 @@ export default {
   },
   data () {
     return {
-      transformedPassword: ""
+      transformedPassword: "",
+      previewLoaded: false
     }
   },
   computed: {
@@ -193,6 +199,10 @@ export default {
 
       answer.details.password_type = currentType;
 
+      if(this.passwordType.image_url !== evt.image_url) {
+        this.previewLoaded = false;
+      }
+
       // Handle direction lock separately
       if(currentType.match(/direction_lock/)) {
         // If it has same family type just trim it to proper length
@@ -263,6 +273,10 @@ export default {
       }
 
       return str;
+    },
+
+    passwordPreviewLoaded () {
+      this.previewLoaded = true;
     }
   }
 }

@@ -47,6 +47,9 @@ export default {
         .then( response => {
           commit(SET_LOADING, false);
 
+          localStorage.setItem(`${response.data.id}-name`, response.data.adventure.name);
+          localStorage.setItem(`${response.data.id}-point`, JSON.stringify(response.data.startingPointPosition));
+
           router.push({
             name: 'adventureMap',
             params: {
