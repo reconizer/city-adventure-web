@@ -249,16 +249,18 @@ export default {
 
       api.adventures.destroyPoint(pointId)
         .then( response => {
+          // If we remove a point which has currently opened form (or it's clue has form opened) - go to map
+          if(router.currentRoute.name == "adventurePoint" || router.currentRoute.name == "adventureClue" || router.currentRoute.name == "newAdventureClue") {
+            if (router.currentRoute.params.pointId == pointId) {
+              setTimeout(() => {
+                router.replace({ name: 'adventureMap', params: { adventureId: state.item.id } });
+              }, 0);
+            }
+          }
+
           commit(REMOVE_POINT, pointId);
 
           commit(SET_LOADING, false);
-
-          // If we remove a point which has currently opened form - go to map
-          if(router.currentRoute.name == "adventurePoint" && router.currentRoute.params.pointId == pointId) {
-            setTimeout(() => {
-              router.replace({ name: 'adventureMap', params: { adventureId: state.item.id } });
-            }, 0);
-          }
         })
         .catch( error => commit(SET_ERROR, error));
     },

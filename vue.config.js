@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-  baseUrl: undefined,
+  baseUrl: process.env.NODE_ENV === 'production' ? '/city-adventure-creator-app/' : '/',
   outputDir: undefined,
   assetsDir: undefined,
   runtimeCompiler: undefined,
