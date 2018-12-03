@@ -23,7 +23,7 @@ import Login from '@/views/Login.vue'
 Vue.use(Router)
 
 const router = new Router({
-  mode: 'history',
+  mode: process.env.NODE_ENV === 'production' ? 'hash' : 'history',
   routes: [
     {
       path: '/',
