@@ -214,7 +214,19 @@ export default {
       this.pointOptionsWindowOpened = false;
 
       if(confirm(this.$t("adventure.remove_puzzle_confirm"))) {
-        this.$store.dispatch(`${ACTION_NAMESPACE}/${DESTROY_POINT}`, { pointId: this.currentPoint.id });
+        this.$store.dispatch(`${ACTION_NAMESPACE}/${DESTROY_POINT}`, { pointId: this.currentPoint.id })
+          .then( (response) => {
+            if(this.$router.currentRoute.name == "adventurePoint" ||
+                this.$router.currentRoute.name == "adventureClue" ||
+                this.$router.currentRoute.name == "newAdventureClue") {
+
+              if(router.currentRoute.params.pointId == this.point.id) {
+                setTimeout(() => {
+                  router.replace({ name: 'adventureMap', params: { adventureId: this.adventure.id } });
+                }, 0);
+              }
+            }
+          });
       }
     },
 

@@ -10,6 +10,22 @@ module.exports = {
 
   css: undefined,
 
+  pages: {
+    creator: {
+      entry: 'src/creator.js',
+      template: 'public/index.html',
+      filename: 'index.html',
+      title: 'City Adventure - Creator Panel'
+    },
+
+    admin: {
+      entry: 'src/admin.js',
+      template: 'public/index.html',
+      filename: 'admin.html',
+      title: 'City Adventure - Admin Panel'
+    }
+  },
+
   chainWebpack: config => {
     const types = ['vue-modules', 'vue', 'normal-modules', 'normal'];
 

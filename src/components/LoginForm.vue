@@ -43,6 +43,8 @@ export default {
       this.$store.dispatch(`${ACTION_NAMESPACE}/${LOGIN}`, {
         email: this.user.email,
         password: this.user.password
+      }).then( (response) => {
+        this.$router.push('/');
       });
     }
   },

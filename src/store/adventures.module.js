@@ -3,8 +3,6 @@ import api from '@/api';
 import { SET_ADVENTURES, SET_LOADING, SET_ERROR } from './mutation-types';
 import { LOAD_ADVENTURES, CREATE_ADVENTURE } from './action-types';
 
-import router from '@/router'
-
 export default {
   namespaced: true,
   state: {
@@ -43,19 +41,14 @@ export default {
     [CREATE_ADVENTURE] ({ commit }, { params }) {
       commit(SET_LOADING, true);
 
-      api.adventures.createAdventure(params)
+      return api.adventures.createAdventure(params)
         .then( response => {
           commit(SET_LOADING, false);
 
           localStorage.setItem(`${response.data.id}-name`, response.data.adventure.name);
           localStorage.setItem(`${response.data.id}-point`, JSON.stringify(response.data.startingPointPosition));
 
-          router.push({
-            name: 'adventureMap',
-            params: {
-              adventureId: response.data.id
-            }
-          });
+          return response;
         })
         .catch( error => {
           commit(SET_ERROR, error);

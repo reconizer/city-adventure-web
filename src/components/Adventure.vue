@@ -84,7 +84,29 @@ export default {
     error: state => state.adventure.error
   }),
   created () {
-    this.$store.dispatch(`${ACTION_NAMESPACE}/${LOAD_ADVENTURE}`, { id: this.$route.params.adventureId });
+    this.$store.dispatch(`${ACTION_NAMESPACE}/${LOAD_ADVENTURE}`, { id: this.$route.params.adventureId })
+      .then(() => {
+        if(this.$router.currentRoute.params.pointId) {
+          let pointId = this.$router.currentRoute.params.pointId;
+
+          let point = this.points.find(point => point.id == pointId);
+
+          if(point) {
+            if(this.$router.currentRoute.params.clueId) {
+              let clue = point.clues.find(clue => clue.id == this.$router.currentRoute.params.clueId);
+
+              if(!clue) {
+                this.$router.replace({ name: 'adventureMap', params: { adventureId: this.adventure.id } });
+              }
+            }
+          } else {
+            this.$router.replace({ name: 'adventureMap', params: { adventureId: this.adventure.id } });
+          }
+        }
+      })
+      .catch( error => {
+        this.$router.replace({ name: 'home' });
+      });
   },
   methods: {
     toggleExpand () {

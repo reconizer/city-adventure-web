@@ -164,6 +164,17 @@ export default {
         this.$store.dispatch(`${ACTION_NAMESPACE}/${CREATE_CLUE}`, {
           pointId: this.$route.params.pointId,
           data: data
+        }).then( (response) => {
+          setTimeout(() => {
+            this.$router.replace({
+              name: 'adventureClue',
+              params: {
+                adventureId: this.adventure.id,
+                pointId: this.point.id,
+                clueId: response.data.id
+              }
+            });
+          }, 0);
         });
       }
     },
@@ -174,6 +185,15 @@ export default {
           this.$store.dispatch(`${ACTION_NAMESPACE}/${DESTROY_CLUE}`, {
             pointId: this.$route.params.pointId,
             clueId: this.clue.id
+          }).then( (response) => {
+            setTimeout(() => {
+              this.$router.replace({
+                name: 'adventureMap',
+                params: {
+                  adventureId: this.clue.id,
+                }
+              });
+            }, 0);
           });
         }
       }

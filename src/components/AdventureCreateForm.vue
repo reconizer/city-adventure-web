@@ -211,7 +211,14 @@ export default {
         startingPointPosition: this.startingPointPosition
       };
 
-      this.$store.dispatch(`${ACTION_NAMESPACE}/${CREATE_ADVENTURE}`, { params });
+      this.$store.dispatch(`${ACTION_NAMESPACE}/${CREATE_ADVENTURE}`, { params }).then((response) => {
+        this.$router.push({
+          name: 'adventureMap',
+          params: {
+            adventureId: response.data.id
+          }
+        });
+      });
     },
 
     showHelpModal () {

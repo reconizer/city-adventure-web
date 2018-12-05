@@ -1,8 +1,6 @@
 import api from '@/api';
 import Vue from 'vue';
 
-import router from '@/router';
-
 import {
   SET_LOADING, SET_ERROR,
   SET_ADVENTURE, CLEAR_ADVENTURE,
@@ -141,7 +139,7 @@ export default {
     }
   },
   actions: {
-    [LOAD_ADVENTURE] ({ commit, state }, { id }) {
+    [LOAD_ADVENTURE] ({ commit }, { id }) {
       commit(CLEAR_ADVENTURE);
       commit(CLEAR_ADVENTURE_POINTS);
 
@@ -156,28 +154,12 @@ export default {
 
           commit(SET_LOADING, false);
 
-          if(router.currentRoute.params.pointId) {
-            let pointId = router.currentRoute.params.pointId;
-
-            let point = state.points.find(point => point.id == pointId);
-
-            if(point) {
-              if(router.currentRoute.params.clueId) {
-                let clue = point.clues.find(clue => clue.id == router.currentRoute.params.clueId);
-
-                if(!clue) {
-                  router.replace({ name: 'adventureMap', params: { adventureId: state.item.id } });
-                }
-              }
-            } else {
-              router.replace({ name: 'adventureMap', params: { adventureId: state.item.id } });
-            }
-          }
+          return values;
         })
         .catch( error => {
           commit(SET_ERROR, error)
 
-          router.replace({ name: 'home' });
+          return error;
         });
     },
 
@@ -244,31 +226,25 @@ export default {
         .catch( error => commit(SET_ERROR, error));
     },
 
-    [DESTROY_POINT] ({ commit, state }, { pointId }) {
+    [DESTROY_POINT] ({ commit }, { pointId }) {
       commit(SET_LOADING, true);
 
-      api.adventures.destroyPoint(pointId)
+      return api.adventures.destroyPoint(pointId)
         .then( response => {
           // If we remove a point which has currently opened form (or it's clue has form opened) - go to map
-          if(router.currentRoute.name == "adventurePoint" || router.currentRoute.name == "adventureClue" || router.currentRoute.name == "newAdventureClue") {
-            if (router.currentRoute.params.pointId == pointId) {
-              setTimeout(() => {
-                router.replace({ name: 'adventureMap', params: { adventureId: state.item.id } });
-              }, 0);
-            }
-          }
-
           commit(REMOVE_POINT, pointId);
 
           commit(SET_LOADING, false);
+
+          return response;
         })
         .catch( error => commit(SET_ERROR, error));
     },
 
-    [CREATE_CLUE] ({ commit, state }, { pointId, data }) {
+    [CREATE_CLUE] ({ commit }, { pointId, data }) {
       commit(SET_LOADING, true);
 
-      api.adventures.createClue(pointId, data)
+      return api.adventures.createClue(pointId, data)
         .then( response => {
           commit(ADD_CLUE, {
             pointId: pointId,
@@ -277,17 +253,7 @@ export default {
 
           commit(SET_LOADING, false);
 
-          setTimeout(() => {
-            router.replace({
-              name: 'adventureClue',
-              params: {
-                adventureId: state.item.id,
-                pointId: pointId,
-                clueId: response.data.id
-              }
-            });
-          }, 0);
-
+          return response;
         })
         .catch( error => commit(SET_ERROR, error));
     },
@@ -308,23 +274,16 @@ export default {
         .catch( error => commit(SET_ERROR, error));
     },
 
-    [DESTROY_CLUE] ({ commit, state }, { pointId, clueId }) {
+    [DESTROY_CLUE] ({ commit }, { pointId, clueId }) {
       commit(SET_LOADING, true);
 
-      api.adventures.destroyClue(clueId)
+      return api.adventures.destroyClue(clueId)
         .then( response => {
           commit(REMOVE_CLUE, { pointId, clueId });
 
           commit(SET_LOADING, false);
 
-          setTimeout(() => {
-            router.replace({
-              name: 'adventureMap',
-              params: {
-                adventureId: state.item.id,
-              }
-            });
-          }, 0);
+          return response;
         })
         .catch( error => commit(SET_ERROR, error));
     }
