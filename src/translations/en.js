@@ -1,5 +1,7 @@
 export default {
   login: {
+    title_creator: "Creator Panel",
+    title_admin: "Admin Panel",
     title: "Log In",
     email: "Email",
     email_placeholder: "email@domain.com",

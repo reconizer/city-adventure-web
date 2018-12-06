@@ -1,7 +1,7 @@
 import api from '@/api';
 
-import { SET_ADVENTURES, SET_LOADING, SET_ERROR } from './mutation-types';
-import { LOAD_ADVENTURES, CREATE_ADVENTURE } from './action-types';
+import { SET_ADVENTURES, SET_LOADING, SET_ERROR } from '@/store/mutation-types';
+import { LOAD_ADVENTURES, CREATE_ADVENTURE } from '@/store/action-types';
 
 export default {
   namespaced: true,
@@ -28,10 +28,12 @@ export default {
     [LOAD_ADVENTURES] ({ commit }, { page }) {
       commit(SET_LOADING, true);
 
-      api.adventures.loadAdventures(page)
+      return api.creator.adventures.loadAdventures(page)
         .then( response => {
           commit(SET_ADVENTURES, response.data);
           commit(SET_LOADING, false);
+
+          return response;
         })
         .catch( error => {
           commit(SET_ERROR, error);
@@ -41,7 +43,7 @@ export default {
     [CREATE_ADVENTURE] ({ commit }, { params }) {
       commit(SET_LOADING, true);
 
-      return api.adventures.createAdventure(params)
+      return api.creator.adventures.createAdventure(params)
         .then( response => {
           commit(SET_LOADING, false);
 

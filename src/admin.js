@@ -6,7 +6,7 @@ import Vue from 'vue';
 import VueI18n from 'vue-i18n';
 import VueScrollTo from 'vue-scrollto';
 import router from '@/router/admin';
-import store from '@/store';
+import store from '@/store/admin';
 
 import en from '@/translations/en';
 import pl from '@/translations/pl';
@@ -52,6 +52,8 @@ Vue.use(i18n);
 import App from './AdminApp.vue'
 
 Vue.config.productionTip = false;
+
+Vue.prototype.$appType = "admin";
 
 new Vue({
   router,

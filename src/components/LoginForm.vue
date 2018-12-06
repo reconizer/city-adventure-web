@@ -1,6 +1,6 @@
 <template lang="pug">
-  form(@submit.prevent="handleSubmit")
-    .login-header {{ $t("login.title") }}
+  form.login(@submit.prevent="handleSubmit")
+    .login__header {{ $t("login.title") }}
 
     .form-control(v-if="error") {{ error }}
 
@@ -32,9 +32,18 @@ export default {
       user: { }
     }
   },
-  computed: mapState({
-    error: state => state.authentication.status.error
-  }),
+  computed: {
+    ...mapState({
+      error: state => state.authentication.status.error
+    }),
+    title () {
+      if(this.$appType == "creator") {
+        return this.$t("login.title_creator");
+      } else {
+        return this.$t("login.title_admin");
+      }
+    }
+  },
   created () {
     this.$store.dispatch(`${ACTION_NAMESPACE}/${LOGOUT}`);
   },

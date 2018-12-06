@@ -15,13 +15,13 @@ import {
   SET_USER_PROGRESS_WRONG_ENTRIES,
 
   SET_LOADING, SET_ERROR
-} from './mutation-types'
+} from '@/store/mutation-types'
 
 import {
   LOAD_ANALYTICS_OVERVIEW,
   LOAD_ANALYTICS_USER_COMPLETION,
   LOAD_ANALYTICS_USER_PROGRESS
-} from './action-types'
+} from '@/store/action-types'
 
 export default {
   namespaced: true,
@@ -166,11 +166,11 @@ export default {
       let end = moment().toDate();
 
       return Promise.all([
-        api.analytics.overview.summary(id, start, end),
+        api.creator.analytics.overview.summary(id, start, end),
 
-        api.analytics.overview.purchases(id, start, end),
-        api.analytics.overview.views(id, start, end),
-        api.analytics.overview.ratings(id, start, end)
+        api.creator.analytics.overview.purchases(id, start, end),
+        api.creator.analytics.overview.views(id, start, end),
+        api.creator.analytics.overview.ratings(id, start, end)
       ]).then( (values) => {
         commit(SET_OVERVIEW_SUMMARY, values[0].data.overview);
 
@@ -194,8 +194,8 @@ export default {
       let end = moment().toDate();
 
       return Promise.all([
-        api.analytics.userCompletion.participants(id, start, end),
-        api.analytics.userCompletion.rankings(id, start, end)
+        api.creator.analytics.userCompletion.participants(id, start, end),
+        api.creator.analytics.userCompletion.rankings(id, start, end)
       ]).then( (values) => {
         commit(SET_USER_COMPLETION_PARTICIPANTS, values[0].data.participants);
         commit(SET_USER_COMPLETION_RANKINGS, values[1].data.rankings);
@@ -216,9 +216,9 @@ export default {
       let end = moment().toDate();
 
       return Promise.all([
-        api.analytics.userProgress.tipUsage(id, start, end),
-        api.analytics.userProgress.timeSpentPerPoint(id, start, end),
-        api.analytics.userProgress.wrongPasswordEntires(id, start, end)
+        api.creator.analytics.userProgress.tipUsage(id, start, end),
+        api.creator.analytics.userProgress.timeSpentPerPoint(id, start, end),
+        api.creator.analytics.userProgress.wrongPasswordEntires(id, start, end)
       ]).then( (values) => {
         commit(SET_USER_PROGRESS_TIP_USAGE, values[0].data.tip_usage);
         commit(SET_USER_PROGRESS_TIME_SPENT_PER_POINT, values[1].data.time_spent);

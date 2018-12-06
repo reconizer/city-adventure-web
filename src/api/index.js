@@ -1,9 +1,7 @@
-import authentication from './authentication';
-import adventures from './adventures';
-import analytics from './analytics';
+import admin from './admin';
+import creator from './creator';
 
 export default {
-  authentication,
-  adventures,
-  analytics
+  admin,
+  creator
 }

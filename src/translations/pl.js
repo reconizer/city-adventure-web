@@ -1,5 +1,7 @@
 export default {
   login: {
+    title_creator: "Panel Kreatora",
+    title_admin: "Panel Administracyjny",
     title: "Zaloguj się",
     email: "Email",
     email_placeholder: "email@domena.pl",

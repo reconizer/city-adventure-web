@@ -39,17 +39,6 @@ export default {
       type: Object,
       default: () => {}
     }
-  },
-  computed: {
-    adventureStatus () {
-      switch(this.adventure.status) {
-        case "published":
-          return "Published";
-        case "unpublished":
-        default:
-          return "Unpublished";
-      }
-    }
   }
 }
 </script>

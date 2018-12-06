@@ -8,7 +8,7 @@ import {
   SET_POINT, ADD_POINT, REMOVE_POINT,
   SET_CLUE, ADD_CLUE, REMOVE_CLUE,
   SET_POINTS, SET_POINTS_ORDER
-} from './mutation-types';
+} from '@/store/mutation-types';
 
 
 import {
@@ -17,7 +17,7 @@ import {
   UPDATE_POINTS,
   UPDATE_CLUE, CREATE_CLUE, DESTROY_CLUE,
   UPDATE_CLUES
-} from './action-types';
+} from '@/store/action-types';
 
 export default {
   namespaced: true,
@@ -39,6 +39,9 @@ export default {
     }
   },
   mutations: {
+    /**
+     * ADVENTURE
+     */
     [SET_ADVENTURE] (state, adventure) {
       state.item = adventure;
     },
@@ -55,6 +58,9 @@ export default {
       state.points = [];
     },
 
+    /**
+     * POINTS
+     */
     [ADD_POINT] (state, point) {
       state.points.push(point);
     },
@@ -83,6 +89,29 @@ export default {
       state.points.splice(index, 1);
     },
 
+    [SET_POINTS] (state, values) {
+      state.points = values;
+    },
+
+    [SET_POINTS_ORDER] (state, values) {
+      let newPoints = [];
+
+      for(let i = 0; i < values.length; i++) {
+        let index = state.points.findIndex(point => point.id == values[i].id);
+
+        let pointData = state.points[index];
+
+        pointData.parent_id = values[i].parent_id;
+
+        newPoints.push(pointData);
+      }
+
+      state.points = [state.points[0], ...newPoints];
+    },
+
+    /**
+     * CLUES
+     */
     [ADD_CLUE] (state, { pointId, data }) {
       let index = state.points.findIndex(item => item.id == pointId);
       let pointData = state.points[index]
@@ -109,26 +138,9 @@ export default {
       point.clues.splice(index, 1);
     },
 
-    [SET_POINTS] (state, values) {
-      state.points = values;
-    },
-
-    [SET_POINTS_ORDER] (state, values) {
-      let newPoints = [];
-
-      for(let i = 0; i < values.length; i++) {
-        let index = state.points.findIndex(point => point.id == values[i].id);
-
-        let pointData = state.points[index];
-
-        pointData.parent_id = values[i].parent_id;
-
-        newPoints.push(pointData);
-      }
-
-      state.points = [state.points[0], ...newPoints];
-    },
-
+    /**
+     * GENERAL
+     */
     [SET_LOADING] (state, loading) {
       state.loading = loading;
     },
@@ -146,8 +158,8 @@ export default {
       commit(SET_LOADING, true);
 
       return Promise.all([
-        api.adventures.loadAdventure(id),
-        api.adventures.loadPoints(id)
+        api.creator.adventures.loadAdventure(id),
+        api.creator.adventures.loadPoints(id)
       ]).then( (values) => {
           commit(SET_ADVENTURE, values[0].data);
           commit(SET_ADVENTURE_POINTS, values[1].data);
@@ -166,11 +178,13 @@ export default {
     [UPDATE_ADVENTURE] ({ commit }, { adventureId, params }) {
       commit(SET_LOADING, true);
 
-      api.adventures.updateAdventure(adventureId, params)
+      return api.creator.adventures.updateAdventure(adventureId, params)
         .then( response => {
           commit(SET_ADVENTURE, response.data);
 
           commit(SET_LOADING, false);
+
+          return response;
         })
         .catch( error => commit(SET_ERROR, error));
     },
@@ -178,11 +192,13 @@ export default {
     [UPDATE_POINT] ({ commit }, { adventureId, pointId, params }) {
       commit(SET_LOADING, true);
 
-      api.adventures.updatePoint(adventureId, pointId, params)
+      return api.creator.adventures.updatePoint(adventureId, pointId, params)
         .then( response => {
           commit(SET_POINT, { id: pointId, data: response.data });
 
           commit(SET_LOADING, false);
+
+          return response;
         })
         .catch( error => commit(SET_ERROR, error));
     },
@@ -190,12 +206,14 @@ export default {
     [UPDATE_CLUES] ({ commit }, { payload }) {
       commit(SET_LOADING, true);
 
-      api.adventures.updateClues(payload)
+      return api.creator.adventures.updateClues(payload)
         .then( response => {
           //TODO does not require any response?
           //TODO does it require state manipulation?
 
           commit(SET_LOADING, false);
+
+          return response;
         })
         .catch( error => commit(SET_ERROR, error));
     },
@@ -203,13 +221,15 @@ export default {
     [UPDATE_POINTS] ({ commit }, { payload }) {
       commit(SET_LOADING, true);
 
-      api.adventures.updatePoints(payload)
+      return api.creator.adventures.updatePoints(payload)
         .then( response => {
           //TODO does not require any response?
           //TODO does it require state manipulation?
 
           commit(SET_POINTS_ORDER, payload);
           commit(SET_LOADING, false);
+
+          return response;
         })
         .catch( error => commit(SET_ERROR, error));
     },
@@ -217,11 +237,13 @@ export default {
     [CREATE_POINT] ({ commit }, { adventureId, parentId, lat, lng }) {
       commit(SET_LOADING, true);
 
-      api.adventures.createPoint(adventureId, parentId, lat, lng)
+      return api.creator.adventures.createPoint(adventureId, parentId, lat, lng)
         .then( response => {
           commit(ADD_POINT, response.data);
 
           commit(SET_LOADING, false);
+
+          return response;
         })
         .catch( error => commit(SET_ERROR, error));
     },
@@ -229,7 +251,7 @@ export default {
     [DESTROY_POINT] ({ commit }, { pointId }) {
       commit(SET_LOADING, true);
 
-      return api.adventures.destroyPoint(pointId)
+      return api.creator.adventures.destroyPoint(pointId)
         .then( response => {
           // If we remove a point which has currently opened form (or it's clue has form opened) - go to map
           commit(REMOVE_POINT, pointId);
@@ -244,7 +266,7 @@ export default {
     [CREATE_CLUE] ({ commit }, { pointId, data }) {
       commit(SET_LOADING, true);
 
-      return api.adventures.createClue(pointId, data)
+      return api.creator.adventures.createClue(pointId, data)
         .then( response => {
           commit(ADD_CLUE, {
             pointId: pointId,
@@ -261,7 +283,7 @@ export default {
     [UPDATE_CLUE] ({ commit }, { pointId, clueId, data }) {
       commit(SET_LOADING, true);
 
-      api.adventures.updateClue(pointId, clueId, data)
+      return api.creator.adventures.updateClue(pointId, clueId, data)
         .then( response => {
           commit(SET_CLUE, {
             pointId: pointId,
@@ -270,6 +292,8 @@ export default {
           })
 
           commit(SET_LOADING, false);
+
+          return response;
         })
         .catch( error => commit(SET_ERROR, error));
     },
@@ -277,7 +301,7 @@ export default {
     [DESTROY_CLUE] ({ commit }, { pointId, clueId }) {
       commit(SET_LOADING, true);
 
-      return api.adventures.destroyClue(clueId)
+      return api.creator.adventures.destroyClue(clueId)
         .then( response => {
           commit(REMOVE_CLUE, { pointId, clueId });
 

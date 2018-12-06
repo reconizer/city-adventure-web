@@ -1,4 +1,5 @@
 export const BASE_URL = process.env.VUE_APP_API_URL;
+export const ADMIN_BASE_URL = process.env.VUE_APP_ADMIN_API_URL;
 
 export const clueTypes = [
   'text', 'audio', 'video',

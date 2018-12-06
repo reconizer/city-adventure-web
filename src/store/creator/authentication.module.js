@@ -1,8 +1,8 @@
-import { LOGIN_ERROR, STORE_USER, REMOVE_USER } from './mutation-types';
-import { LOGIN, LOGOUT } from './action-types';
-
 import api from '@/api';
 import axios from 'axios';
+
+import { LOGIN_ERROR, STORE_USER, REMOVE_USER } from '@/store/mutation-types';
+import { LOGIN, LOGOUT } from '@/store/action-types';
 
 import { authHeader } from '@/utils';
 
@@ -38,7 +38,7 @@ export default {
   },
   actions: {
     [LOGIN] ({ commit }, { email, password }) {
-      return api.authentication.login(email, password)
+      return api.creator.authentication.login(email, password)
         .then( response => {
           commit(STORE_USER, response.data);
 
