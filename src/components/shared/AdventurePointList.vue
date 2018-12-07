@@ -85,7 +85,7 @@ import { UPDATE_POINTS, DESTROY_POINT } from '@/store/action-types'
 
 import draggable from 'vuedraggable'
 
-import AdventurePointClueList from '@/components/AdventurePointClueList.vue'
+import AdventurePointClueList from '@/components/shared/AdventurePointClueList.vue'
 
 const ACTION_NAMESPACE = 'adventure'
 

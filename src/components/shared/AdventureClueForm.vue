@@ -61,7 +61,7 @@ import { CREATE_CLUE, UPDATE_CLUE, DESTROY_CLUE } from '@/store/action-types'
 
 import vSelect from 'vue-select'
 
-import { clueTypes } from '@/config'
+import { CLUE_TYPES } from '@/config'
 
 import cloneDeep from 'lodash.clonedeep'
 
@@ -92,7 +92,7 @@ export default {
       error: state => state.adventure.error
     }),
     clueTypes() {
-      return clueTypes.map(type => {
+      return CLUE_TYPES.map(type => {
 
         return {
           value: type,

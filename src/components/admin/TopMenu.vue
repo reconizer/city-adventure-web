@@ -24,7 +24,7 @@
 import moment from 'moment'
 
 export default {
-  name: 'TheTopMenu',
+  name: 'TopMenu',
   methods: {
     setLocale (locale) {
       this.$i18n.locale = locale;

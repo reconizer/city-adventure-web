@@ -73,8 +73,8 @@ import { mapState } from 'vuex';
 
 import { CREATE_POINT, DESTROY_POINT } from '@/store/action-types';
 
-import Modal from '@/components/Modal.vue'
-import AdventureMapPoint from '@/components/AdventureMapPoint.vue';
+import Modal from '@/components/shared/Modal.vue'
+import AdventureMapPoint from '@/components/shared/AdventureMapPoint.vue';
 
 const ACTION_NAMESPACE = 'adventure';
 

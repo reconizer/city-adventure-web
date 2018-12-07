@@ -80,7 +80,7 @@ import startMarker from '@/assets/images/marker_start.png'
 
 import { CREATE_ADVENTURE } from '@/store/action-types'
 
-import Modal from '@/components/Modal.vue'
+import Modal from '@/components/shared/Modal.vue'
 
 const ACTION_NAMESPACE = 'adventures';
 

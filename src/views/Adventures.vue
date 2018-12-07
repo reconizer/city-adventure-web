@@ -4,7 +4,7 @@
 </template>
 
 <script>
-import AdventureList from '@/components/AdventureList.vue'
+import AdventureList from '@/components/shared/AdventureList.vue'
 
 export default {
   name: 'Adventures',

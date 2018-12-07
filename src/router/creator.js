@@ -1,29 +1,29 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import BaseLayout from '@/views/BaseLayout.vue'
+import BaseLayout from '@/views/creator/BaseLayout.vue'
 import Adventures from '@/views/Adventures.vue'
-import AdventureCreateForm from '@/components/AdventureCreateForm'
+import AdventureCreateForm from '@/components/shared/AdventureCreateForm'
 
-import AccountSettings from '@/components/AccountSettings.vue'
+import AccountSettings from '@/components/shared/AccountSettings.vue'
 
-import Adventure from '@/components/Adventure.vue'
+import Adventure from '@/components/shared/Adventure.vue'
 import AdventureSettings from '@/views/AdventureSettings.vue'
-import AdventureSettingsForm from '@/components/AdventureSettingsForm.vue'
-import AdventureClueForm from '@/components/AdventureClueForm.vue'
-import AdventurePointForm from '@/components/AdventurePointForm.vue'
+import AdventureSettingsForm from '@/components/shared/AdventureSettingsForm.vue'
+import AdventureClueForm from '@/components/shared/AdventureClueForm.vue'
+import AdventurePointForm from '@/components/shared/AdventurePointForm.vue'
 
 import AdventureAnalytics from '@/views/AdventureAnalytics.vue'
-import AdventureAnalyticsOverview from '@/components/AdventureAnalyticsOverview.vue'
-import AdventureAnalyticsUserCompletion from '@/components/AdventureAnalyticsUserCompletion.vue'
-import AdventureAnalyticsUserProgress from '@/components/AdventureAnalyticsUserProgress.vue'
+import AdventureAnalyticsOverview from '@/components/shared/AdventureAnalyticsOverview.vue'
+import AdventureAnalyticsUserCompletion from '@/components/shared/AdventureAnalyticsUserCompletion.vue'
+import AdventureAnalyticsUserProgress from '@/components/shared/AdventureAnalyticsUserProgress.vue'
 
 import Login from '@/views/Login.vue'
 
 Vue.use(Router)
 
 const router = new Router({
-  mode: process.env.NODE_ENV === 'production' ? 'hash' : 'history',
+  mode: 'hash',
   routes: [
     {
       path: '/',

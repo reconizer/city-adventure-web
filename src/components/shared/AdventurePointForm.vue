@@ -53,9 +53,9 @@ import { TIME_CONSTRAINT_OPTIONS } from '@/config'
 
 import cloneDeep from 'lodash.clonedeep'
 
-import AdventurePointFormPassword from '@/components/AdventurePointFormPassword.vue'
-import AdventurePointFormTimeConstraint from '@/components/AdventurePointFormTimeConstraint.vue'
-import AdventurePointFormLocation from '@/components/AdventurePointFormLocation.vue'
+import AdventurePointFormPassword from '@/components/shared/AdventurePointFormPassword.vue'
+import AdventurePointFormTimeConstraint from '@/components/shared/AdventurePointFormTimeConstraint.vue'
+import AdventurePointFormLocation from '@/components/shared/AdventurePointFormLocation.vue'
 
 const ACTION_NAMESPACE = 'adventure'
 
@@ -172,9 +172,9 @@ export default {
                 this.$router.currentRoute.name == "adventureClue" ||
                 this.$router.currentRoute.name == "newAdventureClue") {
 
-              if(router.currentRoute.params.pointId == this.point.id) {
+              if(this.$router.currentRoute.params.pointId == this.point.id) {
                 setTimeout(() => {
-                  router.replace({ name: 'adventureMap', params: { adventureId: this.adventure.id } });
+                  this.$router.replace({ name: 'adventureMap', params: { adventureId: this.adventure.id } });
                 }, 0);
               }
             }

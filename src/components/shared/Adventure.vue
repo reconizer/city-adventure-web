@@ -54,8 +54,8 @@ import { mapState } from 'vuex'
 
 import { LOAD_ADVENTURE } from '@/store/action-types'
 
-import AdventureMap from '@/components/AdventureMap.vue'
-import AdventurePointList from '@/components/AdventurePointList.vue'
+import AdventureMap from '@/components/shared/AdventureMap.vue'
+import AdventurePointList from '@/components/shared/AdventurePointList.vue'
 
 import Loader from '@/views/Loader.vue'
 
@@ -87,9 +87,7 @@ export default {
     this.$store.dispatch(`${ACTION_NAMESPACE}/${LOAD_ADVENTURE}`, { id: this.$route.params.adventureId })
       .then(() => {
         if(this.$router.currentRoute.params.pointId) {
-          let pointId = this.$router.currentRoute.params.pointId;
-
-          let point = this.points.find(point => point.id == pointId);
+          let point = this.points.find(point => point.id == this.$router.currentRoute.params.pointId);
 
           if(point) {
             if(this.$router.currentRoute.params.clueId) {

@@ -5,8 +5,6 @@ import './app.sass'
 import Vue from 'vue';
 import VueI18n from 'vue-i18n';
 import VueScrollTo from 'vue-scrollto';
-import router from '@/router/admin';
-import store from '@/store/admin';
 
 import en from '@/translations/en';
 import pl from '@/translations/pl';
@@ -50,6 +48,8 @@ const i18n = new VueI18n({
 Vue.use(i18n);
 
 import App from './AdminApp.vue'
+import router from '@/router/admin';
+import store from '@/store/admin';
 
 Vue.config.productionTip = false;
 

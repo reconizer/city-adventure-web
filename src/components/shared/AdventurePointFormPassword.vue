@@ -85,7 +85,7 @@
 <script>
 import { mapState } from 'vuex'
 
-import { passwordTypes } from '@/config'
+import { PASSWORD_TYPES } from '@/config'
 
 import { arrowUnicodeToChar, charToArrowUnicode } from '@/utils'
 
@@ -117,7 +117,7 @@ export default {
       adventure: state => state.adventure.item
     }),
     passwordTypes () {
-      return passwordTypes.map(type => {
+      return PASSWORD_TYPES.map(type => {
         type.label = this.$t(`password_type.${type.value}`);
 
         return type;

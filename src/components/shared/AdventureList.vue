@@ -18,7 +18,7 @@ import { mapState } from 'vuex'
 
 import { LOAD_ADVENTURES } from '@/store/action-types'
 
-import AdventureListItem from '@/components/AdventureListItem'
+import AdventureListItem from '@/components/shared/AdventureListItem'
 
 import Loader from '@/views/Loader.vue'
 

@@ -1,17 +1,17 @@
 <template lang="pug">
   div
-    TheTopMenu
+    TopMenu
 
     router-view
 </template>
 
 <script>
-import TheTopMenu from '@/components/TheTopMenu'
+import TopMenu from '@/components/admin/TopMenu'
 
 export default {
   name: 'BaseLayout',
   components: {
-    TheTopMenu
+    TopMenu
   }
 }
 </script>

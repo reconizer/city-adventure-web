@@ -17,12 +17,10 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 
-import moment from 'moment'
-
-import PieChart from '@/components/charts/PieChart.vue'
-import BarChart from '@/components/charts/BarChart.vue'
+import PieChart from '@/components/shared/charts/PieChart.vue'
+import BarChart from '@/components/shared/charts/BarChart.vue'
 
 import { LOAD_ANALYTICS_USER_COMPLETION } from '@/store/action-types'
 
