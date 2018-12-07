@@ -1,15 +1,20 @@
-//General
+/**
+ * GENERAL
+ */
 export const SET_LOADING = "setLoading";
-
 export const SET_ERROR = "setError";
 
-//Authentication
+/**
+ * AUTHENTICATION
+ */
 export const STORE_USER = "storeUser";
 export const REMOVE_USER = "removeUser";
 
 export const LOGIN_ERROR = "loginError";
 
-//Adventures
+/**
+ * ADVENTURES
+ */
 export const SET_ADVENTURES = "setAdventures";
 export const CLEAR_NEW_ADVENTURE = "clearNewAdventure";
 
@@ -30,7 +35,9 @@ export const SET_CLUE = "setClue";
 export const ADD_CLUE = "addClue";
 export const REMOVE_CLUE = "removeClue";
 
-//Analytics
+/**
+ * ANALYTICS
+ */
 export const CLEAR_OVERVIEW = "clearOverview";
 export const SET_OVERVIEW_SUMMARY = "setOverviewSummary";
 export const SET_OVERVIEW_PURCHASES = "setOverviewPurchases";

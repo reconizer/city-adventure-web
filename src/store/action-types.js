@@ -1,8 +1,12 @@
-//Authentication
+/**
+ * AUTHENTICATION
+ */
 export const LOGIN = "login";
 export const LOGOUT = "logout";
 
-//Adventures
+/**
+ * ADVENTURES
+ */
 export const LOAD_ADVENTURES = "loadAdventures";
 
 export const UPDATE_ADVENTURE = "updateAdventure";
@@ -22,7 +26,9 @@ export const DESTROY_CLUE = "destroyClue";
 export const CREATE_POINT = "createPoint";
 export const DESTROY_POINT = "destroyPoint";
 
-//Analytics
+/**
+ * ANALYTICS
+ */
 export const LOAD_ANALYTICS_OVERVIEW = "loadAnalyticsOverview";
 export const LOAD_ANALYTICS_USER_COMPLETION = "loadAnalyticsUserCompletion";
 export const LOAD_ANALYTICS_USER_PROGRESS = "loadAnalyticsUserProgress";
