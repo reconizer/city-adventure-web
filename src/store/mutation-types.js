@@ -54,3 +54,9 @@ export const SET_USER_PROGRESS_RANKINGS = "setUserProgressRankings";
 export const SET_USER_PROGRESS_TIP_USAGE = "setUserProgressTipUsage";
 export const SET_USER_PROGRESS_TIME_SPENT_PER_POINT = "setUserProgressTimeSpentPerPoint";
 export const SET_USER_PROGRESS_WRONG_ENTRIES = "setUserProgressWrongEntries";
+
+/**
+ * ADMIN
+ */
+export const SET_TYPE = "setType";
+export const SET_COUNTERS = "setCounters";

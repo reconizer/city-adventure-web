@@ -133,6 +133,13 @@ export const ADVENTURE_DURATION_OPTIONS = {
 export const DIFFICULTY_LEVELS = [ 1, 2, 3 ]
 
 /**
+ * FOR ADMIN ADVENTURE LISTS
+ */
+export const ADVENTURES_PUBLISHED = 'published'
+export const ADVENTURES_IN_REVIEW = 'in_review'
+export const ADVENTURES_UNPUBLISHED = 'unpublished'
+
+/**
  * COLORS
  */
 export const AREA_BORDER_COLOR = '#ff2b848f'

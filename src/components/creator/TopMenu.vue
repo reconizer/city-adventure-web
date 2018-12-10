@@ -2,7 +2,10 @@
   .top-menu-wrapper
     nav.top-menu
       .top-menu__links
-        router-link.top-menu__link(to="/")
+        router-link.top-menu__link(
+          to="/"
+          exact-active-class="top-menu__link--active"
+        )
           .icon.icon--list-b.icon--pad-right
           span {{ $t("top_menu.adventures") }}
 

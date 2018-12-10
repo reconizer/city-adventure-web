@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import BaseLayout from '@/views/creator/BaseLayout.vue'
-import Adventures from '@/views/Adventures.vue'
+import Adventures from '@/views/creator/Adventures.vue'
 import AdventureCreateForm from '@/components/shared/AdventureCreateForm'
 
 import AccountSettings from '@/components/shared/AccountSettings.vue'

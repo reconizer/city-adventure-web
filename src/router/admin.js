@@ -4,14 +4,61 @@ import Router from 'vue-router'
 import BaseLayout from '@/views/admin/BaseLayout.vue'
 import Login from '@/views/Login.vue'
 
+import Adventures from '@/components/admin/Adventures.vue'
+
+import AdventureList from '@/components/admin/AdventureList.vue'
+
+import {
+  ADVENTURES_PUBLISHED,
+  ADVENTURES_IN_REVIEW,
+  ADVENTURES_UNPUBLISHED
+} from '@/config'
+
 Vue.use(Router)
 
 const router = new Router({
   mode: 'hash',
   routes: [
     {
-      path: '/',
+      path: '',
       component: BaseLayout,
+      children: [
+        {
+          path: 'account',
+          name: 'accountSettings',
+          component: null
+        },
+        {
+          path: 'adventures',
+          component: Adventures,
+          children: [
+            {
+              path: '',
+              name: 'adventuresPublished',
+              component: AdventureList,
+              props: {
+                listType: ADVENTURES_PUBLISHED
+              }
+            },
+            {
+              path: 'in-review',
+              name: 'adventuresInReview',
+              component: AdventureList,
+              props: {
+                listType: ADVENTURES_IN_REVIEW
+              }
+            },
+            {
+              path: 'unpublished',
+              name: 'adventuresUnpublished',
+              component: AdventureList,
+              props: {
+                listType: ADVENTURES_UNPUBLISHED
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       path: '/login',
@@ -20,7 +67,7 @@ const router = new Router({
     },
     {
       path: '*',
-      redirect: '/'
+      redirect: '/adventures'
     }
   ]
 });

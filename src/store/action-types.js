@@ -32,3 +32,8 @@ export const DESTROY_POINT = "destroyPoint";
 export const LOAD_ANALYTICS_OVERVIEW = "loadAnalyticsOverview";
 export const LOAD_ANALYTICS_USER_COMPLETION = "loadAnalyticsUserCompletion";
 export const LOAD_ANALYTICS_USER_PROGRESS = "loadAnalyticsUserProgress";
+
+/**
+ * ADMIN
+ */
+export const LOAD_COUNTERS = "loadCounters";

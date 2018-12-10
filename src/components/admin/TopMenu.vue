@@ -2,11 +2,16 @@
   .top-menu-wrapper
     nav.top-menu
       .top-menu__links
-        router-link.top-menu__link(to="/")
+        router-link.top-menu__link(
+          to="/adventures"
+        )
           .icon.icon--list-b.icon--pad-right
           span {{ $t("top_menu.adventures") }}
 
-        router-link.top-menu__link(to="/account")
+        router-link.top-menu__link(
+          to="/account"
+          exact-active-class="top-menu__link--active"
+        )
           .icon.icon--wrench-white.icon--pad-right
           span {{ $t("top_menu.settings") }}
 
