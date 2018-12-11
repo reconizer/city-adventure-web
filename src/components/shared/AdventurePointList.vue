@@ -2,7 +2,7 @@
   div
     .adventure-point-list(
       v-if="startingPoint"
-      :class="{ 'adventure-point-list--published': adventure.published }"
+      :class="{ 'adventure-point-list--published': published }"
     )
       .adventure-point-list__line
 
@@ -28,7 +28,7 @@
 
       draggable(
         v-model="points"
-        :options="{ draggable: '.adventure-point-wrapper', group: 'points', disabled: adventure.published }"
+        :options="{ draggable: '.adventure-point-wrapper', group: 'points', disabled: published }"
       )
         .adventure-point-wrapper(
           v-for="(point, pointIndex) in points"
@@ -62,13 +62,13 @@
                 .icon.icon--sm.icon--marker.icon--pad-right
                 span {{ $t("adventure.go_to_puzzle") }}
 
-              .button.button--blue.adventure-point__control(v-if="!adventure.published" @click="destroyPoint(point)")
+              .button.button--blue.adventure-point__control(v-if="!published" @click="destroyPoint(point)")
                 .icon.icon--sm.icon--close-white.icon--pad-right
                 span {{ $t("general.remove") }}
 
           AdventurePointClueList(:point="point")
 
-    .adventure-point-new-wrapper(v-if="startingPoint && !adventure.published")
+    .adventure-point-new-wrapper(v-if="startingPoint && !published")
       .adventure-point.adventure-point--new
         router-link.button.button--blue.adventure-point__name(
           :to="{ name: 'adventureMap', params: { adventureId: adventure.id } }"
@@ -102,7 +102,8 @@ export default {
     }),
     ...mapGetters('adventure', {
       startingPoint: 'startingPoint',
-      puzzlePoints: 'puzzlePoints'
+      puzzlePoints: 'puzzlePoints',
+      published: 'published'
     }),
 
     points: {

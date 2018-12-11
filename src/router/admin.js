@@ -20,9 +20,13 @@ const router = new Router({
   mode: 'hash',
   routes: [
     {
-      path: '',
+      path: '/',
       component: BaseLayout,
       children: [
+        {
+          path: '',
+          redirect: '/adventures'
+        },
         {
           path: 'account',
           name: 'accountSettings',

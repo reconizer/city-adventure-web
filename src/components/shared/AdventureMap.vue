@@ -22,9 +22,9 @@
         @closeclick="closePointOptionsWindow"
       )
         a.map-window-option(@click="editPointFromDialog")
-          span(v-if="adventure.published") {{ $t("adventure.puzzle_details") }}
+          span(v-if="published") {{ $t("adventure.puzzle_details") }}
           span(v-else) {{ $t("adventure.edit_puzzle") }}
-        a.map-window-option(v-if="!adventure.published" @click="removePointFromDialog") {{ $t("adventure.remove_puzzle") }}
+        a.map-window-option(v-if="!published" @click="removePointFromDialog") {{ $t("adventure.remove_puzzle") }}
 
       AdventureMapPoint(
         :key="point.id"
@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 
 import { CREATE_POINT, DESTROY_POINT } from '@/store/action-types';
 
@@ -107,6 +107,10 @@ export default {
 
       loading: state => state.adventure.loading
     }),
+    ...mapGetters('adventure', {
+      published: 'published'
+    }),
+
     options () {
       return {
         fullscreenControl: false,
@@ -220,9 +224,9 @@ export default {
                 this.$router.currentRoute.name == "adventureClue" ||
                 this.$router.currentRoute.name == "newAdventureClue") {
 
-              if(router.currentRoute.params.pointId == this.point.id) {
+              if(this.$router.currentRoute.params.pointId == this.point.id) {
                 setTimeout(() => {
-                  router.replace({ name: 'adventureMap', params: { adventureId: this.adventure.id } });
+                  this.$router.replace({ name: 'adventureMap', params: { adventureId: this.adventure.id } });
                 }, 0);
               }
             }
@@ -241,7 +245,7 @@ export default {
     },
 
     pointDialog (evt) {
-      if(this.adventure.published) {
+      if(this.published) {
         return;
       }
 

@@ -2,7 +2,7 @@
   div
     draggable.adventure-point-clues(
       v-model="point.clues"
-      :options="{ draggable: '.adventure-point-clue-wrapper', group: 'clues', disabled: adventure.published }"
+      :options="{ draggable: '.adventure-point-clue-wrapper', group: 'clues', disabled: published }"
       @change="updateList($event)"
     )
       .adventure-point-clue-wrapper(
@@ -50,9 +50,9 @@
 
             .adventure-point-clue__content {{ clue.url }}
 
-    .adventure-point-new-clue-separator(v-if="!adventure.published")
+    .adventure-point-new-clue-separator(v-if="!published")
 
-    .adventure-point-new-clue(v-if="!adventure.published")
+    .adventure-point-new-clue(v-if="!published")
       .adventure-point-clue-wrapper__dot
       .adventure-point-clue-wrapper__line
 
@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 import { UPDATE_CLUES } from '@/store/action-types'
 
@@ -84,9 +84,14 @@ export default {
       default: () => {}
     }
   },
-  computed: mapState({
-    adventure: state => state.adventure.item
-  }),
+  computed: {
+    ...mapState({
+      adventure: state => state.adventure.item
+    }),
+    ...mapGetters('adventure', {
+      published: 'published'
+    })
+  },
   methods: {
     elementId (clue) {
       return `clue-${clue.id}`;

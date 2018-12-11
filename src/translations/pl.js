@@ -22,6 +22,7 @@ export default {
 
     adventure_status: "Status",
     adventure_published: "Opublikowana",
+    adventure_in_review: "W trakcie publikacji",
     adventure_unpublished: "Nieopublikowana",
     adventure_rating: "Ocena",
     adventure_visibility: "Widoczność",
@@ -88,6 +89,10 @@ export default {
     title: "Publikacja"
   },
 
+  stars: {
+    label: "{value} na 5",
+  },
+
   adventure_analytics: {
     title: "Analityka",
 
@@ -95,7 +100,6 @@ export default {
     overview_purchases: "Kupna trasy ({value})",
     overview_ratings: "Łącznie ocen: {value}",
     overview_views: "Wyświetlenia opisu trasy ({value})",
-    overview_stars: "{value} na 5",
     overview_stars_5: "Liczba gwiazdek: 5",
     overview_stars_4: "Liczba gwiazdek: 4",
     overview_stars_3: "Liczba gwiazdek: 3",

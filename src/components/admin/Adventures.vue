@@ -1,6 +1,8 @@
 <template lang="pug">
   .wrapper.wrapper--constrained
     .adventure-list
+      .adventure-list__header {{ $t("top_menu.adventures") }}
+
       div(v-if="counters.published")
         .tabs.tabs--simple
           router-link.tabs__item(

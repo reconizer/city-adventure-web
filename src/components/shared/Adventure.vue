@@ -9,7 +9,7 @@
           :to="{ name: 'adventureMap', params: { adventureId: adventure.id } }"
         ) {{ adventure.name }}
 
-        .adventure-structure__label(v-if="adventure.published") {{ $t("adventures.adventure_published") }}
+        .adventure-structure__label(v-if="published") {{ $t("adventures.adventure_published") }}
 
         .adventure-structure__edit(
           v-if="adventure.id"
@@ -25,7 +25,7 @@
           router-link.adventure-header-submenu__item(
             :to="{ name: 'adventureSettings', params: { adventureId: adventure.id } }"
           ) 
-            span(v-if="adventure.published") {{ $t("adventure.adventure_details") }}
+            span(v-if="published") {{ $t("adventure.adventure_details") }}
             span(v-else) {{ $t("adventure.edit_adventure") }}
 
           router-link.adventure-header-submenu__item(
@@ -33,7 +33,7 @@
           ) {{ $t("adventure_publishing.title") }}
 
           router-link.adventure-header-submenu__item(
-            v-if="adventure.published"
+            v-if="published"
             :to="{ name: 'adventureAnalytics', params: { adventureId: adventure.id } }"
           ) {{ $t("adventure_analytics.title") }}
 
@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 import { LOAD_ADVENTURE } from '@/store/action-types'
 
@@ -75,14 +75,19 @@ export default {
       submenu: false
     }
   },
-  computed: mapState({
-    adventure: state => state.adventure.item,
-    points: state => state.adventure.points,
+  computed: {
+    ...mapState({
+      adventure: state => state.adventure.item,
+      points: state => state.adventure.points,
 
-    loading: state => state.adventure.loading,
-    analyticsLoading: state => state.analytics.loading,
-    error: state => state.adventure.error
-  }),
+      loading: state => state.adventure.loading,
+      analyticsLoading: state => state.analytics.loading,
+      error: state => state.adventure.error
+    }),
+    ...mapGetters('adventure', {
+      published: 'published'
+    })
+  },
   created () {
     this.$store.dispatch(`${ACTION_NAMESPACE}/${LOAD_ADVENTURE}`, { id: this.$route.params.adventureId })
       .then(() => {

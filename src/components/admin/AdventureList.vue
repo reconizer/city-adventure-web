@@ -1,7 +1,12 @@
 <template lang="pug">
   div
     .adventure-list__header
-      span {{ listType }}
+
+    AdventureListItem(
+      v-for="adventureItem in adventures"
+      :key="adventureItem.id"
+      :adventure="adventureItem"
+    )
 </template>
 
 <script>
@@ -15,6 +20,7 @@ import {
   ADVENTURES_UNPUBLISHED
 } from '@/config'
 
+import AdventureListItem from '@/components/admin/AdventureListItem.vue'
 import Loader from '@/views/Loader.vue'
 
 const ACTION_NAMESPACE = 'adventures'
@@ -22,6 +28,8 @@ const ACTION_NAMESPACE = 'adventures'
 export default {
   name: 'AdventureList',
   components: {
+    AdventureListItem,
+
     Loader
   },
   props: {

@@ -4,7 +4,7 @@
       .puzzle-component__name {{ $t("adventure_point.time_constraint") }}
 
       .form-checkbox(
-        :class="{ 'form-checkbox--active': timeConstraint, 'form-checkbox--disabled': adventure.published }"
+        :class="{ 'form-checkbox--active': timeConstraint, 'form-checkbox--disabled': published }"
         @click="$emit('toggle-time-constraint')"
       )
         .form-checkbox__toggle
@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 import { TIME_CONSTRAINT_OPTIONS } from '@/config'
 
@@ -60,12 +60,16 @@ export default {
     ...mapState({
       adventure: state => state.adventure.item
     }),
+    ...mapGetters('adventure', {
+      published: 'published'
+    }),
+
     startingTimeSliderOptions () {
       return {
         min: 0,
         max: 24 * 60 * 60 - TIME_CONSTRAINT_OPTIONS.INTERVAL,
         interval: TIME_CONSTRAINT_OPTIONS.INTERVAL,
-        disabled: this.adventure.published,
+        disabled: this.published,
         formatter: (value) => {
           let hour = Math.floor(value / 3600) % 24;
           let minutes = (value % 3600) / TIME_CONSTRAINT_OPTIONS.INTERVAL * (TIME_CONSTRAINT_OPTIONS.INTERVAL / 60);
@@ -80,7 +84,7 @@ export default {
         min: TIME_CONSTRAINT_OPTIONS.INTERVAL,
         max: 24 * 60 * 60 - TIME_CONSTRAINT_OPTIONS.INTERVAL,
         interval: TIME_CONSTRAINT_OPTIONS.INTERVAL,
-        disabled: this.adventure.published,
+        disabled: this.published,
         formatter: (value) => {
           let current = this.timeAnswer.details.starting_time + value;
 

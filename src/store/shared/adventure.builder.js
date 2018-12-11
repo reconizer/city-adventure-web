@@ -9,7 +9,6 @@ import {
   SET_POINTS, SET_POINTS_ORDER
 } from '@/store/mutation-types';
 
-
 import {
   LOAD_ADVENTURE, UPDATE_ADVENTURE,
   UPDATE_POINT, CREATE_POINT, DESTROY_POINT,
@@ -17,6 +16,10 @@ import {
   UPDATE_CLUE, CREATE_CLUE, DESTROY_CLUE,
   UPDATE_CLUES
 } from '@/store/action-types';
+
+import {
+  ADVENTURES_PUBLISHED
+} from '@/config'
 
 export default (api) => {
   return {
@@ -36,6 +39,9 @@ export default (api) => {
         return state.points.filter((element, index) => {
           return index > 0;
         });
+      },
+      published: (state) => {
+        return state.item.status == ADVENTURES_PUBLISHED
       }
     },
     mutations: {

@@ -6,7 +6,7 @@ import {
 
 export default (status, page, query, sort) => new Promise((resolve) => {
   setTimeout(() => {
-    let per_page = 24;
+    let per_page = 12;
 
     let total_pages = 0;
 
@@ -27,14 +27,14 @@ export default (status, page, query, sort) => new Promise((resolve) => {
 
     for(let i = 1; i <= per_page; i++) {
       let id = i + (page - 1) * per_page;
-      let rating = Math.random() * 5;
+      let rating = 1 + Math.random() * 4;
 
       response.data.adventures.push({
         id: i,
         name: `Adventure #${i}`,
         cover_url: "http://placehold.it/400x400",
         status: status,
-        hidden: Math.random() > 0.7 ? true: false,
+        hidden: Math.random() > 0.7 ? true : false,
         rating: Math.round(rating * 100 + Number.EPSILON) / 100
       });
     }

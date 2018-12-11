@@ -4,7 +4,7 @@
       .puzzle-component__name {{ $t("adventure_point.password_required") }}
 
       .form-checkbox(
-        :class="{ 'form-checkbox--active': passwordRequired, 'form-checkbox--disabled': adventure.published }"
+        :class="{ 'form-checkbox--active': passwordRequired, 'form-checkbox--disabled': published }"
         @click="$emit('toggle-password')"
       )
         .form-checkbox__toggle
@@ -17,7 +17,7 @@
           :clearable="false"
           :value="passwordType"
           :options="passwordTypes"
-          :disabled="adventure.published"
+          :disabled="published"
           @input="updatePasswordType($event)"
         )
 
@@ -41,7 +41,7 @@
           :placeholder="$t('adventure_point.password_placeholder')"
           :maxlength="passwordLength"
           :pattern="passwordPattern.source"
-          :disabled="adventure.published"
+          :disabled="published"
           v-model="passwordAnswer.details.password"
         )
 
@@ -56,19 +56,19 @@
           .row
             .col-1-2
               a.button.button--circle.button--blue(
-                :class="{ 'button--disabled': adventure.published }"
+                :class="{ 'button--disabled': published }"
                 @click="onArrow('l')"
               ) ←
               a.button.button--circle.button--blue(
-                :class="{ 'button--disabled': adventure.published }"
+                :class="{ 'button--disabled': published }"
                 @click="onArrow('u')"
               ) ↑
               a.button.button--circle.button--blue(
-                :class="{ 'button--disabled': adventure.published }"
+                :class="{ 'button--disabled': published }"
                 @click="onArrow('d')"
               ) ↓
               a.button.button--circle.button--blue(
-                :class="{ 'button--disabled': adventure.published }"
+                :class="{ 'button--disabled': published }"
                 @click="onArrow('r')"
               ) →
 
@@ -83,7 +83,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 import { PASSWORD_TYPES } from '@/config'
 
@@ -116,6 +116,10 @@ export default {
     ...mapState({
       adventure: state => state.adventure.item
     }),
+    ...mapGetters('adventure', {
+      published: 'published'
+    }),
+
     passwordTypes () {
       return PASSWORD_TYPES.map(type => {
         type.label = this.$t(`password_type.${type.value}`);
@@ -244,7 +248,7 @@ export default {
     },
 
     onArrow (direction) {
-      if(this.adventure.published) {
+      if(this.published) {
         return;
       }
 
@@ -258,7 +262,7 @@ export default {
     },
 
     clearArrows () {
-      if(this.adventure.published) {
+      if(this.published) {
         return;
       }
 

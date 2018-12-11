@@ -22,6 +22,7 @@ export default {
 
     adventure_status: "Status",
     adventure_published: "Published",
+    adventure_in_review: "In Review",
     adventure_unpublished: "Unpublished",
     adventure_rating: "Rating",
     adventure_visibility: "Visibility",
@@ -88,6 +89,10 @@ export default {
     title: "Publishing"
   },
 
+  stars: {
+    label: "{value} out of 5",
+  },
+
   adventure_analytics: {
     title: "Analytics",
 
@@ -95,7 +100,6 @@ export default {
     overview_purchases: "Purchases ({value})",
     overview_ratings: "Total ratings: {value}",
     overview_views: "Adventure description views ({value})",
-    overview_stars: "{value} out of 5",
     overview_stars_5: "5 stars",
     overview_stars_4: "4 stars",
     overview_stars_3: "3 stars",

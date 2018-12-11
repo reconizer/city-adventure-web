@@ -5,18 +5,18 @@
         .icon.icon--back
 
       .adventure-panel__title
-        span(v-if="adventure.published") {{ $t("adventure.adventure_details") }}
+        span(v-if="published") {{ $t("adventure.adventure_details") }}
         span(v-else) {{ $t("adventure.edit_adventure") }}
 
     .row
       .col-1-2
         .form-control
           label.form-label.form-label--required {{ $t('general.name') }}
-          input.form-input(type="text" :disabled="adventure.published" :placeholder="$t('general.name')" v-model="adventure.name")
+          input.form-input(type="text" :disabled="published" :placeholder="$t('general.name')" v-model="adventure.name")
 
         .form-control
           label.form-label.form-label--required {{ $t("general.description") }}
-          textarea.form-input(:placeholder="$t('general.description')" :disabled="adventure.published" v-model="adventure.description")
+          textarea.form-input(:placeholder="$t('general.description')" :disabled="published" v-model="adventure.description")
 
         .form-control
           .row.row--align-center
@@ -27,7 +27,7 @@
                   .icon__tooltip {{ $t("adventure.estimated_duration_explanation") }}
             .col-1-3
               .form-checkbox.form-checkbox--small(
-                :class="{ 'form-checkbox--active': specifiedDuration, 'form-checkbox--disabled': adventure.published }" 
+                :class="{ 'form-checkbox--active': specifiedDuration, 'form-checkbox--disabled': published }" 
                 @click="updateSpecifiedDuration(!specifiedDuration)"
               )
                 .form-checkbox__toggle
@@ -47,7 +47,7 @@
             :clearable="false" 
             :options="difficultyLevels" 
             :value="difficulty" 
-            :disabled="adventure.published"
+            :disabled="published"
             @input="changeDifficulty"
           )
 
@@ -60,18 +60,18 @@
                   .icon__tooltip {{ $t("adventure.adventure_hidden_explanation") }}
             .col-1-3
               .form-checkbox.form-checkbox--small(
-                :class="{ 'form-checkbox--active': adventure.hidden, 'form-checkbox--disabled': adventure.published }" 
+                :class="{ 'form-checkbox--active': adventure.hidden, 'form-checkbox--disabled': published }" 
                 @click="updateHidden(!adventure.hidden)"
               )
                 .form-checkbox__toggle
 
-        .form-control(v-if="!adventure.published")
+        .form-control(v-if="!published")
           button.button.button--submit.button--blue.button--large.button--full(@click="submit()") {{ $t('general.submit') }}
 
       .col-1-2
         .form-control
           label.form-label.form-label--required {{ $t("adventure.cover_image") }}
-          input.form-input(type="text" :disabled="adventure.published" :placeholder="$t('adventure.cover_image')" v-model="adventure.cover_url")
+          input.form-input(type="text" :disabled="published" :placeholder="$t('adventure.cover_image')" v-model="adventure.cover_url")
 
           .adventure-cover
             img(:src="adventure.cover_url")
@@ -82,7 +82,7 @@
         .form-control
           draggable(
             v-model="adventure.images"
-            :options="{ disabled: adventure.published }"
+            :options="{ disabled: published }"
             @change="updateList"
           )
             .adventure-promo-image(
@@ -93,7 +93,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 import draggable from 'vuedraggable'
 
@@ -137,6 +137,10 @@ export default {
       loading: state => state.adventures.loading,
       error: state => state.adventure.error
     }),
+    ...mapGetters('adventure', {
+      published: 'published'
+    }),
+
     adventure () {
       let adventure = this.$store.state.adventure.item;
 
@@ -157,7 +161,7 @@ export default {
         min: ADVENTURE_DURATION_OPTIONS.MIN,
         max: ADVENTURE_DURATION_OPTIONS.MAX,
         interval: ADVENTURE_DURATION_OPTIONS.INTERVAL,
-        disabled: this.adventure.published,
+        disabled: this.published,
         formatter: (value) => {
           return this.formatSliderLabel(value);
         },
@@ -215,7 +219,7 @@ export default {
     },
 
     updateSpecifiedDuration (value) {
-      if(this.adventure.published) {
+      if(this.published) {
         return;
       }
 
@@ -232,7 +236,7 @@ export default {
     },
 
     updateHidden (value) {
-      if(this.adventure.published) {
+      if(this.published) {
         return;
       }
 

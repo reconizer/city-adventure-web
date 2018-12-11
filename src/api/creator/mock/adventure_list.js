@@ -1,3 +1,9 @@
+import {
+  ADVENTURES_PUBLISHED,
+  ADVENTURES_IN_REVIEW,
+  ADVENTURES_UNPUBLISHED
+} from '@/config'
+
 export default (page) => new Promise((resolve) => {
   setTimeout(() => {
     let adventures = {
@@ -6,7 +12,7 @@ export default (page) => new Promise((resolve) => {
           id: 1,
           name: "Sekrety Starówki",
           cover_url: "http://placehold.it/320x180",
-          published: true,
+          status: ADVENTURES_PUBLISHED,
           hidden: false,
           rating: 4.75
         },
@@ -14,7 +20,7 @@ export default (page) => new Promise((resolve) => {
           id: 2,
           name: "Przygoda Dwa",
           cover_url: "http://placehold.it/400x400",
-          published: false,
+          status: ADVENTURES_IN_REVIEW,
           hidden: false,
           rating: 0
         },
@@ -22,7 +28,7 @@ export default (page) => new Promise((resolve) => {
           id: 3,
           name: "Inna przygoda",
           cover_url: "http://placehold.it/1000x600",
-          published: false,
+          status: ADVENTURES_UNPUBLISHED,
           hidden: true,
           rating: 0
         }

@@ -12,10 +12,7 @@
         .analytics-total-ratings {{ $t("adventure_analytics.overview_ratings", { value: overviewRatingsCount }) }}
 
         .analytics-stars
-          .icon.icon--full-star.icon--pad-right(v-for="i in fullStars")
-          .icon.icon--half-star.icon--pad-right(v-if="hasHalfStar")
-          .icon.icon--empty-star.icon--pad-right(v-for="i in emptyStars")
-          .analytics-stars__label {{ $t("adventure_analytics.overview_stars", { value: overviewRating }) }}
+          RatingStars(:rating="overviewRating")
 
         .analytics-rating
           .analytics-rating__label(:class="{ 'analytics-rating__label--fixed-width': $i18n.locale == 'en' }") {{ $t("adventure_analytics.overview_stars_5") }}
@@ -47,6 +44,8 @@
 import { mapState, mapGetters } from 'vuex'
 
 import AreaChart from './charts/AreaChart.vue'
+import RatingStars from '@/components/shared/RatingStars.vue'
+
 import moment from 'moment'
 
 import { LOAD_ANALYTICS_OVERVIEW } from '@/store/action-types'
@@ -61,7 +60,8 @@ const ACTION_NAMESPACE = 'analytics'
 export default {
   name: "AdventureAnalyticsOverview",
   components: {
-    AreaChart
+    AreaChart,
+    RatingStars
   },
   computed: {
     ...mapState({
@@ -97,22 +97,6 @@ export default {
     },
     ratings5Percent () {
       return Math.floor(this.ratings.rating_5 / this.overviewRatingsCount * 100);
-    },
-
-    starPart () {
-      return this.overviewRating - Math.floor(this.overviewRating);
-    },
-    hasExtraStar () {
-      return this.starPart >= 0.75;
-    },
-    hasHalfStar () {
-      return 0.25 <= this.starPart && this.starPart < 0.75;
-    },
-    fullStars () {
-      return Math.floor(this.overviewRating) + (this.hasExtraStar ? 1 : 0);
-    },
-    emptyStars () {
-      return 5 - this.fullStars - (this.hasHalfStar ? 1 : 0);
     },
 
     purchasesData () {

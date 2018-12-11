@@ -3,7 +3,7 @@
     gmap-marker(
       :position="point.position"
       :clickable="true"
-      :draggable="!loading && !adventure.published"
+      :draggable="!loading && !published"
       :label="label"
       :icon="marker"
       :zIndex="1"
@@ -22,7 +22,7 @@
     )
 
     // Drag resize controls for point radius
-    div(v-if="circleEditable && !adventure.published")
+    div(v-if="circleEditable && !published")
       gmap-marker(
         :position="top"
         :draggable="!loading"
@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 import VueScrollTo from 'vue-scrollto'
 
@@ -96,6 +96,10 @@ export default {
       adventure: state => state.adventure.item,
       loading: state => state.adventure.loading
     }),
+    ...mapGetters('adventure', {
+      published: 'published'
+    }),
+
     google: gmapApi,
     label () {
       if(this.index == 0) {

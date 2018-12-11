@@ -7,7 +7,7 @@
 
         .adventure-panel__title {{ formTitle }}
 
-        a.button.button--pink.adventure-panel__remove(v-if="puzzleIndex > 0 && !adventure.published" @click="destroyPuzzle()") {{ $t("general.remove") }}
+        a.button.button--pink.adventure-panel__remove(v-if="puzzleIndex > 0 && !published" @click="destroyPuzzle()") {{ $t("general.remove") }}
 
       .row(v-if="puzzleIndex == 0")
         .col-1-2
@@ -37,15 +37,15 @@
             @toggle-time-constraint="toggleTimeConstraint"
           )
 
-      .form-control-separator(v-if="!adventure.published")
-      .row(v-if="!adventure.published")
+      .form-control-separator(v-if="!published")
+      .row(v-if="!published")
         .col-1-2
           .form-control
             a.button.button--blue.button--large.button--full(@click="submit") {{ $t("general.submit") }}
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 import { UPDATE_POINT, DESTROY_POINT } from '@/store/action-types'
 
@@ -86,6 +86,10 @@ export default {
       error: state => state.adventure.error
     }),
 
+    ...mapGetters('adventure', {
+      published: 'published'
+    }),
+
     passwordAnswer () {
       return this.point.answers.find(answer => answer.type == 'password') || null;
     },
@@ -114,13 +118,13 @@ export default {
     },
     formTitle () {
       if(this.puzzleIndex == 0) {
-        if(this.adventure.published) {
+        if(this.published) {
           return this.$t("adventure_point.start_title");
         } else {
           return this.$t("adventure_point.edit_start_title");
         }
       } else {
-        if(this.adventure.published) {
+        if(this.published) {
           return this.$t("adventure_point.title", { index: this.puzzleIndex });
         } else {
           return this.$t("adventure_point.edit_title", { index: this.puzzleIndex });
@@ -137,7 +141,7 @@ export default {
   },
   methods: {
     togglePasswordRequired () {
-      if(this.adventure.published) {
+      if(this.published) {
         return;
       }
 
@@ -151,7 +155,7 @@ export default {
     },
     
     toggleTimeConstraint () {
-      if(this.adventure.published) {
+      if(this.published) {
         return;
       }
 
