@@ -1,12 +1,48 @@
 <template lang="pug">
   div
-    .adventure-list__header
+    form.adventure-list__filters(@submit="filtersSubmit")
+      .form-control.form-control--inline
+        input.form-input(type="text" v-model="query" placeholder="Query")
+
+      .form-control.form-control--inline.filter-select
+        v-select(
+          :placeholder="$t('general.sort_placeholder')"
+          :clearable="false"
+          :value="sorting"
+          :options="sortingOptions"
+          @input="updateSort($event)"
+        )
+
+      .form-control.form-control--inline
+        input.button.button--blue(type="submit" :value="$t('general.filter')")
 
     AdventureListItem(
       v-for="adventureItem in adventures"
       :key="adventureItem.id"
       :adventure="adventureItem"
     )
+
+    .pagination-container(v-if="totalPages > 1")
+      Pagination(
+        :page-count="totalPages"
+        :value="page"
+        :click-handler="paginationClick"
+        :no-li-surround="true"
+        :first-last-button="true"
+
+        container-class="pagination"
+        page-link-class="pagination__page"
+        prev-link-class="pagination__page"
+        next-link-class="pagination__page"
+        break-view-link-class="pagination__break"
+        disabled-class="pagination__page--disabled"
+        active-class="pagination__page--active"
+
+        :prev-text="$t('pagination.prev')"
+        :next-text="$t('pagination.next')"
+        :first-button-text="$t('pagination.first')"
+        :last-button-text="$t('pagination.last')"
+      )
 </template>
 
 <script>
@@ -17,11 +53,18 @@ import { LOAD_ADVENTURES } from '@/store/action-types'
 import {
   ADVENTURES_PUBLISHED,
   ADVENTURES_IN_REVIEW,
-  ADVENTURES_UNPUBLISHED
+  ADVENTURES_UNPUBLISHED,
+
+  ADVENTURE_SORTING_OPTIONS
 } from '@/config'
 
 import AdventureListItem from '@/components/admin/AdventureListItem.vue'
+
+import Pagination from 'vuejs-paginate'
+
 import Loader from '@/views/Loader.vue'
+
+import vSelect from 'vue-select'
 
 const ACTION_NAMESPACE = 'adventures'
 
@@ -29,8 +72,11 @@ export default {
   name: 'AdventureList',
   components: {
     AdventureListItem,
+    Pagination,
 
-    Loader
+    Loader,
+
+    vSelect
   },
   props: {
     listType: {
@@ -45,19 +91,68 @@ export default {
       }
     }
   },
-  computed: mapState({
-    adventures: state => state.adventures.list,
+  data () {
+    return {
+      page: +(this.$route.query.page || 1),
+      query: this.$route.query.query || "",
+      sortValue: ""
+    }
+  },
+  computed: {
+    ...mapState({
+      adventures: state => state.adventures.list,
+      totalPages: state => state.adventures.totalPages,
 
-    loading: state => state.adventures.loading,
-    error: state => state.adventures.error
-  }),
+      loading: state => state.adventures.loading,
+      error: state => state.adventures.error
+    }),
+
+    sorting () {
+      return this.sortingOptions.find(opt => opt.value == (this.$route.query.sort || ADVENTURE_SORTING_OPTIONS[0]));
+    },
+    sortingOptions () {
+      return ADVENTURE_SORTING_OPTIONS.map(option => {
+        return {
+          value: option,
+          label: this.$t(`adventures.sorting_${option}`)
+        };
+      });
+    }
+  },
   created () {
     this.$store.dispatch(`${ACTION_NAMESPACE}/${LOAD_ADVENTURES}`, {
       adventureType: this.listType,
       page: this.page,
       query: this.query,
-      sort: this.sort
+      sort: this.sorting.value
     });
+  },
+  methods: {
+    updateSort (evt) {
+      this.sortValue = evt.value;
+    },
+
+    search () {
+      this.$router.push({
+        name: this.$router.currentRoute.name,
+        query: {
+          page: this.page,
+          query: this.query,
+          sort: this.sortValue
+        }
+      });
+    },
+
+    filtersSubmit () {
+      this.page = 1;
+      this.search();
+    },
+
+    paginationClick (page) {
+      this.page = page;
+
+      this.search();
+    }
   }
 }
 </script>

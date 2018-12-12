@@ -6,17 +6,17 @@
       div(v-if="counters.published")
         .tabs.tabs--simple
           router-link.tabs__item(
-            exact-active-class="tabs__item--active"
+            active-class="tabs__item--active"
             :to="{ name: 'adventuresPublished' }"
           ) Published ({{ published }})
 
           router-link.tabs__item(
-            exact-active-class="tabs__item--active"
+            active-class="tabs__item--active"
             :to="{ name: 'adventuresInReview' }"
           ) In Review ({{ inReview }})
 
           router-link.tabs__item(
-            exact-active-class="tabs__item--active"
+            active-class="tabs__item--active"
             :to="{ name: 'adventuresUnpublished' }"
           ) Unpublished ({{ unpublished }})
 

@@ -139,6 +139,13 @@ export const ADVENTURES_PUBLISHED = 'published'
 export const ADVENTURES_IN_REVIEW = 'in_review'
 export const ADVENTURES_UNPUBLISHED = 'unpublished'
 
+export const ADVENTURE_SORTING_OPTIONS = [
+  'newest',
+  'oldest',
+  'top_rated',
+  'worst_rated'
+]
+
 /**
  * COLORS
  */

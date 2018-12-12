@@ -2,7 +2,7 @@ import api from '@/api';
 
 import {
   SET_ADVENTURES, SET_TYPE,
-  SET_COUNTERS,
+  SET_COUNTERS, SET_TOTAL_PAGES,
 
   SET_LOADING, SET_ERROR
 } from '@/store/mutation-types'
@@ -22,6 +22,7 @@ export default {
   namespaced: true,
   state: {
     list: [],
+    totalPages: 1,
 
     counters: {
       [ADVENTURES_PUBLISHED]: null,
@@ -36,6 +37,10 @@ export default {
   mutations: {
     [SET_ADVENTURES] (state, adventures) {
       state.list = adventures;
+    },
+
+    [SET_TOTAL_PAGES] (state, totalPages) {
+      state.totalPages = totalPages;
     },
 
     [SET_TYPE] (state, type) {
@@ -59,6 +64,8 @@ export default {
       return api.admin.adventures.loadCounters()
         .then( response => {
           commit(SET_COUNTERS, response.data);
+
+          return response;
         })
         .catch( error => {
           commit(SET_ERROR, error);
@@ -72,6 +79,7 @@ export default {
 
       if(state.currentType != adventureType) {
         commit(SET_ADVENTURES, []);
+        commit(SET_TOTAL_PAGES, 0);
 
         commit(SET_TYPE, adventureType);
       }
@@ -92,6 +100,7 @@ export default {
       return action(page, query, sort)
         .then( response => {
           commit(SET_ADVENTURES, response.data.adventures);
+          commit(SET_TOTAL_PAGES, response.data.total_pages);
 
           commit(SET_LOADING, false);
 

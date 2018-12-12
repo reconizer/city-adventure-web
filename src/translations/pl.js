@@ -39,6 +39,11 @@ export default {
     new_adventure_help_content_1: "Kliknij prawym przyciskiem myszy na miejscu w którym chciałbyś ustawić punkt startowy. Punkt startowy możesz przestawić w ten sam sposób lub poprzez przeciąganie go na mapie.",
     new_adventure_help_content_2: "Możesz wpisać też lokalizację w której pobliżu chciałbyś ustawić punkt startowy, aby mapa przesunęła się do tego miejsca.",
     new_adventure_help_confirm: "Jasne, rozumiem",
+
+    sorting_newest: "Najnowsze publikacje",
+    sorting_oldest: "Najstarsze publikacje",
+    sorting_top_rated: "Najlepiej oceniane",
+    sorting_worst_rated: "Najgorzej oceniane"
   },
 
   adventure: {
@@ -200,13 +205,22 @@ export default {
     number_push_lock_5: 'Kłódka kombinacji 5 cyfr (10 przyciski)'
   },
 
+  pagination: {
+    prev: "Poprzednia",
+    next: "Następna",
+    first: "Pierwsza",
+    last: "Ostatnia"
+  },
+
   general: {
     name: "Nazwa",
     description: "Opis",
+    sort_placeholder: "Sortowanie",
 
     edit: "Edytuj",
     remove: "Usuń",
     submit: "Zatwierdź",
+    filter: "Filtruj",
 
     around: "Około {value}"
   }

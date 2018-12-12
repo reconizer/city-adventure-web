@@ -97,7 +97,6 @@ export default {
 
     clueTypes() {
       return CLUE_TYPES.map(type => {
-
         return {
           value: type,
           label: this.$t(`clue_type.${type}`)

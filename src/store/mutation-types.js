@@ -60,3 +60,4 @@ export const SET_USER_PROGRESS_WRONG_ENTRIES = "setUserProgressWrongEntries";
  */
 export const SET_TYPE = "setType";
 export const SET_COUNTERS = "setCounters";
+export const SET_TOTAL_PAGES = "setTotalPages";

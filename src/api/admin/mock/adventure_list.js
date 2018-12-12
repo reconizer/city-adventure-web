@@ -30,12 +30,13 @@ export default (status, page, query, sort) => new Promise((resolve) => {
       let rating = 1 + Math.random() * 4;
 
       response.data.adventures.push({
-        id: i,
-        name: `Adventure #${i}`,
+        id: id,
+        name: `Adventure #${id}`,
         cover_url: "http://placehold.it/400x400",
         status: status,
         hidden: Math.random() > 0.7 ? true : false,
-        rating: Math.round(rating * 100 + Number.EPSILON) / 100
+        rating: Math.round(rating * 100 + Number.EPSILON) / 100,
+        published_at: +new Date()
       });
     }
 

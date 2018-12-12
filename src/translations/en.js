@@ -38,7 +38,12 @@ export default {
     new_adventure_help_header: "Map Controls",
     new_adventure_help_content_1: "Right click using your mouse to set starting point in given location. You can move it in the same way or you can simply drag it around the map.",
     new_adventure_help_content_2: "You can also enter location in which you would like to set the starting point and the map will move to it.",
-    new_adventure_help_confirm: "Okay, got it"
+    new_adventure_help_confirm: "Okay, got it",
+
+    sorting_newest: "Newly Published",
+    sorting_oldest: "Oldest Published",
+    sorting_top_rated: "Top Rated",
+    sorting_worst_rated: "Worst Rated"
   },
 
   adventure: {
@@ -200,13 +205,22 @@ export default {
     number_push_lock_5: '5 Numbers Combo Lock (10 buttons)'
   },
 
+  pagination: {
+    prev: "Previous",
+    next: "Next",
+    first: "First",
+    last: "Last"
+  },
+
   general: {
     name: "Name",
     description: "Description",
+    sort_placeholder: "Sorting",
 
     edit: "Edit",
     remove: "Remove",
     submit: "Submit",
+    filter: "Filter",
 
     around: "Around {value}"
   }
