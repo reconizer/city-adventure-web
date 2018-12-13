@@ -221,6 +221,7 @@ export default {
     remove: "Usuń",
     submit: "Zatwierdź",
     filter: "Filtruj",
+    query: "Szukaj",
 
     around: "Około {value}"
   }

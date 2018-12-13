@@ -2,7 +2,7 @@
   div
     form.adventure-list__filters(@submit="filtersSubmit")
       .form-control.form-control--inline
-        input.form-input(type="text" v-model="query" placeholder="Query")
+        input.form-input(type="text" v-model="query" :placeholder="$t('general.query')")
 
       .form-control.form-control--inline.filter-select
         v-select(
@@ -24,24 +24,9 @@
 
     .pagination-container(v-if="totalPages > 1")
       Pagination(
-        :page-count="totalPages"
-        :value="page"
-        :click-handler="paginationClick"
-        :no-li-surround="true"
-        :first-last-button="true"
-
-        container-class="pagination"
-        page-link-class="pagination__page"
-        prev-link-class="pagination__page"
-        next-link-class="pagination__page"
-        break-view-link-class="pagination__break"
-        disabled-class="pagination__page--disabled"
-        active-class="pagination__page--active"
-
-        :prev-text="$t('pagination.prev')"
-        :next-text="$t('pagination.next')"
-        :first-button-text="$t('pagination.first')"
-        :last-button-text="$t('pagination.last')"
+        :totalPages="totalPages"
+        :page="page"
+        :paginationClick="paginationClick"
       )
 </template>
 
@@ -60,7 +45,7 @@ import {
 
 import AdventureListItem from '@/components/admin/AdventureListItem.vue'
 
-import Pagination from 'vuejs-paginate'
+import Pagination from '@/components/shared/Pagination'
 
 import Loader from '@/views/Loader.vue'
 
