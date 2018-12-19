@@ -1,7 +1,9 @@
 import adventures from './adventures'
+import analytics from './analytics'
 import authentication from './authentication'
 
 export default {
-  authentication,
-  adventures
+  adventures,
+  analytics,
+  authentication
 }

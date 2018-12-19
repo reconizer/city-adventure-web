@@ -19,11 +19,15 @@ export default {
   adventures: {
     list_title: "Twoje Przygody",
     create_new: "Stwórz Nową",
+    empty: "Brak rezultatów",
 
     adventure_status: "Status",
     adventure_published: "Opublikowana",
-    adventure_in_review: "W trakcie publikacji",
+    adventure_in_review: "W trakcie oceny",
     adventure_unpublished: "Nieopublikowana",
+    adventure_rejected: "Odrzucona",
+    adventure_cancelled: "Anulowana",
+    adventure_pending: "Tworzona",
     adventure_rating: "Ocena",
     adventure_visibility: "Widoczność",
     adventure_public: "Publiczna",

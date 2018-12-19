@@ -2,7 +2,7 @@
   div
     draggable.adventure-point-clues(
       v-model="point.clues"
-      :options="{ draggable: '.adventure-point-clue-wrapper', group: 'clues', disabled: published }"
+      :options="{ draggable: '.adventure-point-clue-wrapper', group: 'clues', disabled: !editable }"
       @change="updateList($event)"
     )
       .adventure-point-clue-wrapper(
@@ -50,9 +50,9 @@
 
             .adventure-point-clue__content {{ clue.url }}
 
-    .adventure-point-new-clue-separator(v-if="!published")
+    .adventure-point-new-clue-separator(v-if="editable")
 
-    .adventure-point-new-clue(v-if="!published")
+    .adventure-point-new-clue(v-if="editable")
       .adventure-point-clue-wrapper__dot
       .adventure-point-clue-wrapper__line
 
@@ -89,7 +89,7 @@ export default {
       adventure: state => state.adventure.item
     }),
     ...mapGetters('adventure', {
-      published: 'published'
+      editable: 'editable'
     })
   },
   methods: {

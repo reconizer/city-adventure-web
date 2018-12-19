@@ -4,7 +4,7 @@
       .puzzle-component__name {{ $t("adventure_point.time_constraint") }}
 
       .form-checkbox(
-        :class="{ 'form-checkbox--active': timeConstraint, 'form-checkbox--disabled': published }"
+        :class="{ 'form-checkbox--active': timeConstraint, 'form-checkbox--disabled': !editable }"
         @click="$emit('toggle-time-constraint')"
       )
         .form-checkbox__toggle
@@ -61,7 +61,7 @@ export default {
       adventure: state => state.adventure.item
     }),
     ...mapGetters('adventure', {
-      published: 'published'
+      editable: 'editable'
     }),
 
     startingTimeSliderOptions () {
@@ -69,7 +69,7 @@ export default {
         min: 0,
         max: 24 * 60 * 60 - TIME_CONSTRAINT_OPTIONS.INTERVAL,
         interval: TIME_CONSTRAINT_OPTIONS.INTERVAL,
-        disabled: this.published,
+        disabled: !this.editable,
         formatter: (value) => {
           let hour = Math.floor(value / 3600) % 24;
           let minutes = (value % 3600) / TIME_CONSTRAINT_OPTIONS.INTERVAL * (TIME_CONSTRAINT_OPTIONS.INTERVAL / 60);
@@ -84,7 +84,7 @@ export default {
         min: TIME_CONSTRAINT_OPTIONS.INTERVAL,
         max: 24 * 60 * 60 - TIME_CONSTRAINT_OPTIONS.INTERVAL,
         interval: TIME_CONSTRAINT_OPTIONS.INTERVAL,
-        disabled: this.published,
+        disabled: !this.editable,
         formatter: (value) => {
           let current = this.timeAnswer.details.starting_time + value;
 

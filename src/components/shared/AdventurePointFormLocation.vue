@@ -13,7 +13,7 @@
               .icon__tooltip {{ $t("adventure_point.hidden_explanation") }}
         .col-1-3
           .form-checkbox.form-checkbox--small(
-            :class="{ 'form-checkbox--active': point.hidden, 'form-checkbox--disabled': published }"
+            :class="{ 'form-checkbox--active': point.hidden, 'form-checkbox--disabled': !editable }"
             @click="updateHidden(!point.hidden)"
           )
             .form-checkbox__toggle
@@ -60,14 +60,14 @@ export default {
       adventure: state => state.adventure.item
     }),
     ...mapGetters('adventure', {
-      published: 'published'
+      editable: 'editable'
     }),
 
     sliderOptions () {
       return {
         min: RADIUS_CONSTRAINTS.MIN,
         max: RADIUS_CONSTRAINTS.MAX,
-        disabled: this.published,
+        disabled: !this.editable,
         interval: 1,
         formatter: (value) => {
           return `${value}m`;
@@ -77,7 +77,7 @@ export default {
   },
   methods: {
     updateHidden (value) {
-      if(this.published) {
+      if(!this.editable) {
         return;
       }
       this.point.hidden = value;

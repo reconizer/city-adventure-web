@@ -35,7 +35,10 @@
 import {
   ADVENTURES_PUBLISHED,
   ADVENTURES_IN_REVIEW,
-  ADVENTURES_UNPUBLISHED
+  ADVENTURES_UNPUBLISHED,
+  ADVENTURES_PENDING,
+  ADVENTURES_CANCELLED,
+  ADVENTURES_REJECTED
 } from '@/config'
 
 import RatingStars from '@/components/shared/RatingStars.vue'
@@ -61,12 +64,20 @@ export default {
     },
 
     publishedLabel () {
-      if(this.adventure.status == ADVENTURES_PUBLISHED) {
-        return this.$t("adventures.adventure_published");
-      } else if (this.adventure.status == ADVENTURES_IN_REVIEW) {
-        return this.$t("adventures.adventure_in_review");
-      } else {
-        return this.$t("adventures.adventure_unpublished");
+      switch(this.adventure.status) {
+        default:
+        case ADVENTURES_PUBLISHED:
+          return this.$t("adventures.adventure_published");
+        case ADVENTURES_IN_REVIEW:
+          return this.$t("adventures.adventure_in_review");
+        case ADVENTURES_UNPUBLISHED:
+          return this.$t("adventures.adventure_unpublished");
+        case ADVENTURES_REJECTED:
+          return this.$t("adventures.adventure_rejected");
+        case ADVENTURES_CANCELLED:
+          return this.$t("adventures.adventure_cancelled");
+        case ADVENTURES_PENDING:
+          return this.$t("adventures.adventure_pending");
       }
     }
   }

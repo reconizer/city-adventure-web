@@ -5,18 +5,18 @@
         .icon.icon--back
 
       .adventure-panel__title
-        span(v-if="published") {{ $t("adventure.adventure_details") }}
+        span(v-if="!editable") {{ $t("adventure.adventure_details") }}
         span(v-else) {{ $t("adventure.edit_adventure") }}
 
     .row
       .col-1-2
         .form-control
           label.form-label.form-label--required {{ $t('general.name') }}
-          input.form-input(type="text" :disabled="published" :placeholder="$t('general.name')" v-model="adventure.name")
+          input.form-input(type="text" :disabled="!editable" :placeholder="$t('general.name')" v-model="adventure.name")
 
         .form-control
           label.form-label.form-label--required {{ $t("general.description") }}
-          textarea.form-input(:placeholder="$t('general.description')" :disabled="published" v-model="adventure.description")
+          textarea.form-input(:placeholder="$t('general.description')" :disabled="!editable" v-model="adventure.description")
 
         .form-control
           .row.row--align-center
@@ -27,7 +27,7 @@
                   .icon__tooltip {{ $t("adventure.estimated_duration_explanation") }}
             .col-1-3
               .form-checkbox.form-checkbox--small(
-                :class="{ 'form-checkbox--active': specifiedDuration, 'form-checkbox--disabled': published }" 
+                :class="{ 'form-checkbox--active': specifiedDuration, 'form-checkbox--disabled': !editable }" 
                 @click="updateSpecifiedDuration(!specifiedDuration)"
               )
                 .form-checkbox__toggle
@@ -47,7 +47,7 @@
             :clearable="false" 
             :options="difficultyLevels" 
             :value="difficulty" 
-            :disabled="published"
+            :disabled="!editable"
             @input="changeDifficulty"
           )
 
@@ -60,18 +60,18 @@
                   .icon__tooltip {{ $t("adventure.adventure_hidden_explanation") }}
             .col-1-3
               .form-checkbox.form-checkbox--small(
-                :class="{ 'form-checkbox--active': adventure.hidden, 'form-checkbox--disabled': published }" 
+                :class="{ 'form-checkbox--active': adventure.hidden, 'form-checkbox--disabled': !editable }" 
                 @click="updateHidden(!adventure.hidden)"
               )
                 .form-checkbox__toggle
 
-        .form-control(v-if="!published")
+        .form-control(v-if="editable")
           button.button.button--submit.button--blue.button--large.button--full(@click="submit()") {{ $t('general.submit') }}
 
       .col-1-2
         .form-control
           label.form-label.form-label--required {{ $t("adventure.cover_image") }}
-          input.form-input(type="text" :disabled="published" :placeholder="$t('adventure.cover_image')" v-model="adventure.cover_url")
+          input.form-input(type="text" :disabled="!editable" :placeholder="$t('adventure.cover_image')" v-model="adventure.cover_url")
 
           .adventure-cover
             img(:src="adventure.cover_url")
@@ -82,7 +82,7 @@
         .form-control
           draggable(
             v-model="adventure.images"
-            :options="{ disabled: published }"
+            :options="{ disabled: !editable }"
             @change="updateList"
           )
             .adventure-promo-image(
@@ -138,7 +138,7 @@ export default {
       error: state => state.adventure.error
     }),
     ...mapGetters('adventure', {
-      published: 'published'
+      editable: 'editable'
     }),
 
     adventure () {
@@ -161,7 +161,7 @@ export default {
         min: ADVENTURE_DURATION_OPTIONS.MIN,
         max: ADVENTURE_DURATION_OPTIONS.MAX,
         interval: ADVENTURE_DURATION_OPTIONS.INTERVAL,
-        disabled: this.published,
+        disabled: !this.editable,
         formatter: (value) => {
           return this.formatSliderLabel(value);
         },
@@ -219,7 +219,7 @@ export default {
     },
 
     updateSpecifiedDuration (value) {
-      if(this.published) {
+      if(!this.editable) {
         return;
       }
 
@@ -236,7 +236,7 @@ export default {
     },
 
     updateHidden (value) {
-      if(this.published) {
+      if(!this.editable) {
         return;
       }
 

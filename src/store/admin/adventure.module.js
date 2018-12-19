@@ -4,4 +4,11 @@ import adventureBuilder from '@/store/shared/adventure.builder.js'
 
 let baseAdventure = adventureBuilder(api.admin);
 
-export default baseAdventure;
+export default Object.assign(baseAdventure, {
+  getters: {
+    ...baseAdventure.getters,
+    editable: () => {
+      return true;
+    }
+  }
+});

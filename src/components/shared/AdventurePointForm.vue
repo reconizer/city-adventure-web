@@ -7,7 +7,7 @@
 
         .adventure-panel__title {{ formTitle }}
 
-        a.button.button--pink.adventure-panel__remove(v-if="puzzleIndex > 0 && !published" @click="destroyPuzzle()") {{ $t("general.remove") }}
+        a.button.button--pink.adventure-panel__remove(v-if="puzzleIndex > 0 && editable" @click="destroyPuzzle()") {{ $t("general.remove") }}
 
       .row(v-if="puzzleIndex == 0")
         .col-1-2
@@ -37,8 +37,8 @@
             @toggle-time-constraint="toggleTimeConstraint"
           )
 
-      .form-control-separator(v-if="!published")
-      .row(v-if="!published")
+      .form-control-separator(v-if="editable")
+      .row(v-if="editable")
         .col-1-2
           .form-control
             a.button.button--blue.button--large.button--full(@click="submit") {{ $t("general.submit") }}
@@ -87,7 +87,7 @@ export default {
     }),
 
     ...mapGetters('adventure', {
-      published: 'published'
+      editable: 'editable'
     }),
 
     passwordAnswer () {
@@ -118,13 +118,13 @@ export default {
     },
     formTitle () {
       if(this.puzzleIndex == 0) {
-        if(this.published) {
+        if(!this.editable) {
           return this.$t("adventure_point.start_title");
         } else {
           return this.$t("adventure_point.edit_start_title");
         }
       } else {
-        if(this.published) {
+        if(!this.editable) {
           return this.$t("adventure_point.title", { index: this.puzzleIndex });
         } else {
           return this.$t("adventure_point.edit_title", { index: this.puzzleIndex });
@@ -141,7 +141,7 @@ export default {
   },
   methods: {
     togglePasswordRequired () {
-      if(this.published) {
+      if(!this.editable) {
         return;
       }
 
@@ -155,7 +155,7 @@ export default {
     },
     
     toggleTimeConstraint () {
-      if(this.published) {
+      if(!this.editable) {
         return;
       }
 

@@ -18,7 +18,12 @@ import {
 } from '@/store/action-types';
 
 import {
-  ADVENTURES_PUBLISHED
+  ADVENTURES_PUBLISHED,
+  ADVENTURES_IN_REVIEW,
+  ADVENTURES_PENDING,
+  ADVENTURES_REJECTED,
+  ADVENTURES_CANCELLED,
+  ADVENTURES_UNPUBLISHED
 } from '@/config'
 
 export default (api) => {
@@ -41,7 +46,13 @@ export default (api) => {
         });
       },
       published: (state) => {
-        return state.item.status == ADVENTURES_PUBLISHED
+        return state.item.status == ADVENTURES_PUBLISHED;
+      },
+      inReview: (state) => {
+        return state.item.status == ADVENTURES_IN_REVIEW;
+      },
+      editable: (state, getters) => {
+        return state.item.status == ADVENTURES_PENDING;
       }
     },
     mutations: {

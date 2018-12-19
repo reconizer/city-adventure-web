@@ -22,9 +22,9 @@
         @closeclick="closePointOptionsWindow"
       )
         a.map-window-option(@click="editPointFromDialog")
-          span(v-if="published") {{ $t("adventure.puzzle_details") }}
+          span(v-if="!editable") {{ $t("adventure.puzzle_details") }}
           span(v-else) {{ $t("adventure.edit_puzzle") }}
-        a.map-window-option(v-if="!published" @click="removePointFromDialog") {{ $t("adventure.remove_puzzle") }}
+        a.map-window-option(v-if="editable" @click="removePointFromDialog") {{ $t("adventure.remove_puzzle") }}
 
       AdventureMapPoint(
         :key="point.id"
@@ -108,7 +108,7 @@ export default {
       loading: state => state.adventure.loading
     }),
     ...mapGetters('adventure', {
-      published: 'published'
+      editable: 'editable'
     }),
 
     options () {
@@ -245,7 +245,7 @@ export default {
     },
 
     pointDialog (evt) {
-      if(this.published) {
+      if(!this.editable) {
         return;
       }
 

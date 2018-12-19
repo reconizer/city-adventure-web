@@ -1,20 +1,27 @@
 import {
   ADVENTURES_PUBLISHED,
   ADVENTURES_IN_REVIEW,
-  ADVENTURES_UNPUBLISHED,
-  ADVENTURES_PENDING
+  ADVENTURES_UNPUBLISHED
 } from '@/config'
 
 export default (adventureId) => new Promise((resolve) => {
   setTimeout(() => {
     let adventure = {};
 
+    let adventureStatus = ADVENTURES_UNPUBLISHED;
+
+    if(adventureId == 1) {
+      adventureStatus = ADVENTURES_PUBLISHED;
+    } else if(adventureId == 2) {
+      adventureStatus = ADVENTURES_IN_REVIEW;
+    }
+
     if(adventureId > 3) {
       adventure = {
         id: adventureId,
-        name: localStorage.getItem(`${adventureId}-name`),
+        name: localStorage.getItem(`${adventureId}-name`) || `Adventure ${adventureId}`,
         cover_url: "http://placehold.it/320x180",
-        status: ADVENTURES_PENDING,
+        status: adventureStatus,
         hidden: false,
         rating: 0,
         difficulty: 1,
@@ -42,7 +49,7 @@ export default (adventureId) => new Promise((resolve) => {
         name: "Sekrety Starówki",
         cover_url: "http://placehold.it/320x180",
         // Let adventure with id 1 be published and act accordingly
-        status: adventureId == 1 ? ADVENTURES_PUBLISHED : ADVENTURES_PENDING,
+        status: adventureStatus,
         hidden: false,
         rating: 4.75,
         difficulty: 2,

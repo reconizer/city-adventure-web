@@ -1,7 +1,10 @@
 import {
   ADVENTURES_PUBLISHED,
   ADVENTURES_IN_REVIEW,
-  ADVENTURES_UNPUBLISHED
+  ADVENTURES_UNPUBLISHED,
+  ADVENTURES_PENDING,
+  ADVENTURES_CANCELLED,
+  ADVENTURES_REJECTED
 } from '@/config'
 
 export default (page) => new Promise((resolve) => {
@@ -20,17 +23,17 @@ export default (page) => new Promise((resolve) => {
           id: 2,
           name: "Przygoda Dwa",
           cover_url: "http://placehold.it/400x400",
-          status: ADVENTURES_IN_REVIEW,
+          status: ADVENTURES_PENDING,
           hidden: false,
-          rating: 0
+          rating: null
         },
         {
           id: 3,
           name: "Inna przygoda",
           cover_url: "http://placehold.it/1000x600",
-          status: ADVENTURES_UNPUBLISHED,
+          status: ADVENTURES_IN_REVIEW,
           hidden: true,
-          rating: 0
+          rating: null
         }
       ]
     };

@@ -22,6 +22,8 @@
       :adventure="adventureItem"
     )
 
+    .adventure-list__empty(v-if="totalPages == 0 && !loading") {{ $t("adventures.empty") }}
+
     .pagination-container(v-if="totalPages > 1")
       Pagination(
         :totalPages="totalPages"
@@ -39,6 +41,9 @@ import {
   ADVENTURES_PUBLISHED,
   ADVENTURES_IN_REVIEW,
   ADVENTURES_UNPUBLISHED,
+  ADVENTURES_REJECTED,
+  ADVENTURES_CANCELLED,
+  ADVENTURES_PENDING,
 
   ADVENTURE_SORTING_OPTIONS
 } from '@/config'
@@ -71,7 +76,10 @@ export default {
         return [
           ADVENTURES_PUBLISHED,
           ADVENTURES_IN_REVIEW,
-          ADVENTURES_UNPUBLISHED
+          ADVENTURES_UNPUBLISHED,
+          ADVENTURES_REJECTED,
+          ADVENTURES_CANCELLED,
+          ADVENTURES_PENDING
         ].indexOf(value) != -1
       }
     }

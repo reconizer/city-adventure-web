@@ -9,7 +9,8 @@
           :to="{ name: 'adventureMap', params: { adventureId: adventure.id } }"
         ) {{ adventure.name }}
 
-        .adventure-structure__label(v-if="published") {{ $t("adventures.adventure_published") }}
+        .adventure-structure__label-published(v-if="published") {{ $t("adventures.adventure_published") }}
+        .adventure-structure__label-in-review(v-if="inReview") {{ $t("adventures.adventure_in_review") }}
 
         .adventure-structure__edit(
           v-if="adventure.id"
@@ -25,7 +26,7 @@
           router-link.adventure-header-submenu__item(
             :to="{ name: 'adventureSettings', params: { adventureId: adventure.id } }"
           ) 
-            span(v-if="published") {{ $t("adventure.adventure_details") }}
+            span(v-if="!editable") {{ $t("adventure.adventure_details") }}
             span(v-else) {{ $t("adventure.edit_adventure") }}
 
           router-link.adventure-header-submenu__item(
@@ -85,7 +86,9 @@ export default {
       error: state => state.adventure.error
     }),
     ...mapGetters('adventure', {
-      published: 'published'
+      published: 'published',
+      inReview: 'inReview',
+      editable: 'editable'
     })
   },
   created () {

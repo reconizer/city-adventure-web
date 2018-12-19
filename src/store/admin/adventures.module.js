@@ -15,7 +15,10 @@ import {
 import {
   ADVENTURES_PUBLISHED,
   ADVENTURES_IN_REVIEW,
-  ADVENTURES_UNPUBLISHED
+  ADVENTURES_UNPUBLISHED,
+  ADVENTURES_REJECTED,
+  ADVENTURES_CANCELLED,
+  ADVENTURES_PENDING
 } from '@/config'
 
 export default {
@@ -94,6 +97,15 @@ export default {
           break;
         case ADVENTURES_UNPUBLISHED:
           action = api.admin.adventures.loadUnpublished;
+          break;
+        case ADVENTURES_REJECTED:
+          action = api.admin.adventures.loadRejected;
+          break;
+        case ADVENTURES_CANCELLED:
+          action = api.admin.adventures.loadCancelled;
+          break;
+        case ADVENTURES_PENDING:
+          action = api.admin.adventures.loadPending;
           break;
       }
 

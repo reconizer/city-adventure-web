@@ -135,9 +135,12 @@ export const DIFFICULTY_LEVELS = [ 1, 2, 3 ]
 /**
  * FOR ADMIN ADVENTURE LISTS
  */
-export const ADVENTURES_PUBLISHED = 'published'
+export const ADVENTURES_PENDING = 'pending'
 export const ADVENTURES_IN_REVIEW = 'in_review'
+export const ADVENTURES_REJECTED = 'rejected'
 export const ADVENTURES_UNPUBLISHED = 'unpublished'
+export const ADVENTURES_PUBLISHED = 'published'
+export const ADVENTURES_CANCELLED = 'cancelled'
 
 export const ADVENTURE_SORTING_OPTIONS = [
   'newest',
@@ -145,6 +148,17 @@ export const ADVENTURE_SORTING_OPTIONS = [
   'top_rated',
   'worst_rated'
 ]
+
+/**
+ * ADVENTURE PUBLISHMENT
+ */
+export const MESSAGE_PUBLISHMENT_REQUEST = "publish_request"
+export const MESSAGE_USER = "user"
+export const MESSAGE_QA = "qa"
+export const MESSAGE_PUBLISHED = "published"
+export const MESSAGE_REJECTED = "rejected"
+export const MESSAGE_UNPUBLISHED = "unpublished"
+export const MESSAGE_CANCELLED = "cancelled"
 
 /**
  * COLORS

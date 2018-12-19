@@ -3,7 +3,7 @@
     gmap-marker(
       :position="point.position"
       :clickable="true"
-      :draggable="!loading && !published"
+      :draggable="!loading && editable"
       :label="label"
       :icon="marker"
       :zIndex="1"
@@ -22,7 +22,7 @@
     )
 
     // Drag resize controls for point radius
-    div(v-if="circleEditable && !published")
+    div(v-if="circleEditable && editable")
       gmap-marker(
         :position="top"
         :draggable="!loading"
@@ -97,7 +97,7 @@ export default {
       loading: state => state.adventure.loading
     }),
     ...mapGetters('adventure', {
-      published: 'published'
+      editable: 'editable'
     }),
 
     google: gmapApi,

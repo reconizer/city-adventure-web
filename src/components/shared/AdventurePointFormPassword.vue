@@ -4,7 +4,7 @@
       .puzzle-component__name {{ $t("adventure_point.password_required") }}
 
       .form-checkbox(
-        :class="{ 'form-checkbox--active': passwordRequired, 'form-checkbox--disabled': published }"
+        :class="{ 'form-checkbox--active': passwordRequired, 'form-checkbox--disabled': !editable }"
         @click="$emit('toggle-password')"
       )
         .form-checkbox__toggle
@@ -17,7 +17,7 @@
           :clearable="false"
           :value="passwordType"
           :options="passwordTypes"
-          :disabled="published"
+          :disabled="!editable"
           @input="updatePasswordType($event)"
         )
 
@@ -41,7 +41,7 @@
           :placeholder="$t('adventure_point.password_placeholder')"
           :maxlength="passwordLength"
           :pattern="passwordPattern.source"
-          :disabled="published"
+          :disabled="!editable"
           v-model="passwordAnswer.details.password"
         )
 
@@ -56,19 +56,19 @@
           .row
             .col-1-2
               a.button.button--circle.button--blue(
-                :class="{ 'button--disabled': published }"
+                :class="{ 'button--disabled': !editable }"
                 @click="onArrow('l')"
               ) ←
               a.button.button--circle.button--blue(
-                :class="{ 'button--disabled': published }"
+                :class="{ 'button--disabled': !editable }"
                 @click="onArrow('u')"
               ) ↑
               a.button.button--circle.button--blue(
-                :class="{ 'button--disabled': published }"
+                :class="{ 'button--disabled': !editable }"
                 @click="onArrow('d')"
               ) ↓
               a.button.button--circle.button--blue(
-                :class="{ 'button--disabled': published }"
+                :class="{ 'button--disabled': !editable }"
                 @click="onArrow('r')"
               ) →
 
@@ -117,7 +117,7 @@ export default {
       adventure: state => state.adventure.item
     }),
     ...mapGetters('adventure', {
-      published: 'published'
+      editable: 'editable'
     }),
 
     passwordTypes () {

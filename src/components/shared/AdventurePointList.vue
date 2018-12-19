@@ -2,7 +2,7 @@
   div
     .adventure-point-list(
       v-if="startingPoint"
-      :class="{ 'adventure-point-list--published': published }"
+      :class="{ 'adventure-point-list--non-editable': !editable }"
     )
       .adventure-point-list__line
 
@@ -28,7 +28,7 @@
 
       draggable(
         v-model="points"
-        :options="{ draggable: '.adventure-point-wrapper', group: 'points', disabled: published }"
+        :options="{ draggable: '.adventure-point-wrapper', group: 'points', disabled: !editable }"
       )
         .adventure-point-wrapper(
           v-for="(point, pointIndex) in points"
@@ -62,13 +62,13 @@
                 .icon.icon--sm.icon--marker.icon--pad-right
                 span {{ $t("adventure.go_to_puzzle") }}
 
-              .button.button--blue.adventure-point__control(v-if="!published" @click="destroyPoint(point)")
+              .button.button--blue.adventure-point__control(v-if="editable" @click="destroyPoint(point)")
                 .icon.icon--sm.icon--close-white.icon--pad-right
                 span {{ $t("general.remove") }}
 
           AdventurePointClueList(:point="point")
 
-    .adventure-point-new-wrapper(v-if="startingPoint && !published")
+    .adventure-point-new-wrapper(v-if="startingPoint && editable")
       .adventure-point.adventure-point--new
         router-link.button.button--blue.adventure-point__name(
           :to="{ name: 'adventureMap', params: { adventureId: adventure.id } }"
@@ -103,7 +103,7 @@ export default {
     ...mapGetters('adventure', {
       startingPoint: 'startingPoint',
       puzzlePoints: 'puzzlePoints',
-      published: 'published'
+      editable: 'editable'
     }),
 
     points: {

@@ -7,11 +7,11 @@
 
         .adventure-panel__title
           span(v-if="existingClue")
-            span(v-if="published") {{ $t("clue.show_title") }}
+            span(v-if="!editable") {{ $t("clue.show_title") }}
             span(v-else) {{ $t("clue.edit_title") }}
           span(v-else) {{ $t("clue.new") }}
 
-        a.button.button--pink.adventure-panel__remove(v-if="existingClue && !published" @click="destroyClue()") {{ $t("general.remove") }}
+        a.button.button--pink.adventure-panel__remove(v-if="existingClue && editable" @click="destroyClue()") {{ $t("general.remove") }}
 
       .row
         .col-1-2
@@ -22,7 +22,7 @@
               :clearable="false" 
               :value="clueType" 
               :options="clueTypes" 
-              :disabled="published"
+              :disabled="!editable"
               @input="updateType($event)")
 
           .form-control
@@ -35,7 +35,7 @@
                       .icon__tooltip {{ $t("clue.is_tip_explanation") }}
               .col-1-2
                 .form-checkbox.form-checkbox--small(
-                  :class="{ 'form-checkbox--active': clue.tip, 'form-checkbox--disabled': published }"
+                  :class="{ 'form-checkbox--active': clue.tip, 'form-checkbox--disabled': !editable }"
                   @click="updateTip(!clue.tip)"
                 )
                   .form-checkbox__toggle
@@ -43,14 +43,14 @@
           .form-control(v-if="clue.type != 'image'")
             .form-label.form-label--required(v-if="clue.type == 'text'") {{ $t("clue.content") }}
             .form-label(v-else) {{ $t("general.description") }}
-            textarea.form-input(v-model="clue.description" :disabled="published")
+            textarea.form-input(v-model="clue.description" :disabled="!editable")
 
           //TODO file upload
           .form-control(v-if="clue.type != 'text'")
             .form-label.form-label--required {{ $t("clue.url") }}
-            input.form-input(v-model="clue.url" :disabled="published")
+            input.form-input(v-model="clue.url" :disabled="!editable")
 
-          .form-control(v-if="!published")
+          .form-control(v-if="editable")
             a.button.button--blue.button--large.button--full(@click="submit()") {{ $t("general.submit") }}
 </template>
 
@@ -92,7 +92,7 @@ export default {
       error: state => state.adventure.error
     }),
     ...mapGetters('adventure', {
-      published: 'published'
+      editable: 'editable'
     }),
 
     clueTypes() {
@@ -138,7 +138,7 @@ export default {
       this.clueData.type = evt.value;
     },
     updateTip (value) {
-      if(this.published) {
+      if(!this.editable) {
         return;
       }
 
