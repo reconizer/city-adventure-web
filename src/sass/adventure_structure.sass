@@ -52,21 +52,28 @@
     white-space: nowrap
     padding-right: 0.5rem
 
-  &__label-published
+  &__label
     border-radius: 999em
-    background-color: $green
     padding: 0.25rem 0.5rem
     font-size: 0.875rem
     color: $white
     flex-shrink: 0
+    
+    &--published
+      background-color: $green
 
-  &__label-in-review
-    border-radius: 999em
-    background-color: $orange
-    padding: 0.25rem 0.5rem
-    font-size: 0.875rem
-    color: $white
-    flex-shrink: 0
+    &--in-review
+      background-color: $orange
+
+    &--pending
+      background-color: $black
+
+    &--unpublished
+      background-color: $yellow-green
+      color: $black
+
+    &--rejected, &--cancelled
+      background-color: $red
 
   &__edit
     flex-shrink: 0

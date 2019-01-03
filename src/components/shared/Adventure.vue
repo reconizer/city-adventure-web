@@ -9,8 +9,10 @@
           :to="{ name: 'adventureMap', params: { adventureId: adventure.id } }"
         ) {{ adventure.name }}
 
-        .adventure-structure__label-published(v-if="published") {{ $t("adventures.adventure_published") }}
-        .adventure-structure__label-in-review(v-if="inReview") {{ $t("adventures.adventure_in_review") }}
+        .adventure-structure__label(
+          v-if="adventure.id"
+          :class="labelClass"
+        ) {{ publishedLabel }}
 
         .adventure-structure__edit(
           v-if="adventure.id"
@@ -55,6 +57,15 @@ import { mapState, mapGetters } from 'vuex'
 
 import { LOAD_ADVENTURE } from '@/store/action-types'
 
+import {
+  ADVENTURES_PUBLISHED,
+  ADVENTURES_IN_REVIEW,
+  ADVENTURES_UNPUBLISHED,
+  ADVENTURES_REJECTED,
+  ADVENTURES_PENDING,
+  ADVENTURES_CANCELLED
+} from '@/config'
+
 import AdventureMap from '@/components/shared/AdventureMap.vue'
 import AdventurePointList from '@/components/shared/AdventurePointList.vue'
 
@@ -88,8 +99,27 @@ export default {
     ...mapGetters('adventure', {
       published: 'published',
       inReview: 'inReview',
-      editable: 'editable'
-    })
+      editable: 'editable',
+      publishedLabel: 'publishedStatusLabel'
+    }),
+
+    labelClass () {
+      switch(this.adventure.status) {
+        default:
+        case ADVENTURES_PUBLISHED:
+          return 'adventure-structure__label--published';
+        case ADVENTURES_IN_REVIEW:
+          return 'adventure-structure__label--in-review';
+        case ADVENTURES_UNPUBLISHED:
+          return 'adventure-structure__label--unpublished';
+        case ADVENTURES_REJECTED:
+          return 'adventure-structure__label--rejected';
+        case ADVENTURES_PENDING:
+          return 'adventure-structure__label--pending';
+        case ADVENTURES_CANCELLED:
+          return 'adventure-structure__label--cancelled';
+      }
+    }
   },
   created () {
     this.$store.dispatch(`${ACTION_NAMESPACE}/${LOAD_ADVENTURE}`, { id: this.$route.params.adventureId })

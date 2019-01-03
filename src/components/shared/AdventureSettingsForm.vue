@@ -134,7 +134,7 @@ export default {
   },
   computed: {
     ...mapState({
-      loading: state => state.adventures.loading,
+      loading: state => state.adventure.loading,
       error: state => state.adventure.error
     }),
     ...mapGetters('adventure', {

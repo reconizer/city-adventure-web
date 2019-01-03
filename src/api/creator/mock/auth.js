@@ -2,7 +2,7 @@ export default (email, password) => new Promise((resolve) => {
   setTimeout(() => {
     let user = {
       data: {
-        id: +new Date(),
+        id: 2,
         email: email,
         name: "Creator Mock",
         token: "TEST_TOKEN"

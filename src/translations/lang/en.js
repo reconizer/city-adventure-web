@@ -22,12 +22,14 @@ export default {
     empty: "No results",
 
     adventure_status: "Status",
+
     adventure_published: "Published",
     adventure_in_review: "In Review",
     adventure_unpublished: "Unpublished",
     adventure_rejected: "Rejected",
     adventure_cancelled: "Cancelled",
     adventure_pending: "Pending",
+
     adventure_rating: "Rating",
     adventure_visibility: "Visibility",
     adventure_public: "Public",

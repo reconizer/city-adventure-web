@@ -18,6 +18,8 @@ import AdventureAnalyticsOverview from '@/components/shared/AdventureAnalyticsOv
 import AdventureAnalyticsUserCompletion from '@/components/shared/AdventureAnalyticsUserCompletion.vue'
 import AdventureAnalyticsUserProgress from '@/components/shared/AdventureAnalyticsUserProgress.vue'
 
+import AdventurePublishing from '@/components/creator/AdventurePublishing.vue'
+
 import Login from '@/views/Login.vue'
 
 Vue.use(Router)
@@ -63,7 +65,8 @@ const router = new Router({
                 },
                 {
                   path: 'publishing',
-                  name: 'adventurePublishing'
+                  name: 'adventurePublishing',
+                  component: AdventurePublishing
                 },
                 {
                   path: 'analytics',

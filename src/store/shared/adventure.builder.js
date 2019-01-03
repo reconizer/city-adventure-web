@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import { i18n } from '@/translations/i18n'
 
 import {
   SET_LOADING, SET_ERROR,
@@ -30,7 +31,7 @@ export default (api) => {
   return {
     namespaced: true,
     state: {
-      item: { points: [] },
+      item: { points: [], status: null },
       points: [],
 
       loading: false,
@@ -45,15 +46,36 @@ export default (api) => {
           return index > 0;
         });
       },
-      published: (state) => {
-        return state.item.status == ADVENTURES_PUBLISHED;
+
+      published: (state) => state.item.status == ADVENTURES_PUBLISHED,
+      inReview: (state) => state.item.status == ADVENTURES_IN_REVIEW,
+      pending: (state) => state.item.status == ADVENTURES_PENDING,
+      rejected: (state) => state.item.status == ADVENTURES_REJECTED,
+      cancelled: (state) => state.item.status == ADVENTURES_CANCELLED,
+      unpublished: (state) => state.item.status == ADVENTURES_UNPUBLISHED,
+
+      publishedStatusLabel: (state) => {
+        switch(state.item.status) {
+          default:
+          case ADVENTURES_PUBLISHED:
+            return i18n.t("adventures.adventure_published");
+          case ADVENTURES_IN_REVIEW:
+            return i18n.t("adventures.adventure_in_review");
+          case ADVENTURES_UNPUBLISHED:
+            return i18n.t("adventures.adventure_unpublished");
+          case ADVENTURES_REJECTED:
+            return i18n.t("adventures.adventure_rejected");
+          case ADVENTURES_PENDING:
+            return i18n.t("adventures.adventure_pending");
+          case ADVENTURES_CANCELLED:
+            return i18n.t("adventures.adventure_cancelled");
+        }
       },
-      inReview: (state) => {
-        return state.item.status == ADVENTURES_IN_REVIEW;
+
+      editable: (_, getters) => {
+        //When ready to publish, in creation or rejected during review - enable editing
+        return getters.unpuslished || getters.pending || getters.rejected;
       },
-      editable: (state, getters) => {
-        return state.item.status == ADVENTURES_PENDING;
-      }
     },
     mutations: {
       /**
