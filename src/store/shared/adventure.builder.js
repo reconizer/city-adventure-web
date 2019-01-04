@@ -72,10 +72,7 @@ export default (api) => {
         }
       },
 
-      editable: (_, getters) => {
-        //When ready to publish, in creation or rejected during review - enable editing
-        return getters.unpuslished || getters.pending || getters.rejected;
-      },
+      editable: (_, getters) => getters.pending
     },
     mutations: {
       /**

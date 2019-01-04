@@ -21,6 +21,7 @@ export default (adventureId) => new Promise((resolve) => {
         id: adventureId,
         name: localStorage.getItem(`${adventureId}-name`) || `Adventure ${adventureId}`,
         cover_url: "http://placehold.it/320x180",
+        creator_id: 2,
         status: adventureStatus,
         hidden: false,
         rating: 0,
@@ -48,7 +49,7 @@ export default (adventureId) => new Promise((resolve) => {
         id: adventureId,
         name: "Sekrety Starówki",
         cover_url: "http://placehold.it/320x180",
-        // Let adventure with id 1 be published and act accordingly
+        creator_id: 2,
         status: adventureStatus,
         hidden: false,
         rating: 4.75,
