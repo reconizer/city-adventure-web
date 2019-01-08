@@ -56,6 +56,14 @@ export const SET_USER_PROGRESS_TIME_SPENT_PER_POINT = "setUserProgressTimeSpentP
 export const SET_USER_PROGRESS_WRONG_ENTRIES = "setUserProgressWrongEntries";
 
 /**
+ * PUBLISHMENT
+ */
+export const CLEAR_PUBLISHMENT_HISTORY = "clearPublishmentHistory";
+export const SET_PUBLISHMENT_HISTORY = "setPublishmentHistory";
+export const ADD_MESSAGE = "addMessage";
+export const SET_ADVENTURE_STATUS = "setAdventureStatus";
+
+/**
  * ADMIN
  */
 export const SET_TYPE = "setType";

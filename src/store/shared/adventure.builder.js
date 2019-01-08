@@ -4,10 +4,13 @@ import { i18n } from '@/translations/i18n'
 import {
   SET_LOADING, SET_ERROR,
   SET_ADVENTURE, CLEAR_ADVENTURE,
+  SET_ADVENTURE_STATUS,
+
   SET_ADVENTURE_POINTS, CLEAR_ADVENTURE_POINTS, 
   SET_POINT, ADD_POINT, REMOVE_POINT,
+  SET_POINTS, SET_POINTS_ORDER,
+
   SET_CLUE, ADD_CLUE, REMOVE_CLUE,
-  SET_POINTS, SET_POINTS_ORDER
 } from '@/store/mutation-types';
 
 import {
@@ -15,7 +18,7 @@ import {
   UPDATE_POINT, CREATE_POINT, DESTROY_POINT,
   UPDATE_POINTS,
   UPDATE_CLUE, CREATE_CLUE, DESTROY_CLUE,
-  UPDATE_CLUES
+  UPDATE_CLUES,
 } from '@/store/action-types';
 
 import {
@@ -31,8 +34,9 @@ export default (api) => {
   return {
     namespaced: true,
     state: {
-      item: { points: [], status: null },
+      item: { status: null },
       points: [],
+      history: [],
 
       loading: false,
       error: null
@@ -175,6 +179,13 @@ export default (api) => {
       },
 
       /**
+       * PUBLISHMENT-RELATED
+       */
+      [SET_ADVENTURE_STATUS] (state, status) {
+        state.item.status = status;
+      },
+
+      /**
        * GENERAL
        */
       [SET_LOADING] (state, loading) {
@@ -214,10 +225,10 @@ export default (api) => {
           });
       },
 
-      [UPDATE_ADVENTURE] ({ commit }, { adventureId, params }) {
+      [UPDATE_ADVENTURE] ({ commit, state }, { params }) {
         commit(SET_LOADING, true);
 
-        return api.adventures.updateAdventure(adventureId, params)
+        return api.adventures.updateAdventure(state.item.id, params)
           .then( response => {
             commit(SET_ADVENTURE, response.data);
 
@@ -231,10 +242,10 @@ export default (api) => {
       /**
        * POINTS
        */
-      [CREATE_POINT] ({ commit }, { adventureId, parentId, lat, lng }) {
+      [CREATE_POINT] ({ commit, state }, { parentId, lat, lng }) {
         commit(SET_LOADING, true);
 
-        return api.adventures.createPoint(adventureId, parentId, lat, lng)
+        return api.adventures.createPoint(state.item.id, parentId, lat, lng)
           .then( response => {
             commit(ADD_POINT, response.data);
 
@@ -245,10 +256,10 @@ export default (api) => {
           .catch( error => commit(SET_ERROR, error));
       },
 
-      [UPDATE_POINT] ({ commit }, { adventureId, pointId, params }) {
+      [UPDATE_POINT] ({ commit, state }, { pointId, params }) {
         commit(SET_LOADING, true);
 
-        return api.adventures.updatePoint(adventureId, pointId, params)
+        return api.adventures.updatePoint(state.item.id, pointId, params)
           .then( response => {
             commit(SET_POINT, { id: pointId, data: response.data });
 
@@ -259,10 +270,10 @@ export default (api) => {
           .catch( error => commit(SET_ERROR, error));
       },
 
-      [DESTROY_POINT] ({ commit }, { pointId }) {
+      [DESTROY_POINT] ({ commit, state }, { pointId }) {
         commit(SET_LOADING, true);
 
-        return api.adventures.destroyPoint(pointId)
+        return api.adventures.destroyPoint(state.item.id, pointId)
           .then( response => {
             // If we remove a point which has currently opened form (or it's clue has form opened) - go to map
             commit(REMOVE_POINT, pointId);
@@ -275,10 +286,10 @@ export default (api) => {
       },
 
       // Used for re-ordering points
-      [UPDATE_POINTS] ({ commit }, { payload }) {
+      [UPDATE_POINTS] ({ commit, state }, { payload }) {
         commit(SET_LOADING, true);
 
-        return api.adventures.updatePoints(payload)
+        return api.adventures.updatePoints(state.item.id, payload)
           .then( response => {
             //TODO does not require any response?
             //TODO does it require state manipulation?
@@ -294,10 +305,10 @@ export default (api) => {
       /**
        * CLUES
        */
-      [CREATE_CLUE] ({ commit }, { pointId, data }) {
+      [CREATE_CLUE] ({ commit, state }, { pointId, data }) {
         commit(SET_LOADING, true);
 
-        return api.adventures.createClue(pointId, data)
+        return api.adventures.createClue(state.item.id, pointId, data)
           .then( response => {
             commit(ADD_CLUE, {
               pointId: pointId,
@@ -311,10 +322,10 @@ export default (api) => {
           .catch( error => commit(SET_ERROR, error));
       },
 
-      [UPDATE_CLUE] ({ commit }, { pointId, clueId, data }) {
+      [UPDATE_CLUE] ({ commit, state }, { pointId, clueId, data }) {
         commit(SET_LOADING, true);
 
-        return api.adventures.updateClue(pointId, clueId, data)
+        return api.adventures.updateClue(state.item.id, pointId, clueId, data)
           .then( response => {
             commit(SET_CLUE, {
               pointId: pointId,
@@ -329,10 +340,10 @@ export default (api) => {
           .catch( error => commit(SET_ERROR, error));
       },
 
-      [DESTROY_CLUE] ({ commit }, { pointId, clueId }) {
+      [DESTROY_CLUE] ({ commit, state }, { pointId, clueId }) {
         commit(SET_LOADING, true);
 
-        return api.adventures.destroyClue(clueId)
+        return api.adventures.destroyClue(state.item.id, pointId, clueId)
           .then( response => {
             commit(REMOVE_CLUE, { pointId, clueId });
 
@@ -344,10 +355,10 @@ export default (api) => {
       },
 
       // Used for re-ordering clues
-      [UPDATE_CLUES] ({ commit }, { payload }) {
+      [UPDATE_CLUES] ({ commit, state }, { payload }) {
         commit(SET_LOADING, true);
 
-        return api.adventures.updateClues(payload)
+        return api.adventures.updateClues(state.item.id, payload)
           .then( response => {
             //TODO does not require any response?
             //TODO does it require state manipulation?

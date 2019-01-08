@@ -246,7 +246,6 @@ export default {
       };
 
       this.$store.dispatch(`${ACTION_NAMESPACE}/${UPDATE_POINT}`, {
-        adventureId: this.adventure.id,
         pointId: this.point.id,
         params: params
       })
@@ -284,7 +283,6 @@ export default {
       };
 
       this.$store.dispatch(`${ACTION_NAMESPACE}/${UPDATE_POINT}`, {
-        adventureId: this.adventure.id,
         pointId: this.point.id,
         params: params
       })

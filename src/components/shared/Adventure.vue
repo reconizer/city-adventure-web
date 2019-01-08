@@ -1,6 +1,6 @@
 <template lang="pug">
   div
-    Loader(v-if="loading || analyticsLoading")
+    Loader(v-if="loading")
 
     .adventure-structure(:class="{ 'adventure-structure--expanded': this.expanded }")
       .adventure-structure__header
@@ -9,7 +9,8 @@
           :to="{ name: 'adventureMap', params: { adventureId: adventure.id } }"
         ) {{ adventure.name }}
 
-        .adventure-structure__label(
+        router-link.adventure-structure__label(
+          :to="{ name: 'adventurePublishing', params: { adventureId: adventure.id } }"
           v-if="adventure.id"
           :class="labelClass"
         ) {{ publishedLabel }}
@@ -92,8 +93,7 @@ export default {
       adventure: state => state.adventure.item,
       points: state => state.adventure.points,
 
-      loading: state => state.adventure.loading,
-      analyticsLoading: state => state.analytics.loading,
+      loading: state => state.adventure.loading || state.analytics.loading || state.publishment.loading,
       error: state => state.adventure.error
     }),
     ...mapGetters('adventure', {

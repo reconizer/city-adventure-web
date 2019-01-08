@@ -258,7 +258,6 @@ export default {
       }
 
       this.$store.dispatch(`${ACTION_NAMESPACE}/${UPDATE_ADVENTURE}`, {
-        adventureId: this.adventureData.id,
         params: params
       });
       //TODO validate form

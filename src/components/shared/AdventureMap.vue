@@ -203,7 +203,6 @@ export default {
       let center = this.$refs.googleMap.$mapObject.center;
 
       this.$store.dispatch(`${ACTION_NAMESPACE}/${CREATE_POINT}`, {
-        adventureId: this.adventure.id,
         parentId: this.points[this.points.length - 1].id,
         lat: center.lat(),
         lng: center.lng()
@@ -272,7 +271,6 @@ export default {
 
     createPointFromDialog () {
       this.$store.dispatch(`${ACTION_NAMESPACE}/${CREATE_POINT}`, {
-        adventureId: this.adventure.id,
         parentId: this.points[this.points.length - 1].id,
         lat: this.addPointWindowPosition.lat,
         lng: this.addPointWindowPosition.lng

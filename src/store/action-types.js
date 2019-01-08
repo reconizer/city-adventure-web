@@ -27,6 +27,19 @@ export const CREATE_POINT = "createPoint";
 export const DESTROY_POINT = "destroyPoint";
 
 /**
+ * PUBLISHMENT
+ */
+export const LOAD_PUBLISHMENT_HISTORY = "loadPublishmentHistory";
+export const CREATE_PUBLISHMENT_MESSAGE = "createPublishmentMessage";
+export const REQUEST_REVIEW = "requestReview";
+export const PUBLISH = "publish";
+export const START_EDITING = "startEditing";
+
+export const UNPUBLISH = "unpublish";
+export const REJECT = "reject";
+export const CANCEL = "cancel";
+
+/**
  * ANALYTICS
  */
 export const LOAD_ANALYTICS_OVERVIEW = "loadAnalyticsOverview";

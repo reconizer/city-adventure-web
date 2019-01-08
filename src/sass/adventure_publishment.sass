@@ -1,0 +1,49 @@
+.adventure-publishment
+  &__history
+    position: absolute
+    left: 1.5rem
+    right: 1.5rem
+    bottom: 5rem
+    top: 6rem
+    overflow-y: auto
+    border: 1px solid $border-color
+    padding: 1rem
+    border-radius: 0.25rem
+
+.publishment-history-item
+  &__content-wrapper
+    max-width: 50%
+    display: flex
+
+  &__content
+    border-radius: 0.25rem
+    background-color: $clue-background
+    padding: 0.5rem 0.75rem
+    display: inline-block
+
+  &__date
+    text-align: center
+    font-size: 0.875rem
+    color: $gray-font
+    padding-bottom: 0.5rem
+
+  &__sender
+
+  &--status &__content-wrapper
+    max-width: 100%
+    margin: auto
+    justify-content: center
+
+  &--sender-message &__content-wrapper
+    margin-left: auto
+    justify-content: end
+
+  &--sender-message &__content
+    background-color: $pink
+    color: white
+
+  & + &
+    margin-top: 1rem
+
+  &:last-child
+    padding-bottom: 1rem

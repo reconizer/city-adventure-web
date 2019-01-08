@@ -71,23 +71,23 @@ export default {
   updatePoint (adventureId, pointId, params) {
     return updatePointMock(adventureId, pointId, params);
   },
-  updateClues (payload) {
-    return updateCluesMock(payload);
+  updateClues (adventureId, payload) {
+    return updateCluesMock(adventureId, payload);
   },
-  updatePoints (payload) {
-    return updatePointsMock(payload);
+  updatePoints (adventureId, payload) {
+    return updatePointsMock(adventureId, payload);
   },
-  destroyPoint (pointId) {
-    return destroyPointMock(pointId);
+  destroyPoint (adventureId, pointId) {
+    return destroyPointMock(adventureId, pointId);
   },
 
-  createClue (pointId, data) {
-    return createClueMock(pointId, data);
+  createClue (adventureId, pointId, data) {
+    return createClueMock(adventureId, pointId, data);
   },
-  updateClue (pointId, clueId, data) {
-    return updateClueMock(pointId, clueId, data);
+  updateClue (adventureId, pointId, clueId, data) {
+    return updateClueMock(adventureId, pointId, clueId, data);
   },
-  destroyClue (clueId) {
-    return destroyClueMock(clueId);
+  destroyClue (adventureId, pointId, clueId) {
+    return destroyClueMock(adventureId, pointId, clueId);
   }
 }

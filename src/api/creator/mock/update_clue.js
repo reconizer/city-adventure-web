@@ -1,4 +1,4 @@
-export default (pointId, clueId, data) => new Promise((resolve) => {
+export default (adventureId, pointId, clueId, data) => new Promise((resolve) => {
   setTimeout(() => {
     let clue = {
       data: {

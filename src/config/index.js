@@ -152,13 +152,14 @@ export const ADVENTURE_SORTING_OPTIONS = [
 /**
  * ADVENTURE PUBLISHMENT
  */
-export const MESSAGE_PUBLISHMENT_REQUEST = "publish_request"
-export const MESSAGE_USER = "user"
-export const MESSAGE_QA = "qa"
-export const MESSAGE_PUBLISHED = "published"
+export const MESSAGE_CREATED = "created"
+export const MESSAGE_PUBLISHMENT_REQUEST = "review_request"
 export const MESSAGE_REJECTED = "rejected"
-export const MESSAGE_UNPUBLISHED = "unpublished"
+export const MESSAGE_COMMENT = "message"
+export const MESSAGE_PUBLISHED = "published"
+export const MESSAGE_ACCEPTED = "accepted"
 export const MESSAGE_CANCELLED = "cancelled"
+export const MESSAGE_BACK_TO_EDIT = "back_to_edit"
 
 /**
  * COLORS
