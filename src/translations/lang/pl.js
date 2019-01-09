@@ -97,7 +97,18 @@ export default {
   },
 
   adventure_publishing: {
-    title: "Publikacja"
+    title: "Publikacja",
+
+    history_created: "Utworzono",
+    history_review_request: "W trakcie oceny",
+    history_rejected: "Odrzucona",
+    history_published: "Opublikowana",
+    history_accepted: "Nieopublikowana",
+    history_cancelled: "Anulowana",
+    history_back_to_edit: "W trakcie tworzenia",
+
+    history_qa: "QA",
+    history_you: "Ty"
   },
 
   stars: {

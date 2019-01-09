@@ -11,28 +11,74 @@
     border-radius: 0.25rem
 
 .publishment-history-item
+  display: flex
+  justify-content: center
+  align-items: center
+  position: relative
+
+  &:after
+    content: ''
+    position: absolute
+    width: 0.25rem
+    height: 1.25rem
+    left: 1rem
+    bottom: -1.25rem
+    background-color: $clue-background
+
+
+  &:hover &__date
+    opacity: 1
+
   &__content-wrapper
-    max-width: 50%
     display: flex
+    flex: 1
 
   &__content
-    border-radius: 0.25rem
+    border-radius: 0.75rem
     background-color: $clue-background
+    border: 1px solid $point-background
     padding: 0.5rem 0.75rem
-    display: inline-block
 
   &__date
-    text-align: center
+    opacity: 0
     font-size: 0.875rem
     color: $gray-font
-    padding-bottom: 0.5rem
+    order: 1
+    flex-shrink: 0
+    margin-left: 3rem
 
   &__sender
+    border-radius: 999em
+    background-color: $clue-background
+    border: 1px solid $point-background
+    width: 2rem
+    height: 2rem
+    margin-right: 0.5rem
+    text-align: center
+    line-height: 2rem
+    font-size: 0.875rem
+    flex-shrink: 0
 
-  &--status &__content-wrapper
-    max-width: 100%
-    margin: auto
-    justify-content: center
+  &--status &__sender
+    display: none
+
+  &--status &__content
+    border-radius: 0.25rem
+    border-color: $clue-background
+
+  &--received-message, &--sender-message
+    margin-left: 2rem
+
+    &:after
+      left: -1rem
+      bottom: -2rem
+      top: 0
+      height: auto
+
+  &--sender-message &__date
+    order: -1
+    margin-right: 3rem
+    margin-left: 0
 
   &--sender-message &__content-wrapper
     margin-left: auto
@@ -40,10 +86,47 @@
 
   &--sender-message &__content
     background-color: $pink
+    border-color: $pink
     color: white
 
+  &--sender-message &__sender
+    order: 1
+    margin-left: 0.5rem
+    margin-right: 0
+
   & + &
-    margin-top: 1rem
+    margin-top: 1.25rem
 
   &:last-child
     padding-bottom: 1rem
+
+    &:after
+      display: none
+
+  &--sender-message:last-child,
+  &--received-message:last-child
+    &:after
+      display: block
+      bottom: 1rem
+
+  &--received-message + &--received-message,
+  &--sender-message + &--sender-message
+    margin-top: 0.5rem
+
+    .publishment-history-item__sender
+      opacity: 0
+
+  &--status-review-request &__content
+    border-left: 0.25rem solid $orange
+
+  &--status-accepted &__content,
+  &--status-published &__content
+    border-left: 0.25rem solid $green
+
+  &--status-rejected &__content,
+  &--status-cancelled &__content
+    border-left: 0.25rem solid $red
+
+  &--status-created &__content,
+  &--status-back-to-edit &__content
+    border-left: 0.25rem solid $black

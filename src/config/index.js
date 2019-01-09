@@ -161,6 +161,9 @@ export const MESSAGE_ACCEPTED = "accepted"
 export const MESSAGE_CANCELLED = "cancelled"
 export const MESSAGE_BACK_TO_EDIT = "back_to_edit"
 
+export const MESSAGE_TYPE_CREATOR = "creator"
+export const MESSAGE_TYPE_QA = "qa"
+
 /**
  * COLORS
  */

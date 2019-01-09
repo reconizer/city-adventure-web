@@ -4,7 +4,9 @@ import {
   MESSAGE_CREATED, MESSAGE_PUBLISHMENT_REQUEST,
   MESSAGE_REJECTED, MESSAGE_COMMENT,
   MESSAGE_PUBLISHED, MESSAGE_ACCEPTED,
-  MESSAGE_CANCELLED, MESSAGE_BACK_TO_EDIT
+  MESSAGE_CANCELLED, MESSAGE_BACK_TO_EDIT,
+
+  MESSAGE_TYPE_CREATOR, MESSAGE_TYPE_QA
 } from '@/config'
 
 export default () => new Promise((resolve) => {
@@ -30,7 +32,7 @@ export default () => new Promise((resolve) => {
         type: MESSAGE_COMMENT,
         timestamp: moment().subtract(6, 'days').add(3, 'hours').toDate().getTime(),
         details: {
-          from_id: 1,
+          from_type: MESSAGE_TYPE_QA,
           content: "Lorem ipsum dolor sit amet."
         }
       },
@@ -39,7 +41,7 @@ export default () => new Promise((resolve) => {
         type: MESSAGE_COMMENT,
         timestamp: moment().subtract(6, 'days').add(8, 'hours').toDate().getTime(),
         details: {
-          from_id: 2,
+          from_type: MESSAGE_TYPE_CREATOR,
           content: "Lorem ipsum dolor sit amet."
         }
       },
@@ -48,7 +50,7 @@ export default () => new Promise((resolve) => {
         type: MESSAGE_COMMENT,
         timestamp: moment().subtract(6, 'days').add(9, 'hours').toDate().getTime(),
         details: {
-          from_id: 2,
+          from_type: MESSAGE_TYPE_CREATOR,
           content: "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
         }
       },
@@ -73,6 +75,15 @@ export default () => new Promise((resolve) => {
         timestamp: moment().subtract(4, 'days').toDate().getTime()
       },
       {
+        id: 1232,
+        type: MESSAGE_COMMENT,
+        timestamp: moment().subtract(4, 'days').toDate().getTime(),
+        details: {
+          from_type: MESSAGE_TYPE_QA,
+          content: "Lorem ipsum"
+        }
+      },
+      {
         id: 10,
         type: MESSAGE_CANCELLED,
         timestamp: moment().subtract(2, 'days').toDate().getTime()
@@ -82,7 +93,7 @@ export default () => new Promise((resolve) => {
         type: MESSAGE_COMMENT,
         timestamp: moment().subtract(2, 'days').add(4, 'hours').toDate().getTime(),
         details: {
-          from_id: 2,
+          from_type: MESSAGE_TYPE_CREATOR,
           content: "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
         }
       },
@@ -91,7 +102,7 @@ export default () => new Promise((resolve) => {
         type: MESSAGE_COMMENT,
         timestamp: moment().subtract(2, 'days').add(6, 'hours').toDate().getTime(),
         details: {
-          from_id: 1,
+          from_type: MESSAGE_TYPE_QA,
           content: "Lorem ipsum dolor sit amet."
         }
       },
@@ -99,6 +110,15 @@ export default () => new Promise((resolve) => {
         id: 13,
         type: MESSAGE_ACCEPTED,
         timestamp: moment().subtract(2, 'days').add(10, 'hours').toDate().getTime()
+      },
+      {
+        id: 14,
+        type: MESSAGE_COMMENT,
+        timestamp: moment().subtract(1, 'days').add(6, 'hours').toDate().getTime(),
+        details: {
+          from_type: MESSAGE_TYPE_QA,
+          content: "Lorem ipsum dolor sit amet."
+        }
       }
     ];
 
