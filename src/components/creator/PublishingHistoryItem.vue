@@ -5,7 +5,7 @@
     .publishment-history-item__date {{ historyItemDate }}
     .publishment-history-item__content-wrapper
       .publishment-history-item__sender
-        span(v-if="isComment && isSenderComment") {{ $t("adventure_publishing.history_you") }}
+        span(v-if="isSenderComment") {{ $t("adventure_publishing.history_you") }}
         span(v-else) {{ $t("adventure_publishing.history_qa") }}
       .publishment-history-item__content {{ content }}
 </template>

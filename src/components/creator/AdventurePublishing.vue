@@ -7,7 +7,6 @@
       .adventure-panel__title {{ $t("adventure_publishing.title") }}
 
     .adventure-publishment__history(v-if="history.length")
-      .adventure-publishment__history-line
       PublishingHistoryItem(v-for="historyItem in history" :key="historyItem.id" :historyItem="historyItem")
 </template>
 
