@@ -1,4 +1,4 @@
-import ADVENTURES_PUBLISHED from '@/config';
+import { ADVENTURES_PUBLISHED } from '@/config';
 
 export default (adventureId) => new Promise((resolve) => {
   setTimeout(() => {
@@ -6,6 +6,6 @@ export default (adventureId) => new Promise((resolve) => {
       status: ADVENTURES_PUBLISHED
     };
 
-    resolve({ data: adventures });
+    resolve({ data: adventure });
   });
 });

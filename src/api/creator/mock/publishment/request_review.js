@@ -1,4 +1,4 @@
-import ADVENTURES_IN_REVIEW from '@/config';
+import { ADVENTURES_IN_REVIEW } from '@/config';
 
 export default (adventureId) => new Promise((resolve) => {
   setTimeout(() => {
@@ -6,6 +6,6 @@ export default (adventureId) => new Promise((resolve) => {
       status: ADVENTURES_IN_REVIEW
     };
 
-    resolve({ data: adventures });
+    resolve({ data: adventure });
   });
 });

@@ -8,9 +8,11 @@ import VueScrollTo from 'vue-scrollto';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 import * as VueGoogleMaps from 'vue2-google-maps';
+import InfiniteLoading from 'vue-infinite-loading';
 
 Vue.use(VueAxios, axios);
 Vue.use(VueScrollTo);
+Vue.use(InfiniteLoading, {});
 
 Vue.use(VueGoogleMaps, {
   load: {

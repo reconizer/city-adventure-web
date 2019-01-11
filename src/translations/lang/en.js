@@ -108,7 +108,9 @@ export default {
     history_back_to_edit: "Pending",
 
     history_qa: "QA",
-    history_you: "You"
+    history_you: "You",
+
+    input_placeholder: "Type your message..."
   },
 
   stars: {

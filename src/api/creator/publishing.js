@@ -9,8 +9,8 @@ import requestReviewMock from './mock/publishment/request_review';
 import startEditingMock from './mock/publishment/start_editing';
 
 export default {
-  loadHistory (adventureId) {
-    return historyMock();
+  loadHistory (adventureId, page) {
+    return historyMock(adventureId, page);
   },
   sendMessage (adventureId, msg) {
     return sendMessageMock(adventureId, msg);

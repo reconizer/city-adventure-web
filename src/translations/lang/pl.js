@@ -108,7 +108,9 @@ export default {
     history_back_to_edit: "W trakcie tworzenia",
 
     history_qa: "QA",
-    history_you: "Ty"
+    history_you: "Ty",
+
+    input_placeholder: "Napisz wiadomość..."
   },
 
   stars: {

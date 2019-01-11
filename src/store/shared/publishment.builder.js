@@ -1,7 +1,7 @@
 import {
   SET_LOADING, SET_ERROR, SET_ADVENTURE_STATUS,
 
-  CLEAR_PUBLISHMENT_HISTORY, SET_PUBLISHMENT_HISTORY,
+  CLEAR_PUBLISHMENT_HISTORY, ADD_PUBLISHMENT_HISTORY,
   ADD_MESSAGE
 } from '@/store/mutation-types';
 
@@ -27,8 +27,14 @@ export default (api) => {
         state.history = [];
       },
 
-      [SET_PUBLISHMENT_HISTORY] (state, history) {
-        state.history = history;
+      [ADD_PUBLISHMENT_HISTORY] (state, history) {
+        //To remove duplicates, only add entries older than oldest known
+        //TODO different way to paginate?
+        let elementsToAdd = history.filter((item) => {
+          return !state.history[0] || item.timestamp < state.history[0].timestamp
+        });
+
+        state.history.unshift(...elementsToAdd);
       },
 
       [ADD_MESSAGE] (state, msg) {
@@ -48,14 +54,17 @@ export default (api) => {
       }
     },
     actions: {
-      [LOAD_PUBLISHMENT_HISTORY] ({ commit, state }, { adventureId }) {
+      [LOAD_PUBLISHMENT_HISTORY] ({ commit, state }, { page, adventureId }) {
         commit(SET_LOADING, true);
-        commit(CLEAR_PUBLISHMENT_HISTORY);
 
-        return api.publishment.loadHistory(adventureId)
+        if(page == 1) {
+          commit(CLEAR_PUBLISHMENT_HISTORY);
+        }
+
+        return api.publishment.loadHistory(adventureId, page)
           .then( response => {
             commit(SET_LOADING, false);
-            commit(SET_PUBLISHMENT_HISTORY, response.data);
+            commit(ADD_PUBLISHMENT_HISTORY, response.data);
 
             return response;
           })
