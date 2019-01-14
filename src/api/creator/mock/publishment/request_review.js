@@ -1,11 +1,13 @@
-import { ADVENTURES_IN_REVIEW } from '@/config';
+import { MESSAGE_PUBLISHMENT_REQUEST } from '@/config';
 
 export default (adventureId) => new Promise((resolve) => {
   setTimeout(() => {
-    let adventure = {
-      status: ADVENTURES_IN_REVIEW
+    let message = {
+      id: +new Date(),
+      type: MESSAGE_PUBLISHMENT_REQUEST,
+      timestamp: +new Date()
     };
 
-    resolve({ data: adventure });
-  });
+    resolve({ data: message });
+  }, 500);
 });

@@ -1,12 +1,14 @@
-import { ADVENTURES_PENDING } from '@/config';
+import { MESSAGE_BACK_TO_EDIT } from '@/config';
 
 export default (adventureId) => new Promise((resolve) => {
   setTimeout(() => {
-    let adventure = {
-      status: ADVENTURES_PENDING
+    let message = {
+      id: +new Date(),
+      type: MESSAGE_BACK_TO_EDIT,
+      timestamp: +new Date()
     };
 
-    resolve({ data: adventure });
-  });
+    resolve({ data: message });
+  }, 500);
 });
 

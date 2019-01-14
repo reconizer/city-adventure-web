@@ -5,7 +5,12 @@ export default {
   name: 'PieChart',
   extends: Pie,
   mixins: [mixins.reactiveProp],
-  props: ['options'],
+  props: {
+    options: {
+      type: Object,
+      required: true
+    }
+  },
   mounted () {
     this.renderChart(this.chartData, this.options);
   }

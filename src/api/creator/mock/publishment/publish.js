@@ -1,11 +1,13 @@
-import { ADVENTURES_PUBLISHED } from '@/config';
+import { MESSAGE_PUBLISHED } from '@/config';
 
 export default (adventureId) => new Promise((resolve) => {
   setTimeout(() => {
-    let adventure = {
-      status: ADVENTURES_PUBLISHED
+    let message = {
+      id: +new Date(),
+      type: MESSAGE_PUBLISHED,
+      timestamp: +new Date()
     };
 
-    resolve({ data: adventure });
-  });
+    resolve({ data: message });
+  }, 500);
 });

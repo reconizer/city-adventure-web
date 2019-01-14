@@ -10,6 +10,12 @@ import {
   REQUEST_REVIEW, PUBLISH, START_EDITING
 } from '@/store/action-types';
 
+import {
+  ADVENTURES_PENDING,
+  ADVENTURES_IN_REVIEW,
+  ADVENTURES_PUBLISHED
+} from '@/config'
+
 export default (api) => {
   return {
     namespaced: true,
@@ -90,7 +96,8 @@ export default (api) => {
         return api.publishment.requestReview(adventureId)
           .then( response => {
             commit(SET_LOADING, false);
-            commit(`adventure/${SET_ADVENTURE_STATUS}`, response.data.status);
+            commit(`adventure/${SET_ADVENTURE_STATUS}`, ADVENTURES_IN_REVIEW, { root: true });
+            commit(ADD_MESSAGE, response.data);
 
             return response;
           })
@@ -103,7 +110,8 @@ export default (api) => {
         return api.publishment.publish(adventureId)
           .then( response => {
             commit(SET_LOADING, false);
-            commit(`adventure/${SET_ADVENTURE_STATUS}`, response.data.status);
+            commit(`adventure/${SET_ADVENTURE_STATUS}`, ADVENTURES_PUBLISHED, { root: true });
+            commit(ADD_MESSAGE, response.data);
 
             return response;
           })
@@ -116,7 +124,8 @@ export default (api) => {
         return api.publishment.startEditing(adventureId)
           .then( response => {
             commit(SET_LOADING, false);
-            commit(`adventure/${SET_ADVENTURE_STATUS}`, response.data.status);
+            commit(`adventure/${SET_ADVENTURE_STATUS}`, ADVENTURES_PENDING, { root: true });
+            commit(ADD_MESSAGE, response.data);
             
             return response;
           })

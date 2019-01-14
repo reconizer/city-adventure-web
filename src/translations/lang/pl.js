@@ -110,7 +110,27 @@ export default {
     history_qa: "QA",
     history_you: "Ty",
 
-    input_placeholder: "Napisz wiadomość..."
+    input_placeholder: "Napisz wiadomość...",
+
+    summary_pending: 'Twoja przygoda nie została jeszcze oceniona.\nAby ją opublikować, musisz wysłać ją do oceny przez zespół QA.',
+    summary_in_review: 'Twoja przygoda jest właśnie oceniana przez zespół QA. Wkrótce dostaniesz informację zwrotną.',
+    summary_rejected: 'Twoja przygoda została odrzucona.\nOdnieś się do uwag zawartych w wiadomości od zespołu QA.',
+    summary_unpublished: 'Twoja przygoda została zatwierdzona przez zespół QA i jest gotowa do opublikowania.',
+    summary_published: 'Twoja przygoda jest opublikowana i dostępna z poziomu aplikacji.\nJeśli chcesz anulować publikację, wyślij wiadomość do zespołu QA.',
+    summary_cancelled: 'Twoja przygoda została anulowana i nie jest możliwa jej dalsza edycja. Jeśli uważasz, że nastąpiła pomyłka, wyślij wiadomość do zespołu QA.',
+
+    modal_edit_1: 'Aby dokonać wszelkich potrzebnych zmian w przygodzie należy ją wycofać z procesu rozpatrywania do edycji.',
+    modal_edit_2: 'Po wykonaniu odpowiednich zmian będziesz mógł ponownie oddać przygodę do oceny.',
+
+    modal_review_1: 'Oddanie przygody do oceny oznacza, że podczas tego procesu nie będziesz mógł dokonać żadnych zmian w przygodzie.',
+    modal_review_2: 'Zespół QA może zaakceptować przygodę i wtedy będziesz mógł opublikować ją w dowolnym momencie lub wrócić do edycji by wykonać odpowiednie poprawki.',
+    modal_review_3: 'Jeśli zespół QA z jakichś powodów odrzuci przygodę - otrzymasz dokładne informacje i wskazówki w jaki sposób poprawić ją, aby spełniała nasze wymogi jakości.',
+
+    modal_publish_1: 'W momencie, gdy potwierdzisz opublikowanie przygody nie będziesz mógł już jej edytować i zostanie ona dostępna w aplikacji dla wszystkich użytkowników.',
+
+    action_request_review: 'Wyślij do oceny',
+    action_edit: 'Powrót do edycji',
+    action_publish: 'Opublikuj'
   },
 
   stars: {
@@ -239,9 +259,12 @@ export default {
     edit: "Edytuj",
     remove: "Usuń",
     submit: "Zatwierdź",
+    cancel: "Anuluj",
     filter: "Filtruj",
     query: "Szukaj",
 
-    around: "Około {value}"
+    around: "Około {value}",
+
+    i_understand_confirm: "OK, zrozumiałem"
   }
 }

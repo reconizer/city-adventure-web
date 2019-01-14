@@ -110,7 +110,27 @@ export default {
     history_qa: "QA",
     history_you: "You",
 
-    input_placeholder: "Type your message..."
+    input_placeholder: "Type your message...",
+
+    summary_pending: 'Your adventure has not been reviewed yet.\nTo publish it, you need to submit it for review first.',
+    summary_in_review: 'Your adventure is currently reviewed by our QA team. You will be notified soon about the result.',
+    summary_rejected: 'Your adventure has been rejected.\nPlease check the feedback left by QA team.',
+    summary_unpublished: 'Your adventure has been accepted by our QA team and is ready to be published.',
+    summary_published: 'Your adventure is now published and can be accessed from the app.\nIf you want to cancel the publication, please send a message to our QA team.',
+    summary_cancelled: 'Your adventure has been cancelled and cannot be edited anymore. If you think this is a mistake, please send a message to our QA team.',
+
+    modal_edit_1: 'To make necessary edits in this adventure, you will need to move it back from the review process to editing.',
+    modal_edit_2: 'After you will make all necessary changes, you will be able to submit it for review again.',
+
+    modal_review_1: 'Submitting adventure for a review will mean that you will not be able to make any changes during this process.',
+    modal_review_2: 'Our QA team can accept your adventure and then you will be able to publish it at any time or go back to editing.',
+    modal_review_3: 'If our QA team will for some reason reject your adventure you will receive detailed instructions to help you meet our quality standards.',
+
+    modal_publish_1: 'If you will publish your adventure you will not be able to change it anymore and it will be available to users in the app.',
+
+    action_request_review: 'Submit for review',
+    action_edit: 'Go back to editing',
+    action_publish: 'Publish'
   },
 
   stars: {
@@ -239,9 +259,12 @@ export default {
     edit: "Edit",
     remove: "Remove",
     submit: "Submit",
+    cancel: "Cancel",
     filter: "Filter",
     query: "Search",
 
-    around: "Around {value}"
+    around: "Around {value}",
+
+    i_understand_confirm: "OK, got it"
   }
 }

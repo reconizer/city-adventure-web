@@ -1,4 +1,31 @@
 .adventure-publishment
+  &__header
+    position: absolute
+    left: 1.5rem
+    right: 1.5rem
+    top: 6rem
+    height: 4rem
+    border: 1px solid $border-color
+    border-radius: 0.25rem
+    box-sizing: border-box
+    display: flex
+    align-items: center
+    padding: 0 1rem
+
+  &__summary
+    flex: 1
+    padding-right: 1rem
+    white-space: pre-line
+
+  &__action
+    flex-shrink: 0
+
+    & + &
+      margin-left: 1rem
+
+  &__header + &__history
+    top: 11rem
+
   &__history
     position: absolute
     left: 1.5rem
@@ -46,6 +73,7 @@
   align-items: center
   position: relative
 
+  // Line
   &:after
     content: ''
     position: absolute
@@ -54,10 +82,6 @@
     left: 1rem
     bottom: -1.25rem
     background-color: $clue-background
-
-
-  &:hover &__date
-    opacity: 1
 
   &__content-wrapper
     display: flex
@@ -68,6 +92,7 @@
     background-color: $clue-background
     border: 1px solid $point-background
     padding: 0.5rem 0.75rem
+    white-space: pre-line
 
   &__date
     opacity: 0
@@ -76,6 +101,9 @@
     order: 1
     flex-shrink: 0
     margin-left: 3rem
+
+  &:hover &__date
+    opacity: 1
 
   &__sender
     border-radius: 999em
@@ -91,6 +119,9 @@
 
   &--status &__sender
     display: none
+
+  &--status &__date
+    opacity: 1
 
   &--status &__content
     border-radius: 0.25rem
@@ -140,6 +171,8 @@
       display: block
       bottom: 1rem
 
+  // Same type of messages has smaller margins between,
+  // and only first user avatar is shown
   &--received-message + &--received-message,
   &--sender-message + &--sender-message
     margin-top: 0.5rem
@@ -147,6 +180,7 @@
     .publishment-history-item__sender
       opacity: 0
 
+  // Colors for identifying different status changes
   &--status-review-request &__content
     border-left-color: $orange
 
