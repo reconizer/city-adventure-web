@@ -60,7 +60,7 @@ export default (api) => {
       }
     },
     actions: {
-      [LOAD_PUBLISHMENT_HISTORY] ({ commit, state }, { page, adventureId }) {
+      [LOAD_PUBLISHMENT_HISTORY] ({ commit }, { page, adventureId }) {
         commit(SET_LOADING, true);
 
         if(page == 1) {
@@ -77,7 +77,7 @@ export default (api) => {
           .catch( error => commit(SET_ERROR, error));
       },
 
-      [CREATE_PUBLISHMENT_MESSAGE] ({ commit, state }, { adventureId, message }) {
+      [CREATE_PUBLISHMENT_MESSAGE] ({ commit }, { adventureId, message }) {
         commit(SET_LOADING, true);
 
         return api.publishment.sendMessage(adventureId, message)
@@ -90,7 +90,7 @@ export default (api) => {
           .catch( error => commit(SET_ERROR, error));
       },
 
-      [REQUEST_REVIEW] ({ commit, state }, { adventureId }) {
+      [REQUEST_REVIEW] ({ commit }, { adventureId }) {
         commit(SET_LOADING, true);
 
         return api.publishment.requestReview(adventureId)
@@ -104,7 +104,7 @@ export default (api) => {
           .catch( error => commit(SET_ERROR, error));
       },
 
-      [PUBLISH] ({ commit, state }, { adventureId }) {
+      [PUBLISH] ({ commit }, { adventureId }) {
         commit(SET_LOADING, true);
 
         return api.publishment.publish(adventureId)
@@ -118,7 +118,7 @@ export default (api) => {
           .catch( error => commit(SET_ERROR, error));
       },
 
-      [START_EDITING] ({ commit, state }, { adventureId }) {
+      [START_EDITING] ({ commit }, { adventureId }) {
         commit(SET_LOADING, true);
 
         return api.publishment.startEditing(adventureId)

@@ -6,8 +6,6 @@
 
       .adventure-panel__title {{ $t("adventure_publishing.title") }}
 
-    PublishingHistoryHeader
-
     .adventure-publishment__history(:class="{ 'adventure-publishment__history--with-messaging': canSendMessages }" ref="historyContainer")
       infinite-loading(direction="top" @infinite="loadDataHandler")
         // Empty slots to not display infinite loading plugin's messages and spinner
@@ -15,7 +13,12 @@
         div(slot="no-more")
         div(slot="no-results")
 
-      PublishingHistoryItem(v-for="historyItem in history" :key="historyItem.id" :historyItem="historyItem")
+      PublishingHistoryItem(
+        v-for="historyItem in history"
+        :key="historyItem.id"
+        :historyItem="historyItem"
+        :receiverType="receiverType"
+      )
 
     .adventure-publishment__form
       textarea.form-input.adventure-publishment__input(
@@ -30,23 +33,22 @@ import { mapState } from 'vuex'
 
 const ACTION_NAMESPACE = 'publishment'
 
-
 import PublishingHistoryItem from '@/components/shared/PublishingHistoryItem.vue'
-import PublishingHistoryHeader from '@/components/creator/PublishingHistoryHeader.vue'
 
 import { LOAD_PUBLISHMENT_HISTORY, CREATE_PUBLISHMENT_MESSAGE } from '@/store/action-types'
 
 import {
   ADVENTURES_PUBLISHED, ADVENTURES_PENDING,
   ADVENTURES_REJECTED, ADVENTURES_IN_REVIEW,
-  ADVENTURES_UNPUBLISHED, ADVENTURES_CANCELLED
+  ADVENTURES_UNPUBLISHED, ADVENTURES_CANCELLED,
+
+  MESSAGE_TYPE_QA
 } from '@/config'
 
 export default {
   name: 'AdventurePublishing',
   components: {
-    PublishingHistoryItem,
-    PublishingHistoryHeader
+    PublishingHistoryItem
   },
   data () {
     return {
@@ -66,6 +68,10 @@ export default {
     canSendMessages () {
       //TODO when can you send messages?
       return true;
+    },
+
+    receiverType () {
+      return MESSAGE_TYPE_QA;
     }
   },
   created () {

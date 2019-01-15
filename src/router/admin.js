@@ -19,6 +19,8 @@ import AdventureAnalyticsOverview from '@/components/shared/AdventureAnalyticsOv
 import AdventureAnalyticsUserCompletion from '@/components/shared/AdventureAnalyticsUserCompletion.vue'
 import AdventureAnalyticsUserProgress from '@/components/shared/AdventureAnalyticsUserProgress.vue'
 
+import AdventurePublishing from '@/components/admin/AdventurePublishing.vue'
+
 import {
   ADVENTURES_PUBLISHED,
   ADVENTURES_IN_REVIEW,
@@ -121,7 +123,8 @@ const router = new Router({
                 },
                 {
                   path: 'publishing',
-                  name: 'adventurePublishing'
+                  name: 'adventurePublishing',
+                  component: AdventurePublishing
                 },
                 {
                   path: 'analytics',

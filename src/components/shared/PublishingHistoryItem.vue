@@ -5,8 +5,8 @@
     .publishment-history-item__date {{ historyItemDate }}
     .publishment-history-item__content-wrapper
       .publishment-history-item__sender
-        span(v-if="isSenderComment") {{ $t("adventure_publishing.history_you") }}
-        span(v-else) {{ $t("adventure_publishing.history_qa") }}
+        span(v-if="isSenderComment") {{ yourLabel }}
+        span(v-else) {{ otherLabel }}
       .publishment-history-item__content {{ content }}
 </template>
 
@@ -28,6 +28,10 @@ export default {
     historyItem: {
       type: Object,
       default: () => {}
+    },
+    receiverType: {
+      type: String,
+      default: () => MESSAGE_TYPE_CREATOR
     }
   },
   computed: {
@@ -44,7 +48,19 @@ export default {
     },
 
     isSenderComment () {
-      return this.isComment && this.historyItem.details.from_type == MESSAGE_TYPE_CREATOR;
+      return this.isComment && this.historyItem.details.from_type == this.receiverType;
+    },
+
+    yourLabel () {
+      return this.$t("adventure_publishing.history_you");
+    },
+
+    otherLabel () {
+      if(this.receiverType == MESSAGE_TYPE_QA) {
+        return this.$t("adventure_publishing.history_author");
+      } else {
+        return this.$t("adventure_publishing.history_qa");
+      }
     },
 
     containerClass () {

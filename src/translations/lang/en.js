@@ -103,10 +103,11 @@ export default {
     history_review_request: "In Review",
     history_rejected: "Rejected",
     history_published: "Published",
-    history_accepted: "Unpublished",
+    history_accepted: "Ready to be published",
     history_cancelled: "Cancelled",
     history_back_to_edit: "Pending",
 
+    history_author: "A",
     history_qa: "QA",
     history_you: "You",
 
