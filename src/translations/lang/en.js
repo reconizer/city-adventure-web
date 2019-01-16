@@ -111,6 +111,9 @@ export default {
     history_qa: "QA",
     history_you: "You",
 
+    status: "Status",
+    change_status: "Change adventure status",
+
     input_placeholder: "Type your message...",
 
     summary_pending: 'Your adventure has not been reviewed yet.\nTo publish it, you need to submit it for review first.',

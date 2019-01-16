@@ -151,12 +151,7 @@ export default {
     },
 
     destroyPoint (point) {
-      if(confirm(this.$t("adventure.remove_puzzle_confirm"))) {
-        this.$store.dispatch(`${ACTION_NAMESPACE}/${DESTROY_POINT}`, { pointId: point.id });
-
-        // Clear map info window for this point if any are present
-        this.$root.$emit('point-removed', point.id);
-      }
+      this.$root.$emit('remove-point', point);
     }
   }
 }

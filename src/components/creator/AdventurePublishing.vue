@@ -30,7 +30,6 @@ import { mapState } from 'vuex'
 
 const ACTION_NAMESPACE = 'publishment'
 
-
 import PublishingHistoryItem from '@/components/shared/PublishingHistoryItem.vue'
 import PublishingHistoryHeader from '@/components/creator/PublishingHistoryHeader.vue'
 
@@ -70,7 +69,9 @@ export default {
   },
   created () {
     this.$root.$on('new-history-message', () => {
-      this.$refs.historyContainer.scrollTop = this.$refs.historyContainer.scrollHeight;
+      setTimeout(() => {
+        this.$refs.historyContainer.scrollTop = this.$refs.historyContainer.scrollHeight;
+      }, 0);
     });
 
     this.$store.dispatch(`${ACTION_NAMESPACE}/${LOAD_PUBLISHMENT_HISTORY}`, { adventureId: this.$route.params.adventureId });

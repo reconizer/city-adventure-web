@@ -50,6 +50,14 @@
 
     AdventureMap
 
+    Modal(v-if="removePointModalShown" @close="closeModals")
+      div(slot="header") {{ $t("adventure.remove_puzzle") }}
+
+      p {{ $t("adventure.remove_puzzle_confirm") }}
+
+      .text-center
+        a.button.button--blue(@click="destroyPoint") {{ $t("general.submit") }}
+
     router-view(:key="$route.fullPath")
 </template>
 
@@ -69,23 +77,29 @@ import {
 
 import AdventureMap from '@/components/shared/AdventureMap.vue'
 import AdventurePointList from '@/components/shared/AdventurePointList.vue'
+import Modal from '@/components/shared/Modal'
 
 import Loader from '@/views/Loader.vue'
 
 const ACTION_NAMESPACE = 'adventure'
+
+import { DESTROY_POINT } from '@/store/action-types'
 
 export default {
   name: 'Adventure',
   components: {
     AdventurePointList,
     AdventureMap,
+    Modal,
 
     Loader
   },
   data () {
     return {
       expanded: true,
-      submenu: false
+      submenu: false,
+      removePointModalShown: false,
+      currentPoint: null
     }
   },
   computed: {
@@ -122,6 +136,12 @@ export default {
     }
   },
   created () {
+    this.$root.$on('remove-point', (point) => {
+      this.currentPoint = point;
+
+      this.removePointModalShown = true;
+    });
+
     this.$store.dispatch(`${ACTION_NAMESPACE}/${LOAD_ADVENTURE}`, { id: this.$route.params.adventureId })
       .then(() => {
         if(this.$router.currentRoute.params.pointId) {
@@ -154,6 +174,32 @@ export default {
     },
     closeSubmenu () {
       this.submenu = false;
+    },
+
+    closeModals () {
+      this.removePointModalShown = false;
+    },
+
+    destroyPoint () {
+      this.$store.dispatch(`${ACTION_NAMESPACE}/${DESTROY_POINT}`, { pointId: this.currentPoint.id })
+        .then( (response) => {
+          if(this.$router.currentRoute.name == "adventurePoint" ||
+              this.$router.currentRoute.name == "adventureClue" ||
+              this.$router.currentRoute.name == "newAdventureClue") {
+
+            if(this.$router.currentRoute.params.pointId == this.currentPoint.id) {
+              setTimeout(() => {
+                this.$router.replace({ name: 'adventureMap', params: { adventureId: this.adventure.id } });
+              }, 0);
+            }
+          }
+
+          this.$root.$emit('point-removed', this.currentPoint.id);
+
+          this.currentPoint = null;
+          
+          this.closeModals();
+        });
     }
   }
 }

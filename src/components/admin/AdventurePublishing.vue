@@ -6,6 +6,8 @@
 
       .adventure-panel__title {{ $t("adventure_publishing.title") }}
 
+    PublishingHistoryHeader
+
     .adventure-publishment__history(:class="{ 'adventure-publishment__history--with-messaging': canSendMessages }" ref="historyContainer")
       infinite-loading(direction="top" @infinite="loadDataHandler")
         // Empty slots to not display infinite loading plugin's messages and spinner
@@ -34,6 +36,7 @@ import { mapState } from 'vuex'
 const ACTION_NAMESPACE = 'publishment'
 
 import PublishingHistoryItem from '@/components/shared/PublishingHistoryItem.vue'
+import PublishingHistoryHeader from '@/components/admin/PublishingHistoryHeader.vue'
 
 import { LOAD_PUBLISHMENT_HISTORY, CREATE_PUBLISHMENT_MESSAGE } from '@/store/action-types'
 
@@ -48,7 +51,8 @@ import {
 export default {
   name: 'AdventurePublishing',
   components: {
-    PublishingHistoryItem
+    PublishingHistoryItem,
+    PublishingHistoryHeader
   },
   data () {
     return {
@@ -76,7 +80,9 @@ export default {
   },
   created () {
     this.$root.$on('new-history-message', () => {
-      this.$refs.historyContainer.scrollTop = this.$refs.historyContainer.scrollHeight;
+      setTimeout(() => {
+        this.$refs.historyContainer.scrollTop = this.$refs.historyContainer.scrollHeight;
+      }, 0);
     });
 
     this.$store.dispatch(`${ACTION_NAMESPACE}/${LOAD_PUBLISHMENT_HISTORY}`, { adventureId: this.$route.params.adventureId });

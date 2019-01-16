@@ -11,7 +11,7 @@
             span(v-else) {{ $t("clue.edit_title") }}
           span(v-else) {{ $t("clue.new") }}
 
-        a.button.button--pink.adventure-panel__remove(v-if="existingClue && editable" @click="destroyClue()") {{ $t("general.remove") }}
+        a.button.button--pink.adventure-panel__remove(v-if="existingClue && editable" @click="confirmDestroy") {{ $t("general.remove") }}
 
       .row
         .col-1-2
@@ -52,6 +52,14 @@
 
           .form-control(v-if="editable")
             a.button.button--blue.button--large.button--full(@click="submit()") {{ $t("general.submit") }}
+
+      Modal(v-if="removeConfirmModalShown" @close="closeModals")
+        div(slot="header") {{ $t("general.remove") }}
+
+        p {{ $t("clue.remove_confirm") }}
+
+        .text-center
+          a.button.button--blue(@click="destroyClue") {{ $t("general.submit") }}
 </template>
 
 <script>
@@ -60,6 +68,8 @@ import { mapState, mapGetters } from 'vuex'
 import { CREATE_CLUE, UPDATE_CLUE, DESTROY_CLUE } from '@/store/action-types'
 
 import vSelect from 'vue-select'
+
+import Modal from '@/components/shared/Modal.vue'
 
 import { CLUE_TYPES } from '@/config'
 
@@ -70,6 +80,7 @@ const ACTION_NAMESPACE = 'adventure'
 export default {
   name: 'AdventureClueForm',
   components: {
+    Modal,
     vSelect
   },
   data () {
@@ -81,7 +92,8 @@ export default {
         url: null,
         description: null,
         order: 0
-      }
+      },
+      removeConfirmModalShown: false
     };
   },
   computed: {
@@ -145,6 +157,10 @@ export default {
       this.clueData.tip = value;
     },
 
+    closeModals () {
+      this.removeConfirmModalShown = false;
+    },
+
     submit () {
       let id = this.clueData.id;
       let data = this.clueData;
@@ -182,24 +198,26 @@ export default {
       }
     },
 
+    confirmDestroy () {
+      this.removeConfirmModalShown = true;
+    },
+
     destroyClue () {
-      if(this.clue.id) {
-        if(confirm(this.$t("clue.remove_confirm"))) {
-          this.$store.dispatch(`${ACTION_NAMESPACE}/${DESTROY_CLUE}`, {
-            pointId: this.$route.params.pointId,
-            clueId: this.clue.id
-          }).then( (response) => {
-            setTimeout(() => {
-              this.$router.replace({
-                name: 'adventureMap',
-                params: {
-                  adventureId: this.clue.id,
-                }
-              });
-            }, 0);
+      this.$store.dispatch(`${ACTION_NAMESPACE}/${DESTROY_CLUE}`, {
+        pointId: this.$route.params.pointId,
+        clueId: this.clue.id
+      }).then( (response) => {
+        this.removeConfirmModalShown = false;
+
+        setTimeout(() => {
+          this.$router.replace({
+            name: 'adventureMap',
+            params: {
+              adventureId: this.clue.id,
+            }
           });
-        }
-      }
+        }, 0);
+      });
     }
   }
 }

@@ -111,6 +111,9 @@ export default {
     history_qa: "QA",
     history_you: "Ty",
 
+    status: "Status",
+    change_status: "Zmień status przygody",
+
     input_placeholder: "Napisz wiadomość...",
 
     summary_pending: 'Twoja przygoda nie została jeszcze oceniona.\nAby ją opublikować, musisz wysłać ją do oceny przez zespół QA.',

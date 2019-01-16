@@ -169,21 +169,7 @@ export default {
     },
 
     destroyPuzzle () {
-      if(confirm(this.$t("adventure.remove_puzzle_confirm"))) {
-        this.$store.dispatch(`${ACTION_NAMESPACE}/${DESTROY_POINT}`, { pointId: this.pointData.id })
-          .then( (response) => {
-            if(this.$router.currentRoute.name == "adventurePoint" ||
-                this.$router.currentRoute.name == "adventureClue" ||
-                this.$router.currentRoute.name == "newAdventureClue") {
-
-              if(this.$router.currentRoute.params.pointId == this.point.id) {
-                setTimeout(() => {
-                  this.$router.replace({ name: 'adventureMap', params: { adventureId: this.adventure.id } });
-                }, 0);
-              }
-            }
-          });
-      }
+      this.$root.$emit('remove-point', this.pointData);
     },
 
     submit () {
