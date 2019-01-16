@@ -6,7 +6,7 @@
 
       .adventure-panel__title {{ $t("adventure_analytics.title") }}
 
-    .tabs.tabs--analytics
+    .tabs.tabs--simple
       router-link.tabs__item(
         exact-active-class="tabs__item--active"
         :to="{ name: 'adventureAnalytics', params: { adventureId: adventure.id } }"

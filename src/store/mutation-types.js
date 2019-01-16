@@ -1,15 +1,20 @@
-//General
+/**
+ * GENERAL
+ */
 export const SET_LOADING = "setLoading";
-
 export const SET_ERROR = "setError";
 
-//Authentication
+/**
+ * AUTHENTICATION
+ */
 export const STORE_USER = "storeUser";
 export const REMOVE_USER = "removeUser";
 
 export const LOGIN_ERROR = "loginError";
 
-//Adventures
+/**
+ * ADVENTURES
+ */
 export const SET_ADVENTURES = "setAdventures";
 export const CLEAR_NEW_ADVENTURE = "clearNewAdventure";
 
@@ -30,7 +35,9 @@ export const SET_CLUE = "setClue";
 export const ADD_CLUE = "addClue";
 export const REMOVE_CLUE = "removeClue";
 
-//Analytics
+/**
+ * ANALYTICS
+ */
 export const CLEAR_OVERVIEW = "clearOverview";
 export const SET_OVERVIEW_SUMMARY = "setOverviewSummary";
 export const SET_OVERVIEW_PURCHASES = "setOverviewPurchases";
@@ -47,3 +54,18 @@ export const SET_USER_PROGRESS_RANKINGS = "setUserProgressRankings";
 export const SET_USER_PROGRESS_TIP_USAGE = "setUserProgressTipUsage";
 export const SET_USER_PROGRESS_TIME_SPENT_PER_POINT = "setUserProgressTimeSpentPerPoint";
 export const SET_USER_PROGRESS_WRONG_ENTRIES = "setUserProgressWrongEntries";
+
+/**
+ * PUBLISHMENT
+ */
+export const CLEAR_PUBLISHMENT_HISTORY = "clearPublishmentHistory";
+export const ADD_PUBLISHMENT_HISTORY = "setPublishmentHistory";
+export const ADD_MESSAGE = "addMessage";
+export const SET_ADVENTURE_STATUS = "setAdventureStatus";
+
+/**
+ * ADMIN
+ */
+export const SET_TYPE = "setType";
+export const SET_COUNTERS = "setCounters";
+export const SET_TOTAL_PAGES = "setTotalPages";

@@ -19,6 +19,10 @@
   img
     max-width: 15rem
     object-fit: cover
+    transition: opacity 0.3s ease-in-out
+
+    &.v-enter, &.v-leave-active
+      opacity: 0
 
 .puzzle-component-filler
   min-height: 5rem

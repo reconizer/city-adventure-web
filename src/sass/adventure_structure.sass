@@ -54,11 +54,28 @@
 
   &__label
     border-radius: 999em
-    background-color: $green
     padding: 0.25rem 0.5rem
     font-size: 0.875rem
     color: $white
     flex-shrink: 0
+
+    &, &:hover, &:focus
+      text-decoration: none
+    
+    &--published
+      background-color: $green
+
+    &--in-review
+      background-color: $orange
+
+    &--pending
+      background-color: $black
+
+    &--unpublished
+      background-color: $green
+
+    &--rejected, &--cancelled
+      background-color: $red
 
   &__edit
     flex-shrink: 0
@@ -142,7 +159,7 @@
     left: 1.25rem
     z-index: $z-index-adventure-line
 
-  &--published &__line
+  &--non-editable &__line
     bottom: 2rem
 
 .adventure-point-wrapper
