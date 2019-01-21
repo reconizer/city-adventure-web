@@ -18,13 +18,6 @@ export function pad(num, length) {
   return str;
 }
 
-export const codeToArrowUnicode = {
-  37: '←',
-  38: '↑',
-  39: '→',
-  40: '↓'
-}
-
 export const arrowUnicodeToChar = {
   '←': 'l',
   '↑': 'u',

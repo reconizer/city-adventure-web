@@ -16,6 +16,8 @@
 
     .form-control
       input.button.button--blue.button--full(type="submit" :value="$t('general.submit')")
+
+    Loader(v-if="loading")
 </template>
 
 <script>
@@ -23,10 +25,15 @@ import { LOGIN, LOGOUT } from '@/store/action-types'
 
 import { mapState } from 'vuex'
 
+import Loader from '@/views/Loader.vue'
+
 const ACTION_NAMESPACE = 'authentication'
 
 export default {
   name: 'LoginForm',
+  components: {
+    Loader
+  },
   data: () => {
     return {
       user: { }
@@ -34,8 +41,10 @@ export default {
   },
   computed: {
     ...mapState({
-      error: state => state.authentication.status.error
+      error: state => state.authentication.error,
+      loading: state => state.authentication.loading
     }),
+
     title () {
       if(this.$appType == "creator") {
         return this.$t("login.title_creator");

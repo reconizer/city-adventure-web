@@ -1,15 +1,11 @@
 import axios from 'axios';
 
-import { LOGIN_ERROR, STORE_USER, REMOVE_USER } from '@/store/mutation-types';
+import { STORE_USER, REMOVE_USER, SET_ERROR, SET_LOADING } from '@/store/mutation-types';
 import { LOGIN, LOGOUT } from '@/store/action-types';
 
 import { authHeader } from '@/utils';
 
 const user = JSON.parse(localStorage.getItem('user'));
-
-const initialState = user
-  ? { status: { loggedIn: true, error: null }, user }
-  : { status: { loggedIn: false, error: null }, user: null };
 
 if(user && user.token) {
   axios.defaults.headers.common['Authorization'] = authHeader();
@@ -18,26 +14,44 @@ if(user && user.token) {
 export default (api) => {
   return {
     namespaced: true,
-    state: initialState,
+    state: {
+      user: user || null,
+      loggedIn: user ? true : false,
+
+      loading: false,
+      error: null
+    },
     mutations: {
       [STORE_USER] (state, user) {
-        state.status = { loggedIn: true };
-        state.status.error = null;
+        state.loggedIn = true;
+
         state.user = user;
+        state.error = null;
       },
 
       [REMOVE_USER] (state) {
-        state.status.loggedIn = false;
-        state.status.error = null;
+        state.loggedIn = false;
+
+        state.error = null;
         state.user = null;
       },
 
-      [LOGIN_ERROR] (state, error) {
-        state.status.error = error;
+      /**
+       * GENERAL
+       */
+      [SET_LOADING] (state, loading) {
+        state.loading = loading;
+      },
+
+      [SET_ERROR] (state, error) {
+        console.log(error);
+        state.error = error;
       }
     },
     actions: {
       [LOGIN] ({ commit }, { email, password }) {
+        commit(SET_LOADING, true);
+
         return api.authentication.login(email, password)
           .then( response => {
             commit(STORE_USER, response.data);
@@ -46,10 +60,12 @@ export default (api) => {
 
             axios.defaults.headers.common['Authorization'] = authHeader();
 
+            commit(SET_LOADING, false);
+
             return response;
           })
           .catch( error => {
-            commit(LOGIN_ERROR, error);
+            commit(SET_ERROR, error);
           });
       },
 

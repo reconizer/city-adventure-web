@@ -62,6 +62,7 @@ export default {
     difficulty: "Difficulty",
     adventure_hidden: "Hidden",
     adventure_hidden_explanation: "Hidden adventures are only available via secret codes and not visible on map by default",
+    editing_disabled: "Editing Disabled",
 
     start: "Start",
     reposition: "Reposition",

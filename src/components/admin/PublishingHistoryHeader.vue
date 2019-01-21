@@ -101,6 +101,10 @@ export default {
     },
 
     confirmStatusChange () {
+      if(this.status == this.adventure.status) {
+        return;
+      }
+
       let action = '';
 
       switch(this.status) {

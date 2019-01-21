@@ -41,6 +41,17 @@
       left: 50%
       margin-left: -0.25rem
 
+    &--bottom
+      top: auto
+      bottom: -0.5rem
+      transform: translate(-50%, 100%)
+
+      &:after
+        bottom: auto
+        top: -0.25rem
+        border-top: none
+        border-bottom: 0.25rem solid $black
+
   &:hover &__tooltip-wrapper
     display: block
 

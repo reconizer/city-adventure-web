@@ -43,7 +43,7 @@ export default (api) => {
     },
     getters: {
       startingPoint: (state) => {
-        return state.points[0];
+        return state.points[0] || null;
       },
       puzzlePoints: (state) => {
         return state.points.filter((element, index) => {

@@ -13,7 +13,11 @@
           :to="{ name: 'adventurePublishing', params: { adventureId: adventure.id } }"
           v-if="adventure.id"
           :class="labelClass"
-        ) {{ publishedLabel }}
+        )
+          span {{ publishedLabel }}
+          .icon.icon--sm.icon--lock-white.icon--pad-left(v-if="!editable")
+            .icon__tooltip-wrapper.icon__tooltip-wrapper--bottom
+              .icon__tooltip {{ $t("adventure.editing_disabled") }}
 
         .adventure-structure__edit(
           v-if="adventure.id"

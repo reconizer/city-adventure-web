@@ -62,6 +62,7 @@ export default {
     difficulty: "Trudność",
     adventure_hidden: "Ukryta",
     adventure_hidden_explanation: "Ukryte przygody będą dostępne jedynie poprzez sekretny kod i nie będą domyślnie widoczne na mapie",
+    editing_disabled: "Edycja Zablokowana",
 
     start: "Start",
     reposition: "Znajdź punkty", //TODO shitty text
@@ -269,6 +270,6 @@ export default {
 
     around: "Około {value}",
 
-    i_understand_confirm: "OK, zrozumiałem"
+    i_understand_confirm: "OK, rozumiem"
   }
 }
