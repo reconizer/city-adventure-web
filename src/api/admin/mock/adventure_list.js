@@ -56,7 +56,7 @@ export default (status, page, query, sort) => new Promise((resolve) => {
         name: `Adventure #${id}`,
         cover_url: "http://placehold.it/400x400",
         status: status,
-        hidden: Math.random() > 0.7 ? true : false,
+        shown: Math.random() > 0.7 ? false : true,
         rating: Math.round(rating * 100 + Number.EPSILON) / 100,
         published_at: +new Date()
       });

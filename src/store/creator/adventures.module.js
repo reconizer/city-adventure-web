@@ -27,6 +27,7 @@ export default {
   actions: {
     [LOAD_ADVENTURES] ({ commit }, { page }) {
       commit(SET_LOADING, true);
+      commit(SET_ERROR, null);
 
       return api.creator.adventures.loadAdventures(page)
         .then( response => {
@@ -36,7 +37,10 @@ export default {
           return response;
         })
         .catch( error => {
-          commit(SET_ERROR, error);
+          commit(SET_ERROR, error.response.data);
+          commit(SET_LOADING, false);
+
+          throw error;
         });
     },
 
@@ -47,13 +51,13 @@ export default {
         .then( response => {
           commit(SET_LOADING, false);
 
-          localStorage.setItem(`${response.data.id}-name`, response.data.adventure.name);
-          localStorage.setItem(`${response.data.id}-point`, JSON.stringify(response.data.startingPointPosition));
-
           return response;
         })
         .catch( error => {
-          commit(SET_ERROR, error);
+          commit(SET_ERROR, error.response.data);
+          commit(SET_LOADING, false);
+
+          throw error;
         });
     }
   }

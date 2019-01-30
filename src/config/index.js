@@ -124,10 +124,10 @@ export const TIME_CONSTRAINT_OPTIONS = {
 }
 
 export const ADVENTURE_DURATION_OPTIONS = {
-  //In minutes
-  MIN: 30,
-  MAX: 6 * 60,
-  INTERVAL: 15
+  //In seconds because API...
+  MIN: 30 * 60,
+  MAX: 6 * 60 * 60,
+  INTERVAL: 15 * 60
 }
 
 export const DIFFICULTY_LEVELS = [ 1, 2, 3 ]

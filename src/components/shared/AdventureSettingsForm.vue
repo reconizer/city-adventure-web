@@ -60,8 +60,8 @@
                   .icon__tooltip {{ $t("adventure.adventure_hidden_explanation") }}
             .col-1-3
               .form-checkbox.form-checkbox--small(
-                :class="{ 'form-checkbox--active': adventure.hidden, 'form-checkbox--disabled': !editable }" 
-                @click="updateHidden(!adventure.hidden)"
+                :class="{ 'form-checkbox--active': !adventure.shown, 'form-checkbox--disabled': !editable }" 
+                @click="updateShown(!adventure.shown)"
               )
                 .form-checkbox__toggle
 
@@ -148,7 +148,7 @@ export default {
         //eslint-disable-next-line
         this.adventureData = cloneDeep(adventure);
 
-        if(adventure.duration.min == null || adventure.duration.max == null) {
+        if(adventure.duration == null) {
           //eslint-disable-next-line
           this.specifiedDuration = false;
         }
@@ -193,11 +193,11 @@ export default {
   },
   methods: {
     formatSliderLabel (value) {
-      if(value < 60) {
-        return `${value}min`;
+      if(value < 3600) {
+        return `${value / 60}min`;
       } else {
-        let minutes = value % 60;
-        let hours = Math.floor(value / 60);
+        let minutes = (value % 3600) / 60;
+        let hours = Math.floor(value / 3600);
 
         if(minutes == 0) {
           return `${hours}h`;
@@ -226,21 +226,23 @@ export default {
       this.specifiedDuration = value;
 
       if(this.specifiedDuration) {
-        if(this.adventureData.duration.min == null || this.adventureData.duration.max == null) {
+        if(this.adventureData.duration == null) {
           this.adventureData.duration = {
             min: ADVENTURE_DURATION_OPTIONS.MIN,
-            max: Math.min(ADVENTURE_DURATION_OPTIONS.MIN + 60, ADVENTURE_DURATION_OPTIONS.MAX)
+            max: Math.min(ADVENTURE_DURATION_OPTIONS.MIN + ADVENTURE_DURATION_OPTIONS.INTERVAL, ADVENTURE_DURATION_OPTIONS.MAX)
           }
         }
+      } else {
+        this.adventureData.duration = null;
       }
     },
 
-    updateHidden (value) {
+    updateShown (value) {
       if(!this.editable) {
         return;
       }
 
-      this.adventureData.hidden = value;
+      this.adventureData.shown = value;
     },
 
     updateList () {
@@ -251,11 +253,6 @@ export default {
 
     submit () {
       let params = cloneDeep(this.adventureData);
-
-      if(!this.specifiedDuration) {
-        params.duration.min = null;
-        params.duration.max = null;
-      }
 
       this.$store.dispatch(`${ACTION_NAMESPACE}/${UPDATE_ADVENTURE}`, {
         params: params

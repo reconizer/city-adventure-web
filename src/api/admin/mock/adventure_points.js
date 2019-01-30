@@ -14,7 +14,7 @@ export default (adventureId) => new Promise((resolve) => {
             parent_id: null,
             position: startingPos,
             radius: 50,
-            hidden: false,
+            shown: true,
             clues: [],
             answers: []
           }
@@ -32,7 +32,7 @@ export default (adventureId) => new Promise((resolve) => {
               lng: 18.60216
             },
             radius: 50,
-            hidden: false,
+            shown: true,
             clues: [
               {
                 id: 1,
@@ -44,7 +44,8 @@ export default (adventureId) => new Promise((resolve) => {
                 description: "Taniec Eleny"
               }
             ],
-            answers: []
+            time_answer: null,
+            password_answer: null
           },
           //Fontanna
           {
@@ -55,7 +56,7 @@ export default (adventureId) => new Promise((resolve) => {
               lng: 18.59991
             },
             radius: 20,
-            hidden: false,
+            shown: true,
             clues: [
               {
                 id: 2,
@@ -67,16 +68,11 @@ export default (adventureId) => new Promise((resolve) => {
                 description: "Odpowiedzi szukaj u Psa, Smoka i Kury bez Głowy"
               }
             ],
-            answers: [
-              {
-                id: 1,
-                type: "password",
-                details: {
-                  password_type: "text",
-                  password: "Taniec Eleny"
-                }
-              }
-            ]
+            time_answer: null,
+            password_answer: {
+              type: "text",
+              password: "Taniec Eleny"
+            }
           },
           //Filutek
           {
@@ -87,7 +83,7 @@ export default (adventureId) => new Promise((resolve) => {
               lng: 18.6045
             },
             radius: 20,
-            hidden: true,
+            shown: false,
             clues: [
               {
                 id: 3,
@@ -99,7 +95,8 @@ export default (adventureId) => new Promise((resolve) => {
                 description: null
               }
             ],
-            answers: []
+            time_answer: null,
+            password_answer: null
           },
           //Smok
           {
@@ -110,7 +107,7 @@ export default (adventureId) => new Promise((resolve) => {
               lng: 18.60881
             },
             radius: 20,
-            hidden: true,
+            shown: false,
             clues: [
               {
                 id: 4,
@@ -122,7 +119,8 @@ export default (adventureId) => new Promise((resolve) => {
                 description: null
               }
             ],
-            answers: []
+            time_answer: null,
+            password_answer: null
           },
           //Kura
           {
@@ -133,7 +131,7 @@ export default (adventureId) => new Promise((resolve) => {
               lng: 18.60433
             },
             radius: 20,
-            hidden: true,
+            shown: false,
             clues: [
               {
                 id: 5,
@@ -145,7 +143,8 @@ export default (adventureId) => new Promise((resolve) => {
                 description: null
               }
             ],
-            answers: []
+            time_answer: null,
+            password_answer: null
           },
           //Kopernik
           {
@@ -156,7 +155,7 @@ export default (adventureId) => new Promise((resolve) => {
               lng: 18.60496
             },
             radius: 20,
-            hidden: false,
+            shown: true,
             clues: [
               {
                 id: 6,
@@ -177,16 +176,11 @@ export default (adventureId) => new Promise((resolve) => {
                 description: null
               }
             ],
-            answers: [
-              {
-                id: 2,
-                type: "password",
-                details: {
-                  password_type: "text",
-                  password: "De revolutionibus orbium coelestium"
-                }
-              }
-            ]
+            time_answer: null,
+            password_answer: {
+              type: "text",
+              password: "De revolutionibus orbium coelestium"
+            }
           },
           // Brama Mostowa
           {
@@ -197,18 +191,13 @@ export default (adventureId) => new Promise((resolve) => {
               lng: 18.60891
             },
             radius: 20,
-            hidden: true,
+            shown: false,
             clues: [],
-            answers: [
-              {
-                id: 7,
-                type: "time",
-                details: {
-                  starting_time: 19 * 60 * 60 + 15 * 60, //seconds in day
-                  duration: 15 * 60 //in seconds
-                }
-              }
-            ]
+            time_answer: {
+              start_time: 19 * 60 * 60 + 15 * 60, //seconds in day
+              duration: 15 * 60 //in seconds
+            },
+            password_answer: null
           }
         ]
       };

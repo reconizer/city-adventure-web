@@ -1,5 +1,5 @@
 <template lang="pug">
-  .adventure-panel
+  .adventure-panel.adventure-panel--scrollable
     .adventure-panel__inner(v-if="adventure.id")
       .adventure-panel__header
         router-link.button.button--icon(:to="{ name: 'adventureMap', params: { adventureId: adventure.id } }")
@@ -15,7 +15,7 @@
 
       .row
         .col-1-2
-          .form-control
+          .form-control(v-if="!existingClue")
             .form-label {{ $t("clue.type") }}
             v-select(
               :placeholder="$t('clue.type')" 
@@ -24,6 +24,10 @@
               :options="clueTypes" 
               :disabled="!editable"
               @input="updateType($event)")
+
+          .form-control(v-else="clue.type == 'image' || clue.type == 'video'")
+            img.clue-preview(v-if="clue.type == 'image'" :src="clue.url")
+            div(v-if="clue.type == 'video'") video preview
 
           .form-control
             .row.row--align-center
@@ -40,13 +44,13 @@
                 )
                   .form-checkbox__toggle
 
-          .form-control(v-if="clue.type != 'image'")
+          .form-control
             .form-label.form-label--required(v-if="clue.type == 'text'") {{ $t("clue.content") }}
             .form-label(v-else) {{ $t("general.description") }}
             textarea.form-input(v-model="clue.description" :disabled="!editable")
 
           //TODO file upload
-          .form-control(v-if="clue.type != 'text'")
+          .form-control(v-if="clue.type != 'text' && !existingClue")
             .form-label.form-label--required {{ $t("clue.url") }}
             input.form-input(v-model="clue.url" :disabled="!editable")
 

@@ -123,10 +123,10 @@ export default {
       if(this.index == 0) {
         img.url = startMarker;
       } else {
-        if(this.point.hidden) {
-          img.url = hiddenMarker;
-        } else {
+        if(this.point.shown) {
           img.url = defaultMarker;
+        } else {
+          img.url = hiddenMarker;
         }
       }
 

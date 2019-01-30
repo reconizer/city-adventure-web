@@ -207,8 +207,8 @@ export default {
       }
 
       let params = {
-        adventure: this.adventure,
-        startingPointPosition: this.startingPointPosition
+        name: this.adventure.name,
+        position: this.startingPointPosition
       };
 
       this.$store.dispatch(`${ACTION_NAMESPACE}/${CREATE_ADVENTURE}`, { params }).then((response) => {

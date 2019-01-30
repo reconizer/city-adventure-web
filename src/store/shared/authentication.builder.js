@@ -44,19 +44,24 @@ export default (api) => {
       },
 
       [SET_ERROR] (state, error) {
-        console.log(error);
         state.error = error;
       }
     },
     actions: {
       [LOGIN] ({ commit }, { email, password }) {
         commit(SET_LOADING, true);
+        commit(SET_ERROR, null);
 
         return api.authentication.login(email, password)
           .then( response => {
-            commit(STORE_USER, response.data);
+            let user = {
+              email: email,
+              token: response.data.token
+            }
 
-            localStorage.setItem('user', JSON.stringify(response.data));
+            commit(STORE_USER, user);
+
+            localStorage.setItem('user', JSON.stringify(user));
 
             axios.defaults.headers.common['Authorization'] = authHeader();
 
@@ -65,16 +70,34 @@ export default (api) => {
             return response;
           })
           .catch( error => {
-            commit(SET_ERROR, error);
+            commit(SET_ERROR, error.response.data);
+            commit(SET_LOADING, false);
+
+            throw error;
           });
       },
 
       [LOGOUT] ({ commit }) {
-        commit(REMOVE_USER);
+        commit(SET_LOADING, true);
 
-        localStorage.removeItem('user');
+        return api.authentication.logout()
+          .then( response => {
+            commit(REMOVE_USER);
 
-        delete axios.defaults.headers.common['Authorization'];
+            localStorage.removeItem('user');
+
+            delete axios.defaults.headers.common['Authorization'];
+
+            commit(SET_LOADING, false);
+
+            return response;
+          })
+          .catch( error => {
+            commit(SET_ERROR, error);
+            commit(SET_LOADING, false);
+
+            throw error;
+          });
       }
     }
   }

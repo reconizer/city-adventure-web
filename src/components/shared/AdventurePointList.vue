@@ -41,10 +41,10 @@
               exact-active-class="adventure-point__name--active"
             )
               span {{ pointIndex + 1 }}
-              .icon.icon--eye-inactive.icon--pad-left(v-if="point.hidden")
+              .icon.icon--eye-inactive.icon--pad-left(v-if="!point.shown")
                 .icon__tooltip-wrapper
                   .icon__tooltip {{ $t("adventure.hidden") }}
-              .icon.icon--eye.icon--pad-left(v-if="!point.hidden")
+              .icon.icon--eye.icon--pad-left(v-if="point.shown")
                 .icon__tooltip-wrapper
                   .icon__tooltip {{ $t("adventure.visible") }}
               .icon.icon--lock-white.icon--pad-left(v-if="hasPassword(point)")
@@ -132,14 +132,10 @@ export default {
       return `point-${point.id}`;
     },
     hasPassword (point) {
-      return point.answers.filter((el) => {
-        return el.type == "password"
-      }).length > 0;
+      return point.password_answer;
     },
     hasTimeConstraint (point) {
-      return point.answers.filter((el) => {
-        return el.type == "time"
-      }).length > 0;
+      return point.time_answer;
     },
     goToPoint (point) {
       // Handle map centering in AdventureMap component

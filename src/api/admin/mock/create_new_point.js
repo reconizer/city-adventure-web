@@ -9,7 +9,7 @@ export default (adventureId, parentId, lat, lng) => new Promise((resolve) => {
           lng: lng
         },
         radius: 20,
-        hidden: false,
+        shown: true,
         clues: [],
         answers: []
       }

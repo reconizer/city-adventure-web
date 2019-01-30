@@ -15,7 +15,7 @@
           .form-label {{ $t("adventure_point.start_time") }}
           .slider-wrapper.slider-wrapper--padded
             vue-slider(
-              v-model="timeAnswer.details.starting_time"
+              v-model="timeAnswer.start_time"
               v-bind="startingTimeSliderOptions"
             )
 
@@ -24,7 +24,7 @@
           .form-label {{ $t("adventure_point.end_time") }}
           .slider-wrapper.slider-wrapper--padded
             vue-slider(
-              v-model="timeAnswer.details.duration"
+              v-model="timeAnswer.duration"
               v-bind="durationSliderOptions"
             )
 
@@ -86,7 +86,7 @@ export default {
         interval: TIME_CONSTRAINT_OPTIONS.INTERVAL,
         disabled: !this.editable,
         formatter: (value) => {
-          let current = this.timeAnswer.details.starting_time + value;
+          let current = this.timeAnswer.start_time + value;
 
           let hour = Math.floor(current / 3600) % 24;
           let minutes = (current % 3600) / TIME_CONSTRAINT_OPTIONS.INTERVAL * (TIME_CONSTRAINT_OPTIONS.INTERVAL / 60);

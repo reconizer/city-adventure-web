@@ -19,7 +19,7 @@
             .icon__tooltip-wrapper.icon__tooltip-wrapper--bottom
               .icon__tooltip {{ $t("adventure.editing_disabled") }}
 
-        .adventure-structure__edit(
+        .adventure-structure__menu-toggle(
           v-if="adventure.id"
           @click="openSubmenu"
         )

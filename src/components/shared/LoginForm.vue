@@ -2,15 +2,15 @@
   form.login(@submit.prevent="handleSubmit")
     .login__header {{ $t("login.title") }}
 
-    .form-control(v-if="error") {{ error }}
-
-    .form-control
+    .form-control(:class="{ 'form-control--with-error': error && error.email }")
       label.form-label.form-label--required {{ $t("login.email") }}
+      label.error-label(v-if="error && error.email") {{ error.email.join(', ') }}
 
       input.form-input(v-model="user.email" type="email" name="user[email]" :placeholder="$t('login.email_placeholder')" required="true" autocomplete="off")
 
-    .form-control
+    .form-control(:class="{ 'form-control--with-error': error && error.password }")
       label.form-label.form-label--required {{ $t("login.password") }}
+      label.error-label(v-if="error && error.password") {{ error.password.join(', ') }}
 
       input.form-input(v-model="user.password" type="password" name="user[password]" :placeholder="$t('login.password_placeholder')" required="true" autocomplete="off")
 
@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { LOGIN, LOGOUT } from '@/store/action-types'
+import { LOGIN } from '@/store/action-types'
 
 import { mapState } from 'vuex'
 
@@ -52,9 +52,6 @@ export default {
         return this.$t("login.title_admin");
       }
     }
-  },
-  created () {
-    this.$store.dispatch(`${ACTION_NAMESPACE}/${LOGOUT}`);
   },
   methods: {
     handleSubmit () {

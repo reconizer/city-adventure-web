@@ -30,7 +30,7 @@
             .adventure-point-clue__content {{ clue.description }}
 
           .adventure-point-clue__text(v-else-if="clue.type == 'audio'")
-            .icon.icon--audio.icon--pad-right
+            .icon.icon--audio.icon--pad-right.icon--align-start
               .icon__tooltip-wrapper
                 .icon__tooltip {{ $t("adventure.audio_clue") }}
 
@@ -106,24 +106,24 @@ export default {
           };
         });
 
-        let currentRoute = this.$router.currentRoute;
-
-        //If user drags and drops clue which has currently opened form - fix url so we operate on real objects still
-
-        if(currentRoute.name == "adventureClue" && evt.added && evt.added.element.id == currentRoute.params.clueId) {
-          this.$router.replace({
-            name: currentRoute.name,
-            params: {
-              adventureId: currentRoute.params.adventureId,
-              clueId: currentRoute.params.clueId,
-              pointId: this.point.id
-            }
-          });
-        }
-
         let payload = { clues };
 
-        this.$store.dispatch(`${ACTION_NAMESPACE}/${UPDATE_CLUES}`, { payload });
+        this.$store.dispatch(`${ACTION_NAMESPACE}/${UPDATE_CLUES}`, { payload }).then( () => {
+          let currentRoute = this.$router.currentRoute;
+
+          //If user drags and drops clue which has currently opened form - fix url so we operate on real objects still
+
+          if(currentRoute.name == "adventureClue" && evt.added && evt.added.element.id == currentRoute.params.clueId) {
+            this.$router.replace({
+              name: currentRoute.name,
+              params: {
+                adventureId: currentRoute.params.adventureId,
+                clueId: currentRoute.params.clueId,
+                pointId: this.point.id
+              }
+            });
+          }
+        });
       }
     }
   }
