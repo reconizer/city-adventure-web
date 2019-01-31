@@ -10,7 +10,8 @@ import AccountSettings from '@/components/shared/AccountSettings.vue'
 import Adventure from '@/components/shared/Adventure.vue'
 import AdventureSettings from '@/views/AdventureSettings.vue'
 import AdventureSettingsForm from '@/components/shared/AdventureSettingsForm.vue'
-import AdventureClueForm from '@/components/shared/AdventureClueForm.vue'
+import AdventureClueCreateForm from '@/components/shared/AdventureClueCreateForm.vue'
+import AdventureClueEditForm from '@/components/shared/AdventureClueEditForm.vue'
 import AdventurePointForm from '@/components/shared/AdventurePointForm.vue'
 
 import AdventureAnalytics from '@/views/AdventureAnalytics.vue'
@@ -103,12 +104,12 @@ const router = new Router({
             {
               path: 'points/:pointId/clues/new',
               name: 'newAdventureClue',
-              component: AdventureClueForm
+              component: AdventureClueCreateForm
             },
             {
               path: 'points/:pointId/clues/:clueId',
               name: 'adventureClue',
-              component: AdventureClueForm
+              component: AdventureClueEditForm
             }
           ]
         }

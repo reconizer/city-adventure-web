@@ -6,26 +6,14 @@
           .icon.icon--back
 
         .adventure-panel__title
-          span(v-if="existingClue")
-            span(v-if="!editable") {{ $t("clue.show_title") }}
-            span(v-else) {{ $t("clue.edit_title") }}
-          span(v-else) {{ $t("clue.new") }}
+          span(v-if="!editable") {{ $t("clue.show_title") }}
+          span(v-else) {{ $t("clue.edit_title") }}
 
-        a.button.button--pink.adventure-panel__remove(v-if="existingClue && editable" @click="confirmDestroy") {{ $t("general.remove") }}
+        a.button.button--pink.adventure-panel__remove(v-if="editable" @click="confirmDestroy") {{ $t("general.remove") }}
 
       .row
         .col-1-2
-          .form-control(v-if="!existingClue")
-            .form-label {{ $t("clue.type") }}
-            v-select(
-              :placeholder="$t('clue.type')" 
-              :clearable="false" 
-              :value="clueType" 
-              :options="clueTypes" 
-              :disabled="!editable"
-              @input="updateType($event)")
-
-          .form-control(v-else="clue.type == 'image' || clue.type == 'video'")
+          .form-control(v-if="clue.type == 'image' || clue.type == 'video'")
             img.clue-preview(v-if="clue.type == 'image'" :src="clue.url")
             div(v-if="clue.type == 'video'") video preview
 
@@ -44,14 +32,22 @@
                 )
                   .form-checkbox__toggle
 
-          .form-control
+          .form-control(:class="{ 'form-control--with-error': error && error.description }")
             .form-label.form-label--required(v-if="clue.type == 'text'") {{ $t("clue.content") }}
             .form-label(v-else) {{ $t("general.description") }}
+
+            label.error-label(v-if="error && error.description") {{ error.description.join(', ') }}
+
+
             textarea.form-input(v-model="clue.description" :disabled="!editable")
 
           //TODO file upload
-          .form-control(v-if="clue.type != 'text' && !existingClue")
+          .form-control(:class="{ 'form-control--with-error': error && error.url }" v-if="clue.type == 'url'")
             .form-label.form-label--required {{ $t("clue.url") }}
+
+            label.error-label(v-if="error && error.url") {{ error.url.join(', ') }}
+
+
             input.form-input(v-model="clue.url" :disabled="!editable")
 
           .form-control(v-if="editable")
@@ -69,7 +65,8 @@
 <script>
 import { mapState, mapGetters } from 'vuex'
 
-import { CREATE_CLUE, UPDATE_CLUE, DESTROY_CLUE } from '@/store/action-types'
+import { UPDATE_CLUE, DESTROY_CLUE } from '@/store/action-types'
+import { SET_ERROR } from '@/store/mutation-types'
 
 import vSelect from 'vue-select'
 
@@ -105,7 +102,7 @@ export default {
       adventure: state => state.adventure.item,
 
       loading: state => state.adventure.loading,
-      error: state => state.adventure.error
+      error: state => state.adventure.errors[UPDATE_CLUE]
     }),
     ...mapGetters('adventure', {
       editable: 'editable'
@@ -137,12 +134,11 @@ export default {
     },
     clueType () {
       return this.clueTypes.find(clueType => clueType.value == this.clue.type);
-    },
-    existingClue () {
-      return this.clue.id != null;
     }
   },
   mounted () {
+    this.$store.commit(`${ACTION_NAMESPACE}/${SET_ERROR}`, { key: UPDATE_CLUE, error: null });
+
     if(this.adventure.id && !this.loading) {
       if(!this.point || (this.$route.params.clueId && !this.clue.id)) {
         this.$router.replace({ name: 'adventureMap', params: { adventureId: this.adventure.id } });
@@ -170,36 +166,13 @@ export default {
       let data = this.clueData;
 
       delete data['id'];
+      delete data['order']; //no need to set order in currently edited clue
 
-      if(id) {
-        delete data['order']; //no need to set order in currently edited clue
-
-        this.$store.dispatch(`${ACTION_NAMESPACE}/${UPDATE_CLUE}`, {
-          pointId: this.$route.params.pointId,
-          clueId: id,
-          data: data
-        });
-      } else {
-        let point = this.$store.state.adventure.points.find(point => point.id == this.$route.params.pointId);
-
-        data.order = point.clues.length
-
-        this.$store.dispatch(`${ACTION_NAMESPACE}/${CREATE_CLUE}`, {
-          pointId: this.$route.params.pointId,
-          data: data
-        }).then( (response) => {
-          setTimeout(() => {
-            this.$router.replace({
-              name: 'adventureClue',
-              params: {
-                adventureId: this.adventure.id,
-                pointId: this.point.id,
-                clueId: response.data.id
-              }
-            });
-          }, 0);
-        });
-      }
+      this.$store.dispatch(`${ACTION_NAMESPACE}/${UPDATE_CLUE}`, {
+        pointId: this.$route.params.pointId,
+        clueId: id,
+        data: data
+      });
     },
 
     confirmDestroy () {

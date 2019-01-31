@@ -39,7 +39,15 @@ export default (api) => {
       history: [],
 
       loading: false,
-      error: null
+      errors: {
+        [LOAD_ADVENTURE]: null, [UPDATE_ADVENTURE]: null,
+
+        [UPDATE_POINT]: null, [CREATE_POINT]: null,
+        [DESTROY_POINT]: null, [UPDATE_POINTS]: null,
+
+        [UPDATE_CLUE]: null, [CREATE_CLUE]: null,
+        [DESTROY_CLUE]: null, [UPDATE_CLUES]: null
+      }
     },
     getters: {
       startingPoint: (state) => {
@@ -192,8 +200,8 @@ export default (api) => {
         state.loading = loading;
       },
 
-      [SET_ERROR] (state, error) {
-        state.error = error;
+      [SET_ERROR] (state, { key, error }) {
+        state.errors[key] = error;
       }
     },
     actions: {
@@ -218,7 +226,7 @@ export default (api) => {
             return values;
           })
           .catch( error => {
-            commit(SET_ERROR, error.response.data);
+            commit(SET_ERROR, { key: LOAD_ADVENTURE, error: error.response.data });
             commit(SET_LOADING, false);
 
             throw error;
@@ -227,6 +235,7 @@ export default (api) => {
 
       [UPDATE_ADVENTURE] ({ commit, state, dispatch }, { params }) {
         commit(SET_LOADING, true);
+        commit(SET_ERROR, { key: UPDATE_ADVENTURE, error: null });
 
         return api.adventures.updateAdventure(state.item.id, params)
           .then( response => {
@@ -239,7 +248,7 @@ export default (api) => {
             return response;
           })
           .catch( error => {
-            commit(SET_ERROR, error.response.data)
+            commit(SET_ERROR, { key: UPDATE_ADVENTURE, error: error.response.data })
             commit(SET_LOADING, false);
 
             throw error;
@@ -261,7 +270,7 @@ export default (api) => {
             return response;
           })
           .catch( error => {
-            commit(SET_ERROR, error.response.data);
+            commit(SET_ERROR, { key: CREATE_POINT, error: error.response.data });
             commit(SET_LOADING, false);
 
             throw error;
@@ -281,7 +290,7 @@ export default (api) => {
             return response;
           })
           .catch( error => {
-            commit(SET_ERROR, error.response.data);
+            commit(SET_ERROR, { key: UPDATE_POINT, error: error.response.data });
             commit(SET_LOADING, false);
 
             throw error;
@@ -293,7 +302,6 @@ export default (api) => {
 
         return api.adventures.destroyPoint(state.item.id, pointId)
           .then( response => {
-            // If we remove a point which has currently opened form (or it's clue has form opened) - go to map
             commit(REMOVE_POINT, pointId);
 
             commit(SET_LOADING, false);
@@ -301,7 +309,7 @@ export default (api) => {
             return response;
           })
           .catch( error => {
-            commit(SET_ERROR, error.response.data);
+            commit(SET_ERROR, { key: DESTROY_POINT, error: error.response.data });
             commit(SET_LOADING, false);
 
             throw error;
@@ -320,7 +328,7 @@ export default (api) => {
             return response;
           })
           .catch( error => {
-            commit(SET_ERROR, error.response.data);
+            commit(SET_ERROR, { key: UPDATE_POINTS, error: error.response.data });
             commit(SET_LOADING, false);
 
             throw error;
@@ -345,7 +353,7 @@ export default (api) => {
             return response;
           })
           .catch( error => {
-            commit(SET_ERROR, error.response.data);
+            commit(SET_ERROR, { key: CREATE_CLUE, error: error.response.data });
             commit(SET_LOADING, false);
 
             throw error;
@@ -365,7 +373,7 @@ export default (api) => {
             return response;
           })
           .catch( error => {
-            commit(SET_ERROR, error.response.data);
+            commit(SET_ERROR, { key: UPDATE_CLUE, error: error.response.data });
             commit(SET_LOADING, false);
 
             throw error;
@@ -384,7 +392,7 @@ export default (api) => {
             return response;
           })
           .catch( error => {
-            commit(SET_ERROR, error.response.data);
+            commit(SET_ERROR, { key: DESTROY_CLUE, error: error.response.data });
             commit(SET_LOADING, false);
 
             throw error;
@@ -405,7 +413,7 @@ export default (api) => {
             return response;
           })
           .catch( error => {
-            commit(SET_ERROR, error.response.data);
+            commit(SET_ERROR, { key: UPDATE_CLUES, error: error.response.data });
             commit(SET_LOADING, false);
 
             throw error;

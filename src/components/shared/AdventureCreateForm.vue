@@ -7,9 +7,13 @@
 
         .new-adventure-form__title {{ $t("adventures.create_new_adventure") }}
 
-      .form-control
+      .form-control(:class="{ 'form-control--with-error': error && error.name }")
         label.form-label.form-label--required {{ $t("general.name") }}
+        label.error-label(v-if="error && error.name") {{ error.name.join(', ') }}
         input.form-input(type="text" :placeholder="$t('general.name')" v-model="adventure.name")
+
+      .form-control(:class="{ 'form-control--with-error': error && error.position }")
+        label.error-label(v-if="error && error.position") {{ error.position.join(', ') }}
 
       .form-control
         a.button.button--blue.button--full(@click="submit") {{ $t("general.submit") }}
@@ -62,6 +66,8 @@
           .icon.icon--question-mark-white.icon--pad-right
           span {{ $t("adventure.help") }}
 
+    Loader(v-if="loading")
+
     Modal(v-if="showHelp" @close="closeHelpModal")
       div(slot="header") {{ $t("adventures.new_adventure_help_header") }}
 
@@ -79,8 +85,10 @@ import { mapState } from 'vuex'
 import startMarker from '@/assets/images/marker_start.png'
 
 import { CREATE_ADVENTURE } from '@/store/action-types'
+import { SET_ERROR } from '@/store/mutation-types'
 
 import Modal from '@/components/shared/Modal.vue'
+import Loader from '@/views/Loader'
 
 const ACTION_NAMESPACE = 'adventures';
 
@@ -88,6 +96,7 @@ export default {
   name: 'AdventureCreateForm',
   components: {
     Modal,
+    Loader
   },
   data () {
     return {
@@ -131,11 +140,13 @@ export default {
     },
     ...mapState({
       loading: state => state.adventures.loading,
-      error: state => state.adventures.error
+      error: state => state.adventures.errors[CREATE_ADVENTURE]
     })
   },
   mounted () {
     this.geolocate();
+
+    this.$store.commit(`${ACTION_NAMESPACE}/${SET_ERROR}`, { key: CREATE_ADVENTURE, error: null });
 
     let mapHelpShown = localStorage.getItem('createAdventureMapHelpShown');
 
@@ -201,14 +212,9 @@ export default {
     },
 
     submit () {
-      //TODO form validation
-      if(!this.startingPointSet) {
-        return;
-      }
-
       let params = {
         name: this.adventure.name,
-        position: this.startingPointPosition
+        position: this.startingPointSet ? this.startingPointPosition : { }
       };
 
       this.$store.dispatch(`${ACTION_NAMESPACE}/${CREATE_ADVENTURE}`, { params }).then((response) => {

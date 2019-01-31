@@ -10,12 +10,14 @@
 
     .row
       .col-1-2
-        .form-control
+        .form-control(:class="{ 'form-control--with-error': error && error.name }")
           label.form-label.form-label--required {{ $t('general.name') }}
+          label.error-label(v-if="error && error.name") {{ error.name.join(', ') }}
           input.form-input(type="text" :disabled="!editable" :placeholder="$t('general.name')" v-model="adventure.name")
 
-        .form-control
-          label.form-label.form-label--required {{ $t("general.description") }}
+        .form-control(:class="{ 'form-control--with-error': error && error.description }")
+          label.form-label {{ $t("general.description") }}
+          label.error-label(v-if="error && error.description") {{ error.description.join(', ') }}
           textarea.form-input(:placeholder="$t('general.description')" :disabled="!editable" v-model="adventure.description")
 
         .form-control
@@ -31,6 +33,10 @@
                 @click="updateSpecifiedDuration(!specifiedDuration)"
               )
                 .form-checkbox__toggle
+
+          .form-control(:class="{ 'form-control--with-error': error && (error.min_time || error.max_time) }")
+            label.error-label(v-if="error && error.min_time") {{ error.min_time.join(', ') }}
+            label.error-label(v-if="error && error.max_time") {{ error.max_time.join(', ') }}
 
           .slider-wrapper.slider-wrapper--padded(v-if="specifiedDuration")
             vue-slider(
@@ -105,6 +111,7 @@ import vSelect from 'vue-select'
 import { ADVENTURE_DURATION_OPTIONS, DIFFICULTY_LEVELS } from '@/config'
 
 import { UPDATE_ADVENTURE } from '@/store/action-types'
+import { SET_ERROR } from '@/store/mutation-types'
 
 const ACTION_NAMESPACE = 'adventure'
 
@@ -135,7 +142,7 @@ export default {
   computed: {
     ...mapState({
       loading: state => state.adventure.loading,
-      error: state => state.adventure.error
+      error: state => state.adventure.errors[UPDATE_ADVENTURE]
     }),
     ...mapGetters('adventure', {
       editable: 'editable'
@@ -190,6 +197,9 @@ export default {
         }
       });
     }
+  },
+  mounted () {
+    this.$store.commit(`${ACTION_NAMESPACE}/${SET_ERROR}`, { key: UPDATE_ADVENTURE, error: null });
   },
   methods: {
     formatSliderLabel (value) {
