@@ -77,15 +77,19 @@
       .col-1-2
         .form-control
           label.form-label.form-label--required {{ $t("adventure.cover_image") }}
-          input.form-input(type="text" :disabled="!editable" :placeholder="$t('adventure.cover_image')" v-model="adventure.cover_url")
 
-          .adventure-cover
-            img(:src="adventure.cover_url")
+          FileUpload(@filesAdded="onCoverAdded")
+            div(slot="placeholder")
+              .adventure-cover(v-if="adventure.cover_url")
+                img(:src="adventure.cover_url")
+              span(v-else) {{ $t("general.upload_files") }}
+
 
         .form-control
           label.form-label {{ $t("adventure.promo_images") }}
 
-        .form-control
+          FileUpload(@filesAdded="onPromoImagesAdded" :multiple="true")
+
           draggable(
             v-model="adventure.images"
             :options="{ disabled: !editable }"
@@ -108,6 +112,8 @@ import cloneDeep from 'lodash.clonedeep'
 import vueSlider from 'vue-slider-component'
 import vSelect from 'vue-select'
 
+import FileUpload from '@/components/shared/FileUpload.vue'
+
 import { ADVENTURE_DURATION_OPTIONS, DIFFICULTY_LEVELS } from '@/config'
 
 import { UPDATE_ADVENTURE } from '@/store/action-types'
@@ -120,7 +126,9 @@ export default {
   components: {
     draggable,
     vueSlider,
-    vSelect
+    vSelect,
+
+    FileUpload
   },
   data () {
     return {
@@ -259,6 +267,25 @@ export default {
       this.adventureData.images.forEach( (image, index) => {
         image.order = index;
       });
+    },
+
+    onCoverAdded (files) {
+      //TODO upload
+      console.log(files);
+
+      this.adventureData.cover_url = URL.createObjectURL(files[0]);
+    },
+
+    onPromoImagesAdded (files) {
+      console.log(files);
+
+      for(var i = 0; i < files.length; i++) {
+        this.adventureData.images.push({
+          id: files[i].name,
+          order: this.adventureData.images.length + i,
+          url: URL.createObjectURL(files[i])
+        });
+      }
     },
 
     submit () {

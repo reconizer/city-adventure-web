@@ -270,6 +270,8 @@ export default {
 
     around: "Around {value}",
 
-    i_understand_confirm: "OK, got it"
+    i_understand_confirm: "OK, got it",
+
+    upload_files: "Add Files"
   }
 }
