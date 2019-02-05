@@ -9,12 +9,15 @@
     div(v-if="!!$slots.placeholder")
       slot(name="placeholder")
 
-    span(v-else) {{ computedTitle }}
+    .file-upload__icon.icon.icon--lg.icon--upload(v-if="!$slots.placeholder")
+
+    div(v-if="!$slots.placeholder") {{ computedTitle }}
 
     input.file-upload__input(
       ref="fileInput"
       type="file"
       :multiple="multiple"
+      :accept="accept"
       @change="onFileChanged"
     )
 </template>
@@ -34,6 +37,10 @@ export default {
     title: {
       type: String,
       default: null
+    },
+    accept: {
+      type: String,
+      default: "image/*"
     }
   },
   data () {
@@ -91,10 +98,14 @@ export default {
       let length = this.multiple ? files.length : 1;
 
       for(var i = 0; i < length; i++) {
-        result.push(files.item(i));
+        if(files.item(i).type.match(new RegExp(this.accept))) {
+          result.push(files.item(i));
+        }
       }
 
-      this.$emit('filesAdded', result);
+      if(result.length > 0) {
+        this.$emit('filesAdded', result);
+      }
 
       this.highlight = false;
     },

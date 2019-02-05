@@ -78,17 +78,17 @@
         .form-control
           label.form-label.form-label--required {{ $t("adventure.cover_image") }}
 
-          FileUpload(@filesAdded="onCoverAdded")
-            div(slot="placeholder")
-              .adventure-cover(v-if="adventure.cover_url")
-                img(:src="adventure.cover_url")
-              span(v-else) {{ $t("general.upload_files") }}
+          .form-control(v-if="adventure.cover_url")
+            .adventure-cover
+              img(:src="adventure.cover_url")
 
+          .form-control
+            FileUpload(@filesAdded="onCoverAdded" :title="$t('adventure.add_cover_image')")
 
         .form-control
           label.form-label {{ $t("adventure.promo_images") }}
 
-          FileUpload(@filesAdded="onPromoImagesAdded" :multiple="true")
+          FileUpload(@filesAdded="onPromoImagesAdded" :multiple="true" :title="$t('adventure.add_promo_images')")
 
           draggable(
             v-model="adventure.images"

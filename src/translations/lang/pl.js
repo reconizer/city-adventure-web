@@ -56,7 +56,9 @@ export default {
     edit_adventure: "Edytuj Przygodę",
     adventure_details: "Szczegóły Przygody",
     cover_image: "Zdjęcie Główne", //TODO shitty text
+    add_cover_image: "Wybierz Zdjęcie Główne",
     promo_images: "Zdjęcia Promujące",
+    add_promo_images: "Dodaj Zdjęcia",
     estimated_duration: "Przewidywany czas trwania",
     estimated_duration_explanation: "Ustaw jedynie gdy przewidywany czas trwania wynosi conajwyżej parę godzin",
     difficulty: "Trudność",
