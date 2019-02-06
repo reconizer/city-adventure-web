@@ -13,9 +13,13 @@
 
       .row
         .col-1-2
-          .form-control(v-if="clue.type == 'image' || clue.type == 'video'")
+          .form-control(v-if="clue.type != 'text' && clue.type != 'url'")
             img.clue-preview(v-if="clue.type == 'image'" :src="clue.url")
-            div(v-if="clue.type == 'video'") video preview
+
+            video.clue-preview(v-if="clue.type == 'video'" controls)
+              source(:src="clue.url")
+
+            audio.clue-preview(v-if="clue.type == 'audio'" controls :src="clue.url")
 
           .form-control
             .row.row--align-center

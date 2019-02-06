@@ -83,12 +83,19 @@
               img(:src="adventure.cover_url")
 
           .form-control
-            FileUpload(@filesAdded="onCoverAdded" :title="$t('adventure.add_cover_image')")
+            FileUpload(
+              @filesAdded="onCoverAdded"
+              :title="$t('adventure.add_cover_image')"
+            )
 
         .form-control
           label.form-label {{ $t("adventure.promo_images") }}
 
-          FileUpload(@filesAdded="onPromoImagesAdded" :multiple="true" :title="$t('adventure.add_promo_images')")
+          FileUpload(
+            @filesAdded="onPromoImagesAdded"
+            :multiple="true"
+            :title="$t('adventure.add_promo_images')"
+          )
 
           draggable(
             v-model="adventure.images"

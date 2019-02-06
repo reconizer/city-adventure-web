@@ -22,6 +22,30 @@
               :disabled="!editable"
               @input="updateType($event)")
 
+          .form-control(:class="{ 'form-control--with-error': error && error.url }" v-if="clue.type == 'url'")
+            .form-label.form-label--required {{ $t("clue.url") }}
+
+            label.error-label(v-if="error && error.url") {{ error.url.join(', ') }}
+
+            input.form-input(v-model="clue.url" :disabled="!editable")
+
+          .form-control(v-if="clue.type != 'text' && clue.type != 'url'")
+            div(v-if="file")
+              img.clue-preview(v-if="clue.type == 'image'" :src="mediaURL")
+
+              video.clue-preview(v-if="clue.type == 'video'" controls)
+                source(:src="mediaURL")
+
+              div(v-if="clue.type == 'audio'") {{ file.name }}
+              audio.clue-preview(v-if="clue.type == 'audio'" controls :src="mediaURL")
+
+          .form-control(v-if="clue.type != 'text' && clue.type != 'url'")
+            FileUpload(
+              @filesAdded="onFileAdded"
+              :fileType="clue.type"
+              :title="$t('general.choose_file')"
+            )
+
           .form-control
             .row.row--align-center
               .col-1-2
@@ -45,14 +69,6 @@
 
             textarea.form-input(v-model="clue.description" :disabled="!editable")
 
-          //TODO file upload
-          .form-control(:class="{ 'form-control--with-error': error && error.url }" v-if="clue.type == 'url'")
-            .form-label.form-label--required {{ $t("clue.url") }}
-
-            label.error-label(v-if="error && error.url") {{ error.url.join(', ') }}
-
-            input.form-input(v-model="clue.url" :disabled="!editable")
-
           .form-control(v-if="editable")
             a.button.button--blue.button--large.button--full(@click="submit()") {{ $t("general.submit") }}
 </template>
@@ -65,6 +81,8 @@ import { SET_ERROR } from '@/store/mutation-types'
 
 import vSelect from 'vue-select'
 
+import FileUpload from '@/components/shared/FileUpload.vue'
+
 import { CLUE_TYPES } from '@/config'
 
 import cloneDeep from 'lodash.clonedeep'
@@ -74,10 +92,13 @@ const ACTION_NAMESPACE = 'adventure'
 export default {
   name: 'AdventureClueForm',
   components: {
-    vSelect
+    vSelect,
+
+    FileUpload
   },
   data () {
     return {
+      file: null,
       clueData: {
         id: null,
         type: 'text',
@@ -99,6 +120,13 @@ export default {
       editable: 'editable'
     }),
 
+    mediaURL () {
+      if(this.file) {
+        return URL.createObjectURL(this.file);
+      } else {
+        return null;
+      }
+    },
     clueTypes() {
       return CLUE_TYPES.map(type => {
         return {
@@ -129,6 +157,14 @@ export default {
   methods: {
     updateType (evt) {
       this.clueData.type = evt.value;
+      this.file = null;
+    },
+    onFileAdded (files) {
+      this.file = null;
+
+      setTimeout(() => {
+        this.file = files[0];
+      }, 0);
     },
     updateTip (value) {
       if(!this.editable) {

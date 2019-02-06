@@ -38,9 +38,12 @@ export default {
       type: String,
       default: null
     },
-    accept: {
+    fileType: {
       type: String,
-      default: "image/*"
+      default: "image",
+      validator: (value) => {
+        return ["image", "audio", "video"].indexOf(value) != -1
+      }
     }
   },
   data () {
@@ -54,6 +57,17 @@ export default {
         return this.title;
       } else {
         return this.$t("general.upload_files");
+      }
+    },
+
+    accept () {
+      switch(this.fileType) {
+        case 'image':
+          return 'image/*';
+        case 'audio':
+          return 'audio/*';
+        case 'video':
+          return 'video/*';
       }
     }
   },
