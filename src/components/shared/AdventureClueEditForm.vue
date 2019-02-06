@@ -45,7 +45,6 @@
 
             textarea.form-input(v-model="clue.description" :disabled="!editable")
 
-          //TODO file upload
           .form-control(:class="{ 'form-control--with-error': error && error.url }" v-if="clue.type == 'url'")
             .form-label.form-label--required {{ $t("clue.url") }}
 
