@@ -85,8 +85,6 @@ import FileUpload from '@/components/shared/FileUpload.vue'
 
 import { CLUE_TYPES } from '@/config'
 
-import cloneDeep from 'lodash.clonedeep'
-
 const ACTION_NAMESPACE = 'adventure'
 
 export default {
@@ -104,6 +102,7 @@ export default {
         type: 'text',
         tip: false,
         url: null,
+        video_url: null,
         description: null,
         order: 0
       }
@@ -162,6 +161,7 @@ export default {
     onFileAdded (files) {
       this.file = null;
 
+      //to force ui update
       setTimeout(() => {
         this.file = files[0];
       }, 0);
@@ -177,9 +177,7 @@ export default {
     submit () {
       let data = this.clueData;
 
-      let point = this.$store.state.adventure.points.find(point => point.id == this.$route.params.pointId);
-
-      data.order = point.clues.length
+      data.order = this.point.clues.length
 
       this.$store.dispatch(`${ACTION_NAMESPACE}/${CREATE_CLUE}`, {
         pointId: this.$route.params.pointId,

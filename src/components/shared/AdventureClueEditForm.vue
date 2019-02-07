@@ -16,8 +16,8 @@
           .form-control(v-if="clue.type != 'text' && clue.type != 'url'")
             img.clue-preview(v-if="clue.type == 'image'" :src="clue.url")
 
-            video.clue-preview(v-if="clue.type == 'video'" controls)
-              source(:src="clue.url")
+            video.clue-preview(v-if="clue.type == 'video'" :poster="clue.url" controls)
+              source(:src="clue.video_url")
 
             audio.clue-preview(v-if="clue.type == 'audio'" controls :src="clue.url")
 
@@ -49,7 +49,6 @@
             .form-label.form-label--required {{ $t("clue.url") }}
 
             label.error-label(v-if="error && error.url") {{ error.url.join(', ') }}
-
 
             input.form-input(v-model="clue.url" :disabled="!editable")
 

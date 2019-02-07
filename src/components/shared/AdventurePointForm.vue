@@ -74,6 +74,7 @@ export default {
         shown: true,
         time_answer: null,
         password_answer: null,
+        position: null
       },
       timeConstraint: false,
       passwordRequired: false

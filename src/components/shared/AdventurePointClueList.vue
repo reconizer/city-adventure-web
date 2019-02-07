@@ -22,28 +22,28 @@
           .adventure-point-clue__thumb(v-if="clue.type == 'image'")
             img(:src="clue.url")
 
-          .adventure-point-clue__text(v-else-if="clue.type == 'text'")
+          .adventure-point-clue__text(v-if="clue.type == 'text'")
             .icon.icon--question-mark.icon--pad-right.icon--align-start
               .icon__tooltip-wrapper
                 .icon__tooltip {{ $t("adventure.text_clue") }}
 
             .adventure-point-clue__content {{ clue.description }}
 
-          .adventure-point-clue__text(v-else-if="clue.type == 'audio'")
+          .adventure-point-clue__text(v-if="clue.type == 'audio'")
             .icon.icon--audio.icon--pad-right.icon--align-start
               .icon__tooltip-wrapper
                 .icon__tooltip {{ $t("adventure.audio_clue") }}
 
             .adventure-point-clue__content {{ clue.description }}
 
-          .adventure-point-clue__text(v-else-if="clue.type == 'video'")
+          .adventure-point-clue__text(v-if="clue.type == 'video'")
             .icon.icon--video.icon--pad-right
               .icon__tooltip-wrapper
                 .icon__tooltip {{ $t("adventure.video_clue") }}
 
             .adventure-point-clue__content {{ clue.description }}
 
-          .adventure-point-clue__text(v-else-if="clue.type == 'url'")
+          .adventure-point-clue__text(v-if="clue.type == 'url'")
             .icon.icon--attachment.icon--pad-right
               .icon__tooltip-wrapper
                 .icon__tooltip {{ $t("adventure.url_clue") }}

@@ -38,10 +38,13 @@ export default {
     return axios.patch(`${BASE_URL}/points`, {
       id: pointId,
       adventure_id: adventureId,
-
-      radius: params.radius,
       parent_point_id: params.parent_id,
+
+      position: params.position,
+      radius: params.radius,
+
       show: params.shown,
+
       time_answer: params.time_answer,
       password_answer: params.password_answer
     });
