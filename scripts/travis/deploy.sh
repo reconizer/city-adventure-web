@@ -1,6 +1,6 @@
 #!/bin/bash
 set -ev
-echo "PREPARING CONVERTER DEPLOYMENT"
+echo "PREPARING CREATOR APP DEPLOYMENT"
 
 if [ "${TRAVIS_PULL_REQUEST}" == "false" ] && [ "${TRAVIS_BRANCH}" == "staging-deployment" ] ; then
   npm run build
