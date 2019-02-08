@@ -7,8 +7,17 @@
   & + &
     margin-top: 1rem
 
+  &--inline
+    & + &
+      margin-top: 0
+      margin-left: 1rem
+
   &--with-error .error-label
     display: block
+
+  .v-select .dropdown-toggle
+    padding: 0.4375rem 0.5rem
+    box-shadow: 0px 2px 5px -3px rgba($black, 0.6) !important
 
 .form-control-separator
   margin: 1rem 0
@@ -127,3 +136,10 @@ textarea.form-input
   &--padded
     padding-left: 1.25rem
     padding-right: 1.25rem
+
+.filter-select
+  min-width: 15rem
+
+.form-control
+  .form-label + .file-upload
+    margin-top: 0.5rem

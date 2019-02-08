@@ -3,12 +3,23 @@
   border-radius: 0.25rem
   border: 1px solid $border-color
   padding: 1rem 1rem
+  min-height: 25.0rem
 
   &__header
     font-size: 2rem
     font-weight: bold
     padding-top: 1rem
     padding-bottom: 2rem
+
+  &__empty
+    font-size: 1.125rem
+    font-weight: bold
+
+  &__filters
+    padding-top: 1rem
+    padding-bottom: 2rem
+    display: flex
+    align-items: center
 
 .adventure-list-item
   display: flex
@@ -31,8 +42,6 @@
       object-fit: cover
 
   &__name
-    width: 20rem
-    padding-left: 1rem
     font-size: 1.125rem
 
   &__label
@@ -45,6 +54,9 @@
 
     &--published
       color: $green
+
+    &--in-review
+      color: $orange
 
   &__rating
 

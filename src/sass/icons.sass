@@ -11,6 +11,10 @@
     width: 1rem
     height: 1rem
 
+  &--lg
+    width: 2rem
+    height: 2rem
+
   &--sm &__tooltip-wrapper
     left: 0.5rem
 
@@ -21,7 +25,7 @@
     top: -0.5rem
     left: 0.625rem
     text-align: center
-    z-index: $z-index-tooltips
+    z-index: $z-tooltips
     white-space: nowrap
     display: none
 
@@ -40,6 +44,17 @@
       bottom: -0.25rem
       left: 50%
       margin-left: -0.25rem
+
+    &--bottom
+      top: auto
+      bottom: -0.5rem
+      transform: translate(-50%, 100%)
+
+      &:after
+        bottom: auto
+        top: -0.25rem
+        border-top: none
+        border-bottom: 0.25rem solid $black
 
   &:hover &__tooltip-wrapper
     display: block
@@ -135,6 +150,9 @@
 
   &--wrench-white
     background-image: url('assets/images/icon-wrench-white.svg')
+
+  &--upload
+    background-image: url('assets/images/icon-upload.svg')
 
   &--video
     background-image: url('assets/images/icon-video.svg')

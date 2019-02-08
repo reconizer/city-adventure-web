@@ -1,6 +1,14 @@
+/**
+ * MAPPED ENV VARIABLES
+ */
 export const BASE_URL = process.env.VUE_APP_API_URL;
+export const ADMIN_BASE_URL = process.env.VUE_APP_ADMIN_API_URL;
 
-export const clueTypes = [
+/**
+ * CONSTANTS AND DATA
+ */
+
+export const CLUE_TYPES = [
   'text', 'audio', 'video',
   'image', 'url'
 ]
@@ -23,7 +31,7 @@ import numberPushLock10 from '@/assets/images/puzzles/number_push_lock_10.png'
 
 import textPassword from '@/assets/images/puzzles/text_password.png'
 
-export const passwordTypes = [
+export const PASSWORD_TYPES = [
   {
     value: 'text',
     length: 50,
@@ -106,6 +114,7 @@ export const passwordTypes = [
 ]
 
 export const RADIUS_CONSTRAINTS = {
+  // In meters
   MIN: 10,
   MAX: 500
 }
@@ -115,13 +124,49 @@ export const TIME_CONSTRAINT_OPTIONS = {
 }
 
 export const ADVENTURE_DURATION_OPTIONS = {
-  MIN: 30,
-  MAX: 360,
-  INTERVAL: 15
+  //In seconds because API...
+  MIN: 30 * 60,
+  MAX: 6 * 60 * 60,
+  INTERVAL: 15 * 60
 }
 
 export const DIFFICULTY_LEVELS = [ 1, 2, 3 ]
 
+/**
+ * FOR ADMIN ADVENTURE LISTS
+ */
+export const ADVENTURES_PENDING = 'pending'
+export const ADVENTURES_IN_REVIEW = 'in_review'
+export const ADVENTURES_REJECTED = 'rejected'
+export const ADVENTURES_UNPUBLISHED = 'unpublished'
+export const ADVENTURES_PUBLISHED = 'published'
+export const ADVENTURES_CANCELLED = 'cancelled'
+
+export const ADVENTURE_SORTING_OPTIONS = [
+  'newest',
+  'oldest',
+  'top_rated',
+  'worst_rated'
+]
+
+/**
+ * ADVENTURE PUBLISHMENT
+ */
+export const MESSAGE_CREATED = "created"
+export const MESSAGE_PUBLISHMENT_REQUEST = "review_request"
+export const MESSAGE_REJECTED = "rejected"
+export const MESSAGE_COMMENT = "message"
+export const MESSAGE_PUBLISHED = "published"
+export const MESSAGE_ACCEPTED = "accepted"
+export const MESSAGE_CANCELLED = "cancelled"
+export const MESSAGE_BACK_TO_EDIT = "back_to_edit"
+
+export const MESSAGE_TYPE_CREATOR = "creator"
+export const MESSAGE_TYPE_QA = "qa"
+
+/**
+ * COLORS
+ */
 export const AREA_BORDER_COLOR = '#ff2b848f'
 export const AREA_BACKGROUND_COLOR = '#ff2b845f'
 export const AREA_POINT_BACKGROUND_COLOR = '#ffffff'
@@ -133,3 +178,6 @@ export const IN_PROGRESS_COLOR = '#ff851b'
 export const ABANDONED_COLOR = '#ff4136'
 
 export const BAR_BACKGROUND_COLOR = '#ff88ba'
+
+export const START_POINT_RADIUS_CIRCLE_COLOR = '#ff94bb'
+export const NORMAL_POINT_RADIUS_CIRCLE_COLOR = '#5e81ff'
