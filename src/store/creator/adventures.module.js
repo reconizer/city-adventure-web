@@ -9,7 +9,9 @@ export default {
     list: [],
 
     loading: false,
-    error: null
+    errors: {
+      [LOAD_ADVENTURES]: null, [CREATE_ADVENTURE]: null
+    }
   },
   mutations: {
     [SET_ADVENTURES] (state, adventures) {
@@ -20,13 +22,14 @@ export default {
       state.loading = loading;
     },
 
-    [SET_ERROR] (state, error) {
-      state.error = error;
+    [SET_ERROR] (state, { key, error }) {
+      state.errors[key] = error;
     }
   },
   actions: {
     [LOAD_ADVENTURES] ({ commit }, { page }) {
       commit(SET_LOADING, true);
+      commit(SET_ERROR, { key: LOAD_ADVENTURES, error: null });
 
       return api.creator.adventures.loadAdventures(page)
         .then( response => {
@@ -36,24 +39,28 @@ export default {
           return response;
         })
         .catch( error => {
-          commit(SET_ERROR, error);
+          commit(SET_ERROR, { key: LOAD_ADVENTURES, error: error.response.data });
+          commit(SET_LOADING, false);
+
+          throw error;
         });
     },
 
     [CREATE_ADVENTURE] ({ commit }, { params }) {
       commit(SET_LOADING, true);
+      commit(SET_ERROR, { key: CREATE_ADVENTURE, error: null });
 
       return api.creator.adventures.createAdventure(params)
         .then( response => {
           commit(SET_LOADING, false);
 
-          localStorage.setItem(`${response.data.id}-name`, response.data.adventure.name);
-          localStorage.setItem(`${response.data.id}-point`, JSON.stringify(response.data.startingPointPosition));
-
           return response;
         })
         .catch( error => {
-          commit(SET_ERROR, error);
+          commit(SET_ERROR, { key: CREATE_ADVENTURE, error: error.response.data });
+          commit(SET_LOADING, false);
+
+          throw error;
         });
     }
   }

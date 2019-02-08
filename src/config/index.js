@@ -124,10 +124,10 @@ export const TIME_CONSTRAINT_OPTIONS = {
 }
 
 export const ADVENTURE_DURATION_OPTIONS = {
-  //In minutes
-  MIN: 30,
-  MAX: 6 * 60,
-  INTERVAL: 15
+  //In seconds because API...
+  MIN: 30 * 60,
+  MAX: 6 * 60 * 60,
+  INTERVAL: 15 * 60
 }
 
 export const DIFFICULTY_LEVELS = [ 1, 2, 3 ]
@@ -178,3 +178,6 @@ export const IN_PROGRESS_COLOR = '#ff851b'
 export const ABANDONED_COLOR = '#ff4136'
 
 export const BAR_BACKGROUND_COLOR = '#ff88ba'
+
+export const START_POINT_RADIUS_CIRCLE_COLOR = '#ff94bb'
+export const NORMAL_POINT_RADIUS_CIRCLE_COLOR = '#5e81ff'

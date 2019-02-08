@@ -23,7 +23,7 @@ export default (adventureId) => new Promise((resolve) => {
         cover_url: "http://placehold.it/320x180",
         creator_id: 2,
         status: adventureStatus,
-        hidden: false,
+        shown: true,
         rating: 0,
         difficulty: 1,
         duration: {
@@ -51,7 +51,7 @@ export default (adventureId) => new Promise((resolve) => {
         cover_url: "http://placehold.it/320x180",
         creator_id: 2,
         status: adventureStatus,
-        hidden: false,
+        shown: true,
         rating: 4.75,
         difficulty: 2,
         duration: {

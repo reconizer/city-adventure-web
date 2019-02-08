@@ -10,7 +10,7 @@
   padding: 0 2rem 2rem
   box-sizing: border-box
   overflow-y: auto
-  z-index: $z-index-adventure-structure
+  z-index: $z-adventure-structure
   transition: left 0.3s ease-in-out
 
   &--expanded
@@ -77,7 +77,7 @@
     &--rejected, &--cancelled
       background-color: $red
 
-  &__edit
+  &__menu-toggle
     flex-shrink: 0
     cursor: pointer
     color: $white
@@ -90,11 +90,11 @@
     border-radius: 999em
 
     &:hover, &:active
-      background-color: lighten($adventure-menu-background, 10%)
+      background-color: $adventure-submenu-background
 
 .submenu-mask
   position: fixed
-  z-index: $z-index-modal-mask
+  z-index: $z-modal-mask
   top: 0
   left: 0
   width: 100%
@@ -112,7 +112,7 @@
   background-color: $white
   transition: all 0.3s ease-in-out
   top: $top-menu-height - 2.5rem
-  left: (30rem - 10rem - 2.5rem)
+  left: (30rem - 10rem - 2.5rem) //side menu width - submenu width - offset to align with icon
   width: 10rem
   box-shadow: 0px 4px 7px -3px $border-color
   overflow: hidden
@@ -142,7 +142,7 @@
   border-radius: 0.25rem
   cursor: pointer
   transform: translateX(-75%)
-  z-index: $z-index-adventure-structure-expander
+  z-index: $z-adventure-structure-expander
 
   &:hover
     transform: translateX(0%)
@@ -157,7 +157,7 @@
     top: 2rem
     bottom: 0rem
     left: 1.25rem
-    z-index: $z-index-adventure-line
+    z-index: $z-adventure-line
 
   &--non-editable &__line
     bottom: 2rem

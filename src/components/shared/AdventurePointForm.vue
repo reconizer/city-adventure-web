@@ -19,7 +19,7 @@
       .row(v-else)
         .col-1-2
           AdventurePointFormPassword(
-            :passwordAnswer="passwordAnswer"
+            :passwordAnswer="point.password_answer"
             :passwordRequired="passwordRequired"
             @toggle-password="togglePasswordRequired"
           )
@@ -32,7 +32,7 @@
 
         .col-1
           AdventurePointFormTimeConstraint(
-            :timeAnswer="timeAnswer"
+            :timeAnswer="point.time_answer"
             :timeConstraint="timeConstraint"
             @toggle-time-constraint="toggleTimeConstraint"
           )
@@ -71,8 +71,10 @@ export default {
       pointData: {
         id: null,
         radius: null,
-        hidden: false,
-        answers: []
+        shown: true,
+        time_answer: null,
+        password_answer: null,
+        position: null
       },
       timeConstraint: false,
       passwordRequired: false
@@ -90,13 +92,6 @@ export default {
       editable: 'editable'
     }),
 
-    passwordAnswer () {
-      return this.point.answers.find(answer => answer.type == 'password') || null;
-    },
-    timeAnswer () {
-      return this.point.answers.find(answer => answer.type == 'time') || null;
-    },
-
     puzzleIndex () {
       return this.$store.state.adventure.points.findIndex(point => point.id == this.$route.params.pointId);
     },
@@ -108,10 +103,10 @@ export default {
         this.pointData = cloneDeep(point);
 
         //eslint-disable-next-line
-        this.passwordRequired = this.pointData.answers.findIndex(answer => answer.type == 'password') >= 0;
+        this.passwordRequired = this.pointData.password_answer != null;
 
         //eslint-disable-next-line
-        this.timeConstraint = this.pointData.answers.findIndex(answer => answer.type == 'time') >= 0;
+        this.timeConstraint = this.pointData.time_answer != null;
       }
 
       return this.pointData;
@@ -147,10 +142,10 @@ export default {
 
       this.passwordRequired = !this.passwordRequired;
 
-      let answer = this.passwordAnswer;
+      let answer = this.point.password_answer;
 
       if(!answer) {
-        this.point.answers.push({ type: 'password', details: { password_type: 'text', password: "" } });
+        this.point.password_answer = { type: 'text', password: "" };
       }
     },
     
@@ -161,10 +156,10 @@ export default {
 
       this.timeConstraint = !this.timeConstraint;
 
-      let answer = this.timeAnswer;
+      let answer = this.point.time_answer;
 
       if(!answer) {
-        this.point.answers.push({ type: 'time', details: { starting_time: 0, duration: TIME_CONSTRAINT_OPTIONS.INTERVAL } });
+        this.point.time_answer = { start_time: 0, duration: TIME_CONSTRAINT_OPTIONS.INTERVAL };
       }
     },
 
@@ -177,19 +172,11 @@ export default {
       let params = cloneDeep(this.pointData);
 
       if(!this.passwordRequired) {
-        let answerIndex = params.answers.findIndex(answer => answer.type == 'password');
-
-        if(answerIndex >= 0) {
-          params.answers.splice(answerIndex, 1);
-        }
+        params.password_answer = null;
       }
 
       if(!this.timeConstraint) {
-        let answerIndex = params.answers.findIndex(answer => answer.type == 'time');
-
-        if(answerIndex >= 0) {
-          params.answers.splice(answerIndex, 1);
-        }
+        params.time_answer = null;
       }
 
       this.$store.dispatch(`${ACTION_NAMESPACE}/${UPDATE_POINT}`, {

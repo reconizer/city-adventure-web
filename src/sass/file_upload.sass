@@ -1,0 +1,32 @@
+.file-upload
+  position: relative
+  border: 3px dashed $border-color
+  color: $black
+  font-weight: bold
+  height: 100%
+  width: 100%
+  box-sizing: border-box
+  text-align: center
+  cursor: pointer
+  border-radius: 1rem
+  min-height: 8rem
+  display: flex
+  align-items: center
+  justify-content: center
+  transition: all 0.3s ease-in-out
+  overflow: hidden
+  flex-flow: column
+
+  &__icon
+    margin-bottom: 1rem
+
+  &:hover, &--highlight
+    background-color: $clue-background
+
+  &--disabled
+    border-color: $gray-font
+    color: $gray-font
+    cursor: not-allowed
+
+  &__input
+    display: none

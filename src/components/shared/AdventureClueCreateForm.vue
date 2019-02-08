@@ -1,22 +1,19 @@
 <template lang="pug">
-  .adventure-panel
+  .adventure-panel.adventure-panel--scrollable
     .adventure-panel__inner(v-if="adventure.id")
       .adventure-panel__header
         router-link.button.button--icon(:to="{ name: 'adventureMap', params: { adventureId: adventure.id } }")
           .icon.icon--back
 
-        .adventure-panel__title
-          span(v-if="existingClue")
-            span(v-if="!editable") {{ $t("clue.show_title") }}
-            span(v-else) {{ $t("clue.edit_title") }}
-          span(v-else) {{ $t("clue.new") }}
-
-        a.button.button--pink.adventure-panel__remove(v-if="existingClue && editable" @click="confirmDestroy") {{ $t("general.remove") }}
+        .adventure-panel__title {{ $t("clue.new") }}
 
       .row
         .col-1-2
-          .form-control
+          .form-control(:class="{ 'form-control--with-error': error && error.type }")
             .form-label {{ $t("clue.type") }}
+
+            label.error-label(v-if="error && error.type") {{ error.type.join(', ') }}
+
             v-select(
               :placeholder="$t('clue.type')" 
               :clearable="false" 
@@ -24,6 +21,30 @@
               :options="clueTypes" 
               :disabled="!editable"
               @input="updateType($event)")
+
+          .form-control(:class="{ 'form-control--with-error': error && error.url }" v-if="clue.type == 'url'")
+            .form-label.form-label--required {{ $t("clue.url") }}
+
+            label.error-label(v-if="error && error.url") {{ error.url.join(', ') }}
+
+            input.form-input(v-model="clue.url" :disabled="!editable")
+
+          .form-control(v-if="clue.type != 'text' && clue.type != 'url'")
+            div(v-if="file")
+              img.clue-preview(v-if="clue.type == 'image'" :src="mediaURL")
+
+              video.clue-preview(v-if="clue.type == 'video'" controls)
+                source(:src="mediaURL")
+
+              div(v-if="clue.type == 'audio'") {{ file.name }}
+              audio.clue-preview(v-if="clue.type == 'audio'" controls :src="mediaURL")
+
+          .form-control(v-if="clue.type != 'text' && clue.type != 'url'")
+            FileUpload(
+              @filesAdded="onFileAdded"
+              :fileType="clue.type"
+              :title="$t('general.choose_file')"
+            )
 
           .form-control
             .row.row--align-center
@@ -40,60 +61,51 @@
                 )
                   .form-checkbox__toggle
 
-          .form-control(v-if="clue.type != 'image'")
+          .form-control(:class="{ 'form-control--with-error': error && error.description }")
             .form-label.form-label--required(v-if="clue.type == 'text'") {{ $t("clue.content") }}
             .form-label(v-else) {{ $t("general.description") }}
-            textarea.form-input(v-model="clue.description" :disabled="!editable")
 
-          //TODO file upload
-          .form-control(v-if="clue.type != 'text'")
-            .form-label.form-label--required {{ $t("clue.url") }}
-            input.form-input(v-model="clue.url" :disabled="!editable")
+            label.error-label(v-if="error && error.description") {{ error.description.join(', ') }}
+
+            textarea.form-input(v-model="clue.description" :disabled="!editable")
 
           .form-control(v-if="editable")
             a.button.button--blue.button--large.button--full(@click="submit()") {{ $t("general.submit") }}
-
-      Modal(v-if="removeConfirmModalShown" @close="closeModals")
-        div(slot="header") {{ $t("general.remove") }}
-
-        p {{ $t("clue.remove_confirm") }}
-
-        .text-center
-          a.button.button--blue(@click="destroyClue") {{ $t("general.submit") }}
 </template>
 
 <script>
 import { mapState, mapGetters } from 'vuex'
 
-import { CREATE_CLUE, UPDATE_CLUE, DESTROY_CLUE } from '@/store/action-types'
+import { CREATE_CLUE } from '@/store/action-types'
+import { SET_ERROR } from '@/store/mutation-types'
 
 import vSelect from 'vue-select'
 
-import Modal from '@/components/shared/Modal.vue'
+import FileUpload from '@/components/shared/FileUpload.vue'
 
 import { CLUE_TYPES } from '@/config'
-
-import cloneDeep from 'lodash.clonedeep'
 
 const ACTION_NAMESPACE = 'adventure'
 
 export default {
   name: 'AdventureClueForm',
   components: {
-    Modal,
-    vSelect
+    vSelect,
+
+    FileUpload
   },
   data () {
     return {
+      file: null,
       clueData: {
         id: null,
         type: 'text',
         tip: false,
         url: null,
+        video_url: null,
         description: null,
         order: 0
-      },
-      removeConfirmModalShown: false
+      }
     };
   },
   computed: {
@@ -101,12 +113,19 @@ export default {
       adventure: state => state.adventure.item,
 
       loading: state => state.adventure.loading,
-      error: state => state.adventure.error
+      error: state => state.adventure.errors[CREATE_CLUE]
     }),
     ...mapGetters('adventure', {
       editable: 'editable'
     }),
 
+    mediaURL () {
+      if(this.file) {
+        return URL.createObjectURL(this.file);
+      } else {
+        return null;
+      }
+    },
     clueTypes() {
       return CLUE_TYPES.map(type => {
         return {
@@ -119,28 +138,17 @@ export default {
       return this.$store.state.adventure.points.find(point => point.id == this.$route.params.pointId);
     },
     clue () {
-      if(this.$route.params.clueId) {
-        if(this.point) {
-          let clueObject = this.point.clues.find(clue => clue.id == this.$route.params.clueId);
-
-          if(clueObject) {
-            //eslint-disable-next-line
-            this.clueData = cloneDeep(clueObject);
-          }
-        }
-      }
       return this.clueData;
     },
     clueType () {
       return this.clueTypes.find(clueType => clueType.value == this.clue.type);
-    },
-    existingClue () {
-      return this.clue.id != null;
     }
   },
   mounted () {
+    this.$store.commit(`${ACTION_NAMESPACE}/${SET_ERROR}`, { key: CREATE_CLUE, error: null });
+
     if(this.adventure.id && !this.loading) {
-      if(!this.point || (this.$route.params.clueId && !this.clue.id)) {
+      if(!this.point) {
         this.$router.replace({ name: 'adventureMap', params: { adventureId: this.adventure.id } });
       }
     }
@@ -148,6 +156,15 @@ export default {
   methods: {
     updateType (evt) {
       this.clueData.type = evt.value;
+      this.file = null;
+    },
+    onFileAdded (files) {
+      this.file = null;
+
+      //to force ui update
+      setTimeout(() => {
+        this.file = files[0];
+      }, 0);
     },
     updateTip (value) {
       if(!this.editable) {
@@ -157,63 +174,22 @@ export default {
       this.clueData.tip = value;
     },
 
-    closeModals () {
-      this.removeConfirmModalShown = false;
-    },
-
     submit () {
-      let id = this.clueData.id;
       let data = this.clueData;
 
-      delete data['id'];
+      data.order = this.point.clues.length
 
-      if(id) {
-        delete data['order']; //no need to set order in currently edited clue
-
-        this.$store.dispatch(`${ACTION_NAMESPACE}/${UPDATE_CLUE}`, {
-          pointId: this.$route.params.pointId,
-          clueId: id,
-          data: data
-        });
-      } else {
-        let point = this.$store.state.adventure.points.find(point => point.id == this.$route.params.pointId);
-
-        data.order = point.clues.length
-
-        this.$store.dispatch(`${ACTION_NAMESPACE}/${CREATE_CLUE}`, {
-          pointId: this.$route.params.pointId,
-          data: data
-        }).then( (response) => {
-          setTimeout(() => {
-            this.$router.replace({
-              name: 'adventureClue',
-              params: {
-                adventureId: this.adventure.id,
-                pointId: this.point.id,
-                clueId: response.data.id
-              }
-            });
-          }, 0);
-        });
-      }
-    },
-
-    confirmDestroy () {
-      this.removeConfirmModalShown = true;
-    },
-
-    destroyClue () {
-      this.$store.dispatch(`${ACTION_NAMESPACE}/${DESTROY_CLUE}`, {
+      this.$store.dispatch(`${ACTION_NAMESPACE}/${CREATE_CLUE}`, {
         pointId: this.$route.params.pointId,
-        clueId: this.clue.id
+        data: data
       }).then( (response) => {
-        this.removeConfirmModalShown = false;
-
         setTimeout(() => {
           this.$router.replace({
-            name: 'adventureMap',
+            name: 'adventureClue',
             params: {
-              adventureId: this.clue.id,
+              adventureId: this.adventure.id,
+              pointId: this.point.id,
+              clueId: response.data.id
             }
           });
         }, 0);

@@ -31,7 +31,7 @@
             )
 
       .form-control(
-        :class="{ 'form-control--with-error': passwordError || passwordAnswer.details.password.length == 0 }"
+        :class="{ 'form-control--with-error': passwordError || passwordAnswer.password.length == 0 }"
         v-if="!isDirectionPassword"
       )
         .form-label.form-label--required {{ $t("adventure_point.enter_password") }}
@@ -42,7 +42,7 @@
           :maxlength="passwordLength"
           :pattern="passwordPattern.source"
           :disabled="!editable"
-          v-model="passwordAnswer.details.password"
+          v-model="passwordAnswer.password"
         )
 
       .form-control(v-if="isDirectionPassword")
@@ -130,8 +130,8 @@ export default {
     passwordType () {
       let answer = this.passwordAnswer;
 
-      if(answer && answer.details.password_type) {
-        return this.passwordTypes.find(passwordType => passwordType.value == answer.details.password_type);
+      if(answer && answer.type) {
+        return this.passwordTypes.find(passwordType => passwordType.value == answer.type);
       } else {
         return this.passwordTypes[0];
       }
@@ -146,7 +146,7 @@ export default {
     passwordLength () {
       let answer = this.passwordAnswer;
 
-      if(answer && answer.details) {
+      if(answer) {
         return this.passwordType.length;
       } else {
         return null;
@@ -155,11 +155,11 @@ export default {
     passwordError () {
       let answer = this.passwordAnswer;
 
-      if(answer && answer.details.password) {
-        if(answer.details.password_type.match(/direction_lock/)) {
+      if(answer && answer.password) {
+        if(answer.type.match(/direction_lock/)) {
           return !this.transformedPassword.match(this.passwordPattern);
         } else {
-          return !answer.details.password.match(this.passwordPattern);
+          return !answer.password.match(this.passwordPattern);
         }
       } else {
         return false;
@@ -168,13 +168,22 @@ export default {
     passwordPattern () {
       let answer = this.passwordAnswer;
 
-      if(answer && answer.details.password_type) {
-        let type = answer.details.password_type;
+      if(answer && answer.type) {
+        let type = answer.type;
 
         if(type == 'text') {
           return new RegExp(`.{1,${this.passwordLength}}`);
-        } else if(type.match(/number_lock/) || type.match(/number_push_lock/)) {
+        } else if(type.match(/number_lock/)) {
           return new RegExp(`[0-9]{${this.passwordLength}}`);
+        } else if(type.match(/number_push_lock/)) {
+          // Unique N digits from a set via regex. Cute
+          if(type.match(/number_push_lock_3/)) {
+            return new RegExp(`^(?!.*(.).*\\1)[1-6]{${this.passwordLength}}`);
+          } else if(type.match(/number_push_lock_4/)) {
+            return new RegExp(`^(?!.*(.).*\\1)[1-8]{${this.passwordLength}}`);
+          } else {
+            return new RegExp(`^(?!.*(.).*\\1)[0-9]{${this.passwordLength}}`);
+          }
         } else if(type.match(/cryptex_lock/)) {
           return new RegExp(`[a-zA-Z]{${this.passwordLength}}`);
         } else if(type.match(/direction_lock/)) {
@@ -187,7 +196,7 @@ export default {
   },
   mounted () {
     if(this.passwordAnswer && this.passwordType.value.match(/direction_lock/)) {
-      this.transformedPassword = this.decodeDirectionPassword(this.passwordAnswer.details.password);
+      this.transformedPassword = this.decodeDirectionPassword(this.passwordAnswer.password);
     }
   },
   methods: {
@@ -198,10 +207,10 @@ export default {
 
       let answer = this.passwordAnswer;
 
-      let previousType = answer.details.password_type;
+      let previousType = answer.type;
       let currentType = evt.value;
 
-      answer.details.password_type = currentType;
+      answer.type = currentType;
 
       if(this.passwordType.image_url !== evt.image_url) {
         this.previewLoaded = false;
@@ -215,22 +224,22 @@ export default {
         } else {
           this.transformedPassword = "";
         }
-      } else if(answer.details.password) {
+      } else if(answer.password) {
         // If it has same family type just trim it to proper length
         if(currentType.replace(/\d/, '') == previousType.replace(/\d/, '')) {
-          answer.details.password = answer.details.password.substr(0, evt.length);
+          answer.password = answer.password.substr(0, evt.length);
         } else {
           // In case of coming back from direction lock type - clear the password to avoid 'lrdu' passwords presented
           if(previousType.match(/direction_lock/)) {
-            answer.details.password = "";
+            answer.password = "";
           } else {
             // Try to infer password from exisiting one
-            let match = answer.details.password.match(this.passwordPattern);
+            let match = answer.password.match(this.passwordPattern);
 
             if(match) {
-              answer.details.password = match[0];
+              answer.password = match[0];
             } else {
-              answer.details.password = "";
+              answer.password = "";
             }
           }
         }
@@ -257,7 +266,7 @@ export default {
       if(this.transformedPassword.length < this.passwordLength) {
         this.transformedPassword += charToArrowUnicode[direction];
 
-        answer.details.password = this.encodeDirectionPassword(this.transformedPassword);
+        answer.password = this.encodeDirectionPassword(this.transformedPassword);
       }
     },
 

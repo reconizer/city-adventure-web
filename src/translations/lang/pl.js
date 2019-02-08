@@ -56,12 +56,15 @@ export default {
     edit_adventure: "Edytuj Przygodę",
     adventure_details: "Szczegóły Przygody",
     cover_image: "Zdjęcie Główne", //TODO shitty text
+    add_cover_image: "Wybierz Zdjęcie Główne",
     promo_images: "Zdjęcia Promujące",
+    add_promo_images: "Dodaj Zdjęcia",
     estimated_duration: "Przewidywany czas trwania",
     estimated_duration_explanation: "Ustaw jedynie gdy przewidywany czas trwania wynosi conajwyżej parę godzin",
     difficulty: "Trudność",
     adventure_hidden: "Ukryta",
     adventure_hidden_explanation: "Ukryte przygody będą dostępne jedynie poprzez sekretny kod i nie będą domyślnie widoczne na mapie",
+    editing_disabled: "Edycja Zablokowana",
 
     start: "Start",
     reposition: "Znajdź punkty", //TODO shitty text
@@ -269,6 +272,9 @@ export default {
 
     around: "Około {value}",
 
-    i_understand_confirm: "OK, zrozumiałem"
+    i_understand_confirm: "OK, rozumiem",
+
+    upload_files: "Dodaj pliki",
+    choose_file: "Wybierz plik"
   }
 }

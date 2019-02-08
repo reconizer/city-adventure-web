@@ -11,7 +11,8 @@ import AdventureList from '@/components/admin/AdventureList.vue'
 import Adventure from '@/components/shared/Adventure.vue'
 import AdventureSettings from '@/views/AdventureSettings.vue'
 import AdventureSettingsForm from '@/components/shared/AdventureSettingsForm.vue'
-import AdventureClueForm from '@/components/shared/AdventureClueForm.vue'
+import AdventureClueCreateForm from '@/components/shared/AdventureClueCreateForm.vue'
+import AdventureClueEditForm from '@/components/shared/AdventureClueEditForm.vue'
 import AdventurePointForm from '@/components/shared/AdventurePointForm.vue'
 
 import AdventureAnalytics from '@/views/AdventureAnalytics.vue'
@@ -33,7 +34,7 @@ import {
 Vue.use(Router)
 
 const router = new Router({
-  mode: 'hash',
+  mode: 'history',
   routes: [
     {
       path: '/',
@@ -161,12 +162,12 @@ const router = new Router({
             {
               path: 'points/:pointId/clues/new',
               name: 'newAdventureClue',
-              component: AdventureClueForm
+              component: AdventureClueCreateForm
             },
             {
               path: 'points/:pointId/clues/:clueId',
               name: 'adventureClue',
-              component: AdventureClueForm
+              component: AdventureClueEditForm
             }
           ]
         }
@@ -182,7 +183,7 @@ const router = new Router({
       redirect: '/adventures'
     }
   ],
-  scrollBehavior (to, from, savedPosition) {
+  scrollBehavior (to, from, _) {
     return { x: 0, y: 0 }
   }
 });

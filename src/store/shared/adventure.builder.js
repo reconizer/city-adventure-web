@@ -8,7 +8,7 @@ import {
 
   SET_ADVENTURE_POINTS, CLEAR_ADVENTURE_POINTS, 
   SET_POINT, ADD_POINT, REMOVE_POINT,
-  SET_POINTS, SET_POINTS_ORDER,
+  SET_POINTS_ORDER,
 
   SET_CLUE, ADD_CLUE, REMOVE_CLUE,
 } from '@/store/mutation-types';
@@ -39,11 +39,19 @@ export default (api) => {
       history: [],
 
       loading: false,
-      error: null
+      errors: {
+        [LOAD_ADVENTURE]: null, [UPDATE_ADVENTURE]: null,
+
+        [UPDATE_POINT]: null, [CREATE_POINT]: null,
+        [DESTROY_POINT]: null, [UPDATE_POINTS]: null,
+
+        [UPDATE_CLUE]: null, [CREATE_CLUE]: null,
+        [DESTROY_CLUE]: null, [UPDATE_CLUES]: null
+      }
     },
     getters: {
       startingPoint: (state) => {
-        return state.points[0];
+        return state.points[0] || null;
       },
       puzzlePoints: (state) => {
         return state.points.filter((element, index) => {
@@ -91,6 +99,10 @@ export default (api) => {
       },
 
       [SET_ADVENTURE_POINTS] (state, points) {
+        points.forEach((point) => {
+          point.clues = point.clues.sort((c1, c2) => c1.order > c2.order);
+        });
+
         state.points = points;
       },
 
@@ -127,10 +139,6 @@ export default (api) => {
         }
 
         state.points.splice(index, 1);
-      },
-
-      [SET_POINTS] (state, values) {
-        state.points = values;
       },
 
       [SET_POINTS_ORDER] (state, values) {
@@ -192,9 +200,8 @@ export default (api) => {
         state.loading = loading;
       },
 
-      [SET_ERROR] (state, error) {
-        console.log(error);
-        state.error = error;
+      [SET_ERROR] (state, { key, error }) {
+        state.errors[key] = error;
       }
     },
     actions: {
@@ -219,24 +226,33 @@ export default (api) => {
             return values;
           })
           .catch( error => {
-            commit(SET_ERROR, error)
+            commit(SET_ERROR, { key: LOAD_ADVENTURE, error: error.response.data });
+            commit(SET_LOADING, false);
 
-            return error;
+            throw error;
           });
       },
 
-      [UPDATE_ADVENTURE] ({ commit, state }, { params }) {
+      [UPDATE_ADVENTURE] ({ commit, state, dispatch }, { params }) {
         commit(SET_LOADING, true);
+        commit(SET_ERROR, { key: UPDATE_ADVENTURE, error: null });
 
         return api.adventures.updateAdventure(state.item.id, params)
           .then( response => {
+            return api.adventures.loadAdventure(state.item.id)
+          }).then( response => {
             commit(SET_ADVENTURE, response.data);
 
             commit(SET_LOADING, false);
 
             return response;
           })
-          .catch( error => commit(SET_ERROR, error));
+          .catch( error => {
+            commit(SET_ERROR, { key: UPDATE_ADVENTURE, error: error.response.data })
+            commit(SET_LOADING, false);
+
+            throw error;
+          });
       },
 
       /**
@@ -253,7 +269,12 @@ export default (api) => {
 
             return response;
           })
-          .catch( error => commit(SET_ERROR, error));
+          .catch( error => {
+            commit(SET_ERROR, { key: CREATE_POINT, error: error.response.data });
+            commit(SET_LOADING, false);
+
+            throw error;
+          });
       },
 
       [UPDATE_POINT] ({ commit, state }, { pointId, params }) {
@@ -261,13 +282,19 @@ export default (api) => {
 
         return api.adventures.updatePoint(state.item.id, pointId, params)
           .then( response => {
-            commit(SET_POINT, { id: pointId, data: response.data });
-
+            return api.adventures.loadPoints(state.item.id);
+          }).then( response => {
+            commit(SET_ADVENTURE_POINTS, response.data);
             commit(SET_LOADING, false);
 
             return response;
           })
-          .catch( error => commit(SET_ERROR, error));
+          .catch( error => {
+            commit(SET_ERROR, { key: UPDATE_POINT, error: error.response.data });
+            commit(SET_LOADING, false);
+
+            throw error;
+          });
       },
 
       [DESTROY_POINT] ({ commit, state }, { pointId }) {
@@ -275,14 +302,18 @@ export default (api) => {
 
         return api.adventures.destroyPoint(state.item.id, pointId)
           .then( response => {
-            // If we remove a point which has currently opened form (or it's clue has form opened) - go to map
             commit(REMOVE_POINT, pointId);
 
             commit(SET_LOADING, false);
 
             return response;
           })
-          .catch( error => commit(SET_ERROR, error));
+          .catch( error => {
+            commit(SET_ERROR, { key: DESTROY_POINT, error: error.response.data });
+            commit(SET_LOADING, false);
+
+            throw error;
+          });
       },
 
       // Used for re-ordering points
@@ -291,15 +322,17 @@ export default (api) => {
 
         return api.adventures.updatePoints(state.item.id, payload)
           .then( response => {
-            //TODO does not require any response?
-            //TODO does it require state manipulation?
-
             commit(SET_POINTS_ORDER, payload);
             commit(SET_LOADING, false);
 
             return response;
           })
-          .catch( error => commit(SET_ERROR, error));
+          .catch( error => {
+            commit(SET_ERROR, { key: UPDATE_POINTS, error: error.response.data });
+            commit(SET_LOADING, false);
+
+            throw error;
+          });
       },
 
       /**
@@ -319,7 +352,12 @@ export default (api) => {
 
             return response;
           })
-          .catch( error => commit(SET_ERROR, error));
+          .catch( error => {
+            commit(SET_ERROR, { key: CREATE_CLUE, error: error.response.data });
+            commit(SET_LOADING, false);
+
+            throw error;
+          });
       },
 
       [UPDATE_CLUE] ({ commit, state }, { pointId, clueId, data }) {
@@ -327,17 +365,19 @@ export default (api) => {
 
         return api.adventures.updateClue(state.item.id, pointId, clueId, data)
           .then( response => {
-            commit(SET_CLUE, {
-              pointId: pointId,
-              clueId: clueId,
-              data: response.data
-            })
-
+            return api.adventures.loadPoints(state.item.id);
+          }).then( response => {
+            commit(SET_ADVENTURE_POINTS, response.data);
             commit(SET_LOADING, false);
 
             return response;
           })
-          .catch( error => commit(SET_ERROR, error));
+          .catch( error => {
+            commit(SET_ERROR, { key: UPDATE_CLUE, error: error.response.data });
+            commit(SET_LOADING, false);
+
+            throw error;
+          });
       },
 
       [DESTROY_CLUE] ({ commit, state }, { pointId, clueId }) {
@@ -351,7 +391,12 @@ export default (api) => {
 
             return response;
           })
-          .catch( error => commit(SET_ERROR, error));
+          .catch( error => {
+            commit(SET_ERROR, { key: DESTROY_CLUE, error: error.response.data });
+            commit(SET_LOADING, false);
+
+            throw error;
+          });
       },
 
       // Used for re-ordering clues
@@ -367,7 +412,12 @@ export default (api) => {
 
             return response;
           })
-          .catch( error => commit(SET_ERROR, error));
+          .catch( error => {
+            commit(SET_ERROR, { key: UPDATE_CLUES, error: error.response.data });
+            commit(SET_LOADING, false);
+
+            throw error;
+          });
       }
     }
   }

@@ -20,11 +20,15 @@
             .top-menu__dropdown-option(@click="setLocale('pl')") PL
             .top-menu__dropdown-option(@click="setLocale('en')") EN
 
-        router-link(to="/login" class="top-menu__link") {{ $t("top_menu.logout") }}
+        a.top-menu__link(href="#" @click.prevent="logout") {{ $t("top_menu.logout") }}
 </template>
 
 <script>
 import moment from 'moment'
+
+const ACTION_NAMESPACE = 'authentication';
+
+import { LOGOUT } from '@/store/action-types'
 
 export default {
   name: 'TopMenu',
@@ -36,6 +40,12 @@ export default {
       moment.locale(locale);
 
       this.$root.$emit('locale-changed', locale);
+    },
+
+    logout () {
+      this.$store.dispatch(`${ACTION_NAMESPACE}/${LOGOUT}`).then( () => {
+        this.$router.push('/login');
+      });
     }
   }
 }
