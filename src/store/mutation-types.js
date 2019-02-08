@@ -10,8 +10,6 @@ export const SET_ERROR = "setError";
 export const STORE_USER = "storeUser";
 export const REMOVE_USER = "removeUser";
 
-export const LOGIN_ERROR = "loginError";
-
 /**
  * ADVENTURES
  */
@@ -24,7 +22,6 @@ export const CLEAR_ADVENTURE = "clearAdventure";
 export const SET_ADVENTURE_POINTS = "setPoints";
 export const CLEAR_ADVENTURE_POINTS = "clearPoints";
 
-export const SET_POINTS = "setPoints";
 export const SET_POINTS_ORDER = "setPointsOrder";
 
 export const SET_POINT = "setPoint";

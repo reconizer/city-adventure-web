@@ -2,64 +2,100 @@ import axios from 'axios';
 
 import { BASE_URL } from '@/config';
 
-import adventureListMock from './mock/adventure_list';
-import adventureMock from './mock/adventure';
-import updateAdventureMock from './mock/update_adventure';
-import createAdventureMock from './mock/create_adventure';
-import adventurePointsMock from './mock/adventure_points';
-
-import updatePointMock from './mock/update_point';
-import updateCluesMock from './mock/update_clues';
-import updatePointsMock from './mock/update_points';
-import createNewPointMock from './mock/create_new_point';
-import destroyPointMock from './mock/destroy_point';
-
-import createClueMock from './mock/create_clue';
-import updateClueMock from './mock/update_clue';
-import destroyClueMock from './mock/destroy_clue';
-
 export default {
   loadAdventures (page = 1) {
-    return adventureListMock(page);
-    // return axios.get(`${BASE_URL}/adventures`);
+    return axios.get(`${BASE_URL}/adventures`);
   },
   loadAdventure (adventureId) {
-    return adventureMock(adventureId);
+    return axios.get(`${BASE_URL}/adventures/${adventureId}`);
   },
   updateAdventure (adventureId, params) {
-    return updateAdventureMock(adventureId, params);
+    return axios.patch(`${BASE_URL}/adventures`, {
+      adventure_id: adventureId,
+      description: params.description,
+      difficulty_level: params.difficulty,
+      min_time: params.duration ? params.duration.min : null,
+      max_time: params.duration ? params.duration.max : null,
+      name: params.name,
+      show: params.shown
+    });
   },
   createAdventure (params) {
-    return createAdventureMock(params);
+    return axios.post(`${BASE_URL}/adventures`, params);
   },
 
   loadPoints (adventureId) {
-    return adventurePointsMock(adventureId);
-    // return axios.get(`${BASE_URL}/points`, { adventure_id: adventureId });
+    return axios.get(`${BASE_URL}/points?adventure_id=${adventureId}`);
   },
   createPoint (adventureId, parentId, lat, lng) {
-    return createNewPointMock(adventureId, parentId, lat, lng);
+    return axios.post(`${BASE_URL}/points`, {
+      adventure_id: adventureId,
+      parent_point_id: parentId,
+      position: { lat, lng }
+    });
   },
   updatePoint (adventureId, pointId, params) {
-    return updatePointMock(adventureId, pointId, params);
-  },
-  updateClues (adventureId, payload) {
-    return updateCluesMock(adventureId, payload);
+    return axios.patch(`${BASE_URL}/points`, {
+      id: pointId,
+      adventure_id: adventureId,
+      parent_point_id: params.parent_id,
+
+      position: params.position,
+      radius: params.radius,
+
+      show: params.shown,
+
+      time_answer: params.time_answer,
+      password_answer: params.password_answer
+    });
   },
   updatePoints (adventureId, payload) {
-    return updatePointsMock(adventureId, payload);
+    return axios.patch(`${BASE_URL}/points/reorder`, {
+      adventure_id: adventureId,
+      point_order: payload.map((item) => {
+        return {
+          id: item.id,
+          parent_point_id: item.parent_id
+        };
+      })
+    });
   },
   destroyPoint (adventureId, pointId) {
-    return destroyPointMock(adventureId, pointId);
+    return axios.delete(`${BASE_URL}/points?id=${pointId}&adventure_id=${adventureId}`);
   },
 
+  updateClues (adventureId, payload) {
+    return axios.patch(`${BASE_URL}/clues/reorder`, {
+      adventure_id: adventureId,
+      clue_order: payload.clues.map((item) => {
+        return {
+          id: item.id,
+          point_id: item.point_id,
+          sort: item.order
+        }
+      })
+    });
+  },
   createClue (adventureId, pointId, data) {
-    return createClueMock(adventureId, pointId, data);
+    return axios.post(`${BASE_URL}/clues`, {
+      adventure_id: adventureId,
+      point_id: pointId,
+      type: data.type,
+      description: data.description,
+      tip: data.tip,
+      url: data.url
+    });
   },
   updateClue (adventureId, pointId, clueId, data) {
-    return updateClueMock(adventureId, pointId, clueId, data);
+    return axios.patch(`${BASE_URL}/clues`, {
+      id: clueId,
+      adventure_id: adventureId,
+      description: data.description,
+      tip: data.tip,
+      url: data.url
+    });
   },
   destroyClue (adventureId, pointId, clueId) {
-    return destroyClueMock(adventureId, pointId, clueId);
+    return axios.delete(`${BASE_URL}/clues?id=${clueId}&adventure_id=${adventureId}`);
   }
 }

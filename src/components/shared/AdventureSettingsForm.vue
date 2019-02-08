@@ -10,12 +10,14 @@
 
     .row
       .col-1-2
-        .form-control
+        .form-control(:class="{ 'form-control--with-error': error && error.name }")
           label.form-label.form-label--required {{ $t('general.name') }}
+          label.error-label(v-if="error && error.name") {{ error.name.join(', ') }}
           input.form-input(type="text" :disabled="!editable" :placeholder="$t('general.name')" v-model="adventure.name")
 
-        .form-control
-          label.form-label.form-label--required {{ $t("general.description") }}
+        .form-control(:class="{ 'form-control--with-error': error && error.description }")
+          label.form-label {{ $t("general.description") }}
+          label.error-label(v-if="error && error.description") {{ error.description.join(', ') }}
           textarea.form-input(:placeholder="$t('general.description')" :disabled="!editable" v-model="adventure.description")
 
         .form-control
@@ -31,6 +33,10 @@
                 @click="updateSpecifiedDuration(!specifiedDuration)"
               )
                 .form-checkbox__toggle
+
+          .form-control(:class="{ 'form-control--with-error': error && (error.min_time || error.max_time) }")
+            label.error-label(v-if="error && error.min_time") {{ error.min_time.join(', ') }}
+            label.error-label(v-if="error && error.max_time") {{ error.max_time.join(', ') }}
 
           .slider-wrapper.slider-wrapper--padded(v-if="specifiedDuration")
             vue-slider(
@@ -60,8 +66,8 @@
                   .icon__tooltip {{ $t("adventure.adventure_hidden_explanation") }}
             .col-1-3
               .form-checkbox.form-checkbox--small(
-                :class="{ 'form-checkbox--active': adventure.hidden, 'form-checkbox--disabled': !editable }" 
-                @click="updateHidden(!adventure.hidden)"
+                :class="{ 'form-checkbox--active': !adventure.shown, 'form-checkbox--disabled': !editable }" 
+                @click="updateShown(!adventure.shown)"
               )
                 .form-checkbox__toggle
 
@@ -71,15 +77,26 @@
       .col-1-2
         .form-control
           label.form-label.form-label--required {{ $t("adventure.cover_image") }}
-          input.form-input(type="text" :disabled="!editable" :placeholder="$t('adventure.cover_image')" v-model="adventure.cover_url")
 
-          .adventure-cover
-            img(:src="adventure.cover_url")
+          .form-control(v-if="adventure.cover_url")
+            .adventure-cover
+              img(:src="adventure.cover_url")
+
+          .form-control
+            FileUpload(
+              @filesAdded="onCoverAdded"
+              :title="$t('adventure.add_cover_image')"
+            )
 
         .form-control
           label.form-label {{ $t("adventure.promo_images") }}
 
-        .form-control
+          FileUpload(
+            @filesAdded="onPromoImagesAdded"
+            :multiple="true"
+            :title="$t('adventure.add_promo_images')"
+          )
+
           draggable(
             v-model="adventure.images"
             :options="{ disabled: !editable }"
@@ -102,9 +119,12 @@ import cloneDeep from 'lodash.clonedeep'
 import vueSlider from 'vue-slider-component'
 import vSelect from 'vue-select'
 
+import FileUpload from '@/components/shared/FileUpload.vue'
+
 import { ADVENTURE_DURATION_OPTIONS, DIFFICULTY_LEVELS } from '@/config'
 
 import { UPDATE_ADVENTURE } from '@/store/action-types'
+import { SET_ERROR } from '@/store/mutation-types'
 
 const ACTION_NAMESPACE = 'adventure'
 
@@ -113,7 +133,9 @@ export default {
   components: {
     draggable,
     vueSlider,
-    vSelect
+    vSelect,
+
+    FileUpload
   },
   data () {
     return {
@@ -135,7 +157,7 @@ export default {
   computed: {
     ...mapState({
       loading: state => state.adventure.loading,
-      error: state => state.adventure.error
+      error: state => state.adventure.errors[UPDATE_ADVENTURE]
     }),
     ...mapGetters('adventure', {
       editable: 'editable'
@@ -148,7 +170,7 @@ export default {
         //eslint-disable-next-line
         this.adventureData = cloneDeep(adventure);
 
-        if(adventure.duration.min == null || adventure.duration.max == null) {
+        if(adventure.duration == null) {
           //eslint-disable-next-line
           this.specifiedDuration = false;
         }
@@ -191,13 +213,16 @@ export default {
       });
     }
   },
+  mounted () {
+    this.$store.commit(`${ACTION_NAMESPACE}/${SET_ERROR}`, { key: UPDATE_ADVENTURE, error: null });
+  },
   methods: {
     formatSliderLabel (value) {
-      if(value < 60) {
-        return `${value}min`;
+      if(value < 3600) {
+        return `${value / 60}min`;
       } else {
-        let minutes = value % 60;
-        let hours = Math.floor(value / 60);
+        let minutes = (value % 3600) / 60;
+        let hours = Math.floor(value / 3600);
 
         if(minutes == 0) {
           return `${hours}h`;
@@ -226,21 +251,23 @@ export default {
       this.specifiedDuration = value;
 
       if(this.specifiedDuration) {
-        if(this.adventureData.duration.min == null || this.adventureData.duration.max == null) {
+        if(this.adventureData.duration == null) {
           this.adventureData.duration = {
             min: ADVENTURE_DURATION_OPTIONS.MIN,
-            max: Math.min(ADVENTURE_DURATION_OPTIONS.MIN + 60, ADVENTURE_DURATION_OPTIONS.MAX)
+            max: Math.min(ADVENTURE_DURATION_OPTIONS.MIN + ADVENTURE_DURATION_OPTIONS.INTERVAL, ADVENTURE_DURATION_OPTIONS.MAX)
           }
         }
+      } else {
+        this.adventureData.duration = null;
       }
     },
 
-    updateHidden (value) {
+    updateShown (value) {
       if(!this.editable) {
         return;
       }
 
-      this.adventureData.hidden = value;
+      this.adventureData.shown = value;
     },
 
     updateList () {
@@ -249,13 +276,27 @@ export default {
       });
     },
 
+    onCoverAdded (files) {
+      //TODO upload
+      console.log(files);
+
+      this.adventureData.cover_url = URL.createObjectURL(files[0]);
+    },
+
+    onPromoImagesAdded (files) {
+      console.log(files);
+
+      for(var i = 0; i < files.length; i++) {
+        this.adventureData.images.push({
+          id: files[i].name,
+          order: this.adventureData.images.length + i,
+          url: URL.createObjectURL(files[i])
+        });
+      }
+    },
+
     submit () {
       let params = cloneDeep(this.adventureData);
-
-      if(!this.specifiedDuration) {
-        params.duration.min = null;
-        params.duration.max = null;
-      }
 
       this.$store.dispatch(`${ACTION_NAMESPACE}/${UPDATE_ADVENTURE}`, {
         params: params

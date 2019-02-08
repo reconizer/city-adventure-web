@@ -21,7 +21,7 @@
 
     .col-1-6
       .adventure-list-item__label {{ $t("adventures.adventure_visibility") }}
-      span(v-if="adventure.hidden") {{ $t("adventures.adventure_hidden") }}
+      span(v-if="!adventure.shown") {{ $t("adventures.adventure_hidden") }}
       span(v-else) {{ $t("adventures.adventure_public") }}
 
     .col-1-6

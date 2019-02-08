@@ -56,12 +56,15 @@ export default {
     edit_adventure: "Edit Adventure",
     adventure_details: "Adventure Details",
     cover_image: "Cover Photo",
+    add_cover_image: "Choose Cover Photo",
     promo_images: "Promo Images",
+    add_promo_images: "Add Images",
     estimated_duration: "Estimated Duration",
     estimated_duration_explanation: "Estimate duration only for short adventures up to few hours",
     difficulty: "Difficulty",
     adventure_hidden: "Hidden",
     adventure_hidden_explanation: "Hidden adventures are only available via secret codes and not visible on map by default",
+    editing_disabled: "Editing Disabled",
 
     start: "Start",
     reposition: "Reposition",
@@ -269,6 +272,9 @@ export default {
 
     around: "Around {value}",
 
-    i_understand_confirm: "OK, got it"
+    i_understand_confirm: "OK, got it",
+
+    upload_files: "Add Files",
+    choose_file: "Choose File"
   }
 }

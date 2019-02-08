@@ -12,8 +12,11 @@ export default {
   created () {
     axios.interceptors.response.use(undefined, (err) => {
       return new Promise(() => {
-        if(err.status === 401 && err.config && !err.config.__isRetryRequest) {
-          this.$store.dispatch(`authentication/${LOGOUT}`);
+        if(err.response.status === 401 && err.config && !err.config.__isRetryRequest) {
+          localStorage.removeItem('user');
+          delete axios.defaults.headers.common['Authorization'];
+
+          this.$router.push('/login');
         }
 
         throw err;

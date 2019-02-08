@@ -13,8 +13,8 @@
               .icon__tooltip {{ $t("adventure_point.hidden_explanation") }}
         .col-1-3
           .form-checkbox.form-checkbox--small(
-            :class="{ 'form-checkbox--active': point.hidden, 'form-checkbox--disabled': !editable }"
-            @click="updateHidden(!point.hidden)"
+            :class="{ 'form-checkbox--active': !point.shown, 'form-checkbox--disabled': !editable }"
+            @click="updateShown(!point.shown)"
           )
             .form-checkbox__toggle
 
@@ -76,11 +76,11 @@ export default {
     },
   },
   methods: {
-    updateHidden (value) {
+    updateShown (value) {
       if(!this.editable) {
         return;
       }
-      this.point.hidden = value;
+      this.point.shown = value;
     }
   }
 }
