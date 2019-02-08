@@ -52,7 +52,7 @@
     //.adventure-structure-expander(@click="toggleExpand")
       span Expand
 
-    AdventureMap
+    AdventureMap(v-if="adventure.id")
 
     Modal(v-if="removePointModalShown" @close="closeModals")
       div(slot="header") {{ $t("adventure.remove_puzzle") }}
