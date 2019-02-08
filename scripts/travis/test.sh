@@ -1,4 +1,5 @@
 #!/bin/bash
 set -ev
 
-npm run lint
+# Disable linting for now
+# npm run lint
