@@ -70,7 +70,12 @@ import { UPDATE_POINT } from '@/store/action-types'
 
 import { gmapApi } from 'vue2-google-maps'
 
-import { RADIUS_CONSTRAINTS } from '@/config'
+import {
+  RADIUS_CONSTRAINTS,
+
+  START_POINT_RADIUS_CIRCLE_COLOR,
+  NORMAL_POINT_RADIUS_CIRCLE_COLOR
+} from '@/config'
 
 const ACTION_NAMESPACE = 'adventure';
 
@@ -138,13 +143,13 @@ export default {
         return {
           strokeWeight: 0,
           fillOpacity: 0.6,
-          fillColor: "#FF94BB"
+          fillColor: START_POINT_RADIUS_CIRCLE_COLOR
         };
       } else {
         return {
           strokeWeight: 0,
           fillOpacity: 0.6,
-          fillColor: "#5E81FF"
+          fillColor: NORMAL_POINT_RADIUS_CIRCLE_COLOR
         };
       }
     },

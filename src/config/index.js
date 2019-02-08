@@ -178,3 +178,6 @@ export const IN_PROGRESS_COLOR = '#ff851b'
 export const ABANDONED_COLOR = '#ff4136'
 
 export const BAR_BACKGROUND_COLOR = '#ff88ba'
+
+export const START_POINT_RADIUS_CIRCLE_COLOR = '#ff94bb'
+export const NORMAL_POINT_RADIUS_CIRCLE_COLOR = '#5e81ff'
