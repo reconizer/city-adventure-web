@@ -171,8 +171,9 @@ export default (adventureId) => new Promise((resolve) => {
                 order: 1,
                 point_id: 6,
                 tip: false,
-                type: "image",
+                type: "video",
                 url: "http://placehold.it/500x200",
+                video_url: "http://media.w3.org/2010/05/sintel/trailer.mp4",
                 description: null
               }
             ],

@@ -15,7 +15,7 @@
         .adventure-point-clue-wrapper__line
 
         router-link.adventure-point-clue(
-          :class="{ 'adventure-point-clue--image': clue.type == 'image' }"
+          :class="{ 'adventure-point-clue--image': clue.type == 'image' || clue.type == 'video' }"
           :to="{ name: 'adventureClue', params: { adventureId: adventure.id, pointId: point.id, clueId: clue.id } }"
           exact-active-class="adventure-point-clue--active"
         )
@@ -36,12 +36,8 @@
 
             .adventure-point-clue__content {{ clue.description }}
 
-          .adventure-point-clue__text(v-if="clue.type == 'video'")
-            .icon.icon--video.icon--pad-right
-              .icon__tooltip-wrapper
-                .icon__tooltip {{ $t("adventure.video_clue") }}
-
-            .adventure-point-clue__content {{ clue.description }}
+          .adventure-point-clue__thumb.adventure-point-clue__thumb--video(v-if="clue.type == 'video'")
+            img(:src="clue.url")
 
           .adventure-point-clue__text(v-if="clue.type == 'url'")
             .icon.icon--attachment.icon--pad-right
