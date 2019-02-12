@@ -4,14 +4,17 @@
     @dragover="onDragOver"
     @dragleave="onDragLeave"
     @drop="onDrop"
-    :class="{ 'file-upload--highlight': highlight, 'file-upload--disabled': !enabled }"
+    :class="{ 'file-upload--highlight': highlight, 'file-upload--disabled': !enabled, 'file-upload--borderless': $slots.placeholder }"
   )
-    div(v-if="!!$slots.placeholder")
-      slot(name="placeholder")
+    .file-upload__content
+      div(v-if="!!$slots.placeholder")
+        slot(name="placeholder")
 
-    .file-upload__icon.icon.icon--lg.icon--upload(v-if="!$slots.placeholder")
+      .file-upload__icon.icon.icon--lg.icon--upload(v-if="!$slots.placeholder")
 
-    div(v-if="!$slots.placeholder") {{ computedTitle }}
+      div(v-if="!$slots.placeholder") {{ computedTitle }}
+
+    .file-upload__replace-info(v-if="$slots.placeholder && showReplaceInfo")
 
     input.file-upload__input(
       ref="fileInput"
@@ -27,6 +30,10 @@ export default {
   name: 'FileUpload',
   props: {
     enabled: {
+      type: Boolean,
+      default: true
+    },
+    showReplaceInfo: {
       type: Boolean,
       default: true
     },

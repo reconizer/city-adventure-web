@@ -5,7 +5,7 @@ import BaseLayout from '@/views/creator/BaseLayout.vue'
 import Adventures from '@/views/creator/Adventures.vue'
 import AdventureCreateForm from '@/components/shared/AdventureCreateForm'
 
-import AccountSettings from '@/components/shared/AccountSettings.vue'
+import AccountSettings from '@/components/creator/AccountSettings.vue'
 
 import Adventure from '@/components/shared/Adventure.vue'
 import AdventureSettings from '@/views/AdventureSettings.vue'
@@ -26,7 +26,7 @@ import Login from '@/views/Login.vue'
 Vue.use(Router)
 
 const router = new Router({
-  mode: 'history',
+  mode: process.env.NODE_ENV === 'production' ? 'history' : 'hash',
   routes: [
     {
       path: '/',

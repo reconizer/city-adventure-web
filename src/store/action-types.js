@@ -50,3 +50,10 @@ export const LOAD_ANALYTICS_USER_PROGRESS = "loadAnalyticsUserProgress";
  * ADMIN
  */
 export const LOAD_COUNTERS = "loadCounters";
+
+
+/**
+ * ACCOUNT MANAGEMENT
+ */
+export const LOAD_ACCOUNT = "loadAccount";
+export const UPDATE_ACCOUNT = "updateAccount";

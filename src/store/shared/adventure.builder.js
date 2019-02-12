@@ -233,7 +233,7 @@ export default (api) => {
           });
       },
 
-      [UPDATE_ADVENTURE] ({ commit, state, dispatch }, { params }) {
+      [UPDATE_ADVENTURE] ({ commit, state }, { params }) {
         commit(SET_LOADING, true);
         commit(SET_ERROR, { key: UPDATE_ADVENTURE, error: null });
 
