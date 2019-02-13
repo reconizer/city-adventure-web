@@ -55,6 +55,7 @@ const router = new Router({
           children: [
             {
               path: '',
+              name: 'home',
               redirect: 'published'
             },
             {

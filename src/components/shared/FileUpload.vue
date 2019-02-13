@@ -7,8 +7,7 @@
     :class="{ 'file-upload--highlight': highlight, 'file-upload--disabled': !enabled, 'file-upload--borderless': $slots.placeholder }"
   )
     .file-upload__content
-      div(v-if="!!$slots.placeholder")
-        slot(name="placeholder")
+      slot(name="placeholder" v-if="!!$slots.placeholder")
 
       .file-upload__icon.icon.icon--lg.icon--upload(v-if="!$slots.placeholder")
 
@@ -94,7 +93,9 @@ export default {
 
       evt.preventDefault();
 
-      this.highlight = true;
+      if(evt.dataTransfer.types.indexOf("Files") != -1) {
+        this.highlight = true;
+      }
     },
 
     onDragLeave (evt) {
@@ -111,6 +112,10 @@ export default {
       }
 
       evt.preventDefault();
+
+      if(evt.dataTransfer.types.indexOf("Files") == -1) {
+        return;
+      }
 
       const files = evt.dataTransfer.files;
 
