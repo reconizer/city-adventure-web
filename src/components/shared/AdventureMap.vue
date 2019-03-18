@@ -31,6 +31,7 @@
         v-for="(point, index) in points"
         :point="point"
         :index="index"
+        :showCircle="showCircles"
       )
 
     .google-map-controls(v-if="mapLoaded")
@@ -97,7 +98,8 @@ export default {
       pointOptionsWindowOpened: false,
       currentPoint: null,
 
-      showHelp: false
+      showHelp: false,
+      showCircles: true
     };
   },
   computed: {

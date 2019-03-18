@@ -215,7 +215,7 @@ export default {
     show_title: "Szczegóły wskazówki",
     type: "Typ wskazówki",
     is_tip: "Jest podpowiedzią?",
-    is_tip_explanation: "Podpowiedzi są opcjonalnymi wskazówkami dostępnymi na życzenie użytkownika",
+    is_tip_explanation: "Opcjonalna wskazówka, dostępna na życzenie użytkownika",
     content: "Treść",
     url: "URL",
     remove_confirm: "Jesteś pewien, że chcesz usunąć tą wskazówkę?"

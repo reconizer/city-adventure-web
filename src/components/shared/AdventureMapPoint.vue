@@ -13,6 +13,7 @@
       @dragend="savePosition($event.latLng)"
     )
     gmap-circle(
+      v-if="showCircle"
       :center="point.position"
       :radius="point.radius"
       :options="circle"
@@ -89,6 +90,10 @@ export default {
     index: {
       type: Number,
       default: () => 0
+    },
+    showCircle: {
+      type: Boolean,
+      default: () => true
     }
   },
   data () {
@@ -154,20 +159,14 @@ export default {
       }
     },
 
-    circleObject () {
-      if(this.$refs.circle) {
-        return this.$refs.circle.$circleObject;
-      }
-    },
-
     top () {
       let latLng = {
         lat: this.point.position.lat,
         lng: this.point.position.lng
       };
 
-      if(this.circleObject) {
-        latLng.lat = this.circleObject.getBounds().getNorthEast().lat();
+      if(this.$refs.circle) {
+        latLng.lat = this.$refs.circle.$circleObject.getBounds().getNorthEast().lat();
       }
 
       return latLng;
@@ -179,8 +178,8 @@ export default {
         lng: this.point.position.lng
       };
 
-      if(this.circleObject) {
-        latLng.lat = this.circleObject.getBounds().getSouthWest().lat();
+      if(this.$refs.circle) {
+        latLng.lat = this.$refs.circle.$circleObject.getBounds().getSouthWest().lat();
       }
 
       return latLng;
@@ -192,7 +191,9 @@ export default {
         lng: this.point.position.lng
       };
 
-      latLng.lng = this.circleObject.getBounds().getSouthWest().lng();
+      if(this.$refs.circle) {
+        latLng.lng = this.$refs.circle.$circleObject.getBounds().getSouthWest().lng();
+      }
 
       return latLng;
     },
@@ -203,7 +204,9 @@ export default {
         lng: this.point.position.lng
       };
 
-      latLng.lng = this.circleObject.getBounds().getNorthEast().lng();
+      if(this.$refs.circle) {
+        latLng.lng = this.$refs.circle.$circleObject.getBounds().getNorthEast().lng();
+      }
 
       return latLng;
     }
