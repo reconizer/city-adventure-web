@@ -34,7 +34,7 @@ import {
 Vue.use(Router)
 
 const router = new Router({
-  mode: 'history',
+  mode: process.env.NODE_ENV === 'production' ? 'history' : 'hash',
   routes: [
     {
       path: '/',
@@ -55,6 +55,7 @@ const router = new Router({
           children: [
             {
               path: '',
+              name: 'home',
               redirect: 'published'
             },
             {

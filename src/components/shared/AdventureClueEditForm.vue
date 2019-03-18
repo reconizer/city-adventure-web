@@ -42,7 +42,6 @@
 
             label.error-label(v-if="error && error.description") {{ error.description.join(', ') }}
 
-
             textarea.form-input(v-model="clue.description" :disabled="!editable")
 
           .form-control(:class="{ 'form-control--with-error': error && error.url }" v-if="clue.type == 'url'")

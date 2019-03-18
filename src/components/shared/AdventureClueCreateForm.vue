@@ -40,7 +40,7 @@
               audio.clue-preview(v-if="clue.type == 'audio'" controls :src="mediaURL")
 
           .form-control(v-if="clue.type != 'text' && clue.type != 'url'")
-            FileUpload(
+            FileUpload.file-upload--full(
               @filesAdded="onFileAdded"
               :fileType="clue.type"
               :title="$t('general.choose_file')"

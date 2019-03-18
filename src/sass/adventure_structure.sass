@@ -258,6 +258,28 @@
     height: 7rem
     position: relative
 
+    &--video
+      &:before
+        content: ''
+        position: absolute
+        width: 2.5rem
+        height: 2.5rem
+        left: calc(50% - 1.25rem)
+        top: calc(50% - 1.25rem)
+        background-color: rgba($black, 0.7)
+        border-radius: 999em
+
+      &:after
+        content: ''
+        position: absolute
+        left: calc(50% - 0.5rem)
+        top: calc(50% - 0.5rem)
+        display: block
+        width: 1rem
+        height: 1rem
+        background-repeat: no-repeat
+        background-image: url('assets/images/icon-play.svg')
+
     img
       object-fit: cover
       width: 100%

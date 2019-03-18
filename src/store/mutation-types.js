@@ -66,3 +66,9 @@ export const SET_ADVENTURE_STATUS = "setAdventureStatus";
 export const SET_TYPE = "setType";
 export const SET_COUNTERS = "setCounters";
 export const SET_TOTAL_PAGES = "setTotalPages";
+
+/**
+ * ACCOUNT MANAGEMENT
+ */
+
+export const SET_ACCOUNT = "setAccount";

@@ -16,6 +16,15 @@ export default {
     language: "Language"
   },
 
+  account_settings: {
+    title: "Account Settings",
+
+    profile_picture: "Profile Picture",
+    add_profile_picture: "Add Image",
+    name: "Name",
+    description: "Description"
+  },
+
   adventures: {
     list_title: "Your Adventures",
     create_new: "Create New",

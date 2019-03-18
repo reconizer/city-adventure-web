@@ -88,7 +88,7 @@ export default {
   data() {
     return {
       center: { lat: 0, lng: 0 },
-      zoom: 17,
+      zoom: 16,
       mapLoaded: false,
 
       addPointWindowPosition: { lat: 0, lng: 0 },
@@ -180,12 +180,20 @@ export default {
       });
     },
     geolocate () {
-      navigator.geolocation.getCurrentPosition(position => {
-        this.centerCamera({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        });
-      });
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          this.centerCamera({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          });
+        },
+        failure => {
+          this.centerCamera({
+            lat: this.points[0].position.lat,
+            lng: this.points[0].position.lng
+          });
+        }
+      );
     },
     locatePoints () {
       if(this.points.length == 0)

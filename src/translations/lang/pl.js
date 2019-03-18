@@ -16,6 +16,15 @@ export default {
     language: "Język"
   },
 
+  account_settings: {
+    title: "Ustawienia Konta",
+
+    profile_picture: "Zdjęcie profilowe",
+    add_profile_picture: "Wybierz Zdjęcie",
+    name: "Nazwa",
+    description: "Opis"
+  },
+
   adventures: {
     list_title: "Twoje Przygody",
     create_new: "Stwórz Nową",
