@@ -23,6 +23,9 @@ export default {
   createAdventure (params) {
     return axios.post(`${BASE_URL}/adventures`, params);
   },
+  destroyAdventure (id) {
+    return axios.delete(`${BASE_URL}/adventures?id=${id}`);
+  },
 
   loadPoints (adventureId) {
     return axios.get(`${BASE_URL}/points?adventure_id=${adventureId}`);

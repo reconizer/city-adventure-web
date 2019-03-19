@@ -75,9 +75,13 @@ export default {
     adventure_hidden_explanation: "Ukryte przygody będą dostępne jedynie poprzez sekretny kod i nie będą domyślnie widoczne na mapie",
     editing_disabled: "Edycja Zablokowana",
 
+    remove: "Usuń Przygodę",
+    remove_confirm: "Jesteś pewien, że chcesz usunąć przygodę?",
+
     start: "Start",
     reposition: "Znajdź punkty", //TODO shitty text
     help: "Pomoc",
+    show_radiuses: "Pokaż zasięg punktów",
 
     help_header: "Interfejs Mapy",
     help_paragraph_1: "Możesz szybko zmienić pozycję punktu lub zasięg interakcji poprzez przeciąganie znacznika punktu lub kontrolek promienia na mapie.",
@@ -281,6 +285,7 @@ export default {
 
     around: "Około {value}",
 
+    confirm_remove: "Tak, usuń",
     i_understand_confirm: "OK, rozumiem",
 
     upload_files: "Dodaj pliki",

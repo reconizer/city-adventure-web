@@ -27,7 +27,7 @@
 
             label.error-label(v-if="error && error.url") {{ error.url.join(', ') }}
 
-            input.form-input(v-model="clue.url" :disabled="!editable")
+            input.form-input(v-model="clue.url" :placeholder="$t('clue.url')" :disabled="!editable")
 
           .form-control(v-if="clue.type != 'text' && clue.type != 'url'")
             div(v-if="file")

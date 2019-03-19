@@ -56,6 +56,16 @@
           .icon.icon--question-mark-white.icon--pad-right
           span {{ $t("adventure.help") }}
 
+      .google-map-controls__radius
+        .button.button--blue(
+          @click="togglePointsRadius"
+        )
+          span {{ $t("adventure.show_radiuses") }}
+          .form-checkbox.form-checkbox--small.form-checkbox--pad-left(
+            :class="{ 'form-checkbox--active': showCircles }"
+          )
+            .form-checkbox__toggle
+
     Modal(v-if="showHelp" @close="closeHelpModal")
       div(slot="header") {{ $t("adventure.help_header") }}
 
@@ -194,6 +204,9 @@ export default {
           });
         }
       );
+    },
+    togglePointsRadius () {
+      this.showCircles = !this.showCircles;
     },
     locatePoints () {
       if(this.points.length == 0)

@@ -49,7 +49,7 @@
 
             label.error-label(v-if="error && error.url") {{ error.url.join(', ') }}
 
-            input.form-input(v-model="clue.url" :disabled="!editable")
+            input.form-input(v-model="clue.url" :placeholder="$t('clue.url')" :disabled="!editable")
 
           .form-control(v-if="editable")
             a.button.button--blue.button--large.button--full(@click="submit()") {{ $t("general.submit") }}

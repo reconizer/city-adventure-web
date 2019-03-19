@@ -75,9 +75,13 @@ export default {
     adventure_hidden_explanation: "Hidden adventures are only available via secret codes and not visible on map by default",
     editing_disabled: "Editing Disabled",
 
+    remove: "Remove Adventure",
+    remove_confirm: "Are you sure you want to remove this adventure?",
+
     start: "Start",
     reposition: "Reposition",
     help: "Help",
+    show_radiuses: "Show point range",
 
     help_header: "Map Controls",
     help_paragraph_1: "You can quickly change point's position or radius by using your mouse and dragging the point marker or radius controls around.",
@@ -281,6 +285,7 @@ export default {
 
     around: "Around {value}",
 
+    confirm_remove: "Yes, remove it",
     i_understand_confirm: "OK, got it",
 
     upload_files: "Add Files",

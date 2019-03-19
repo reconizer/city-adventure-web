@@ -1,7 +1,15 @@
 import api from '@/api';
 
-import { SET_ADVENTURES, SET_LOADING, SET_ERROR } from '@/store/mutation-types';
-import { LOAD_ADVENTURES, CREATE_ADVENTURE } from '@/store/action-types';
+import {
+  SET_ADVENTURES,
+  SET_LOADING,
+  SET_ERROR
+} from '@/store/mutation-types';
+
+import {
+  LOAD_ADVENTURES, CREATE_ADVENTURE,
+  REMOVE_ADVENTURE
+} from '@/store/action-types';
 
 export default {
   namespaced: true,
@@ -58,6 +66,25 @@ export default {
         })
         .catch( error => {
           commit(SET_ERROR, { key: CREATE_ADVENTURE, error: error.response.data });
+          commit(SET_LOADING, false);
+
+          throw error;
+        });
+    },
+
+    [REMOVE_ADVENTURE] ({ commit }, { id }) {
+      commit(SET_LOADING, true);
+
+      return api.creator.adventures.destroyAdventure(id)
+        .then( response => {
+          return api.creator.adventures.loadAdventures(1)
+        }).then( response => {
+          commit(SET_ADVENTURES, response.data);
+          commit(SET_LOADING, false);
+
+          return response;
+        }).catch( error => {
+          commit(SET_ERROR, { key: REMOVE_ADVENTURE, error: error.response.data });
           commit(SET_LOADING, false);
 
           throw error;

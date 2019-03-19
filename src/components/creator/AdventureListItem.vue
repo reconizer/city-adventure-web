@@ -26,9 +26,23 @@
 
     .col-1-6
       .text-right
-        router-link.button.button--blue(:to="{ name: 'adventureMap', params: { adventureId: adventure.id } }")
-          .icon.icon--sm.icon--pencil-white.icon--pad-right
-          span {{ $t("general.edit") }}
+        router-link.button.button--icon(:to="{ name: 'adventureMap', params: { adventureId: adventure.id } }")
+          .icon.icon--pencil
+            .icon__tooltip-wrapper
+              .icon__tooltip {{ $t("general.edit") }}
+
+        .button.button--icon(v-if="removable" @click.prevent="confirmRemove")
+          .icon.icon--close
+            .icon__tooltip-wrapper
+              .icon__tooltip {{ $t("general.remove") }}
+
+    Modal(v-if="showConfirmRemove" @close="closeConfirmRemoveModal")
+      div(slot="header") {{ $t("adventure.remove") }}
+
+      p {{ $t("adventure.remove_confirm") }}
+
+      .text-center
+        a.button.button--blue(@click="removeAdventure") {{ $t("general.confirm_remove") }}
 </template>
 
 <script>
@@ -41,17 +55,32 @@ import {
   ADVENTURES_REJECTED
 } from '@/config'
 
+import {
+  REMOVE_ADVENTURE
+} from '@/store/action-types'
+
 import RatingStars from '@/components/shared/RatingStars.vue'
+
+import Modal from '@/components/shared/Modal.vue'
+
+const ACTION_NAMESPACE = 'adventures';
 
 export default {
   name: 'AdventureListItem',
   components: {
+    Modal,
+
     RatingStars
   },
   props: {
     adventure: {
       type: Object,
       default: () => {}
+    }
+  },
+  data () {
+    return {
+      showConfirmRemove: false
     }
   },
   computed: {
@@ -61,6 +90,10 @@ export default {
 
     inReview () {
       return this.adventure.status == ADVENTURES_IN_REVIEW;
+    },
+
+    removable () {
+      return this.adventure.status == ADVENTURES_PENDING || this.adventure.status == ADVENTURES_UNPUBLISHED;
     },
 
     publishedLabel () {
@@ -79,6 +112,21 @@ export default {
         case ADVENTURES_PENDING:
           return this.$t("adventures.adventure_pending");
       }
+    }
+  },
+  methods: {
+    confirmRemove () {
+      this.showConfirmRemove = true;
+    },
+
+    removeAdventure () {
+      this.$store.dispatch(`${ACTION_NAMESPACE}/${REMOVE_ADVENTURE}`, { id: this.adventure.id });
+
+      this.showConfirmRemove = false;
+    },
+
+    closeConfirmRemoveModal () {
+      this.showConfirmRemove = false;
     }
   }
 }
