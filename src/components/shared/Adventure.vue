@@ -190,7 +190,6 @@ export default {
           if(this.$router.currentRoute.name == "adventurePoint" ||
               this.$router.currentRoute.name == "adventureClue" ||
               this.$router.currentRoute.name == "newAdventureClue") {
-
             if(this.$router.currentRoute.params.pointId == this.currentPoint.id) {
               setTimeout(() => {
                 this.$router.replace({ name: 'adventureMap', params: { adventureId: this.adventure.id } });

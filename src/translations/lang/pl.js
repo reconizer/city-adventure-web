@@ -87,6 +87,7 @@ export default {
     help_paragraph_1: "Możesz szybko zmienić pozycję punktu lub zasięg interakcji poprzez przeciąganie znacznika punktu lub kontrolek promienia na mapie.",
     help_paragraph_2: "Możesz także szybko tworzyć nowe punkty lub usuwać istniejące poprzez wciskanie prawego przycisku myszy.",
     help_paragraph_3: "Przycisk 'Znajdź punkty' oddali kamerę tak by wszystkie punkty były widoczne.",
+    help_paragraph_4: "Możesz także włączyć/wyłączyć wyświetlanie zasięgów interakcji punktów.",
     help_confirm: "Jasne, rozumiem",
 
     add_new_puzzle: "Dodaj nowy punkt",

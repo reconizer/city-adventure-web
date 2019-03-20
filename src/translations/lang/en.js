@@ -87,6 +87,8 @@ export default {
     help_paragraph_1: "You can quickly change point's position or radius by using your mouse and dragging the point marker or radius controls around.",
     help_paragraph_2: "You can also quickly create or remove points by right clicking.",
     help_paragraph_3: "The reposition button will zoom out the camera unless all of the points are visible.",
+    help_paragraph_4: "You can also enable/disable showing points' ranges for more clarity.",
+
     help_confirm: "Okay, got it",
 
     add_new_puzzle: "Create new Puzzle",

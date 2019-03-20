@@ -10,6 +10,8 @@
 
     AdventureListItem(v-for="adventureItem in adventures" :key="adventureItem.id" :adventure="adventureItem")
 
+    .adventure-list__empty(v-if="adventures.length === 0 && !loading") {{ $t("adventures.empty") }}
+
     Loader(v-if="loading")
 </template>
 

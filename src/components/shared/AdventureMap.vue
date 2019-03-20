@@ -75,6 +75,8 @@
 
       p {{ $t("adventure.help_paragraph_3") }}
 
+      p {{ $t("adventure.help_paragraph_4") }}
+
       .text-center
         a.button.button--blue(@click="closeHelpModal") {{ $t("adventure.help_confirm") }}
 </template>
