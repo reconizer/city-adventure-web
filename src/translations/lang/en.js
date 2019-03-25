@@ -291,6 +291,7 @@ export default {
     i_understand_confirm: "OK, got it",
 
     upload_files: "Add Files",
-    choose_file: "Choose File"
+    choose_file: "Choose File",
+    replace_file: "Change"
   }
 }

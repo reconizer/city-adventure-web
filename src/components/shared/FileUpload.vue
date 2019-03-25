@@ -6,12 +6,14 @@
     @drop="onDrop"
     :class="{ 'file-upload--highlight': highlight, 'file-upload--disabled': !enabled, 'file-upload--borderless': $slots.placeholder }"
   )
-    .file-upload__content
+    .file-upload__content(:class="{ 'file-upload__content--with-placeholder': !!$slots.placeholder }")
       slot(name="placeholder" v-if="!!$slots.placeholder")
 
       .file-upload__icon.icon.icon--lg.icon--upload(v-if="!$slots.placeholder")
 
       div(v-if="!$slots.placeholder") {{ computedTitle }}
+
+    .file-upload__replace-text(v-if="$slots.placeholder && showReplaceInfo") {{ $t('general.replace_file') }}
 
     .file-upload__replace-info(v-if="$slots.placeholder && showReplaceInfo")
 

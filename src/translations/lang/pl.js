@@ -290,6 +290,7 @@ export default {
     i_understand_confirm: "OK, rozumiem",
 
     upload_files: "Dodaj pliki",
-    choose_file: "Wybierz plik"
+    choose_file: "Wybierz plik",
+    replace_file: "Zmień"
   }
 }
