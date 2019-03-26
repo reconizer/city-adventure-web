@@ -72,3 +72,4 @@ export const SET_TOTAL_PAGES = "setTotalPages";
  */
 
 export const SET_ACCOUNT = "setAccount";
+export const SET_PROFILE = "setProfile";

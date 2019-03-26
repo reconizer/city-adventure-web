@@ -5,7 +5,9 @@ import BaseLayout from '@/views/creator/BaseLayout.vue'
 import Adventures from '@/views/creator/Adventures.vue'
 import AdventureCreateForm from '@/components/shared/AdventureCreateForm'
 
+import Settings from '@/components/creator/Settings.vue'
 import AccountSettings from '@/components/creator/AccountSettings.vue'
+import ProfileSettings from '@/components/creator/ProfileSettings.vue'
 
 import Adventure from '@/components/shared/Adventure.vue'
 import AdventureSettings from '@/views/AdventureSettings.vue'
@@ -38,9 +40,20 @@ const router = new Router({
           component: Adventures
         },
         {
-          path: 'account',
-          name: 'accountSettings',
-          component: AccountSettings
+          path: 'settings',
+          component: Settings,
+          children: [
+            {
+              path: '',
+              name: 'profileSettings',
+              component: ProfileSettings
+            },
+            {
+              path: 'account',
+              name: 'accountSettings',
+              component: AccountSettings
+            }
+          ]
         },
         {
           path: 'adventures/new',

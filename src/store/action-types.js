@@ -56,4 +56,8 @@ export const LOAD_COUNTERS = "loadCounters";
  * ACCOUNT MANAGEMENT
  */
 export const LOAD_ACCOUNT = "loadAccount";
-export const UPDATE_ACCOUNT = "updateAccount";
+export const UPDATE_EMAIL = "updateEmail";
+export const UPDATE_PASSWORD = "updatePassword";
+
+export const LOAD_PROFILE = "loadProfile";
+export const UPDATE_PROFILE = "updateProfile";

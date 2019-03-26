@@ -11,13 +11,30 @@ export default {
 
   top_menu: {
     adventures: "Adventures",
-    settings: "Account",
+    settings: "Settings",
     logout: "Log Out",
     language: "Language"
   },
 
+  settings: {
+    title: "Settings"
+  },
+
   account_settings: {
-    title: "Account Settings",
+    title: "Account",
+
+    change_email: "Change Email",
+    new_email: "New Email",
+    password: "Password",
+
+    change_password: "Change Password",
+    current_password: "Current Password",
+    new_password: "New Password",
+    new_password_confirmation: "New Password Confirmation"
+  },
+
+  profile_settings: {
+    title: "Profile",
 
     profile_picture: "Profile Picture",
     add_profile_picture: "Add Image",

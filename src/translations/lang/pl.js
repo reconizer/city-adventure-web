@@ -11,13 +11,30 @@ export default {
 
   top_menu: {
     adventures: "Przygody",
-    settings: "Konto",
+    settings: "Ustawienia",
     logout: "Wyloguj się",
     language: "Język"
   },
 
+  settings: {
+    title: "Ustawienia"
+  },
+
   account_settings: {
-    title: "Ustawienia Konta",
+    title: "Konto",
+
+    change_email: "Zmień Email",
+    new_email: "Nowy Email",
+    password: "Hasło",
+
+    change_password: "Zmień Hasło",
+    current_password: "Obecne Hasło",
+    new_password: "Nowe Hasło",
+    new_password_confirmation: "Potwierdź Nowe Hasło"
+  },
+
+  profile_settings: {
+    title: "Profil",
 
     profile_picture: "Zdjęcie profilowe",
     add_profile_picture: "Wybierz Zdjęcie",
