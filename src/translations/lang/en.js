@@ -13,7 +13,8 @@ export default {
     adventures: "Adventures",
     settings: "Settings",
     logout: "Log Out",
-    language: "Language"
+    language: "Language",
+    users: "Users"
   },
 
   settings: {

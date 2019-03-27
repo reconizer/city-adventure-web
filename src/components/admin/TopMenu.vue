@@ -15,6 +15,13 @@
           .icon.icon--wrench-white.icon--pad-right
           span {{ $t("top_menu.settings") }}
 
+        router-link.top-menu__link(
+          to="/users"
+          active-class="top-menu__link--active"
+        )
+          .icon.icon--user-white.icon--pad-right
+          span {{ $t("top_menu.users") }}
+
         .top-menu__link
           span {{ $t("top_menu.language") }}
 

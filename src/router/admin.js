@@ -50,6 +50,19 @@ const router = new Router({
           component: null
         },
         {
+          path: 'users',
+          component: null,
+        },
+        {
+          path: 'users/new',
+          name: 'newUser',
+          component: null
+        },
+        {
+          path: 'users/:userId',
+          component: null
+        },
+        {
           path: 'adventures',
           component: Adventures,
           children: [
