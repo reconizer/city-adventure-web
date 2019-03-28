@@ -106,6 +106,7 @@ export default {
     help_paragraph_2: "Możesz także szybko tworzyć nowe punkty lub usuwać istniejące poprzez wciskanie prawego przycisku myszy.",
     help_paragraph_3: "Przycisk 'Znajdź punkty' oddali kamerę tak by wszystkie punkty były widoczne.",
     help_paragraph_4: "Możesz także włączyć/wyłączyć wyświetlanie zasięgów interakcji punktów.",
+
     help_confirm: "Jasne, rozumiem",
 
     add_new_puzzle: "Dodaj nowy punkt",
@@ -288,6 +289,12 @@ export default {
     next: "Następna",
     first: "Pierwsza",
     last: "Ostatnia"
+  },
+
+  admin_users: {
+    empty: "Brak rezultatów",
+    players: "Gracze",
+    authors: "Autorzy"
   },
 
   general: {

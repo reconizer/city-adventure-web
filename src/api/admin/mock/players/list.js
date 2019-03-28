@@ -5,18 +5,18 @@ export default (page, query) => new Promise((resolve) => {
 
     let response = {
       data: {
-        users: [],
+        players: [],
         total_pages
       }
     };
 
-    for(let i =1; i <= per_page; i++) {
+    for(let i = 1; i <= per_page; i++) {
       let id = i + (page - 1) * per_page;
 
-      response.data.users.push({
+      response.data.players.push({
         id: id,
-        name: `User ${id + 1}`,
-        email: `user${id + 1}@domain.com`,
+        name: `User ${id}`,
+        email: `user${id}@domain.com`,
         avatar_url: 'http://placehold.it/400x400'
       });
     }

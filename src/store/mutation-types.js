@@ -67,8 +67,8 @@ export const SET_TYPE = "setType";
 export const SET_COUNTERS = "setCounters";
 export const SET_TOTAL_PAGES = "setTotalPages";
 
-export const SET_USERS = "setUsers";
-export const SET_USER = "setUser";
+export const SET_PLAYERS = "setPlayers";
+export const SET_PLAYER = "setPlayer";
 
 /**
  * ACCOUNT MANAGEMENT

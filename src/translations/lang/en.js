@@ -291,6 +291,12 @@ export default {
     last: "Last"
   },
 
+  admin_users: {
+    empty: "No results",
+    players: "Players",
+    authors: "Authors"
+  },
+
   general: {
     name: "Name",
     description: "Description",

@@ -51,11 +51,11 @@ export const LOAD_ANALYTICS_USER_PROGRESS = "loadAnalyticsUserProgress";
  */
 export const LOAD_COUNTERS = "loadCounters";
 
-export const LOAD_USER = "loadUser";
-export const LOAD_USERS = "loadUsers";
-export const CREATE_USER = "createUser";
-export const DESTROY_USER = "destroyUser";
-export const UPDATE_USER = "updateUser";
+export const LOAD_PLAYER = "loadPlayer";
+export const LOAD_PLAYERS = "loadPlayers";
+export const CREATE_PLAYER = "createPlayer";
+export const DESTROY_PLAYER = "destroyPlayer";
+export const UPDATE_PLAYER = "updatePlayer";
 
 /**
  * ACCOUNT MANAGEMENT

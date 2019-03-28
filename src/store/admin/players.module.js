@@ -1,14 +1,14 @@
-import api from '/@api';
+import api from '@/api';
 
 import {
-  LOAD_USER, LOAD_USERS,
+  LOAD_PLAYER, LOAD_PLAYERS,
 
-  CREATE_USER, DESTROY_USER,
-  UPDATE_USER
+  CREATE_PLAYER, DESTROY_PLAYER,
+  UPDATE_PLAYER
 } from '@/store/action-types'
 
 import {
-  SET_USERS, SET_USER,
+  SET_PLAYERS, SET_PLAYER,
   SET_TOTAL_PAGES,
 
   SET_LOADING, SET_ERROR
@@ -23,29 +23,29 @@ export default {
 
     loading: false,
     errors: {
-      [LOAD_USER]: null, [LOAD_USERS]: null,
-      [CREATE_USER]: null, [DESTROY_USER]: null,
-      [UPDATE_USER]: null
+      [LOAD_PLAYER]: null, [LOAD_PLAYERS]: null,
+      [CREATE_PLAYER]: null, [DESTROY_PLAYER]: null,
+      [UPDATE_PLAYER]: null
     }
   },
   mutations: {
-    [SET_USERS] (state, users) {
-      state.list = users;
+    [SET_PLAYERS] (state, players) {
+      state.list = players;
     },
 
     [SET_TOTAL_PAGES] (state, totalPages) {
       state.totalPages = totalPages;
     },
 
-    [SET_USER] (state, user) {
-      state.item = user;
+    [SET_PLAYER] (state, player) {
+      state.item = player;
     },
 
     /**
      * GENERAL
      */
     [SET_LOADING] (state, loading) {
-      this.loading = loading;
+      state.loading = loading;
     },
 
     [SET_ERROR] (state, { key, error }) {
@@ -53,92 +53,93 @@ export default {
     }
   },
   actions: {
-    [LOAD_USERS] ({ commit }, { page, query }) {
+    [LOAD_PLAYERS] ({ commit }, { page, query }) {
       commit(SET_LOADING, true);
-      commit(SET_ERROR, { key: LOAD_USERS, error: null });
+      commit(SET_ERROR, { key: LOAD_PLAYERS, error: null });
 
-      return api.admin.users.loadUsers(page, query)
+      return api.admin.players.loadPlayers(page, query)
         .then( response => {
+          commit(SET_PLAYERS, response.data.players);
+          commit(SET_TOTAL_PAGES, response.data.total_pages);
           commit(SET_LOADING, false);
-          commit(SET_USERS, response.data.users;
 
           return response;
         })
         .catch( error => {
-          commit(SET_ERROR, { key: LOAD_USERS, error: error.response.data });
+          commit(SET_ERROR, { key: LOAD_PLAYERS, error: error.response.data });
           commit(SET_LOADING, false);
 
           throw error;
         });
     },
 
-    [LOAD_USER] ({ commit }, id) {
+    [LOAD_PLAYER] ({ commit }, id) {
       commit(SET_LOADING, true);
-      commit(SET_ERROR, { key: LOAD_USER, error :null });
+      commit(SET_ERROR, { key: LOAD_PLAYER, error: null });
 
-      return api.admin.users.loadUser(id)
+      return api.admin.players.loadPlayer(id)
         .then( response => {
           commit(SET_LOADING, false);
-          commit(SET_USER, response.data);
+          commit(SET_PLAYER, response.data);
 
           return response;
         })
         .catch( error => {
-          commit(SET_ERROR, { key: LOAD_USER, error: error.response.data });
+          commit(SET_ERROR, { key: LOAD_PLAYER, error: error.response.data });
           commit(SET_LOADING, false);
 
           throw error;
         });
     },
 
-    [CREATE_USER] ({ commit }, { params }) {
+    [CREATE_PLAYER] ({ commit }, { params }) {
       commit(SET_LOADING, true);
-      commit(SET_ERROR, { key: CREATE_USER, error: null });
+      commit(SET_ERROR, { key: CREATE_PLAYER, error: null });
 
-      return api.admin.users.createUser(params)
+      return api.admin.players.createPlayer(params)
         .then( response => {
           commit(SET_LOADING, false);
 
           return response;
         })
         .catch( error => {
-          commit(SET_ERROR, { key: CREATE_USER, error: error.response.data });
+          commit(SET_ERROR, { key: CREATE_PLAYER, error: error.response.data });
           commit(SET_LOADING, false);
 
           throw error;
         });
     },
 
-    [DESTROY_USER] ({ commit }, { id }) {
+    [DESTROY_PLAYER] ({ commit }, { id }) {
       commit(SET_LOADING, true);
-      commit(SET_ERROR, { key: DESTROY_USER, error: null });
+      commit(SET_ERROR, { key: DESTROY_PLAYER, error: null });
 
-      return api.admin.users.destroyUser(id)
+      return api.admin.players.destroyPlayer(id)
         .then( response => {
           commit(SET_LOADING, false);
 
           return response;
         })
         .catch( error => {
-          commit(SET_ERROR, { key: DESTROY_USER, error: error.response.data });
+          commit(SET_ERROR, { key: DESTROY_PLAYER, error: error.response.data });
           commit(SET_LOADING, false);
 
           throw error;
         });
     },
 
-    [UPDATE_USER] ({ commit, state }, { params }) {
+    [UPDATE_PLAYER] ({ commit, state }, { params }) {
       commit(SET_LOADING, true);
-      commit(SET_ERROR, { key: UPDATE_USER, error: null });
+      commit(SET_ERROR, { key: UPDATE_PLAYER, error: null });
 
-      return api.admin.users.updateUser(state.item.id, params)
+      return api.admin.players.updatePlayer(state.item.id, params)
         .then( response => {
           commit(SET_LOADING, false);
 
           return response;
         })
         .catch( error => {
-          commit(SET_ERROR, { key: UPDATE_USER, error: error.response.data });
+          commit(SET_ERROR, { key: UPDATE_PLAYER, error: error.response.data });
           commit(SET_LOADING, false);
 
           throw error;
