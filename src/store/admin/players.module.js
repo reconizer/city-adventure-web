@@ -9,6 +9,8 @@ import {
 
 import {
   SET_PLAYERS, SET_PLAYER,
+  REMOVE_PLAYER,
+
   SET_TOTAL_PAGES,
 
   SET_LOADING, SET_ERROR
@@ -39,6 +41,12 @@ export default {
 
     [SET_PLAYER] (state, player) {
       state.item = player;
+    },
+
+    [REMOVE_PLAYER] (state, playerId) {
+      let index = state.list.findIndex(player => player.id == playerId);
+
+      state.list.splice(index, 1);
     },
 
     /**
@@ -73,9 +81,10 @@ export default {
         });
     },
 
-    [LOAD_PLAYER] ({ commit }, id) {
+    [LOAD_PLAYER] ({ commit }, { id }) {
       commit(SET_LOADING, true);
       commit(SET_ERROR, { key: LOAD_PLAYER, error: null });
+      commit(SET_PLAYER, null);
 
       return api.admin.players.loadPlayer(id)
         .then( response => {
@@ -117,6 +126,7 @@ export default {
       return api.admin.players.destroyPlayer(id)
         .then( response => {
           commit(SET_LOADING, false);
+          commit(REMOVE_PLAYER, id);
 
           return response;
         })

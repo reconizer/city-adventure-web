@@ -31,6 +31,8 @@ import AdventurePublishing from '@/components/admin/AdventurePublishing.vue'
 import Users from '@/components/admin/users/Users.vue'
 
 import PlayerList from '@/components/admin/users/PlayerList.vue'
+import PlayerCreateForm from '@/components/admin/users/PlayerCreateForm.vue'
+import PlayerEditForm from '@/components/admin/users/PlayerEditForm.vue'
 
 import {
   ADVENTURES_PUBLISHED,
@@ -75,30 +77,30 @@ const router = new Router({
               component: PlayerList
             },
             {
-              path: 'players/new',
-              name: 'newPlayer',
-              component: null
-            },
-
-            {
               path: 'authors',
               name: 'authors',
               component: null
             },
-            {
-              path: 'authors/new',
-              name: 'newAuthor',
-              component: null
-            }
           ]
+        },
+        {
+          path: 'users/players/new',
+          name: 'newPlayer',
+          component: PlayerCreateForm
         },
         {
           path: 'users/players/:playerId',
           name: 'player',
+          component: PlayerEditForm
+        },
+
+        {
+          path: 'users/authors/new',
+          name: 'newAuthor',
           component: null
         },
         {
-          path: 'users/players/:authorId',
+          path: 'users/authors/:authorId',
           name: 'author',
           component: null
         },

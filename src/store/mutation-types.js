@@ -69,6 +69,7 @@ export const SET_TOTAL_PAGES = "setTotalPages";
 
 export const SET_PLAYERS = "setPlayers";
 export const SET_PLAYER = "setPlayer";
+export const REMOVE_PLAYER = "removePlayer";
 
 /**
  * ACCOUNT MANAGEMENT

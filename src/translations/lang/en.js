@@ -294,7 +294,22 @@ export default {
   admin_users: {
     empty: "No results",
     players: "Players",
-    authors: "Authors"
+    authors: "Authors",
+
+    user_email: "Email",
+    user_name: "User Name",
+    user_password: "Password",
+    user_password_confirmation: "Password Confirmation",
+
+    change_profile_data: "Change User Profile",
+    change_password: "Change Password",
+
+    remove: "Remove User",
+    remove_confirm: "Are you sure you want to remove user {userName}?",
+
+    new_user: "New",
+    new_player: "New Player",
+    new_author: "New Author"
   },
 
   general: {

@@ -294,7 +294,22 @@ export default {
   admin_users: {
     empty: "Brak rezultatów",
     players: "Gracze",
-    authors: "Autorzy"
+    authors: "Autorzy",
+
+    user_email: "Email",
+    user_name: "Nazwa użytkownika",
+    user_password: "Hasło",
+    user_password_confirmation: "Potwierdź hasło",
+
+    change_profile_data: "Zmień dane użytkownika",
+    change_password: "Zmień Hasło",
+
+    remove: "Usuń Użytkownika",
+    remove_confirm: "Jesteś pewien, że chcesz usunąć użytkownika {userName}?",
+
+    new_user: "Nowy",
+    new_player: "Nowy Gracz",
+    new_author: "Nowy Autor"
   },
 
   general: {
@@ -306,8 +321,8 @@ export default {
     remove: "Usuń",
     submit: "Zatwierdź",
     cancel: "Anuluj",
-    filter: "Filtruj",
     query: "Szukaj",
+    filter: "Filtruj",
 
     around: "Około {value}",
 

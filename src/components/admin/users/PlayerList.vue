@@ -1,5 +1,5 @@
 <template lang="pug">
-  .user-list
+  div
     form.user-list-filters(@submit="filtersSubmit")
       .form-control.form-control--inline
         input.form-input(type="text" v-model="query" :placeholder="$t('general.query')")
@@ -62,12 +62,18 @@ export default {
   },
   methods: {
     search () {
+      let query = {
+        page: this.page,
+        query: this.query
+      };
+
+      if(this.query == null || this.query == "") {
+        delete query.query;
+      }
+
       this.$router.push({
         name: this.$router.currentRoute.name,
-        query: {
-          page: this.page,
-          query: this.query
-        }
+        query
       });
     },
 
