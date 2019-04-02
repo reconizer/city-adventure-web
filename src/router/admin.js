@@ -4,6 +4,9 @@ import Router from 'vue-router'
 import BaseLayout from '@/views/admin/BaseLayout.vue'
 import Login from '@/views/Login.vue'
 
+/**
+ * ADVENTURES MANAGEMENT
+ */
 import Adventures from '@/components/admin/Adventures.vue'
 
 import AdventureList from '@/components/admin/AdventureList.vue'
@@ -21,6 +24,15 @@ import AdventureAnalyticsUserCompletion from '@/components/shared/AdventureAnaly
 import AdventureAnalyticsUserProgress from '@/components/shared/AdventureAnalyticsUserProgress.vue'
 
 import AdventurePublishing from '@/components/admin/AdventurePublishing.vue'
+
+/**
+ * USER MANAGEMENT
+ */
+import Users from '@/components/admin/users/Users.vue'
+
+import PlayerList from '@/components/admin/users/PlayerList.vue'
+import PlayerCreateForm from '@/components/admin/users/PlayerCreateForm.vue'
+import PlayerEditForm from '@/components/admin/users/PlayerEditForm.vue'
 
 import {
   ADVENTURES_PUBLISHED,
@@ -47,6 +59,49 @@ const router = new Router({
         {
           path: 'account',
           name: 'accountSettings',
+          component: null
+        },
+        {
+          path: 'users',
+          component: Users,
+          children: [
+            {
+              path: '',
+              name: 'users',
+              redirect: 'players'
+            },
+
+            {
+              path: 'players',
+              name: 'players',
+              component: PlayerList
+            },
+            {
+              path: 'authors',
+              name: 'authors',
+              component: null
+            },
+          ]
+        },
+        {
+          path: 'users/players/new',
+          name: 'newPlayer',
+          component: PlayerCreateForm
+        },
+        {
+          path: 'users/players/:playerId',
+          name: 'player',
+          component: PlayerEditForm
+        },
+
+        {
+          path: 'users/authors/new',
+          name: 'newAuthor',
+          component: null
+        },
+        {
+          path: 'users/authors/:authorId',
+          name: 'author',
           component: null
         },
         {

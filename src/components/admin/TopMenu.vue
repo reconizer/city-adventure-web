@@ -9,6 +9,12 @@
           span {{ $t("top_menu.adventures") }}
 
         router-link.top-menu__link(
+          to="/users"
+        )
+          .icon.icon--user-white.icon--pad-right
+          span {{ $t("top_menu.users") }}
+
+        router-link.top-menu__link(
           to="/account"
           exact-active-class="top-menu__link--active"
         )
@@ -22,11 +28,15 @@
             .top-menu__dropdown-option(@click="setLocale('pl')") PL
             .top-menu__dropdown-option(@click="setLocale('en')") EN
 
-        a.top-menu__link(@click="logout") {{ $t("top_menu.logout") }}
+        a.top-menu__link(href="#" @click.prevent="logout") {{ $t("top_menu.logout") }}
 </template>
 
 <script>
 import moment from 'moment'
+
+const ACTION_NAMESPACE = 'authentication';
+
+import { LOGOUT } from '@/store/action-types'
 
 export default {
   name: 'TopMenu',

@@ -1,37 +1,47 @@
 <template lang="pug">
-  .wrapper.wrapper--constrained
-    Loader(v-if="loading")
+  .settings-panel
+    .row(v-if="account.email")
+      .col-1-3
+        .settings-section
+          .settings-section__header {{ $t("account_settings.change_email") }}
 
-    .account-settings
-      .account-settings__header {{ $t("account_settings.title") }}
+          .form-control
+            label.form-label.form-label--required {{ $t("account_settings.new_email") }}
 
-      .row(v-if="account.name")
-        .col-1-2
-          .row
-            .col-1-3
-              .form-control
-                label.form-label {{ $t("account_settings.profile_picture") }}
+            label.error-label(v-if="emailChangeError && emailChangeError.email") {{ emailChangeError.email.join(', ') }}
+            input.form-input(type="email" :placeholder="$t('account_settings.new_email')" v-model="emailChange.email")
 
-                FileUpload.file-upload--square(@filesAdded="avatarChanged" :title="$t('account_settings.add_profile_picture')")
-                  img.file-upload__image(slot="placeholder" v-if="account.avatar_url" :src="account.avatar_url")
+          .form-control
+            label.form-label.form-label--required {{ $t("account_settings.password") }}
 
-            .col-2-3
-              .form-control
-                label.form-label.form-label--required {{ $t("account_settings.name") }}
-                label.error-label(v-if="error && error.name") {{ error.name.join(', ') }}
-                input.form-input(type="text" :placeholder="$t('account_settings.name')" v-model="account.name")
+            label.error-label(v-if="emailChangeError && emailChangeError.password") {{ emailChangeError.password.join(', ') }}
+            input.form-input(type="password" :placeholder="$t('account_settings.password')" v-model="emailChange.password")
 
-              .form-control
-                label.form-label {{ $t("account_settings.description") }}
-                label.error-label(v-if="error && error.description") {{ error.description.join(', ') }}
-                textarea.form-input(:placeholder="$t('account_settings.description')" v-model="account.description")
+          button.button.button--submit.button--blue.button--large(@click="changeEmail") {{ $t('general.submit') }}
 
-          .row
-            .col-2-3.col-offset-1-3
-              .form-control
-                button.button.button--submit.button--blue.button--large.button--full(@click="submit") {{ $t('general.submit') }}
+      .col-1-3
+        .settings-section
+          .settings-section__header {{ $t("account_settings.change_password") }}
 
-        .col-1-2
+          .form-control
+            label.form-label.form-label--required {{ $t("account_settings.current_password") }}
+
+            label.error-label(v-if="passwordChangeError && passwordChangeError.current_password") {{ passwordChangeError.current_password.join(', ') }}
+            input.form-input(type="password" :placeholder="$t('account_settings.current_password')" v-model="passwordChange.current_password")
+
+          .form-control
+            label.form-label.form-label--required {{ $t("account_settings.new_password") }}
+
+            label.error-label(v-if="passwordChangeError && passwordChangeError.new_password") {{ passwordChangeError.new_password.join(', ') }}
+            input.form-input(type="password" :placeholder="$t('account_settings.new_password')" v-model="passwordChange.new_password")
+
+          .form-control
+            label.form-label.form-label--required {{ $t("account_settings.new_password_confirmation") }}
+
+            label.error-label(v-if="passwordChangeError && passwordChangeError.new_password_confirmation") {{ passwordChangeError.new_password_confirmation.join(', ') }}
+            input.form-input(type="password" :placeholder="$t('account_settings.new_password_confirmation')" v-model="passwordChange.new_password_confirmation")
+
+          button.button.button--submit.button--blue.button--large(@click="changePassword") {{ $t('general.submit') }}
 </template>
 
 <script>
@@ -39,11 +49,12 @@ import { mapState } from 'vuex'
 
 import cloneDeep from 'lodash.clonedeep'
 
-import FileUpload from '@/components/shared/FileUpload.vue'
 import Loader from '@/views/Loader.vue'
 
 import {
-  LOAD_ACCOUNT, UPDATE_ACCOUNT
+  LOAD_ACCOUNT,
+  UPDATE_EMAIL,
+  UPDATE_PASSWORD
 } from '@/store/action-types'
 
 const ACTION_NAMESPACE = 'accountSettings'
@@ -51,23 +62,31 @@ const ACTION_NAMESPACE = 'accountSettings'
 export default {
   name: 'AccountSettings',
   components: {
-    FileUpload,
     Loader
   },
   data () {
     return {
       accountData: {
-        name: null,
-        description: null,
-        avatar_url: null
+        email: null
+      },
+
+      passwordChange: {
+        current_password: null,
+        new_password: null,
+        new_password_confirmation: null
+      },
+
+      emailChange: {
+        email: null,
+        password: null
       }
     }
   },
   computed: {
     ...mapState({
-      account: state => state.accountSettings.account,
       loading: state => state.accountSettings.loading,
-      error: state => state.accountSettings.error
+      emailChangeError: state => state.accountSettings.errors[UPDATE_EMAIL],
+      passwordChangeError: state => state.accountSettings.errors[UPDATE_PASSWORD]
     }),
 
     account () {
@@ -76,6 +95,8 @@ export default {
       if(account) {
         //eslint-disable-next-line
         this.accountData = cloneDeep(account);
+        //eslint-disable-next-line
+        this.emailChange.email = account.email;
       }
 
       return this.accountData;
@@ -85,12 +106,22 @@ export default {
     this.$store.dispatch(`${ACTION_NAMESPACE}/${LOAD_ACCOUNT}`);
   },
   methods: {
-    avatarChanged (files) {
-      this.accountData.avatar_url = URL.createObjectURL(files[0]);
+    changeEmail () {
+      this.$store.dispatch(`${ACTION_NAMESPACE}/${UPDATE_EMAIL}`, {
+        payload: {
+          password: this.emailChange.password,
+          email: this.emailChange.email
+        }
+      });
     },
-    submit () {
-      this.$store.dispatch(`${ACTION_NAMESPACE}/${UPDATE_ACCOUNT}`, {
-        payload: this.accountData
+
+    changePassword () {
+      this.$store.dispatch(`${ACTION_NAMESPACE}/${UPDATE_PASSWORD}`, {
+        payload: {
+          password: this.passwordChange.current_password,
+          new_password: this.passwordChange.new_password,
+          new_password_confirmation: this.passwordChange.new_password_confirmation
+        }
       });
     }
   }

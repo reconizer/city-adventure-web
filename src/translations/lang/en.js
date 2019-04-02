@@ -11,13 +11,31 @@ export default {
 
   top_menu: {
     adventures: "Adventures",
-    settings: "Account",
+    settings: "Settings",
     logout: "Log Out",
-    language: "Language"
+    language: "Language",
+    users: "Users"
+  },
+
+  settings: {
+    title: "Settings"
   },
 
   account_settings: {
-    title: "Account Settings",
+    title: "Account",
+
+    change_email: "Change Email",
+    new_email: "New Email",
+    password: "Password",
+
+    change_password: "Change Password",
+    current_password: "Current Password",
+    new_password: "New Password",
+    new_password_confirmation: "New Password Confirmation"
+  },
+
+  profile_settings: {
+    title: "Profile",
 
     profile_picture: "Profile Picture",
     add_profile_picture: "Add Image",
@@ -271,6 +289,27 @@ export default {
     next: "Next",
     first: "First",
     last: "Last"
+  },
+
+  admin_users: {
+    empty: "No results",
+    players: "Players",
+    authors: "Authors",
+
+    user_email: "Email",
+    user_name: "User Name",
+    user_password: "Password",
+    user_password_confirmation: "Password Confirmation",
+
+    change_profile_data: "Change User Profile",
+    change_password: "Change Password",
+
+    remove: "Remove User",
+    remove_confirm: "Are you sure you want to remove user {userName}?",
+
+    new_user: "New",
+    new_player: "New Player",
+    new_author: "New Author"
   },
 
   general: {

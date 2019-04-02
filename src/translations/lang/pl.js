@@ -11,13 +11,31 @@ export default {
 
   top_menu: {
     adventures: "Przygody",
-    settings: "Konto",
+    settings: "Ustawienia",
     logout: "Wyloguj się",
-    language: "Język"
+    language: "Język",
+    users: "Użytkownicy"
+  },
+
+  settings: {
+    title: "Ustawienia"
   },
 
   account_settings: {
-    title: "Ustawienia Konta",
+    title: "Konto",
+
+    change_email: "Zmień Email",
+    new_email: "Nowy Email",
+    password: "Hasło",
+
+    change_password: "Zmień Hasło",
+    current_password: "Obecne Hasło",
+    new_password: "Nowe Hasło",
+    new_password_confirmation: "Potwierdź Nowe Hasło"
+  },
+
+  profile_settings: {
+    title: "Profil",
 
     profile_picture: "Zdjęcie profilowe",
     add_profile_picture: "Wybierz Zdjęcie",
@@ -88,6 +106,7 @@ export default {
     help_paragraph_2: "Możesz także szybko tworzyć nowe punkty lub usuwać istniejące poprzez wciskanie prawego przycisku myszy.",
     help_paragraph_3: "Przycisk 'Znajdź punkty' oddali kamerę tak by wszystkie punkty były widoczne.",
     help_paragraph_4: "Możesz także włączyć/wyłączyć wyświetlanie zasięgów interakcji punktów.",
+
     help_confirm: "Jasne, rozumiem",
 
     add_new_puzzle: "Dodaj nowy punkt",
@@ -272,6 +291,27 @@ export default {
     last: "Ostatnia"
   },
 
+  admin_users: {
+    empty: "Brak rezultatów",
+    players: "Gracze",
+    authors: "Autorzy",
+
+    user_email: "Email",
+    user_name: "Nazwa użytkownika",
+    user_password: "Hasło",
+    user_password_confirmation: "Potwierdź hasło",
+
+    change_profile_data: "Zmień dane użytkownika",
+    change_password: "Zmień Hasło",
+
+    remove: "Usuń Użytkownika",
+    remove_confirm: "Jesteś pewien, że chcesz usunąć użytkownika {userName}?",
+
+    new_user: "Nowy",
+    new_player: "Nowy Gracz",
+    new_author: "Nowy Autor"
+  },
+
   general: {
     name: "Nazwa",
     description: "Opis",
@@ -281,8 +321,8 @@ export default {
     remove: "Usuń",
     submit: "Zatwierdź",
     cancel: "Anuluj",
-    filter: "Filtruj",
     query: "Szukaj",
+    filter: "Filtruj",
 
     around: "Około {value}",
 

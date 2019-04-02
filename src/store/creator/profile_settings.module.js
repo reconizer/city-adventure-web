@@ -3,27 +3,27 @@ import api from '@/api';
 import {
   SET_LOADING, SET_ERROR,
 
-  SET_ACCOUNT
+  SET_PROFILE
 } from '@/store/mutation-types'
 
 import {
-  LOAD_ACCOUNT, UPDATE_ACCOUNT
+  LOAD_PROFILE, UPDATE_PROFILE
 } from '@/store/action-types'
 
 export default {
   namespaced: true,
   state: {
-    account: null,
+    profile: null,
 
     loading: false,
 
     errors: {
-      [LOAD_ACCOUNT]: null, [UPDATE_ACCOUNT]: null
+      [LOAD_PROFILE]: null, [UPDATE_PROFILE]: null
     }
   },
   mutations: {
-    [SET_ACCOUNT] (state, account) {
-      state.account = account;
+    [SET_PROFILE] (state, profile) {
+      state.profile = profile;
     },
 
     [SET_LOADING] (state, loading) {
@@ -35,40 +35,40 @@ export default {
     }
   },
   actions: {
-    [LOAD_ACCOUNT] ({ commit }) {
+    [LOAD_PROFILE] ({ commit }) {
       commit(SET_LOADING, true);
-      commit(SET_ERROR, { key: LOAD_ACCOUNT, error: null });
+      commit(SET_ERROR, { key: LOAD_PROFILE, error: null });
 
-      return api.creator.account.load()
+      return api.creator.profile.load()
         .then( response => {
-          commit(SET_ACCOUNT, response.data);
+          commit(SET_PROFILE, response.data);
           commit(SET_LOADING, false);
 
           return response;
         })
         .catch( error => {
-          commit(SET_ERROR, { key: LOAD_ACCOUNT, error: error.response.data });
+          commit(SET_ERROR, { key: LOAD_PROFILE, error: error.response.data });
           commit(SET_LOADING, false);
 
           throw error;
         });
     },
 
-    [UPDATE_ACCOUNT] ({ commit }, { payload }) {
+    [UPDATE_PROFILE] ({ commit }, { payload }) {
       commit(SET_LOADING, true);
-      commit(SET_ERROR, { key: UPDATE_ACCOUNT, error: null });
+      commit(SET_ERROR, { key: UPDATE_PROFILE, error: null });
 
-      return api.creator.account.update(payload)
+      return api.creator.profile.update(payload)
         .then( response => {
-          return api.creator.account.load();
+          return api.creator.profile.load();
         }).then( response => {
-          commit(SET_ACCOUNT, response.data);
+          commit(SET_PROFILE, response.data);
           commit(SET_LOADING, false);
 
           return response;
         })
         .catch( error => {
-          commit(SET_ERROR, { key: UPDATE_ACCOUNT, error: error.response.data });
+          commit(SET_ERROR, { key: UPDATE_PROFILE, error: error.response.data });
           commit(SET_LOADING, false);
 
           throw error;
