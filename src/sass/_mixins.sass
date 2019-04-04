@@ -7,3 +7,26 @@
     @content
   &:-ms-input-placeholder
     @content
+
+=rising-hover($background: $white, $shadow: rgba($black, 0.25))
+  transition: box-shadow .1s linear
+  background-color: $background
+  position: relative
+
+  &:before
+    content: ''
+    display: block
+    position: absolute
+    left: 0
+    top: 0
+    right: 0
+    bottom: 0
+    transition: box-shadow .1s linear
+    z-index: $z-list-item-background
+
+  &:hover
+    z-index: $z-list-item-hover
+    box-shadow: 0 0 14px $shadow
+
+  &:hover:before
+    box-shadow: 0 0 0 4px $white
