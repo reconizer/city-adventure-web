@@ -1,11 +1,5 @@
-.adventure-page-wrapper
-  margin: 0 auto
-  max-width: 90rem
-  position: relative
-  height: calc(100vh - #{$top-menu-height})
-
 .adventure-panel
-  position: fixed
+  position: absolute
   top: $top-menu-height
   left: 0
   right: 0
@@ -13,7 +7,6 @@
   box-sizing: border-box
   background-color: $white
   padding: 1.5rem
-  z-index: $z-adventure-content
   transition: left 0.3s ease-in-out
 
   &--scrollable
@@ -55,6 +48,10 @@
   height: 0
   position: relative
   padding-bottom: 56.25%
+  cursor: grab
+
+  &.sortable-chosen
+    cursor: grabbing
 
   img
     position: absolute
@@ -84,7 +81,7 @@
     height: $top-menu-height
     right: 0
     width: 50%
-    position: fixed
+    position: absolute
     padding: 0.25rem
     background-color: $white
     box-sizing: border-box
