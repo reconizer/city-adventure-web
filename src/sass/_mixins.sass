@@ -30,3 +30,7 @@
 
   &:hover:before
     box-shadow: 0 0 0 4px $white
+
+=breakpoint($size)
+  @media screen and (min-width: $size)
+    @content

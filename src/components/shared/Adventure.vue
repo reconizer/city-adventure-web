@@ -2,6 +2,13 @@
   div
     Loader(v-if="loading")
 
+    .adventure-structure(:class="{ 'adventure-structure--expanded': this.expanded }")
+      .adventure-structure__help(v-if="adventure.id")
+        .button.button--icon.button--blue(@click.prevent="showStructureHelp")
+          .icon.icon--question-mark-white
+
+      AdventurePointList
+
     .adventure-structure-header
       router-link.adventure-structure__title(
         v-if="adventure.id"
@@ -23,13 +30,6 @@
         @click="openSubmenu"
       )
         .icon.icon--settings
-
-    .adventure-structure(:class="{ 'adventure-structure--expanded': this.expanded }")
-      .adventure-structure__help(v-if="adventure.id")
-        .button.button--icon.button--blue(@click.prevent="showStructureHelp")
-          .icon.icon--question-mark-white
-
-      AdventurePointList
 
     transition(name="submenu" v-if="submenu")
       .submenu-mask(@click="closeSubmenu")
@@ -77,7 +77,7 @@
 
       p {{ $t("adventure.structure_help_explanation_4") }}
 
-      .text-center
+      .text-center(slot="footer")
         a.button.button--blue(@click="closeModals") {{ $t("adventure.help_confirm") }}
 
     router-view(:key="$route.fullPath")

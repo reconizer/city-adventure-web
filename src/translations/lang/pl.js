@@ -109,9 +109,9 @@ export default {
 
     structure_help: "Zarządzanie punktami",
     structure_help_explanation_1: "Tutaj zawsze będzie widoczna struktura tworzonej przygody - jej punkty oraz wskazówki otrzymywane przez graczy.",
-    structure_help_explanation_2: "Pod każdym z punktów znajdować się będzie lista wskazówek, które gracz otrzyma po jego rozwiązaniu. Wyjątkiem jest punkt startowy, którego wskazówki są dostępne dla gracza od razu po rozpoczęciu przygody",
+    structure_help_explanation_2: "Pod każdym z punktów znajdować się będzie lista wskazówek, które gracz otrzyma po jego rozwiązaniu. Wyjątkiem jest punkt startowy, którego wskazówki są dostępne dla gracza od razu po rozpoczęciu przygody.",
     structure_help_explanation_3: "Wszystkie punkty za wyjątkiem startowego mogą łatwo zmienić swoją kolejność - wystarczy przeciągnąć dany punkt i ustawić go w inne miejsce.",
-    structure_help_explanation_4: "Podobnie możemy też zrobić ze wskazówkami aby zmienić kolejność ich listowania lub nawet przełączyć je, aby były dostępne po rozwiązaniu innego punktu",
+    structure_help_explanation_4: "Podobnie możemy też zrobić ze wskazówkami, aby zmienić kolejność ich listowania lub nawet przełączyć je, aby były dostępne po rozwiązaniu innego punktu.",
 
     help_confirm: "Jasne, rozumiem",
 
