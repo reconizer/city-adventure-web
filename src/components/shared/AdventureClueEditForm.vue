@@ -169,6 +169,10 @@ export default {
       delete data['id'];
       delete data['order']; //no need to set order in currently edited clue
 
+      if(this.clueData.tip != 'url') {
+        delete data['url'];
+      }
+
       this.$store.dispatch(`${ACTION_NAMESPACE}/${UPDATE_CLUE}`, {
         pointId: this.$route.params.pointId,
         clueId: id,

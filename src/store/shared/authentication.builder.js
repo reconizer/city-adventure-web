@@ -3,6 +3,8 @@ import axios from 'axios';
 import { STORE_USER, REMOVE_USER, SET_ERROR, SET_LOADING } from '@/store/mutation-types';
 import { LOGIN, LOGOUT } from '@/store/action-types';
 
+import { BASE_URL, ADMIN_BASE_URL } from '@/config'
+
 import { authHeader } from '@/utils';
 
 const user = JSON.parse(localStorage.getItem('user'));
@@ -10,7 +12,7 @@ const user = JSON.parse(localStorage.getItem('user'));
 axios.interceptors.request.use( (config) => {
   const header = authHeader();
 
-  if(header) {
+  if(header && (config.url.includes(BASE_URL) || config.url.includes(ADMIN_BASE_URL))) {
     config.headers.common['Authorization'] = header;
   }
 

@@ -338,21 +338,36 @@ export default (api) => {
       /**
        * CLUES
        */
-      [CREATE_CLUE] ({ commit, state }, { pointId, data }) {
+      [CREATE_CLUE] ({ commit, state }, { pointId, data, file }) {
         commit(SET_LOADING, true);
+
+        let clueCreateResponse = null;
 
         return api.adventures.createClue(state.item.id, pointId, data)
           .then( response => {
+            clueCreateResponse = response;
+
+            return api.adventures.getClueAssetUploadURL(state.item.id, response.data.id, response.data.type, file);
+          })
+          .then( response => {
+            return api.adventures.uploadClueAsset(file, response.data.url);
+          })
+          .then( response => {
+            if(file != null && data.type != 'text' && data.type != 'url') {
+              clueCreateResponse.data.url = URL.createObjectURL(file);
+            }
+
             commit(ADD_CLUE, {
               pointId: pointId,
-              data: response.data
+              data: clueCreateResponse.data
             });
 
             commit(SET_LOADING, false);
 
-            return response;
+            return clueCreateResponse;
           })
           .catch( error => {
+            console.log(error);
             commit(SET_ERROR, { key: CREATE_CLUE, error: error.response.data });
             commit(SET_LOADING, false);
 

@@ -181,7 +181,8 @@ export default {
 
       this.$store.dispatch(`${ACTION_NAMESPACE}/${CREATE_CLUE}`, {
         pointId: this.$route.params.pointId,
-        data: data
+        data: data,
+        file: this.file
       }).then( (response) => {
         setTimeout(() => {
           this.$router.replace({
