@@ -245,6 +245,8 @@ export default {
         lat: latLng.lat(),
         lng: latLng.lng()
       };
+
+      this.$root.$emit('marker-interaction');
     },
     savePosition (latLng) {
       this.updatePosition(latLng);
@@ -281,6 +283,8 @@ export default {
       distance = Math.round(distance);
 
       this.point.radius = distance;
+
+      this.$root.$emit('marker-interaction');
     },
 
     saveRadius (latLng) {

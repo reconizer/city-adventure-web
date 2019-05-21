@@ -107,6 +107,12 @@ export default {
     help_paragraph_3: "The reposition button will zoom out the camera unless all of the points are visible.",
     help_paragraph_4: "You can also enable/disable showing points' ranges for more clarity.",
 
+    structure_help: "Point Management",
+    structure_help_explanation_1: "Here you will be able to always see the overview of your adventure - all of it's points and correspodnding clues.",
+    structure_help_explanation_2: "Under each of the points there is a list of clues which players are going to receive after successfully completing the point's puzzle. The starting point is an exception here - the clues attached to it will be available to users immediately after starting the adventure.",
+    structure_help_explanation_3: "You can easily change order of all points except the starting point very easily. Simply drag and drop given point to change it's order in the adventure.",
+    structure_help_explanation_4: "Just like with points, you can reorder your clues in given point and even move the clue from one point to another if you wish to do so.",
+
     help_confirm: "Okay, got it",
 
     add_new_puzzle: "Create new Puzzle",

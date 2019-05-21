@@ -1,6 +1,7 @@
 .adventure-structure
-  position: fixed
+  position: absolute
   top: $top-menu-height
+  z-index: $z-adventure-structure
   left: -30.0rem
   bottom: 0
   width: 30.0rem
@@ -10,8 +11,8 @@
   padding: 0 2rem 2rem
   box-sizing: border-box
   overflow-y: auto
-  z-index: $z-adventure-structure
   transition: left 0.3s ease-in-out
+  will-change: true
 
   &--expanded
     left: 0
@@ -23,24 +24,21 @@
       left: 30rem
 
     & ~ .adventure-structure-expander
-      opacity: 0
-      transform: translateX(-100%)
+      left: 29.75rem
 
-  &__header
-    height: $top-menu-height
-    background-color: $adventure-menu-background
+    & ~ .adventure-structure-header
+      left: 0
+
+    & .adventure-structure__help
+      left: 26rem
+
+  &__help
     position: fixed
-    top: 0
-    left: 0
-    width: 30rem
-    color: $white
-    padding: 0rem 2rem
-    box-sizing: border-box
-    font-size: 1.25rem
-    font-weight: bold
-    display: flex
-    align-items: center
-    justify-content: space-between
+    left: -4rem
+    top: 4.5rem
+    z-index: 1
+    height: 2.6875rem
+    transition: all 0.3s ease-in-out
 
   &__back
     color: $white
@@ -91,6 +89,25 @@
 
     &:hover, &:active
       background-color: $adventure-submenu-background
+
+.adventure-structure-header
+  height: $top-menu-height
+  background-color: $adventure-menu-background
+  position: fixed
+  z-index: $z-adventure-structure-header
+  top: 0
+  left: -30rem
+  width: 30rem
+  color: $white
+  padding: 0rem 2rem
+  box-sizing: border-box
+  font-size: 1.25rem
+  font-weight: bold
+  display: flex
+  align-items: center
+  justify-content: space-between
+  transition: all 0.3s ease-in-out
+  will-change: true
 
 .submenu-mask
   position: fixed
@@ -164,12 +181,16 @@
 
 .adventure-point-wrapper
   padding-top: 1rem
+  cursor: grab
+
+  &.sortable-chosen
+    cursor: grabbing
 
   &:last-child
     padding-bottom: 1rem
 
 .adventure-point-start-wrapper
-  padding-top: 2rem
+  padding-top: 1rem
 
   &--only
     padding-bottom: 1rem
@@ -182,16 +203,18 @@
   align-items: center
 
   &__controls
+    display: flex
     flex: 1
-    padding: 0 1rem
-    display: none
+    align-items: center
+    padding-left: 1rem
 
   &__control
+    display: none
     & + &
       margin-left: 0.5rem
 
-  &:hover &__controls
-    display: block
+  &:hover &__control
+    display: inline-block
 
   &__name
     font-size: 1.25rem
@@ -231,6 +254,12 @@
     border-bottom: 2px solid $point-background
     width: 2.5rem
     flex-shrink: 0
+
+.adventure-point-clue-wrapper
+  cursor: grab
+
+  &.sortable-chosen
+    cursor: grabbing
 
 .adventure-point-clue
   padding: 0.5rem 1rem
@@ -289,3 +318,15 @@
     display: flex
     align-items: center
 
++breakpoint(80rem)
+  .adventure-structure
+    left: 0
+
+    &__help
+      left: 26rem
+
+  .adventure-structure-expander
+    display: none
+
+  .adventure-structure-header
+    left: 0

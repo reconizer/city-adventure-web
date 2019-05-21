@@ -80,8 +80,8 @@
 
           .form-control
             FileUpload.file-upload--big(
-              v-if="editable"
               :title="$t('adventure.add_cover_image')"
+              :enabled="editable"
               @filesAdded="onCoverAdded"
             )
               img.file-upload__image(slot="placeholder" v-if="adventure.cover_url" :src="adventure.cover_url")

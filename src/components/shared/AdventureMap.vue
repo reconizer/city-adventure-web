@@ -77,7 +77,7 @@
 
       p {{ $t("adventure.help_paragraph_4") }}
 
-      .text-center
+      .text-center(slot="footer")
         a.button.button--blue(@click="closeHelpModal") {{ $t("adventure.help_confirm") }}
 </template>
 
@@ -166,6 +166,10 @@ export default {
       this.pointOptionsWindowPosition = point.position;
     });
 
+    this.$root.$on('marker-interaction', () => {
+      this.closeWindows();
+    });
+
     this.$refs.googleMap.$mapPromise.then(() => {
       this.mapLoaded = true;
 
@@ -178,19 +182,21 @@ export default {
 
   },
   methods: {
-    centerCamera ( { lat, lng }) {
+    centerCamera ({ lat, lng }) {
       this.center = { lat, lng };
 
       if(this.$refs.googleMap && this.mapLoaded) {
         this.$refs.googleMap.$mapObject.setCenter(this.center);
       }
     },
+
     setPlace (place) {
       this.centerCamera({
         lat: place.geometry.location.lat(),
         lng: place.geometry.location.lng()
       });
     },
+
     geolocate () {
       navigator.geolocation.getCurrentPosition(
         position => {
@@ -207,9 +213,11 @@ export default {
         }
       );
     },
+
     togglePointsRadius () {
       this.showCircles = !this.showCircles;
     },
+
     locatePoints () {
       if(this.points.length == 0)
         return;
@@ -224,6 +232,7 @@ export default {
         this.$refs.googleMap.fitBounds(bounds, 0);
       }
     },
+
     createPoint () {
       let center = this.$refs.googleMap.$mapObject.center;
 
