@@ -113,3 +113,51 @@
 
   &__input
     display: none
+
+.file-upload-progress
+  position: fixed
+  z-index: $z-adventure-loader
+  left: auto
+  right: auto
+  width: 10rem
+  border-radius: 0.25rem
+  background-color: rgba($black, 0.6)
+  left: calc(50% - 5rem)
+  top: calc(50% + 3rem)
+  padding: 1rem
+  box-sizing: border-box
+  color: $white
+
+  &__info
+    text-align: center
+    padding-bottom: 1rem
+
+  &__progress
+    width: 100%
+    border-radius: 999rem
+    background-color: $point-background
+    height: 1rem
+    position: relative
+    overflow: hidden
+
+    &:before
+      content: ''
+      position: absolute
+      left: 0
+      top: 0
+      height: 100%
+      background-color: $green
+
+    @for $i from 1 to 101
+      &--#{$i}
+        &:before
+          width: 100% * $i/100
+
+  &__label
+    font-weight: bold
+    text-align: center
+    font-size: 0.75rem
+    line-height: 1rem
+    position: absolute
+    left: 0
+    right: 0

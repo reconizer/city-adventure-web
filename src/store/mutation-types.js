@@ -77,3 +77,14 @@ export const REMOVE_PLAYER = "removePlayer";
 
 export const SET_ACCOUNT = "setAccount";
 export const SET_PROFILE = "setProfile";
+
+/**
+ * UPLOADS
+ */
+export const CLEAR_UPLOAD_INFO = "clearUploadInfo";
+
+export const SET_UPLOAD_IN_PROGRESS = "setUploadInProgress";
+export const SET_UPLOAD_PROGRESS = "setUploadProgress";
+
+export const SET_TOTAL_UPLOADS = "setTotalUploads";
+export const SET_CURRENT_UPLOAD = "setCurrentUpload";

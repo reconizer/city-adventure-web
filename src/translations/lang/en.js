@@ -318,6 +318,11 @@ export default {
     new_author: "New Author"
   },
 
+  uploads: {
+    info: "{current} of {total}",
+    label: "Uploading"
+  },
+
   general: {
     name: "Name",
     description: "Description",

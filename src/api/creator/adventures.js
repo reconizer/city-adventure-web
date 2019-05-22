@@ -104,9 +104,10 @@ export default {
       });
     }
   },
-  uploadClueAsset (file, uploadURL) {
+  uploadClueAsset (file, uploadURL, onProgress) {
     if(file != null && uploadURL != null) {
       let options = {
+        onUploadProgress: onProgress,
         headers: {
           'Content-Type': file.type
         }
