@@ -95,7 +95,6 @@ export default {
         adventure_id: adventureId,
         clue_id: clueId,
         type: clueType,
-        name: file.name.split('.')[0],
         extension: file.name.split('.')[1]
       });
     } else {

@@ -393,7 +393,11 @@ export default (api) => {
           })
           .then( response => {
             if(file != null && data.type != 'text' && data.type != 'url') {
-              clueCreateResponse.data.url = URL.createObjectURL(file);
+              if(data.type == 'video') {
+                clueCreateResponse.data.video_url = URL.createObjectURL(file);
+              } else {
+                clueCreateResponse.data.url = URL.createObjectURL(file);
+              }
 
               commit(CLEAR_UPLOAD_INFO);
             }
