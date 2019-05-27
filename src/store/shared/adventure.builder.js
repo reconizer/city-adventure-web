@@ -11,6 +11,9 @@ import {
   SET_POINTS_ORDER,
 
   SET_CLUE, ADD_CLUE, REMOVE_CLUE,
+
+  SET_UPLOAD_IN_PROGRESS, SET_UPLOAD_PROGRESS,
+  CLEAR_UPLOAD_INFO
 } from '@/store/mutation-types';
 
 import {
@@ -37,6 +40,14 @@ export default (api) => {
       item: { status: null },
       points: [],
       history: [],
+
+      upload: {
+        inProgress: false,
+        progress: 0,
+
+        totalUploads: 1,
+        currentUpload: 1
+      },
 
       loading: false,
       errors: {
@@ -194,6 +205,24 @@ export default (api) => {
       },
 
       /**
+       * UPLOADS
+       */
+      [SET_UPLOAD_IN_PROGRESS] (state, uploading) {
+        state.upload.inProgress = uploading;
+      },
+
+      [SET_UPLOAD_PROGRESS] (state, progress) {
+        state.upload.progress = progress;
+      },
+
+      [CLEAR_UPLOAD_INFO] (state) {
+        state.upload.inProgress = false;
+        state.upload.progress = 0;
+        state.upload.totalUploads = 1;
+        state.upload.currentUpload = 1;
+      },
+
+      /**
        * GENERAL
        */
       [SET_LOADING] (state, loading) {
@@ -338,23 +367,56 @@ export default (api) => {
       /**
        * CLUES
        */
-      [CREATE_CLUE] ({ commit, state }, { pointId, data }) {
+      [CREATE_CLUE] ({ commit, state }, { pointId, data, file }) {
         commit(SET_LOADING, true);
+
+        let clueCreateResponse = null;
+
+        let onProgress = (progressEvent) => {
+          let percent = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+
+          commit(SET_UPLOAD_PROGRESS, percent);
+        };
 
         return api.adventures.createClue(state.item.id, pointId, data)
           .then( response => {
+            clueCreateResponse = response;
+
+            return api.adventures.getClueAssetUploadURL(state.item.id, response.data.id, response.data.type, file);
+          })
+          .then( response => {
+            if(file != null && data.type != 'text' && data.type != 'url') {
+              commit(SET_UPLOAD_IN_PROGRESS, true);
+            }
+
+            return api.adventures.uploadClueAsset(file, response.data.url, onProgress);
+          })
+          .then( response => {
+            if(file != null && data.type != 'text' && data.type != 'url') {
+              if(data.type == 'video') {
+                clueCreateResponse.data.video_url = URL.createObjectURL(file);
+              } else {
+                clueCreateResponse.data.url = URL.createObjectURL(file);
+              }
+
+              commit(CLEAR_UPLOAD_INFO);
+            }
+
             commit(ADD_CLUE, {
               pointId: pointId,
-              data: response.data
+              data: clueCreateResponse.data
             });
 
             commit(SET_LOADING, false);
 
-            return response;
+            return clueCreateResponse;
           })
           .catch( error => {
+            console.log(error);
             commit(SET_ERROR, { key: CREATE_CLUE, error: error.response.data });
             commit(SET_LOADING, false);
+
+            commit(SET_UPLOAD_IN_PROGRESS, false);
 
             throw error;
           });

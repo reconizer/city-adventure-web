@@ -89,6 +89,36 @@ export default {
       url: data.url
     });
   },
+  getClueAssetUploadURL (adventureId, clueId, clueType, file) {
+    if(file != null && clueType != 'text' && clueType != 'url') {
+      return axios.post(`${BASE_URL}/clues/upload_asset`, {
+        adventure_id: adventureId,
+        clue_id: clueId,
+        type: clueType,
+        extension: file.name.split('.')[1]
+      });
+    } else {
+      return new Promise((resolve) => {
+        resolve({ data: { } });
+      });
+    }
+  },
+  uploadClueAsset (file, uploadURL, onProgress) {
+    if(file != null && uploadURL != null) {
+      let options = {
+        onUploadProgress: onProgress,
+        headers: {
+          'Content-Type': file.type
+        }
+      };
+      
+      return axios.put(uploadURL, file, options);
+    } else {
+      return new Promise((resolve) => {
+        resolve({});
+      });
+    }
+  },
   updateClue (adventureId, pointId, clueId, data) {
     return axios.patch(`${BASE_URL}/clues`, {
       id: clueId,

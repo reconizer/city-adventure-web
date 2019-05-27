@@ -71,17 +71,20 @@
 
           .form-control(v-if="editable")
             a.button.button--blue.button--large.button--full(@click="submit()") {{ $t("general.submit") }}
+
+    UploadProgress(:upload="upload")
 </template>
 
 <script>
 import { mapState, mapGetters } from 'vuex'
 
 import { CREATE_CLUE } from '@/store/action-types'
-import { SET_ERROR } from '@/store/mutation-types'
+import { SET_ERROR, CLEAR_UPLOAD_INFO } from '@/store/mutation-types'
 
 import vSelect from 'vue-select'
 
 import FileUpload from '@/components/shared/FileUpload.vue'
+import UploadProgress from '@/components/shared/UploadProgress.vue'
 
 import { CLUE_TYPES } from '@/config'
 
@@ -92,7 +95,8 @@ export default {
   components: {
     vSelect,
 
-    FileUpload
+    FileUpload,
+    UploadProgress
   },
   data () {
     return {
@@ -111,6 +115,8 @@ export default {
   computed: {
     ...mapState({
       adventure: state => state.adventure.item,
+
+      upload: state => state.adventure.upload,
 
       loading: state => state.adventure.loading,
       error: state => state.adventure.errors[CREATE_CLUE]
@@ -146,6 +152,7 @@ export default {
   },
   mounted () {
     this.$store.commit(`${ACTION_NAMESPACE}/${SET_ERROR}`, { key: CREATE_CLUE, error: null });
+    this.$store.commit(`${ACTION_NAMESPACE}/${CLEAR_UPLOAD_INFO}`);
 
     if(this.adventure.id && !this.loading) {
       if(!this.point) {
@@ -181,7 +188,8 @@ export default {
 
       this.$store.dispatch(`${ACTION_NAMESPACE}/${CREATE_CLUE}`, {
         pointId: this.$route.params.pointId,
-        data: data
+        data: data,
+        file: this.file
       }).then( (response) => {
         setTimeout(() => {
           this.$router.replace({
