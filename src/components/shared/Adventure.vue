@@ -3,29 +3,33 @@
     Loader(v-if="loading")
 
     .adventure-structure(:class="{ 'adventure-structure--expanded': this.expanded }")
-      .adventure-structure__header
-        router-link.adventure-structure__title(
-          v-if="adventure.id"
-          :to="{ name: 'adventureMap', params: { adventureId: adventure.id } }"
-        ) {{ adventure.name }}
-
-        router-link.adventure-structure__label(
-          :to="{ name: 'adventurePublishing', params: { adventureId: adventure.id } }"
-          v-if="adventure.id"
-          :class="labelClass"
-        )
-          span {{ publishedLabel }}
-          .icon.icon--sm.icon--lock-white.icon--pad-left(v-if="!editable")
-            .icon__tooltip-wrapper.icon__tooltip-wrapper--bottom
-              .icon__tooltip {{ $t("adventure.editing_disabled") }}
-
-        .adventure-structure__menu-toggle(
-          v-if="adventure.id"
-          @click="openSubmenu"
-        )
-          .icon.icon--settings
+      .adventure-structure__help(v-if="adventure.id")
+        .button.button--icon.button--blue(@click.prevent="showStructureHelp")
+          .icon.icon--question-mark-white
 
       AdventurePointList
+
+    .adventure-structure-header
+      router-link.adventure-structure__title(
+        v-if="adventure.id"
+        :to="{ name: 'adventureMap', params: { adventureId: adventure.id } }"
+      ) {{ adventure.name }}
+
+      router-link.adventure-structure__label(
+        :to="{ name: 'adventurePublishing', params: { adventureId: adventure.id } }"
+        v-if="adventure.id"
+        :class="labelClass"
+      )
+        span {{ publishedLabel }}
+        .icon.icon--sm.icon--lock-white.icon--pad-left(v-if="!editable")
+          .icon__tooltip-wrapper.icon__tooltip-wrapper--bottom
+            .icon__tooltip {{ $t("adventure.editing_disabled") }}
+
+      .adventure-structure__menu-toggle(
+        v-if="adventure.id"
+        @click="openSubmenu"
+      )
+        .icon.icon--settings
 
     transition(name="submenu" v-if="submenu")
       .submenu-mask(@click="closeSubmenu")
@@ -52,7 +56,7 @@
     //.adventure-structure-expander(@click="toggleExpand")
       span Expand
 
-    AdventureMap
+    AdventureMap(v-if="adventure.id")
 
     Modal(v-if="removePointModalShown" @close="closeModals")
       div(slot="header") {{ $t("adventure.remove_puzzle") }}
@@ -61,6 +65,20 @@
 
       .text-center
         a.button.button--blue(@click="destroyPoint") {{ $t("general.submit") }}
+
+    Modal(v-if="structureHelpModalShown" @close="closeModals")
+      div(slot="header") {{ $t("adventure.structure_help") }}
+
+      p {{ $t("adventure.structure_help_explanation_1") }}
+
+      p {{ $t("adventure.structure_help_explanation_2") }}
+
+      p {{ $t("adventure.structure_help_explanation_3") }}
+
+      p {{ $t("adventure.structure_help_explanation_4") }}
+
+      .text-center(slot="footer")
+        a.button.button--blue(@click="closeModals") {{ $t("adventure.help_confirm") }}
 
     router-view(:key="$route.fullPath")
 </template>
@@ -103,6 +121,7 @@ export default {
       expanded: true,
       submenu: false,
       removePointModalShown: false,
+      structureHelpModalShown: false,
       currentPoint: null
     }
   },
@@ -182,6 +201,11 @@ export default {
 
     closeModals () {
       this.removePointModalShown = false;
+      this.structureHelpModalShown = false;
+    },
+
+    showStructureHelp () {
+      this.structureHelpModalShown = true;
     },
 
     destroyPoint () {
@@ -190,7 +214,6 @@ export default {
           if(this.$router.currentRoute.name == "adventurePoint" ||
               this.$router.currentRoute.name == "adventureClue" ||
               this.$router.currentRoute.name == "newAdventureClue") {
-
             if(this.$router.currentRoute.params.pointId == this.currentPoint.id) {
               setTimeout(() => {
                 this.$router.replace({ name: 'adventureMap', params: { adventureId: this.adventure.id } });

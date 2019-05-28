@@ -42,7 +42,6 @@
 
             label.error-label(v-if="error && error.description") {{ error.description.join(', ') }}
 
-
             textarea.form-input(v-model="clue.description" :disabled="!editable")
 
           .form-control(:class="{ 'form-control--with-error': error && error.url }" v-if="clue.type == 'url'")
@@ -50,7 +49,7 @@
 
             label.error-label(v-if="error && error.url") {{ error.url.join(', ') }}
 
-            input.form-input(v-model="clue.url" :disabled="!editable")
+            input.form-input(v-model="clue.url" :placeholder="$t('clue.url')" :disabled="!editable")
 
           .form-control(v-if="editable")
             a.button.button--blue.button--large.button--full(@click="submit()") {{ $t("general.submit") }}
@@ -169,6 +168,10 @@ export default {
 
       delete data['id'];
       delete data['order']; //no need to set order in currently edited clue
+
+      if(this.clueData.tip != 'url') {
+        delete data['url'];
+      }
 
       this.$store.dispatch(`${ACTION_NAMESPACE}/${UPDATE_CLUE}`, {
         pointId: this.$route.params.pointId,

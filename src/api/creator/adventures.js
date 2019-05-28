@@ -3,6 +3,9 @@ import axios from 'axios';
 import { BASE_URL } from '@/config';
 
 export default {
+  /**
+   * ADVENTURES
+   */
   loadAdventures (page = 1) {
     return axios.get(`${BASE_URL}/adventures`);
   },
@@ -23,7 +26,55 @@ export default {
   createAdventure (params) {
     return axios.post(`${BASE_URL}/adventures`, params);
   },
+  destroyAdventure (id) {
+    return axios.delete(`${BASE_URL}/adventures?id=${id}`);
+  },
 
+  /**
+   * ADVENTURE IMAGES
+   */
+  updateAdventureImages (adventureId, payload) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({ data: { } });
+      }, 500);
+    });
+  },
+  getAdventureMainImageUploadURL (adventureId) {
+    return new Promise((resolve) => {
+      resolve({ data: { } });
+    });
+  },
+  getAdventureGalleryImageUploadURL (adventureId) {
+    return new Promise((resolve) => {
+      resolve({ data: { } });
+    });
+  },
+  uploadImage(file, uploadURL, onProgress) {
+    if(file != null && uploadURL != null) {
+      let options = {
+        onUploadProgress: onProgress,
+        headers: {
+          'Content-Type': file.type
+        }
+      };
+
+      return axios.put(uploadURL, file, options);
+    } else {
+      return new Promise((resolve) => {
+        resolve({ data: { } });
+      });
+    }
+  },
+  destroyGalleryImage (adventureId, galleryImageId) {
+    return new Promise((resolve) => {
+      resolve({ data: { } });
+    });
+  },
+
+  /**
+   * POINTS
+   */
   loadPoints (adventureId) {
     return axios.get(`${BASE_URL}/points?adventure_id=${adventureId}`);
   },
@@ -64,6 +115,9 @@ export default {
     return axios.delete(`${BASE_URL}/points?id=${pointId}&adventure_id=${adventureId}`);
   },
 
+  /**
+   * CLUES
+   */
   updateClues (adventureId, payload) {
     return axios.patch(`${BASE_URL}/clues/reorder`, {
       adventure_id: adventureId,
@@ -85,6 +139,36 @@ export default {
       tip: data.tip,
       url: data.url
     });
+  },
+  getClueAssetUploadURL (adventureId, clueId, clueType, file) {
+    if(file != null && clueType != 'text' && clueType != 'url') {
+      return axios.post(`${BASE_URL}/clues/upload_asset`, {
+        adventure_id: adventureId,
+        clue_id: clueId,
+        type: clueType,
+        extension: file.name.split('.')[1]
+      });
+    } else {
+      return new Promise((resolve) => {
+        resolve({ data: { } });
+      });
+    }
+  },
+  uploadClueAsset (file, uploadURL, onProgress) {
+    if(file != null && uploadURL != null) {
+      let options = {
+        onUploadProgress: onProgress,
+        headers: {
+          'Content-Type': file.type
+        }
+      };
+      
+      return axios.put(uploadURL, file, options);
+    } else {
+      return new Promise((resolve) => {
+        resolve({ data: { } });
+      });
+    }
   },
   updateClue (adventureId, pointId, clueId, data) {
     return axios.patch(`${BASE_URL}/clues`, {

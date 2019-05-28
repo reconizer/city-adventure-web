@@ -30,12 +30,9 @@
               @load="passwordPreviewLoaded"
             )
 
-      .form-control(
-        :class="{ 'form-control--with-error': passwordError || passwordAnswer.password.length == 0 }"
-        v-if="!isDirectionPassword"
-      )
+      .form-control(v-if="!isDirectionPassword")
         .form-label.form-label--required {{ $t("adventure_point.enter_password") }}
-        label.error-label {{ $t("adventure_point.password_invalid") }}
+        label.error-label(v-if="passwordError || passwordAnswer.password.length == 0") {{ $t("adventure_point.password_invalid") }}
         input.form-input(
           type="text"
           :placeholder="$t('adventure_point.password_placeholder')"
@@ -46,11 +43,9 @@
         )
 
       .form-control(v-if="isDirectionPassword")
-        .form-control(
-          :class="{ 'form-control--with-error': passwordError }"
-        )
+        .form-control
           .form-label.form-label--required {{ $t("adventure_point.password_by_buttons") }}
-          .error-label {{ $t("adventure_point.password_invalid") }}
+          .error-label(v-if="passwordError") {{ $t("adventure_point.password_invalid") }}
 
         .form-control
           .row

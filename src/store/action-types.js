@@ -50,3 +50,19 @@ export const LOAD_ANALYTICS_USER_PROGRESS = "loadAnalyticsUserProgress";
  * ADMIN
  */
 export const LOAD_COUNTERS = "loadCounters";
+
+export const LOAD_PLAYER = "loadPlayer";
+export const LOAD_PLAYERS = "loadPlayers";
+export const CREATE_PLAYER = "createPlayer";
+export const DESTROY_PLAYER = "destroyPlayer";
+export const UPDATE_PLAYER = "updatePlayer";
+
+/**
+ * ACCOUNT MANAGEMENT
+ */
+export const LOAD_ACCOUNT = "loadAccount";
+export const UPDATE_EMAIL = "updateEmail";
+export const UPDATE_PASSWORD = "updatePassword";
+
+export const LOAD_PROFILE = "loadProfile";
+export const UPDATE_PROFILE = "updateProfile";

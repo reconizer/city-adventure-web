@@ -1,5 +1,5 @@
 .adventure-map
-  position: fixed
+  position: absolute
   top: $top-menu-height
   left: 0
   right: 0
@@ -11,7 +11,7 @@
   position: fixed !important
 
 .google-map-controls
-  position: fixed
+  position: absolute
   top: 4rem
   right: 1rem
 
@@ -20,10 +20,16 @@
     & + &
       margin-left: 1rem
 
+  &__radius
+    position: fixed
+    top: 7.5rem
+    right: 1rem
+
 .map-window-option
   display: block
   color: $black
   cursor: pointer
+  padding-right: 1rem
 
   &:hover
     text-decoration: underline

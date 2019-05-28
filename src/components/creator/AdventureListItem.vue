@@ -26,9 +26,15 @@
 
     .col-1-6
       .text-right
-        router-link.button.button--blue(:to="{ name: 'adventureMap', params: { adventureId: adventure.id } }")
-          .icon.icon--sm.icon--pencil-white.icon--pad-right
-          span {{ $t("general.edit") }}
+        router-link.button.button--icon(:to="{ name: 'adventureMap', params: { adventureId: adventure.id } }")
+          .icon.icon--pencil
+            .icon__tooltip-wrapper
+              .icon__tooltip {{ $t("general.edit") }}
+
+        .button.button--icon(v-if="removable" @click.prevent="confirmRemove")
+          .icon.icon--close
+            .icon__tooltip-wrapper
+              .icon__tooltip {{ $t("general.remove") }}
 </template>
 
 <script>
@@ -63,6 +69,10 @@ export default {
       return this.adventure.status == ADVENTURES_IN_REVIEW;
     },
 
+    removable () {
+      return this.adventure.status == ADVENTURES_PENDING || this.adventure.status == ADVENTURES_UNPUBLISHED;
+    },
+
     publishedLabel () {
       switch(this.adventure.status) {
         default:
@@ -79,6 +89,11 @@ export default {
         case ADVENTURES_PENDING:
           return this.$t("adventures.adventure_pending");
       }
+    }
+  },
+  methods: {
+    confirmRemove () {
+      this.$root.$emit('confirm-remove', this.adventure.id);
     }
   }
 }
