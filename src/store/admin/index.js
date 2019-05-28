@@ -7,6 +7,8 @@ import adventure from './adventure.module'
 import analytics from './analytics.module'
 import publishment from './publishment.module'
 
+import players from './players.module'
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -15,6 +17,11 @@ export default new Vuex.Store({
     adventures,
     adventure,
     analytics,
-    publishment
+    publishment,
+
+    /**
+     * User modules
+     */
+    players
   }
 })

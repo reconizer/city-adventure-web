@@ -11,9 +11,36 @@ export default {
 
   top_menu: {
     adventures: "Adventures",
-    settings: "Account",
+    settings: "Settings",
     logout: "Log Out",
-    language: "Language"
+    language: "Language",
+    users: "Users"
+  },
+
+  settings: {
+    title: "Settings"
+  },
+
+  account_settings: {
+    title: "Account",
+
+    change_email: "Change Email",
+    new_email: "New Email",
+    password: "Password",
+
+    change_password: "Change Password",
+    current_password: "Current Password",
+    new_password: "New Password",
+    new_password_confirmation: "New Password Confirmation"
+  },
+
+  profile_settings: {
+    title: "Profile",
+
+    profile_picture: "Profile Picture",
+    add_profile_picture: "Add Image",
+    name: "Name",
+    description: "Description"
   },
 
   adventures: {
@@ -66,14 +93,26 @@ export default {
     adventure_hidden_explanation: "Hidden adventures are only available via secret codes and not visible on map by default",
     editing_disabled: "Editing Disabled",
 
+    remove: "Remove Adventure",
+    remove_confirm: "Are you sure you want to remove this adventure?",
+
     start: "Start",
     reposition: "Reposition",
     help: "Help",
+    show_radiuses: "Show point range",
 
     help_header: "Map Controls",
     help_paragraph_1: "You can quickly change point's position or radius by using your mouse and dragging the point marker or radius controls around.",
     help_paragraph_2: "You can also quickly create or remove points by right clicking.",
     help_paragraph_3: "The reposition button will zoom out the camera unless all of the points are visible.",
+    help_paragraph_4: "You can also enable/disable showing points' ranges for more clarity.",
+
+    structure_help: "Point Management",
+    structure_help_explanation_1: "Here you will be able to always see the overview of your adventure - all of it's points and correspodnding clues.",
+    structure_help_explanation_2: "Under each of the points there is a list of clues which players are going to receive after successfully completing the point's puzzle. The starting point is an exception here - the clues attached to it will be available to users immediately after starting the adventure.",
+    structure_help_explanation_3: "You can easily change order of all points except the starting point very easily. Simply drag and drop given point to change it's order in the adventure.",
+    structure_help_explanation_4: "Just like with points, you can reorder your clues in given point and even move the clue from one point to another if you wish to do so.",
+
     help_confirm: "Okay, got it",
 
     add_new_puzzle: "Create new Puzzle",
@@ -258,6 +297,32 @@ export default {
     last: "Last"
   },
 
+  admin_users: {
+    empty: "No results",
+    players: "Players",
+    authors: "Authors",
+
+    user_email: "Email",
+    user_name: "User Name",
+    user_password: "Password",
+    user_password_confirmation: "Password Confirmation",
+
+    change_profile_data: "Change User Profile",
+    change_password: "Change Password",
+
+    remove: "Remove User",
+    remove_confirm: "Are you sure you want to remove user {userName}?",
+
+    new_user: "New",
+    new_player: "New Player",
+    new_author: "New Author"
+  },
+
+  uploads: {
+    info: "{current} of {total}",
+    label: "Uploading"
+  },
+
   general: {
     name: "Name",
     description: "Description",
@@ -272,9 +337,11 @@ export default {
 
     around: "Around {value}",
 
+    confirm_remove: "Yes, remove it",
     i_understand_confirm: "OK, got it",
 
     upload_files: "Add Files",
-    choose_file: "Choose File"
+    choose_file: "Choose File",
+    replace_file: "Change"
   }
 }

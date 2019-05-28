@@ -11,9 +11,36 @@ export default {
 
   top_menu: {
     adventures: "Przygody",
-    settings: "Konto",
+    settings: "Ustawienia",
     logout: "Wyloguj się",
-    language: "Język"
+    language: "Język",
+    users: "Użytkownicy"
+  },
+
+  settings: {
+    title: "Ustawienia"
+  },
+
+  account_settings: {
+    title: "Konto",
+
+    change_email: "Zmień Email",
+    new_email: "Nowy Email",
+    password: "Hasło",
+
+    change_password: "Zmień Hasło",
+    current_password: "Obecne Hasło",
+    new_password: "Nowe Hasło",
+    new_password_confirmation: "Potwierdź Nowe Hasło"
+  },
+
+  profile_settings: {
+    title: "Profil",
+
+    profile_picture: "Zdjęcie profilowe",
+    add_profile_picture: "Wybierz Zdjęcie",
+    name: "Nazwa",
+    description: "Opis"
   },
 
   adventures: {
@@ -66,14 +93,26 @@ export default {
     adventure_hidden_explanation: "Ukryte przygody będą dostępne jedynie poprzez sekretny kod i nie będą domyślnie widoczne na mapie",
     editing_disabled: "Edycja Zablokowana",
 
+    remove: "Usuń Przygodę",
+    remove_confirm: "Jesteś pewien, że chcesz usunąć przygodę?",
+
     start: "Start",
     reposition: "Znajdź punkty", //TODO shitty text
     help: "Pomoc",
+    show_radiuses: "Pokaż zasięg punktów",
 
     help_header: "Interfejs Mapy",
     help_paragraph_1: "Możesz szybko zmienić pozycję punktu lub zasięg interakcji poprzez przeciąganie znacznika punktu lub kontrolek promienia na mapie.",
     help_paragraph_2: "Możesz także szybko tworzyć nowe punkty lub usuwać istniejące poprzez wciskanie prawego przycisku myszy.",
     help_paragraph_3: "Przycisk 'Znajdź punkty' oddali kamerę tak by wszystkie punkty były widoczne.",
+    help_paragraph_4: "Możesz także włączyć/wyłączyć wyświetlanie zasięgów interakcji punktów.",
+
+    structure_help: "Zarządzanie punktami",
+    structure_help_explanation_1: "Tutaj zawsze będzie widoczna struktura tworzonej przygody - jej punkty oraz wskazówki otrzymywane przez graczy.",
+    structure_help_explanation_2: "Pod każdym z punktów znajdować się będzie lista wskazówek, które gracz otrzyma po jego rozwiązaniu. Wyjątkiem jest punkt startowy, którego wskazówki są dostępne dla gracza od razu po rozpoczęciu przygody.",
+    structure_help_explanation_3: "Wszystkie punkty za wyjątkiem startowego mogą łatwo zmienić swoją kolejność - wystarczy przeciągnąć dany punkt i ustawić go w inne miejsce.",
+    structure_help_explanation_4: "Podobnie możemy też zrobić ze wskazówkami, aby zmienić kolejność ich listowania lub nawet przełączyć je, aby były dostępne po rozwiązaniu innego punktu.",
+
     help_confirm: "Jasne, rozumiem",
 
     add_new_puzzle: "Dodaj nowy punkt",
@@ -215,7 +254,7 @@ export default {
     show_title: "Szczegóły wskazówki",
     type: "Typ wskazówki",
     is_tip: "Jest podpowiedzią?",
-    is_tip_explanation: "Podpowiedzi są opcjonalnymi wskazówkami dostępnymi na życzenie użytkownika",
+    is_tip_explanation: "Opcjonalna wskazówka, dostępna na życzenie użytkownika",
     content: "Treść",
     url: "URL",
     remove_confirm: "Jesteś pewien, że chcesz usunąć tą wskazówkę?"
@@ -258,6 +297,32 @@ export default {
     last: "Ostatnia"
   },
 
+  admin_users: {
+    empty: "Brak rezultatów",
+    players: "Gracze",
+    authors: "Autorzy",
+
+    user_email: "Email",
+    user_name: "Nazwa użytkownika",
+    user_password: "Hasło",
+    user_password_confirmation: "Potwierdź hasło",
+
+    change_profile_data: "Zmień dane użytkownika",
+    change_password: "Zmień Hasło",
+
+    remove: "Usuń Użytkownika",
+    remove_confirm: "Jesteś pewien, że chcesz usunąć użytkownika {userName}?",
+
+    new_user: "Nowy",
+    new_player: "Nowy Gracz",
+    new_author: "Nowy Autor"
+  },
+
+  uploads: {
+    info: "{current} z {total}",
+    label: "Wysyłanie"
+  },
+
   general: {
     name: "Nazwa",
     description: "Opis",
@@ -267,14 +332,16 @@ export default {
     remove: "Usuń",
     submit: "Zatwierdź",
     cancel: "Anuluj",
-    filter: "Filtruj",
     query: "Szukaj",
+    filter: "Filtruj",
 
     around: "Około {value}",
 
+    confirm_remove: "Tak, usuń",
     i_understand_confirm: "OK, rozumiem",
 
     upload_files: "Dodaj pliki",
-    choose_file: "Wybierz plik"
+    choose_file: "Wybierz plik",
+    replace_file: "Zmień"
   }
 }

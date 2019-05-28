@@ -9,7 +9,10 @@
           .icon.icon--list-b.icon--pad-right
           span {{ $t("top_menu.adventures") }}
 
-        router-link.top-menu__link(to="/account")
+        router-link.top-menu__link(
+          active-class="top-menu__link--active"
+          to="/settings"
+        )
           .icon.icon--wrench-white.icon--pad-right
           span {{ $t("top_menu.settings") }}
 
