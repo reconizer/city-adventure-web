@@ -412,7 +412,6 @@ export default (api) => {
             return clueCreateResponse;
           })
           .catch( error => {
-            console.log(error);
             commit(SET_ERROR, { key: CREATE_CLUE, error: error.response.data });
             commit(SET_LOADING, false);
 

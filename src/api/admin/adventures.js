@@ -15,6 +15,9 @@ import {
 } from '@/config'
 
 export default {
+  /**
+   * ADVENTURES
+   */
   loadPublished (page = 1, query, sort) {
     return adventureListMock(ADVENTURES_PUBLISHED, page, query, sort);
   },
@@ -57,6 +60,52 @@ export default {
       show: params.shown
     });
   },
+
+  /**
+   * ADVENTURE IMAGES
+   */
+  updateAdventureImages (adventureId, payload) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve({ data: { } });
+      }, 500);
+    });
+  },
+  getAdventureMainImageUploadURL (adventureId) {
+    return new Promise((resolve) => {
+      resolve({ data: { } });
+    });
+  },
+  getAdventureGalleryImageUploadURL (adventureId) {
+    return new Promise((resolve) => {
+      resolve({ data: { } });
+    });
+  },
+  uploadImage(file, uploadURL, onProgress) {
+    if(file != null && uploadURL != null) {
+      let options = {
+        onUploadProgress: onProgress,
+        headers: {
+          'Content-Type': file.type
+        }
+      };
+
+      return axios.put(uploadURL, file, options);
+    } else {
+      return new Promise((resolve) => {
+        resolve({ data: { } });
+      });
+    }
+  },
+  destroyGalleryImage (adventureId, galleryImageId) {
+    return new Promise((resolve) => {
+      resolve({ data: { } });
+    });
+  },
+
+  /**
+   * POINTS
+   */
   loadPoints (adventureId) {
     return axios.get(`${ADMIN_BASE_URL}/points?adventure_id=${adventureId}`);
   },
@@ -82,18 +131,6 @@ export default {
       password_answer: params.password_answer
     });
   },
-  updateClues (adventureId, payload) {
-    return axios.patch(`${ADMIN_BASE_URL}/clues/reorder`, {
-      adventure_id: adventureId,
-      clue_order: payload.clues.map((item) => {
-        return {
-          id: item.id,
-          point_id: item.point_id,
-          sort: item.order
-        }
-      })
-    });
-  },
   updatePoints (adventureId, payload) {
     return axios.patch(`${ADMIN_BASE_URL}/points/reorder`, {
       adventure_id: adventureId,
@@ -109,6 +146,21 @@ export default {
     return axios.delete(`${ADMIN_BASE_URL}/points?id=${pointId}&adventure_id=${adventureId}`);
   },
 
+  /**
+   * CLUES
+   */
+  updateClues (adventureId, payload) {
+    return axios.patch(`${ADMIN_BASE_URL}/clues/reorder`, {
+      adventure_id: adventureId,
+      clue_order: payload.clues.map((item) => {
+        return {
+          id: item.id,
+          point_id: item.point_id,
+          sort: item.order
+        }
+      })
+    });
+  },
   createClue (adventureId, pointId, data) {
     return axios.post(`${ADMIN_BASE_URL}/clues`, {
       adventure_id: adventureId,
@@ -121,7 +173,7 @@ export default {
   },
   getClueAssetUploadURL (adventureId, clueId, clueType, file) {
     if(file != null && clueType != 'text' && clueType != 'url') {
-      return axios.post(`${BASE_URL}/clues/upload_asset`, {
+      return axios.post(`${ADMIN_BASE_URL}/clues/upload_asset`, {
         adventure_id: adventureId,
         clue_id: clueId,
         type: clueType,
@@ -145,7 +197,7 @@ export default {
       return axios.put(uploadURL, file, options);
     } else {
       return new Promise((resolve) => {
-        resolve({});
+        resolve({ data: { } });
       });
     }
   },
