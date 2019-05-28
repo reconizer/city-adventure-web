@@ -66,3 +66,25 @@ export const SET_ADVENTURE_STATUS = "setAdventureStatus";
 export const SET_TYPE = "setType";
 export const SET_COUNTERS = "setCounters";
 export const SET_TOTAL_PAGES = "setTotalPages";
+
+export const SET_PLAYERS = "setPlayers";
+export const SET_PLAYER = "setPlayer";
+export const REMOVE_PLAYER = "removePlayer";
+
+/**
+ * ACCOUNT MANAGEMENT
+ */
+
+export const SET_ACCOUNT = "setAccount";
+export const SET_PROFILE = "setProfile";
+
+/**
+ * UPLOADS
+ */
+export const CLEAR_UPLOAD_INFO = "clearUploadInfo";
+
+export const SET_UPLOAD_IN_PROGRESS = "setUploadInProgress";
+export const SET_UPLOAD_PROGRESS = "setUploadProgress";
+
+export const SET_TOTAL_UPLOADS = "setTotalUploads";
+export const SET_CURRENT_UPLOAD = "setCurrentUpload";

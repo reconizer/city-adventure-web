@@ -10,17 +10,31 @@
 
     AdventureListItem(v-for="adventureItem in adventures" :key="adventureItem.id" :adventure="adventureItem")
 
+    .adventure-list__empty(v-if="adventures.length === 0 && !loading") {{ $t("adventures.empty") }}
+
+    Modal(v-if="showConfirmRemove" @close="closeConfirmRemoveModal")
+      div(slot="header") {{ $t("adventure.remove") }}
+
+      p {{ $t("adventure.remove_confirm") }}
+
+      .text-center
+        a.button.button--blue(@click="removeAdventure") {{ $t("general.confirm_remove") }}
+
     Loader(v-if="loading")
 </template>
 
 <script>
 import { mapState } from 'vuex'
 
-import { LOAD_ADVENTURES } from '@/store/action-types'
+import {
+  LOAD_ADVENTURES,
+  REMOVE_ADVENTURE
+} from '@/store/action-types'
 
 import AdventureListItem from '@/components/creator/AdventureListItem'
 
 import Loader from '@/views/Loader.vue'
+import Modal from '@/components/shared/Modal.vue'
 
 const ACTION_NAMESPACE = 'adventures'
 
@@ -29,7 +43,14 @@ export default {
   components: {
     AdventureListItem,
 
+    Modal,
     Loader
+  },
+  data () {
+    return {
+      showConfirmRemove: false,
+      removableId: null
+    }
   },
   computed: mapState({
     adventures: state => state.adventures.list,
@@ -38,6 +59,22 @@ export default {
   }),
   created () {
     this.$store.dispatch(`${ACTION_NAMESPACE}/${LOAD_ADVENTURES}`, { page: 1 });
+
+    this.$root.$on('confirm-remove', (id) => {
+      this.removableId = id;
+      this.showConfirmRemove = true;
+    });
+  },
+  methods: {
+    removeAdventure () {
+      this.$store.dispatch(`${ACTION_NAMESPACE}/${REMOVE_ADVENTURE}`, { id: this.removableId });
+
+      this.showConfirmRemove = false;
+    },
+
+    closeConfirmRemoveModal () {
+      this.showConfirmRemove = false;
+    }
   }
 }
 </script>

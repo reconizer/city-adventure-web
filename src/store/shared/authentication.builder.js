@@ -3,13 +3,21 @@ import axios from 'axios';
 import { STORE_USER, REMOVE_USER, SET_ERROR, SET_LOADING } from '@/store/mutation-types';
 import { LOGIN, LOGOUT } from '@/store/action-types';
 
+import { BASE_URL, ADMIN_BASE_URL } from '@/config'
+
 import { authHeader } from '@/utils';
 
 const user = JSON.parse(localStorage.getItem('user'));
 
-if(user && user.token) {
-  axios.defaults.headers.common['Authorization'] = authHeader();
-}
+axios.interceptors.request.use( (config) => {
+  const header = authHeader();
+
+  if(header && (config.url.includes(BASE_URL) || config.url.includes(ADMIN_BASE_URL))) {
+    config.headers.common['Authorization'] = header;
+  }
+
+  return config;
+});
 
 export default (api) => {
   return {
@@ -63,8 +71,6 @@ export default (api) => {
 
             localStorage.setItem('user', JSON.stringify(user));
 
-            axios.defaults.headers.common['Authorization'] = authHeader();
-
             commit(SET_LOADING, false);
 
             return response;
@@ -85,8 +91,6 @@ export default (api) => {
             commit(REMOVE_USER);
 
             localStorage.removeItem('user');
-
-            delete axios.defaults.headers.common['Authorization'];
 
             commit(SET_LOADING, false);
 

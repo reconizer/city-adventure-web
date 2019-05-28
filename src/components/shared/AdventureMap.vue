@@ -31,6 +31,7 @@
         v-for="(point, index) in points"
         :point="point"
         :index="index"
+        :showCircle="showCircles"
       )
 
     .google-map-controls(v-if="mapLoaded")
@@ -55,6 +56,16 @@
           .icon.icon--question-mark-white.icon--pad-right
           span {{ $t("adventure.help") }}
 
+      .google-map-controls__radius
+        .button.button--blue(
+          @click="togglePointsRadius"
+        )
+          span {{ $t("adventure.show_radiuses") }}
+          .form-checkbox.form-checkbox--small.form-checkbox--pad-left(
+            :class="{ 'form-checkbox--active': showCircles }"
+          )
+            .form-checkbox__toggle
+
     Modal(v-if="showHelp" @close="closeHelpModal")
       div(slot="header") {{ $t("adventure.help_header") }}
 
@@ -64,7 +75,9 @@
 
       p {{ $t("adventure.help_paragraph_3") }}
 
-      .text-center
+      p {{ $t("adventure.help_paragraph_4") }}
+
+      .text-center(slot="footer")
         a.button.button--blue(@click="closeHelpModal") {{ $t("adventure.help_confirm") }}
 </template>
 
@@ -87,7 +100,7 @@ export default {
   data() {
     return {
       center: { lat: 0, lng: 0 },
-      zoom: 17,
+      zoom: 16,
       mapLoaded: false,
 
       addPointWindowPosition: { lat: 0, lng: 0 },
@@ -97,7 +110,8 @@ export default {
       pointOptionsWindowOpened: false,
       currentPoint: null,
 
-      showHelp: false
+      showHelp: false,
+      showCircles: true
     };
   },
   computed: {
@@ -152,6 +166,10 @@ export default {
       this.pointOptionsWindowPosition = point.position;
     });
 
+    this.$root.$on('marker-interaction', () => {
+      this.closeWindows();
+    });
+
     this.$refs.googleMap.$mapPromise.then(() => {
       this.mapLoaded = true;
 
@@ -164,27 +182,42 @@ export default {
 
   },
   methods: {
-    centerCamera ( { lat, lng }) {
+    centerCamera ({ lat, lng }) {
       this.center = { lat, lng };
 
       if(this.$refs.googleMap && this.mapLoaded) {
         this.$refs.googleMap.$mapObject.setCenter(this.center);
       }
     },
+
     setPlace (place) {
       this.centerCamera({
         lat: place.geometry.location.lat(),
         lng: place.geometry.location.lng()
       });
     },
+
     geolocate () {
-      navigator.geolocation.getCurrentPosition(position => {
-        this.centerCamera({
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        });
-      });
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          this.centerCamera({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          });
+        },
+        failure => {
+          this.centerCamera({
+            lat: this.points[0].position.lat,
+            lng: this.points[0].position.lng
+          });
+        }
+      );
     },
+
+    togglePointsRadius () {
+      this.showCircles = !this.showCircles;
+    },
+
     locatePoints () {
       if(this.points.length == 0)
         return;
@@ -199,6 +232,7 @@ export default {
         this.$refs.googleMap.fitBounds(bounds, 0);
       }
     },
+
     createPoint () {
       let center = this.$refs.googleMap.$mapObject.center;
 

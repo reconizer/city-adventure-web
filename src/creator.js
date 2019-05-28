@@ -26,6 +26,7 @@ import { i18n } from '@/translations/i18n';
 import App from './CreatorApp.vue';
 import router from '@/router/creator';
 import store from '@/store/creator';
+import '@/utils/filters'
 
 Vue.config.productionTip = false;
 

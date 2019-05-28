@@ -30,7 +30,10 @@ export default {
     counters: {
       [ADVENTURES_PUBLISHED]: null,
       [ADVENTURES_IN_REVIEW]: null,
-      [ADVENTURES_UNPUBLISHED]: null
+      [ADVENTURES_UNPUBLISHED]: null,
+      [ADVENTURES_REJECTED]: null,
+      [ADVENTURES_CANCELLED]: null,
+      [ADVENTURES_PENDING]: null
     },
 
     currentType: null,

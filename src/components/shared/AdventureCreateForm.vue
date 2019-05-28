@@ -160,12 +160,20 @@ export default {
       this.movePointOpened = false;
     },
     geolocate () {
-      navigator.geolocation.getCurrentPosition(position => {
-        this.center = {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
-        };
-      });
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          this.center = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          };
+        },
+        failure => {
+          this.center = {
+            lat: 53.016908,
+            lng: 18.638584
+          };
+        }
+      );
     },
     setPlace (place) {
       this.center = {

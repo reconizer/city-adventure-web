@@ -30,9 +30,10 @@
 
     .col-3-12
       .text-right
-        router-link.button.button--blue(:to="{ name: 'adventureMap', params: { adventureId: adventure.id } }")
-          .icon.icon--sm.icon--pencil-white.icon--pad-right
-          span {{ $t("general.edit") }}
+        router-link.button.button--icon(:to="{ name: 'adventureMap', params: { adventureId: adventure.id } }")
+          .icon.icon--pencil
+            .icon__tooltip-wrapper
+              .icon__tooltip {{ $t("general.edit") }}
 </template>
 
 <script>
