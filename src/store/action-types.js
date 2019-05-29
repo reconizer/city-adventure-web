@@ -26,6 +26,11 @@ export const DESTROY_CLUE = "destroyClue";
 export const CREATE_POINT = "createPoint";
 export const DESTROY_POINT = "destroyPoint";
 
+export const UPLOAD_MAIN_IMAGE = "uploadMainImage";
+export const UPDATE_GALLERY_IMAGES = "updateGalleryImages";
+export const CREATE_GALLERY_IMAGE = "createGalleryImage";
+export const DESTROY_GALLERY_IMAGE = "destroyGalleryImage";
+
 /**
  * PUBLISHMENT
  */

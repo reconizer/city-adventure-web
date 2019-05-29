@@ -50,7 +50,7 @@ export default {
       resolve({ data: { } });
     });
   },
-  uploadImage(file, uploadURL, onProgress) {
+  uploadImage (file, uploadURL, onProgress) {
     if(file != null && uploadURL != null) {
       let options = {
         onUploadProgress: onProgress,

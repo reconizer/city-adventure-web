@@ -12,14 +12,23 @@ import {
 
   SET_CLUE, ADD_CLUE, REMOVE_CLUE,
 
+  SET_MAIN_IMAGE, ADD_GALLERY_IMAGE,
+  REMOVE_GALLERY_IMAGE,
+
   SET_UPLOAD_IN_PROGRESS, SET_UPLOAD_PROGRESS,
+  SET_TOTAL_UPLOADS, SET_CURRENT_UPLOAD,
   CLEAR_UPLOAD_INFO
 } from '@/store/mutation-types';
 
 import {
   LOAD_ADVENTURE, UPDATE_ADVENTURE,
+
+  UPLOAD_MAIN_IMAGE, UPDATE_GALLERY_IMAGES,
+  CREATE_GALLERY_IMAGE, DESTROY_GALLERY_IMAGE,
+
   UPDATE_POINT, CREATE_POINT, DESTROY_POINT,
   UPDATE_POINTS,
+
   UPDATE_CLUE, CREATE_CLUE, DESTROY_CLUE,
   UPDATE_CLUES,
 } from '@/store/action-types';
@@ -122,6 +131,23 @@ export default (api) => {
       },
 
       /**
+       * ADVENTURE IMAGES
+       */
+      [SET_MAIN_IMAGE] (state, mainImageURL) {
+        state.item.cover_url = mainImageURL;
+      },
+
+      [ADD_GALLERY_IMAGE] (state, galleryImage) {
+        state.item.images.push(galleryImage);
+      },
+
+      [REMOVE_GALLERY_IMAGE] (state, galleryImageId) {
+        let index = state.item.images.findIndex(image => image.id == galleryImageId);
+
+        state.item.images.splice(index, 1);
+      },
+
+      /**
        * POINTS
        */
       [ADD_POINT] (state, point) {
@@ -213,6 +239,14 @@ export default (api) => {
 
       [SET_UPLOAD_PROGRESS] (state, progress) {
         state.upload.progress = progress;
+      },
+
+      [SET_TOTAL_UPLOADS] (state, total) {
+        state.upload.totalUploads = total;
+      },
+
+      [SET_CURRENT_UPLOAD] (state, current) {
+        state.upload.currentUpload = current;
       },
 
       [CLEAR_UPLOAD_INFO] (state) {
