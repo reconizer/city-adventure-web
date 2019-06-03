@@ -323,6 +323,10 @@ export default {
     label: "Wysyłanie"
   },
 
+  image: {
+    remove_confirm: "Jesteś pewien, że chcesz usunąć to zdjęcie?"
+  },
+
   general: {
     name: "Nazwa",
     description: "Opis",
@@ -332,8 +336,9 @@ export default {
     remove: "Usuń",
     submit: "Zatwierdź",
     cancel: "Anuluj",
-    query: "Szukaj",
     filter: "Filtruj",
+    query: "Szukaj",
+    preview: "Podgląd",
 
     around: "Około {value}",
 

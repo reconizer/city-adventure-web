@@ -107,7 +107,25 @@
             )
               img(:src="image.url")
 
+              button.button.button--icon-sm.button--blue.adventure-promo-image__remove-button(@click="confirmRemoveImage(image)")
+                .icon.icon--sm.icon--close-white
+                  .icon__tooltip-wrapper
+                    .icon__tooltip {{ $t("general.remove") }}
+
+              a.button.button--icon-sm.button--blue.adventure-promo-image__preview-button(:href="image.url" target="_blank")
+                .icon.icon--sm.icon--eye
+                  .icon__tooltip-wrapper
+                    .icon__tooltip {{ $t("general.preview") }}
+
     UploadProgress(:upload="upload")
+
+    Modal(v-if="imageToRemove" @close="closeModal")
+      div(slot="header") {{ $t("general.remove") }}
+
+      p {{ $t("image.remove_confirm") }}
+
+      .text-center
+        a.button.button--blue(@click="removeImage") {{ $t("general.submit") }}
 </template>
 
 <script>
@@ -122,6 +140,8 @@ import vSelect from 'vue-select'
 
 import FileUpload from '@/components/shared/FileUpload.vue'
 import UploadProgress from '@/components/shared/UploadProgress.vue'
+
+import Modal from '@/components/shared/Modal.vue'
 
 import { ADVENTURE_DURATION_OPTIONS, DIFFICULTY_LEVELS } from '@/config'
 
@@ -144,7 +164,9 @@ export default {
     vSelect,
 
     FileUpload,
-    UploadProgress
+    UploadProgress,
+
+    Modal
   },
   data () {
     return {
@@ -160,7 +182,8 @@ export default {
         description: null,
         images: []
       },
-      specifiedDuration: true
+      specifiedDuration: true,
+      imageToRemove: null
     }
   },
   computed: {
@@ -302,6 +325,24 @@ export default {
 
     onPromoImagesAdded (files) {
       this.$store.dispatch(`${ACTION_NAMESPACE}/${CREATE_GALLERY_IMAGES}`, { files });
+    },
+
+    confirmRemoveImage (image) {
+      this.imageToRemove = image;
+    },
+
+    closeModal () {
+      this.imageToRemove = null;
+    },
+
+    removeImage () {
+      this.$store.dispatch(`${ACTION_NAMESPACE}/${DESTROY_GALLERY_IMAGE}`, { imageId: this.imageToRemove.id })
+        .then( () => {
+          this.imageToRemove = null;
+        })
+        .catch( error => {
+          this.imageToRemove = null;
+        });
     },
 
     submit () {

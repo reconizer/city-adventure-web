@@ -112,8 +112,9 @@ export default {
     }
   },
   destroyGalleryImage (adventureId, galleryImageId) {
-    return new Promise((resolve) => {
-      resolve({ data: { } });
+    return axios.post(`${BASE_URL}/adventures/gallery_image/remove`, {
+      adventure_id: adventureId,
+      image_id: galleryImageId
     });
   },
 

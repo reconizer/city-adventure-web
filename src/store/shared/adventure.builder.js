@@ -373,6 +373,8 @@ export default (api) => {
         commit(SET_TOTAL_UPLOADS, files.length);
         commit(SET_UPLOAD_IN_PROGRESS, true);
 
+        let baseOrder = Math.max(...(state.item.images.map((im) => im.order)));
+
         const upload = files.reduce( (prev, current, index) => {
           return prev
             .then( response => {
@@ -383,6 +385,16 @@ export default (api) => {
               commit(SET_CURRENT_UPLOAD, index + 1);
 
               return api.adventures.uploadImage(current, response.data.url, onProgress);
+            })
+            .then( response => {
+              commit(ADD_GALLERY_IMAGE, {
+                id: +new Date(),
+                url: URL.createObjectURL(current),
+                order: baseOrder + index + 1
+              });
+
+              //to allow chaining always return a promise as result
+              return Promise.resolve();
             });
         }, Promise.resolve());
 
@@ -390,23 +402,33 @@ export default (api) => {
           .then( (reponse) => {
             commit(CLEAR_UPLOAD_INFO);
             commit(SET_LOADING, false);
-
-            let baseOrder = Math.max(...(state.item.images.map((im) => im.order)));
-
-            files.forEach((file, index) => {
-              commit(ADD_GALLERY_IMAGE, {
-                id: +new Date(),
-                url: URL.createObjectURL(file),
-                order: baseOrder + index + 1
-              });
-            });
           })
           .catch( error => {
+            console.log(error);
             commit(SET_ERROR, { key: CREATE_GALLERY_IMAGES, error: error.response.data });
 
             commit(SET_LOADING, false);
 
             commit(SET_UPLOAD_IN_PROGRESS, false);
+
+            throw error;
+          });
+      },
+
+      [DESTROY_GALLERY_IMAGE] ({ commit, state }, { imageId }) {
+        commit(SET_LOADING, true);
+
+        return api.adventures.destroyGalleryImage(state.item.id, imageId)
+          .then( response => {
+            commit(SET_LOADING, false);
+
+            commit(REMOVE_GALLERY_IMAGE, imageId);
+
+            return response;
+          })
+          .catch( error => {
+            commit(SET_ERROR, { key: DESTROY_GALLERY_IMAGE, error: error.response.data });
+            commit(SET_LOADING, false);
 
             throw error;
           });
