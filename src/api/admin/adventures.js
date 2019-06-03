@@ -71,15 +71,29 @@ export default {
       }, 500);
     });
   },
-  getAdventureMainImageUploadURL (adventureId) {
-    return new Promise((resolve) => {
-      resolve({ data: { } });
-    });
+  getAdventureMainImageUploadURL (adventureId, file) {
+    if(file != null) {
+      return axios.post(`${ADMIN_BASE_URL}/adventures/main_image_url`, {
+        adventure_id: adventureId,
+        extension: file.name.split('.')[1]
+      });
+    } else {
+      return new Promise((resolve) => {
+        resolve({ data: { } });
+      });
+    }
   },
-  getAdventureGalleryImageUploadURL (adventureId) {
-    return new Promise((resolve) => {
-      resolve({ data: { } });
-    });
+  getAdventureGalleryImageUploadURL (adventureId, file) {
+    if(file != null) {
+      return axios.post(`${ADMIN_BASE_URL}/adventures/gallery_image/upload_url`, {
+        adventure_id: adventureId,
+        extension: file.name.split('.')[1]
+      });
+    } else {
+      return new Promise((resolve) => {
+        resolve({ data: { } });
+      });
+    }
   },
   uploadImage(file, uploadURL, onProgress) {
     if(file != null && uploadURL != null) {

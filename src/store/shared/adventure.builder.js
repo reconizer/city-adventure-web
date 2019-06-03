@@ -1,4 +1,6 @@
+import axios from 'axios';
 import Vue from 'vue';
+
 import { i18n } from '@/translations/i18n'
 
 import {
@@ -24,7 +26,7 @@ import {
   LOAD_ADVENTURE, UPDATE_ADVENTURE,
 
   UPLOAD_MAIN_IMAGE, UPDATE_GALLERY_IMAGES,
-  CREATE_GALLERY_IMAGE, DESTROY_GALLERY_IMAGE,
+  CREATE_GALLERY_IMAGES, DESTROY_GALLERY_IMAGE,
 
   UPDATE_POINT, CREATE_POINT, DESTROY_POINT,
   UPDATE_POINTS,
@@ -111,6 +113,8 @@ export default (api) => {
        * ADVENTURE
        */
       [SET_ADVENTURE] (state, adventure) {
+        adventure.images = adventure.images.sort((i1, i2) => i1.order > i2.order);
+
         state.item = adventure;
       },
 
@@ -312,6 +316,113 @@ export default (api) => {
           })
           .catch( error => {
             commit(SET_ERROR, { key: UPDATE_ADVENTURE, error: error.response.data })
+            commit(SET_LOADING, false);
+
+            throw error;
+          });
+      },
+
+      /**
+       * ADVENTURE IMAGES
+       */
+      [UPLOAD_MAIN_IMAGE] ({ commit, state }, { file }) {
+        commit(SET_LOADING, true);
+        commit(CLEAR_UPLOAD_INFO);
+
+        let onProgress = (progressEvent) => {
+          let percent = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+
+          commit(SET_UPLOAD_PROGRESS, percent);
+        };
+
+        return api.adventures.getAdventureMainImageUploadURL(state.item.id, file)
+          .then( response => {
+            commit(SET_UPLOAD_IN_PROGRESS, true);
+
+            return api.adventures.uploadImage(file, response.data.url, onProgress);
+          })
+          .then( response => {
+            commit(SET_MAIN_IMAGE, URL.createObjectURL(file));
+
+            commit(CLEAR_UPLOAD_INFO);
+            commit(SET_LOADING, false);
+
+            return response;
+          })
+          .catch( error => {
+            commit(SET_ERROR, { key: UPLOAD_MAIN_IMAGE, error: error.response.data });
+
+            commit(SET_LOADING, false);
+
+            commit(SET_UPLOAD_IN_PROGRESS, false);
+
+            throw error;
+          });
+      },
+
+      [CREATE_GALLERY_IMAGES] ({ commit, state }, { files }) {
+        commit(SET_LOADING, true);
+        commit(CLEAR_UPLOAD_INFO);
+
+        let onProgress = (progressEvent) => {
+          let percent = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+
+          commit(SET_UPLOAD_PROGRESS, percent);
+        };
+
+        commit(SET_TOTAL_UPLOADS, files.length);
+        commit(SET_UPLOAD_IN_PROGRESS, true);
+
+        const upload = files.reduce( (prev, current, index) => {
+          return prev
+            .then( response => {
+              return api.adventures.getAdventureGalleryImageUploadURL(state.item.id, current);
+            })
+            .then( response => {
+              commit(SET_UPLOAD_PROGRESS, 0);
+              commit(SET_CURRENT_UPLOAD, index + 1);
+
+              return api.adventures.uploadImage(current, response.data.url, onProgress);
+            });
+        }, Promise.resolve());
+
+        return upload
+          .then( (reponse) => {
+            commit(CLEAR_UPLOAD_INFO);
+            commit(SET_LOADING, false);
+
+            let baseOrder = Math.max(...(state.item.images.map((im) => im.order)));
+
+            files.forEach((file, index) => {
+              commit(ADD_GALLERY_IMAGE, {
+                id: +new Date(),
+                url: URL.createObjectURL(file),
+                order: baseOrder + index + 1
+              });
+            });
+          })
+          .catch( error => {
+            commit(SET_ERROR, { key: CREATE_GALLERY_IMAGES, error: error.response.data });
+
+            commit(SET_LOADING, false);
+
+            commit(SET_UPLOAD_IN_PROGRESS, false);
+
+            throw error;
+          });
+      },
+
+      [UPDATE_GALLERY_IMAGES] ({ commit, state }, { payload }) {
+        commit(SET_LOADING, true);
+
+        return api.adventures.updateAdventureImages(state.item.id, payload)
+          .then( response => {
+            commit(SET_LOADING, false);
+
+            return response;
+          })
+          .catch( error => {
+            commit(SET_ERROR, { key: UPDATE_GALLERY_IMAGES, error: error.response.data });
             commit(SET_LOADING, false);
 
             throw error;
