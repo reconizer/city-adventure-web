@@ -14,7 +14,13 @@
       .row
         .col-1-2
           .form-control(v-if="clue.type != 'text' && clue.type != 'url'")
-            img.clue-preview(v-if="clue.type == 'image'" :src="clue.url")
+            .clue-preview-container(v-if="clue.type == 'image'")
+              img.clue-preview(:src="clue.url")
+
+              a.button.button--icon-sm.button--blue.clue-preview-button(:href="clue.url" target="_blank")
+                .icon.icon--sm.icon--eye
+                  .icon__tooltip-wrapper
+                    .icon__tooltip {{ $t("general.preview") }}
 
             video.clue-preview(v-if="clue.type == 'video'" :poster="clue.url" controls)
               source(:src="clue.video_url")

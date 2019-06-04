@@ -323,6 +323,10 @@ export default {
     label: "Uploading"
   },
 
+  image: {
+    remove_confirm: "Are you sure you want to remove this image?"
+  },
+
   general: {
     name: "Name",
     description: "Description",
@@ -334,6 +338,7 @@ export default {
     cancel: "Cancel",
     filter: "Filter",
     query: "Search",
+    preview: "Preview",
 
     around: "Around {value}",
 
