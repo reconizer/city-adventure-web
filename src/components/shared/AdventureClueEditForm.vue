@@ -17,7 +17,7 @@
             .clue-preview-container(v-if="clue.type == 'image'")
               img.clue-preview(:src="clue.url")
 
-              a.button.button--icon-sm.button--blue.clue-preview-button(:href="clue.url" target="_blank")
+              a.button.button--icon-sm.button--blue.clue-preview-button(v-if="clue.url && !clue.url.startsWith('blob')" :href="clue.url" target="_blank")
                 .icon.icon--sm.icon--eye
                   .icon__tooltip-wrapper
                     .icon__tooltip {{ $t("general.preview") }}

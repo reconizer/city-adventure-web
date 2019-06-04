@@ -12,7 +12,7 @@
     .adventure-structure-header
       router-link.adventure-structure__title(
         v-if="adventure.id"
-        :to="{ name: 'adventureMap', params: { adventureId: adventure.id } }"
+        :to="{ name: 'adventureSettings', params: { adventureId: adventure.id } }"
       ) {{ adventure.name }}
 
       router-link.adventure-structure__label(
