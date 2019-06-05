@@ -399,9 +399,16 @@ export default (api) => {
         }, Promise.resolve());
 
         return upload
-          .then( (reponse) => {
+          .then( reponse => {
             commit(CLEAR_UPLOAD_INFO);
+
+            return api.adventures.loadAdventure(state.item.id);
+          })
+          .then( response => {
             commit(SET_LOADING, false);
+            commit(SET_ADVENTURE, response.data);
+
+            return response;
           })
           .catch( error => {
             console.log(error);
@@ -574,7 +581,12 @@ export default (api) => {
               data: clueCreateResponse.data
             });
 
+            return api.adventures.loadPoints(state.item.id);
+          })
+          .then( response => {
             commit(SET_LOADING, false);
+
+            commit(SET_ADVENTURE_POINTS, response.data);
 
             return clueCreateResponse;
           })

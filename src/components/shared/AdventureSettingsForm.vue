@@ -120,12 +120,12 @@
     UploadProgress(:upload="upload")
 
     Modal(v-if="imageToRemove" @close="closeModal")
-      div(slot="header") {{ $t("general.remove") }}
+      div(slot="header") {{ $t("image.remove") }}
 
       p {{ $t("image.remove_confirm") }}
 
       .text-center
-        a.button.button--blue(@click="removeImage") {{ $t("general.submit") }}
+        a.button.button--blue(@click="removeImage") {{ $t("general.confirm_remove") }}
 </template>
 
 <script>
@@ -308,7 +308,7 @@ export default {
       let images = this.adventureData.images.map( (image, index) => {
         return {
           id: image.id,
-          order: index
+          sort: index
         };
       });
 

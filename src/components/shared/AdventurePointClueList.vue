@@ -27,14 +27,14 @@
               .icon__tooltip-wrapper
                 .icon__tooltip {{ $t("adventure.text_clue") }}
 
-            .adventure-point-clue__content {{ clue.description | truncate(150) }}
+            .adventure-point-clue__content(v-if="clue.description") {{ clue.description | truncate(150) }}
 
           .adventure-point-clue__text(v-if="clue.type == 'audio'")
             .icon.icon--audio.icon--pad-right.icon--align-start
               .icon__tooltip-wrapper
                 .icon__tooltip {{ $t("adventure.audio_clue") }}
 
-            .adventure-point-clue__content {{ clue.description | truncate(150) }}
+            .adventure-point-clue__content(v-if="clue.description") {{ clue.description | truncate(150) }}
 
           .adventure-point-clue__thumb.adventure-point-clue__thumb--video(v-if="clue.type == 'video'")
             img(:src="clue.url")

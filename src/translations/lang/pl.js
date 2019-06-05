@@ -257,6 +257,7 @@ export default {
     is_tip_explanation: "Opcjonalna wskazówka, dostępna na życzenie użytkownika",
     content: "Treść",
     url: "URL",
+    remove: "Usuń wskazówkę",
     remove_confirm: "Jesteś pewien, że chcesz usunąć tą wskazówkę?"
   },
 
@@ -324,6 +325,7 @@ export default {
   },
 
   image: {
+    remove: "Usuń zdjęcie",
     remove_confirm: "Jesteś pewien, że chcesz usunąć to zdjęcie?"
   },
 

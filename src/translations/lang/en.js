@@ -257,6 +257,7 @@ export default {
     is_tip_explanation: "Tips are optional clues, given to users when they require additional help",
     content: "Content",
     url: "URL",
+    remove: "Remove clue",
     remove_confirm: "Are you sure you want to remove this clue?"
   },
 
@@ -324,6 +325,7 @@ export default {
   },
 
   image: {
+    remove: "Remove image",
     remove_confirm: "Are you sure you want to remove this image?"
   },
 

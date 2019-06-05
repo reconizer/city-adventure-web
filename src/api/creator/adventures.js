@@ -34,12 +34,9 @@ export default {
    * ADVENTURE IMAGES
    */
   updateAdventureImages (adventureId, payload) {
-    console.log(payload);
-
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({ data: { } });
-      }, 500);
+    return axios.post(`${BASE_URL}/adventures/gallery_image/reorder`, {
+      adventure_id: adventureId,
+      image_order: payload.images
     });
   },
   getAdventureMainImageUploadURL (adventureId, file) {
@@ -49,9 +46,7 @@ export default {
         extension: file.name.split('.')[1]
       });
     } else {
-      return new Promise((resolve) => {
-        resolve({ data: { } });
-      });
+      return Promise.resolve({ data: { } });
     }
   },
   getAdventureGalleryImageUploadURL (adventureId, file) {
@@ -61,9 +56,7 @@ export default {
         extension: file.name.split('.')[1]
       });
     } else {
-      return new Promise((resolve) => {
-        resolve({ data: { } });
-      });
+      return Promise.resolve({ data: { } });
     }
   },
   uploadImage (file, uploadURL, onProgress) {
@@ -77,9 +70,7 @@ export default {
 
       return axios.put(uploadURL, file, options);
     } else {
-      return new Promise((resolve) => {
-        resolve({ data: { } });
-      });
+      return Promise.resolve({ data: { } });
     }
   },
   destroyGalleryImage (adventureId, galleryImageId) {
@@ -166,9 +157,7 @@ export default {
         extension: file.name.split('.')[1]
       });
     } else {
-      return new Promise((resolve) => {
-        resolve({ data: { } });
-      });
+      return Promise.resolve({ data: { } });
     }
   },
   uploadClueAsset (file, uploadURL, onProgress) {
@@ -182,9 +171,7 @@ export default {
       
       return axios.put(uploadURL, file, options);
     } else {
-      return new Promise((resolve) => {
-        resolve({ data: { } });
-      });
+      return Promise.resolve({ data: { } });
     }
   },
   updateClue (adventureId, pointId, clueId, data) {

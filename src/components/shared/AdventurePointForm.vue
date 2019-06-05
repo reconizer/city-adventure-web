@@ -164,6 +164,7 @@ export default {
     },
 
     destroyPuzzle () {
+      // Handle point removing in Adventure component
       this.$root.$emit('remove-point', this.pointData);
     },
 

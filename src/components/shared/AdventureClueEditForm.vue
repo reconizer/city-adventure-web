@@ -61,12 +61,12 @@
             a.button.button--blue.button--large.button--full(@click="submit()") {{ $t("general.submit") }}
 
       Modal(v-if="removeConfirmModalShown" @close="closeModals")
-        div(slot="header") {{ $t("general.remove") }}
+        div(slot="header") {{ $t("clue.remove") }}
 
         p {{ $t("clue.remove_confirm") }}
 
         .text-center
-          a.button.button--blue(@click="destroyClue") {{ $t("general.submit") }}
+          a.button.button--blue(@click="destroyClue") {{ $t("general.confirm_remove") }}
 </template>
 
 <script>

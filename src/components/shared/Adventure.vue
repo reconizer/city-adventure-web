@@ -64,7 +64,7 @@
       p {{ $t("adventure.remove_puzzle_confirm") }}
 
       .text-center
-        a.button.button--blue(@click="destroyPoint") {{ $t("general.submit") }}
+        a.button.button--blue(@click="destroyPoint") {{ $t("general.confirm_remove") }}
 
     Modal(v-if="structureHelpModalShown" @close="closeModals")
       div(slot="header") {{ $t("adventure.structure_help") }}
