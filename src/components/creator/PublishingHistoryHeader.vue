@@ -1,9 +1,9 @@
 <template lang="pug">
   .adventure-publishment__header
     .adventure-publishment__summary {{ publishingSummary }}
-    a.button.button--green.adventure-publishment__action(v-if="canRequestReview" @click="showReviewModal") {{ $t("adventure_publishing.action_request_review") }}
-    a.button.button--blue.adventure-publishment__action(v-if="canGoToEdit" @click="showEditModal") {{ $t("adventure_publishing.action_edit") }}
-    a.button.button--green.adventure-publishment__action(v-if="canPublish" @click="showPublishModal") {{ $t("adventure_publishing.action_publish") }}
+    button.button.button--green.adventure-publishment__action(v-if="canRequestReview" @click="showReviewModal") {{ $t("adventure_publishing.action_request_review") }}
+    button.button.button--blue.adventure-publishment__action(v-if="canGoToEdit" @click="showEditModal") {{ $t("adventure_publishing.action_edit") }}
+    button.button.button--green.adventure-publishment__action(v-if="canPublish" @click="showPublishModal") {{ $t("adventure_publishing.action_publish") }}
 
     Modal(v-if="showConfirmEdit" @close="closeModals")
       div(slot="header") {{ $t("adventure_publishing.action_edit") }}
@@ -12,8 +12,8 @@
       p {{ $t("adventure_publishing.modal_edit_2") }}
 
       .text-center
-        a.button.button--blue.button--push-right(@click="backToEdit") {{ $t("general.i_understand_confirm") }}
-        a.button.button--light-gray(@click="closeModals") {{ $t("general.cancel") }}
+        button.button.button--blue.button--push-right(@click="backToEdit") {{ $t("general.i_understand_confirm") }}
+        button.button.button--light-gray(@click="closeModals") {{ $t("general.cancel") }}
 
     Modal(v-if="showRequestReview" @close="closeModals")
       div(slot="header") {{ $t("adventure_publishing.action_request_review") }}
@@ -23,8 +23,8 @@
       p {{ $t("adventure_publishing.modal_review_3") }}
 
       .text-center
-        a.button.button--blue.button--push-right(@click="requestReview") {{ $t("general.i_understand_confirm") }}
-        a.button.button--light-gray(@click="closeModals") {{ $t("general.cancel") }}
+        button.button.button--blue.button--push-right(@click="requestReview") {{ $t("general.i_understand_confirm") }}
+        button.button.button--light-gray(@click="closeModals") {{ $t("general.cancel") }}
 
     Modal(v-if="showConfirmPublish" @close="closeModals")
       div(slot="header") {{ $t("adventure_publishing.action_publish") }}
@@ -32,8 +32,8 @@
       p {{ $t("adventure_publishing.modal_publish_1") }}
 
       .text-center
-        a.button.button--blue.button--push-right(@click="publish") {{ $t("general.i_understand_confirm") }}
-        a.button.button--light-gray(@click="closeModals") {{ $t("general.cancel") }}
+        button.button.button--blue.button--push-right(@click="publish") {{ $t("general.i_understand_confirm") }}
+        button.button.button--light-gray(@click="closeModals") {{ $t("general.cancel") }}
 </template>
 
 <script>

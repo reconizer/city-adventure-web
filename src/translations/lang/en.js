@@ -230,6 +230,7 @@ export default {
     hidden_explanation: "Hidden points will not be visible on the map until the players will manually find them by verifying their location",
     radius: "Radius (in meters)",
     radius_explanation: "Radius within which players can access this puzzle",
+    starting_radius_explanation: "Radius within which players can start this adventure",
 
     password_required: "Password Required",
     password_type: "Password Type",
@@ -257,6 +258,7 @@ export default {
     is_tip_explanation: "Tips are optional clues, given to users when they require additional help",
     content: "Content",
     url: "URL",
+    remove: "Remove clue",
     remove_confirm: "Are you sure you want to remove this clue?"
   },
 
@@ -323,6 +325,11 @@ export default {
     label: "Uploading"
   },
 
+  image: {
+    remove: "Remove image",
+    remove_confirm: "Are you sure you want to remove this image?"
+  },
+
   general: {
     name: "Name",
     description: "Description",
@@ -334,6 +341,7 @@ export default {
     cancel: "Cancel",
     filter: "Filter",
     query: "Search",
+    preview: "Preview",
 
     around: "Around {value}",
 

@@ -70,7 +70,7 @@
             textarea.form-input(v-model="clue.description" :disabled="!editable")
 
           .form-control(v-if="editable")
-            a.button.button--blue.button--large.button--full(@click="submit()") {{ $t("general.submit") }}
+            button.button.button--blue.button--large.button--full(@click="submit()") {{ $t("general.submit") }}
 
     UploadProgress(:upload="upload")
 </template>

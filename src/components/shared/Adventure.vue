@@ -12,7 +12,7 @@
     .adventure-structure-header
       router-link.adventure-structure__title(
         v-if="adventure.id"
-        :to="{ name: 'adventureMap', params: { adventureId: adventure.id } }"
+        :to="{ name: 'adventureSettings', params: { adventureId: adventure.id } }"
       ) {{ adventure.name }}
 
       router-link.adventure-structure__label(
@@ -64,7 +64,7 @@
       p {{ $t("adventure.remove_puzzle_confirm") }}
 
       .text-center
-        a.button.button--blue(@click="destroyPoint") {{ $t("general.submit") }}
+        button.button.button--blue(@click="destroyPoint") {{ $t("general.confirm_remove") }}
 
     Modal(v-if="structureHelpModalShown" @close="closeModals")
       div(slot="header") {{ $t("adventure.structure_help") }}
@@ -78,7 +78,7 @@
       p {{ $t("adventure.structure_help_explanation_4") }}
 
       .text-center(slot="footer")
-        a.button.button--blue(@click="closeModals") {{ $t("adventure.help_confirm") }}
+        button.button.button--blue(@click="closeModals") {{ $t("adventure.help_confirm") }}
 
     router-view(:key="$route.fullPath")
 </template>

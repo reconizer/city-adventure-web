@@ -147,6 +147,7 @@ export default {
     },
 
     destroyPoint (point) {
+      // Handle point removing in Adventure component
       this.$root.$emit('remove-point', point);
     }
   }
