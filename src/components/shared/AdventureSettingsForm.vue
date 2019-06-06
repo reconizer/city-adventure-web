@@ -106,6 +106,26 @@
               :key="image.id"
             )
               img(:src="image.url")
+
+              button.button.button--icon-sm.button--blue.adventure-promo-image__remove-button(@click="confirmRemoveImage(image)")
+                .icon.icon--sm.icon--close-white
+                  .icon__tooltip-wrapper
+                    .icon__tooltip {{ $t("general.remove") }}
+
+              button.button.button--icon-sm.button--blue.adventure-promo-image__preview-button(v-if="!image.url.startsWith('blob')" :href="image.url" target="_blank")
+                .icon.icon--sm.icon--eye
+                  .icon__tooltip-wrapper
+                    .icon__tooltip {{ $t("general.preview") }}
+
+    UploadProgress(:upload="upload")
+
+    Modal(v-if="imageToRemove" @close="closeModal")
+      div(slot="header") {{ $t("image.remove") }}
+
+      p {{ $t("image.remove_confirm") }}
+
+      .text-center
+        button.button.button--blue(@click="removeImage") {{ $t("general.confirm_remove") }}
 </template>
 
 <script>
@@ -119,10 +139,19 @@ import vueSlider from 'vue-slider-component'
 import vSelect from 'vue-select'
 
 import FileUpload from '@/components/shared/FileUpload.vue'
+import UploadProgress from '@/components/shared/UploadProgress.vue'
+
+import Modal from '@/components/shared/Modal.vue'
 
 import { ADVENTURE_DURATION_OPTIONS, DIFFICULTY_LEVELS } from '@/config'
 
-import { UPDATE_ADVENTURE } from '@/store/action-types'
+import {
+  UPDATE_ADVENTURE,
+  
+  UPLOAD_MAIN_IMAGE, CREATE_GALLERY_IMAGES,
+  UPDATE_GALLERY_IMAGES, DESTROY_GALLERY_IMAGE
+} from '@/store/action-types'
+
 import { SET_ERROR } from '@/store/mutation-types'
 
 const ACTION_NAMESPACE = 'adventure'
@@ -134,7 +163,10 @@ export default {
     vueSlider,
     vSelect,
 
-    FileUpload
+    FileUpload,
+    UploadProgress,
+
+    Modal
   },
   data () {
     return {
@@ -150,11 +182,14 @@ export default {
         description: null,
         images: []
       },
-      specifiedDuration: true
+      specifiedDuration: true,
+      imageToRemove: null
     }
   },
   computed: {
     ...mapState({
+      upload: state => state.adventure.upload,
+
       loading: state => state.adventure.loading,
       error: state => state.adventure.errors[UPDATE_ADVENTURE]
     }),
@@ -270,28 +305,44 @@ export default {
     },
 
     updateList () {
-      this.adventureData.images.forEach( (image, index) => {
-        image.order = index;
+      let images = this.adventureData.images.map( (image, index) => {
+        return {
+          id: image.id,
+          sort: index
+        };
       });
+
+      let payload = { images };
+
+      this.$store.dispatch(`${ACTION_NAMESPACE}/${UPDATE_GALLERY_IMAGES}`, { payload });
     },
 
     onCoverAdded (files) {
-      //TODO upload
-      console.log(files);
-
-      this.adventureData.cover_url = URL.createObjectURL(files[0]);
+      this.$store.dispatch(`${ACTION_NAMESPACE}/${UPLOAD_MAIN_IMAGE}`, {
+        file: files[0]
+      });
     },
 
     onPromoImagesAdded (files) {
-      console.log(files);
+      this.$store.dispatch(`${ACTION_NAMESPACE}/${CREATE_GALLERY_IMAGES}`, { files });
+    },
 
-      for(var i = 0; i < files.length; i++) {
-        this.adventureData.images.push({
-          id: files[i].name,
-          order: this.adventureData.images.length + i,
-          url: URL.createObjectURL(files[i])
+    confirmRemoveImage (image) {
+      this.imageToRemove = image;
+    },
+
+    closeModal () {
+      this.imageToRemove = null;
+    },
+
+    removeImage () {
+      this.$store.dispatch(`${ACTION_NAMESPACE}/${DESTROY_GALLERY_IMAGE}`, { imageId: this.imageToRemove.id })
+        .then( () => {
+          this.imageToRemove = null;
+        })
+        .catch( error => {
+          this.imageToRemove = null;
         });
-      }
     },
 
     submit () {

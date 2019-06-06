@@ -50,25 +50,25 @@
         .form-control
           .row
             .col-1-2
-              a.button.button--circle.button--blue(
+              button.button.button--circle.button--blue(
                 :class="{ 'button--disabled': !editable }"
                 @click="onArrow('l')"
               ) ←
-              a.button.button--circle.button--blue(
+              button.button.button--circle.button--blue(
                 :class="{ 'button--disabled': !editable }"
                 @click="onArrow('u')"
               ) ↑
-              a.button.button--circle.button--blue(
+              button.button.button--circle.button--blue(
                 :class="{ 'button--disabled': !editable }"
                 @click="onArrow('d')"
               ) ↓
-              a.button.button--circle.button--blue(
+              button.button.button--circle.button--blue(
                 :class="{ 'button--disabled': !editable }"
                 @click="onArrow('r')"
               ) →
 
             .col-1-2.text-right
-              a.button.button--pink(@click="clearArrows()") {{ $t("adventure_point.password_clear") }}
+              button.button.button--pink(@click="clearArrows()") {{ $t("adventure_point.password_clear") }}
 
         .form-control
           span {{ $t("adventure_point.transformed_password", { password: transformedPassword }) }}

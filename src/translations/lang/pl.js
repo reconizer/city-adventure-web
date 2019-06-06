@@ -230,6 +230,7 @@ export default {
     hidden_explanation: "Punkty ukryte nie będą widoczne na mapie dopóki gracze nie odnajdą ich poprzez weryfikowanie swojego obecnego położenia",
     radius: "Promień (w metrach)",
     radius_explanation: "Promień, w którym gracz może rozwiązać zagadkę",
+    starting_radius_explanation: "Promień, w którym gracz może zacząć przygodę",
 
     password_required: "Wymaga Hasła",
     password_type: "Rodzaj i metoda wprowadzania",
@@ -257,6 +258,7 @@ export default {
     is_tip_explanation: "Opcjonalna wskazówka, dostępna na życzenie użytkownika",
     content: "Treść",
     url: "URL",
+    remove: "Usuń wskazówkę",
     remove_confirm: "Jesteś pewien, że chcesz usunąć tą wskazówkę?"
   },
 
@@ -323,6 +325,11 @@ export default {
     label: "Wysyłanie"
   },
 
+  image: {
+    remove: "Usuń zdjęcie",
+    remove_confirm: "Jesteś pewien, że chcesz usunąć to zdjęcie?"
+  },
+
   general: {
     name: "Nazwa",
     description: "Opis",
@@ -332,8 +339,9 @@ export default {
     remove: "Usuń",
     submit: "Zatwierdź",
     cancel: "Anuluj",
-    query: "Szukaj",
     filter: "Filtruj",
+    query: "Szukaj",
+    preview: "Podgląd",
 
     around: "Około {value}",
 

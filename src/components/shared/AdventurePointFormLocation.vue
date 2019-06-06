@@ -24,7 +24,8 @@
 
         .icon.icon--question-mark.icon--pad-left
           .icon__tooltip-wrapper
-            .icon__tooltip {{ $t("adventure_point.radius_explanation") }}
+            .icon__tooltip(v-if="pointHideable") {{ $t("adventure_point.radius_explanation") }}
+            .icon__tooltip(v-else) {{ $t("adventure_point.starting_radius_explanation") }}
 
       .slider-wrapper
         vue-slider(
