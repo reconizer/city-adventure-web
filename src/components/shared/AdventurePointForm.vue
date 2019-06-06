@@ -7,7 +7,7 @@
 
         .adventure-panel__title {{ formTitle }}
 
-        a.button.button--pink.adventure-panel__remove(v-if="puzzleIndex > 0 && editable" @click="destroyPuzzle()") {{ $t("general.remove") }}
+        button.button.button--pink.adventure-panel__remove(v-if="puzzleIndex > 0 && editable" @click="destroyPuzzle()") {{ $t("general.remove") }}
 
       .row(v-if="puzzleIndex == 0")
         .col-1-2
@@ -41,7 +41,7 @@
       .row(v-if="editable")
         .col-1-2
           .form-control
-            a.button.button--blue.button--large.button--full(@click="submit") {{ $t("general.submit") }}
+            button.button.button--blue.button--large.button--full(@click="submit") {{ $t("general.submit") }}
 </template>
 
 <script>

@@ -230,6 +230,7 @@ export default {
     hidden_explanation: "Hidden points will not be visible on the map until the players will manually find them by verifying their location",
     radius: "Radius (in meters)",
     radius_explanation: "Radius within which players can access this puzzle",
+    starting_radius_explanation: "Radius within which players can start this adventure",
 
     password_required: "Password Required",
     password_type: "Password Type",

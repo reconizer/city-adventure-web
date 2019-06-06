@@ -9,7 +9,7 @@
           span(v-if="!editable") {{ $t("clue.show_title") }}
           span(v-else) {{ $t("clue.edit_title") }}
 
-        a.button.button--pink.adventure-panel__remove(v-if="editable" @click="confirmDestroy") {{ $t("general.remove") }}
+        button.button.button--pink.adventure-panel__remove(v-if="editable" @click="confirmDestroy") {{ $t("general.remove") }}
 
       .row
         .col-1-2
@@ -58,7 +58,7 @@
             input.form-input(v-model="clue.url" :placeholder="$t('clue.url')" :disabled="!editable")
 
           .form-control(v-if="editable")
-            a.button.button--blue.button--large.button--full(@click="submit()") {{ $t("general.submit") }}
+            button.button.button--blue.button--large.button--full(@click="submit()") {{ $t("general.submit") }}
 
       Modal(v-if="removeConfirmModalShown" @close="closeModals")
         div(slot="header") {{ $t("clue.remove") }}
@@ -66,7 +66,7 @@
         p {{ $t("clue.remove_confirm") }}
 
         .text-center
-          a.button.button--blue(@click="destroyClue") {{ $t("general.confirm_remove") }}
+          button.button.button--blue(@click="destroyClue") {{ $t("general.confirm_remove") }}
 </template>
 
 <script>

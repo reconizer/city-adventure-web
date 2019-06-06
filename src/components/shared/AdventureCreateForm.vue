@@ -16,7 +16,7 @@
         label.error-label(v-if="error && error.position") {{ error.position.join(', ') }}
 
       .form-control
-        a.button.button--blue.button--full(@click="submit") {{ $t("general.submit") }}
+        button.button.button--blue.button--full(@click="submit") {{ $t("general.submit") }}
 
     gmap-map(
       class="new-adventure-form__map"
@@ -76,7 +76,7 @@
       p {{ $t("adventures.new_adventure_help_content_2") }}
 
       .text-center
-        a.button.button--blue(@click="closeHelpModal") {{ $t("adventures.new_adventure_help_confirm") }}
+        button.button.button--blue(@click="closeHelpModal") {{ $t("adventures.new_adventure_help_confirm") }}
 </template>
 
 <script>
@@ -225,14 +225,15 @@ export default {
         position: this.startingPointSet ? this.startingPointPosition : { }
       };
 
-      this.$store.dispatch(`${ACTION_NAMESPACE}/${CREATE_ADVENTURE}`, { params }).then((response) => {
-        this.$router.push({
-          name: 'adventureMap',
-          params: {
-            adventureId: response.data.id
-          }
+      this.$store.dispatch(`${ACTION_NAMESPACE}/${CREATE_ADVENTURE}`, { params })
+        .then( response => {
+          this.$router.push({
+            name: 'adventureMap',
+            params: {
+              adventureId: response.data.id
+            }
+          });
         });
-      });
     },
 
     showHelpModal () {

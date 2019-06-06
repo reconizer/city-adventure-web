@@ -24,7 +24,7 @@
       p {{ $t("admin_users.remove_confirm", { userName: player.name }) }}
 
       .text-center
-        a.button.button--blue(@click="removeUser") {{ $t("general.confirm_remove") }}
+        button.button.button--blue(@click="removeUser") {{ $t("general.confirm_remove") }}
 </template>
 
 <script>

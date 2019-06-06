@@ -230,6 +230,7 @@ export default {
     hidden_explanation: "Punkty ukryte nie będą widoczne na mapie dopóki gracze nie odnajdą ich poprzez weryfikowanie swojego obecnego położenia",
     radius: "Promień (w metrach)",
     radius_explanation: "Promień, w którym gracz może rozwiązać zagadkę",
+    starting_radius_explanation: "Promień, w którym gracz może zacząć przygodę",
 
     password_required: "Wymaga Hasła",
     password_type: "Rodzaj i metoda wprowadzania",

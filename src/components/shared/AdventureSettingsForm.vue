@@ -112,7 +112,7 @@
                   .icon__tooltip-wrapper
                     .icon__tooltip {{ $t("general.remove") }}
 
-              a.button.button--icon-sm.button--blue.adventure-promo-image__preview-button(v-if="!image.url.startsWith('blob')" :href="image.url" target="_blank")
+              button.button.button--icon-sm.button--blue.adventure-promo-image__preview-button(v-if="!image.url.startsWith('blob')" :href="image.url" target="_blank")
                 .icon.icon--sm.icon--eye
                   .icon__tooltip-wrapper
                     .icon__tooltip {{ $t("general.preview") }}
@@ -125,7 +125,7 @@
       p {{ $t("image.remove_confirm") }}
 
       .text-center
-        a.button.button--blue(@click="removeImage") {{ $t("general.confirm_remove") }}
+        button.button.button--blue(@click="removeImage") {{ $t("general.confirm_remove") }}
 </template>
 
 <script>
