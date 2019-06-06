@@ -9,12 +9,18 @@
           span(v-if="!editable") {{ $t("clue.show_title") }}
           span(v-else) {{ $t("clue.edit_title") }}
 
-        a.button.button--pink.adventure-panel__remove(v-if="editable" @click="confirmDestroy") {{ $t("general.remove") }}
+        button.button.button--pink.adventure-panel__remove(v-if="editable" @click="confirmDestroy") {{ $t("general.remove") }}
 
       .row
         .col-1-2
           .form-control(v-if="clue.type != 'text' && clue.type != 'url'")
-            img.clue-preview(v-if="clue.type == 'image'" :src="clue.url")
+            .clue-preview-container(v-if="clue.type == 'image'")
+              img.clue-preview(:src="clue.url")
+
+              a.button.button--icon-sm.button--blue.clue-preview-button(v-if="clue.url && !clue.url.startsWith('blob')" :href="clue.url" target="_blank")
+                .icon.icon--sm.icon--eye
+                  .icon__tooltip-wrapper
+                    .icon__tooltip {{ $t("general.preview") }}
 
             video.clue-preview(v-if="clue.type == 'video'" :poster="clue.url" controls)
               source(:src="clue.video_url")
@@ -52,15 +58,15 @@
             input.form-input(v-model="clue.url" :placeholder="$t('clue.url')" :disabled="!editable")
 
           .form-control(v-if="editable")
-            a.button.button--blue.button--large.button--full(@click="submit()") {{ $t("general.submit") }}
+            button.button.button--blue.button--large.button--full(@click="submit()") {{ $t("general.submit") }}
 
       Modal(v-if="removeConfirmModalShown" @close="closeModals")
-        div(slot="header") {{ $t("general.remove") }}
+        div(slot="header") {{ $t("clue.remove") }}
 
         p {{ $t("clue.remove_confirm") }}
 
         .text-center
-          a.button.button--blue(@click="destroyClue") {{ $t("general.submit") }}
+          button.button.button--blue(@click="destroyClue") {{ $t("general.confirm_remove") }}
 </template>
 
 <script>

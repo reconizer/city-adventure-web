@@ -18,7 +18,7 @@
       p {{ $t("adventure.remove_confirm") }}
 
       .text-center
-        a.button.button--blue(@click="removeAdventure") {{ $t("general.confirm_remove") }}
+        button.button.button--blue(@click="removeAdventure") {{ $t("general.confirm_remove") }}
 
     Loader(v-if="loading")
 </template>

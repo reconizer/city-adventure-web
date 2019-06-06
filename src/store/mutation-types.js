@@ -32,6 +32,10 @@ export const SET_CLUE = "setClue";
 export const ADD_CLUE = "addClue";
 export const REMOVE_CLUE = "removeClue";
 
+export const SET_MAIN_IMAGE = "setMainImage";
+export const ADD_GALLERY_IMAGE = "addGalleryImage";
+export const REMOVE_GALLERY_IMAGE = "removeGalleryImage";
+
 /**
  * ANALYTICS
  */

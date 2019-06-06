@@ -1,4 +1,6 @@
+import axios from 'axios';
 import Vue from 'vue';
+
 import { i18n } from '@/translations/i18n'
 
 import {
@@ -12,14 +14,23 @@ import {
 
   SET_CLUE, ADD_CLUE, REMOVE_CLUE,
 
+  SET_MAIN_IMAGE, ADD_GALLERY_IMAGE,
+  REMOVE_GALLERY_IMAGE,
+
   SET_UPLOAD_IN_PROGRESS, SET_UPLOAD_PROGRESS,
+  SET_TOTAL_UPLOADS, SET_CURRENT_UPLOAD,
   CLEAR_UPLOAD_INFO
 } from '@/store/mutation-types';
 
 import {
   LOAD_ADVENTURE, UPDATE_ADVENTURE,
+
+  UPLOAD_MAIN_IMAGE, UPDATE_GALLERY_IMAGES,
+  CREATE_GALLERY_IMAGES, DESTROY_GALLERY_IMAGE,
+
   UPDATE_POINT, CREATE_POINT, DESTROY_POINT,
   UPDATE_POINTS,
+
   UPDATE_CLUE, CREATE_CLUE, DESTROY_CLUE,
   UPDATE_CLUES,
 } from '@/store/action-types';
@@ -102,6 +113,8 @@ export default (api) => {
        * ADVENTURE
        */
       [SET_ADVENTURE] (state, adventure) {
+        adventure.images = adventure.images.sort((i1, i2) => i1.order > i2.order);
+
         state.item = adventure;
       },
 
@@ -119,6 +132,23 @@ export default (api) => {
 
       [CLEAR_ADVENTURE_POINTS] (state) {
         state.points = [];
+      },
+
+      /**
+       * ADVENTURE IMAGES
+       */
+      [SET_MAIN_IMAGE] (state, mainImageURL) {
+        state.item.cover_url = mainImageURL;
+      },
+
+      [ADD_GALLERY_IMAGE] (state, galleryImage) {
+        state.item.images.push(galleryImage);
+      },
+
+      [REMOVE_GALLERY_IMAGE] (state, galleryImageId) {
+        let index = state.item.images.findIndex(image => image.id == galleryImageId);
+
+        state.item.images.splice(index, 1);
       },
 
       /**
@@ -215,6 +245,14 @@ export default (api) => {
         state.upload.progress = progress;
       },
 
+      [SET_TOTAL_UPLOADS] (state, total) {
+        state.upload.totalUploads = total;
+      },
+
+      [SET_CURRENT_UPLOAD] (state, current) {
+        state.upload.currentUpload = current;
+      },
+
       [CLEAR_UPLOAD_INFO] (state) {
         state.upload.inProgress = false;
         state.upload.progress = 0;
@@ -278,6 +316,142 @@ export default (api) => {
           })
           .catch( error => {
             commit(SET_ERROR, { key: UPDATE_ADVENTURE, error: error.response.data })
+            commit(SET_LOADING, false);
+
+            throw error;
+          });
+      },
+
+      /**
+       * ADVENTURE IMAGES
+       */
+      [UPLOAD_MAIN_IMAGE] ({ commit, state }, { file }) {
+        commit(SET_LOADING, true);
+        commit(CLEAR_UPLOAD_INFO);
+
+        let onProgress = (progressEvent) => {
+          let percent = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+
+          commit(SET_UPLOAD_PROGRESS, percent);
+        };
+
+        return api.adventures.getAdventureMainImageUploadURL(state.item.id, file)
+          .then( response => {
+            commit(SET_UPLOAD_IN_PROGRESS, true);
+
+            return api.adventures.uploadImage(file, response.data.url, onProgress);
+          })
+          .then( response => {
+            commit(SET_MAIN_IMAGE, URL.createObjectURL(file));
+
+            commit(CLEAR_UPLOAD_INFO);
+            commit(SET_LOADING, false);
+
+            return response;
+          })
+          .catch( error => {
+            commit(SET_ERROR, { key: UPLOAD_MAIN_IMAGE, error: error.response.data });
+
+            commit(SET_LOADING, false);
+
+            commit(SET_UPLOAD_IN_PROGRESS, false);
+
+            throw error;
+          });
+      },
+
+      [CREATE_GALLERY_IMAGES] ({ commit, state }, { files }) {
+        commit(SET_LOADING, true);
+        commit(CLEAR_UPLOAD_INFO);
+
+        let onProgress = (progressEvent) => {
+          let percent = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+
+          commit(SET_UPLOAD_PROGRESS, percent);
+        };
+
+        commit(SET_TOTAL_UPLOADS, files.length);
+        commit(SET_UPLOAD_IN_PROGRESS, true);
+
+        let baseOrder = Math.max(...(state.item.images.map((im) => im.order)));
+
+        const upload = files.reduce( (prev, current, index) => {
+          return prev
+            .then( response => {
+              return api.adventures.getAdventureGalleryImageUploadURL(state.item.id, current);
+            })
+            .then( response => {
+              commit(SET_UPLOAD_PROGRESS, 0);
+              commit(SET_CURRENT_UPLOAD, index + 1);
+
+              return api.adventures.uploadImage(current, response.data.url, onProgress);
+            })
+            .then( response => {
+              commit(ADD_GALLERY_IMAGE, {
+                id: +new Date(),
+                url: URL.createObjectURL(current),
+                order: baseOrder + index + 1
+              });
+
+              //to allow chaining always return a promise as result
+              return Promise.resolve();
+            });
+        }, Promise.resolve());
+
+        return upload
+          .then( reponse => {
+            commit(CLEAR_UPLOAD_INFO);
+
+            return api.adventures.loadAdventure(state.item.id);
+          })
+          .then( response => {
+            commit(SET_LOADING, false);
+            commit(SET_ADVENTURE, response.data);
+
+            return response;
+          })
+          .catch( error => {
+            console.log(error);
+            commit(SET_ERROR, { key: CREATE_GALLERY_IMAGES, error: error.response.data });
+
+            commit(SET_LOADING, false);
+
+            commit(SET_UPLOAD_IN_PROGRESS, false);
+
+            throw error;
+          });
+      },
+
+      [DESTROY_GALLERY_IMAGE] ({ commit, state }, { imageId }) {
+        commit(SET_LOADING, true);
+
+        return api.adventures.destroyGalleryImage(state.item.id, imageId)
+          .then( response => {
+            commit(SET_LOADING, false);
+
+            commit(REMOVE_GALLERY_IMAGE, imageId);
+
+            return response;
+          })
+          .catch( error => {
+            commit(SET_ERROR, { key: DESTROY_GALLERY_IMAGE, error: error.response.data });
+            commit(SET_LOADING, false);
+
+            throw error;
+          });
+      },
+
+      [UPDATE_GALLERY_IMAGES] ({ commit, state }, { payload }) {
+        commit(SET_LOADING, true);
+
+        return api.adventures.updateAdventureImages(state.item.id, payload)
+          .then( response => {
+            commit(SET_LOADING, false);
+
+            return response;
+          })
+          .catch( error => {
+            commit(SET_ERROR, { key: UPDATE_GALLERY_IMAGES, error: error.response.data });
             commit(SET_LOADING, false);
 
             throw error;
@@ -407,7 +581,12 @@ export default (api) => {
               data: clueCreateResponse.data
             });
 
+            return api.adventures.loadPoints(state.item.id);
+          })
+          .then( response => {
             commit(SET_LOADING, false);
+
+            commit(SET_ADVENTURE_POINTS, response.data);
 
             return clueCreateResponse;
           })

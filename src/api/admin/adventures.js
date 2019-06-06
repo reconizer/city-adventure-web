@@ -54,8 +54,8 @@ export default {
       adventure_id: adventureId,
       description: params.description,
       difficulty_level: params.difficulty,
-      min_time: params.duration ? params.duration.min : null,
-      max_time: params.duration ? params.duration.max : null,
+      min_time: params.duration && params.duration.min,
+      max_time: params.duration && params.duration.max,
       name: params.name,
       show: params.shown
     });
@@ -65,21 +65,30 @@ export default {
    * ADVENTURE IMAGES
    */
   updateAdventureImages (adventureId, payload) {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({ data: { } });
-      }, 500);
+    return axios.post(`${ADMIN_BASE_URL}/adventures/gallery_image/reorder`, {
+      adventure_id: adventureId,
+      image_order: payload.images
     });
   },
-  getAdventureMainImageUploadURL (adventureId) {
-    return new Promise((resolve) => {
-      resolve({ data: { } });
-    });
+  getAdventureMainImageUploadURL (adventureId, file) {
+    if(file != null) {
+      return axios.post(`${ADMIN_BASE_URL}/adventures/main_image_url`, {
+        adventure_id: adventureId,
+        extension: file.name.split('.')[1]
+      });
+    } else {
+      return Promise.resolve({ data: { } });
+    }
   },
-  getAdventureGalleryImageUploadURL (adventureId) {
-    return new Promise((resolve) => {
-      resolve({ data: { } });
-    });
+  getAdventureGalleryImageUploadURL (adventureId, file) {
+    if(file != null) {
+      return axios.post(`${ADMIN_BASE_URL}/adventures/gallery_image/upload_url`, {
+        adventure_id: adventureId,
+        extension: file.name.split('.')[1]
+      });
+    } else {
+      return Promise.resolve({ data: { } });
+    }
   },
   uploadImage(file, uploadURL, onProgress) {
     if(file != null && uploadURL != null) {
@@ -92,14 +101,13 @@ export default {
 
       return axios.put(uploadURL, file, options);
     } else {
-      return new Promise((resolve) => {
-        resolve({ data: { } });
-      });
+      return Promise.resolve({ data: { } });
     }
   },
   destroyGalleryImage (adventureId, galleryImageId) {
-    return new Promise((resolve) => {
-      resolve({ data: { } });
+    return axios.post(`${BASE_URL}/adventures/gallery_image/remove`, {
+      adventure_id: adventureId,
+      image_id: galleryImageId
     });
   },
 
@@ -180,9 +188,7 @@ export default {
         extension: file.name.split('.')[1]
       });
     } else {
-      return new Promise((resolve) => {
-        resolve({ data: { } });
-      });
+      return Promise.resolve({ data: { } });
     }
   },
   uploadClueAsset (file, uploadURL, onProgress) {
@@ -196,9 +202,7 @@ export default {
       
       return axios.put(uploadURL, file, options);
     } else {
-      return new Promise((resolve) => {
-        resolve({ data: { } });
-      });
+      return Promise.resolve({ data: { } });
     }
   },
   updateClue (adventureId, pointId, clueId, data) {

@@ -10,7 +10,7 @@
       @input="changeStatus"
     )
 
-    a.button.button--blue.adventure-publishment__action(@click="confirmStatusChange") {{ $t("general.submit") }}
+    button.button.button--blue.adventure-publishment__action(@click="confirmStatusChange") {{ $t("general.submit") }}
 </template>
 
 <script>

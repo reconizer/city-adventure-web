@@ -78,7 +78,7 @@
       p {{ $t("adventure.help_paragraph_4") }}
 
       .text-center(slot="footer")
-        a.button.button--blue(@click="closeHelpModal") {{ $t("adventure.help_confirm") }}
+        button.button.button--blue(@click="closeHelpModal") {{ $t("adventure.help_confirm") }}
 </template>
 
 <script>
