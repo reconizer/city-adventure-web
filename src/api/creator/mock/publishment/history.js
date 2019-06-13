@@ -9,7 +9,7 @@ import {
   MESSAGE_TYPE_CREATOR, MESSAGE_TYPE_QA
 } from '@/config'
 
-export default (adventureId, page) => new Promise((resolve) => {
+export default (adventureId, timestamp, page) => new Promise((resolve) => {
   setTimeout(() => {
     let history = [];
 

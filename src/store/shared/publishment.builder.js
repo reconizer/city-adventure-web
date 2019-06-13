@@ -23,7 +23,14 @@ export default (api) => {
       history: [],
 
       loading: false,
-      error: null
+      errors: {
+        [LOAD_PUBLISHMENT_HISTORY]: null,
+        [CREATE_PUBLISHMENT_MESSAGE]: null,
+
+        [REQUEST_REVIEW]: null,
+        [PUBLISH]: null,
+        [START_EDITING]: null
+      }
     },
     mutations: {
       /**
@@ -34,13 +41,7 @@ export default (api) => {
       },
 
       [ADD_PUBLISHMENT_HISTORY] (state, history) {
-        //To remove duplicates, only add entries older than oldest known
-        //TODO different way to paginate?
-        let elementsToAdd = history.filter((item) => {
-          return !state.history[0] || item.timestamp < state.history[0].timestamp
-        });
-
-        state.history.unshift(...elementsToAdd);
+        state.history.unshift(...history);
       },
 
       [ADD_MESSAGE] (state, msg) {
@@ -54,27 +55,26 @@ export default (api) => {
         state.loading = loading;
       },
 
-      [SET_ERROR] (state, error) {
-        console.log(error);
-        state.error = error;
+      [SET_ERROR] (state, { key, error }) {
+        state.errors[key] = error;
       }
     },
     actions: {
-      [LOAD_PUBLISHMENT_HISTORY] ({ commit }, { page, adventureId }) {
+      [LOAD_PUBLISHMENT_HISTORY] ({ commit }, { page, timestamp, adventureId }) {
         commit(SET_LOADING, true);
 
         if(page == 1) {
           commit(CLEAR_PUBLISHMENT_HISTORY);
         }
 
-        return api.publishment.loadHistory(adventureId, page)
+        return api.publishment.loadHistory(adventureId, timestamp, page)
           .then( response => {
             commit(SET_LOADING, false);
             commit(ADD_PUBLISHMENT_HISTORY, response.data);
 
             return response;
           })
-          .catch( error => commit(SET_ERROR, error));
+          .catch( error => commit(SET_ERROR, { key: LOAD_PUBLISHMENT_HISTORY, error: error }));
       },
 
       [CREATE_PUBLISHMENT_MESSAGE] ({ commit }, { adventureId, message }) {
@@ -87,7 +87,7 @@ export default (api) => {
 
             return response;
           })
-          .catch( error => commit(SET_ERROR, error));
+          .catch( error => commit(SET_ERROR, { key: CREATE_PUBLISHMENT_MESSAGE, error: error }));
       },
 
       [REQUEST_REVIEW] ({ commit }, { adventureId }) {
@@ -101,7 +101,7 @@ export default (api) => {
 
             return response;
           })
-          .catch( error => commit(SET_ERROR, error));
+          .catch( error => commit(SET_ERROR, { key: REQUEST_REVIEW, error: error }));
       },
 
       [PUBLISH] ({ commit }, { adventureId }) {
@@ -115,7 +115,7 @@ export default (api) => {
 
             return response;
           })
-          .catch( error => commit(SET_ERROR, error));
+          .catch( error => commit(SET_ERROR, { key: PUBLISH, error: error }));
       },
 
       [START_EDITING] ({ commit }, { adventureId }) {
@@ -129,7 +129,7 @@ export default (api) => {
             
             return response;
           })
-          .catch( error => commit(SET_ERROR, error));
+          .catch( error => commit(SET_ERROR, { key: START_EDITING, error: error }));
       }
     }
   };

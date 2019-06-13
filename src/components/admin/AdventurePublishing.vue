@@ -57,7 +57,8 @@ export default {
   data () {
     return {
       page: 1,
-      message: null
+      message: null,
+      timestamp: +new Date() //used for timestamp-based pagination
     }
   },
   computed: {
@@ -91,6 +92,7 @@ export default {
     loadDataHandler($state) {
       this.$store.dispatch(`${ACTION_NAMESPACE}/${LOAD_PUBLISHMENT_HISTORY}`, {
         adventureId: this.$route.params.adventureId,
+        timestamp: this.timestamp,
         page: this.page
       }).then( (response) => {
         if(response.data.length) {

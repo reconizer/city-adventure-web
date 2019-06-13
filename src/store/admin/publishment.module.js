@@ -22,7 +22,18 @@ let basePublishment = publishmentBuilder(api.admin);
 
 export default {
   namespaced: true,
-  state: basePublishment.state,
+  state: {
+    history: basePublishment.state.history,
+    loading: basePublishment.state.loading,
+
+    errors: {
+      ...basePublishment.state.errors,
+
+      [REJECT]: null,
+      [CANCEL]: null,
+      [UNPUBLISH]: null
+    }
+  },
   mutations: basePublishment.mutations,
   actions: {
     ...basePublishment.actions,
@@ -38,7 +49,7 @@ export default {
 
           return response;
         })
-        .catch( error => commit(SET_ERROR, error));
+        .catch( error => commit(SET_ERROR, { key: REJECT, error: error }));
     },
 
     [CANCEL] ({ commit }, { adventureId }) {
@@ -52,7 +63,7 @@ export default {
 
           return response;
         })
-        .catch( error => commit(SET_ERROR, error));
+        .catch( error => commit(SET_ERROR, { key: CANCEL, error: error }));
     },
 
     [UNPUBLISH] ({ commit }, { adventureId }) {
@@ -66,7 +77,7 @@ export default {
 
           return response;
         })
-        .catch( error => commit(SET_ERROR, error));
+        .catch( error => commit(SET_ERROR, { key: UNPUBLISH, error: error }));
     }
   }
 }

@@ -15,8 +15,8 @@ import {
 } from '@/config';
 
 export default {
-  loadHistory (adventureId, page) {
-    return historyMock(adventureId, page);
+  loadHistory (adventureId, timestamp, page) {
+    return historyMock(adventureId, timestamp, page);
   },
   sendMessage (adventureId, msg) {
     return sendMessageMock(adventureId, msg);
