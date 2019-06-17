@@ -33,7 +33,10 @@ const ACTION_NAMESPACE = 'publishment'
 import PublishingHistoryItem from '@/components/shared/PublishingHistoryItem.vue'
 import PublishingHistoryHeader from '@/components/creator/PublishingHistoryHeader.vue'
 
-import { LOAD_PUBLISHMENT_HISTORY, CREATE_PUBLISHMENT_MESSAGE } from '@/store/action-types'
+import {
+  LOAD_PUBLISHMENT_HISTORY,
+  CREATE_PUBLISHMENT_MESSAGE
+} from '@/store/action-types'
 
 import {
   ADVENTURES_PUBLISHED, ADVENTURES_PENDING,
