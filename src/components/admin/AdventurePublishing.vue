@@ -45,7 +45,7 @@ import {
   ADVENTURES_REJECTED, ADVENTURES_IN_REVIEW,
   ADVENTURES_UNPUBLISHED, ADVENTURES_CANCELLED,
 
-  MESSAGE_TYPE_QA
+  MESSAGE_COMMENT_QA
 } from '@/config'
 
 export default {
@@ -76,7 +76,7 @@ export default {
     },
 
     receiverType () {
-      return MESSAGE_TYPE_QA;
+      return MESSAGE_COMMENT_QA;
     }
   },
   created () {

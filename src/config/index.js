@@ -153,16 +153,16 @@ export const ADVENTURE_SORTING_OPTIONS = [
  * ADVENTURE PUBLISHMENT
  */
 export const MESSAGE_CREATED = "created"
+
+export const MESSAGE_COMMENT_CREATOR = "message_creator"
+export const MESSAGE_COMMENT_QA = "message_qa"
+
 export const MESSAGE_PUBLISHMENT_REQUEST = "review_request"
 export const MESSAGE_REJECTED = "rejected"
-export const MESSAGE_COMMENT = "message"
 export const MESSAGE_PUBLISHED = "published"
 export const MESSAGE_ACCEPTED = "accepted"
 export const MESSAGE_CANCELLED = "cancelled"
 export const MESSAGE_BACK_TO_EDIT = "back_to_edit"
-
-export const MESSAGE_TYPE_CREATOR = "creator"
-export const MESSAGE_TYPE_QA = "qa"
 
 /**
  * COLORS

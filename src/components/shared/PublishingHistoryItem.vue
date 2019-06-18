@@ -14,12 +14,13 @@
 import moment from 'moment'
 
 import {
-  MESSAGE_CREATED, MESSAGE_PUBLISHMENT_REQUEST,
-  MESSAGE_REJECTED, MESSAGE_COMMENT,
+  MESSAGE_CREATED,
+
+  MESSAGE_COMMENT_QA, MESSAGE_COMMENT_CREATOR,
+
+  MESSAGE_PUBLISHMENT_REQUEST, MESSAGE_REJECTED,
   MESSAGE_PUBLISHED, MESSAGE_ACCEPTED,
   MESSAGE_CANCELLED, MESSAGE_BACK_TO_EDIT,
-
-  MESSAGE_TYPE_CREATOR, MESSAGE_TYPE_QA
 } from '@/config'
 
 export default {
@@ -31,7 +32,7 @@ export default {
     },
     receiverType: {
       type: String,
-      default: () => MESSAGE_TYPE_CREATOR
+      default: () => MESSAGE_COMMENT_CREATOR
     }
   },
   computed: {
@@ -44,11 +45,11 @@ export default {
     },
 
     isComment () {
-      return this.historyItem.type == MESSAGE_COMMENT;
+      return this.historyItem.type == MESSAGE_COMMENT_QA || this.historyItem.type == MESSAGE_COMMENT_CREATOR
     },
 
     isSenderComment () {
-      return this.isComment && this.historyItem.details.from_type == this.receiverType;
+      return this.isComment && this.historyItem.type == this.receiverType;
     },
 
     yourLabel () {
@@ -56,7 +57,7 @@ export default {
     },
 
     otherLabel () {
-      if(this.receiverType == MESSAGE_TYPE_QA) {
+      if(this.receiverType == MESSAGE_COMMENT_QA) {
         return this.$t("adventure_publishing.history_author");
       } else {
         return this.$t("adventure_publishing.history_qa");
@@ -80,8 +81,9 @@ export default {
 
     content () {
       switch(this.historyItem.type) {
-          case MESSAGE_COMMENT:
-            return this.historyItem.details.content;
+          case MESSAGE_COMMENT_QA:
+          case MESSAGE_COMMENT_CREATOR:
+            return this.historyItem.content;
 
           case MESSAGE_CREATED:
           case MESSAGE_PUBLISHMENT_REQUEST:
