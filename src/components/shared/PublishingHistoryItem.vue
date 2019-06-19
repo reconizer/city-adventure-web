@@ -37,7 +37,7 @@ export default {
   },
   computed: {
     historyItemDate () {
-      return moment(this.historyItem.timestamp).format('DD/MM/YYYY HH:mm');
+      return moment(this.historyItem.created_at).format('DD/MM/YYYY HH:mm');
     },
 
     isStatusMessage () {
@@ -67,6 +67,7 @@ export default {
     containerClass () {
       return {
         'publishment-history-item--status': this.isStatusMessage,
+
         'publishment-history-item--status-created': this.historyItem.type == MESSAGE_CREATED,
         'publishment-history-item--status-review-request': this.historyItem.type == MESSAGE_PUBLISHMENT_REQUEST,
         'publishment-history-item--status-rejected': this.historyItem.type == MESSAGE_REJECTED,
@@ -74,8 +75,9 @@ export default {
         'publishment-history-item--status-accepted': this.historyItem.type == MESSAGE_ACCEPTED,
         'publishment-history-item--status-cancelled': this.historyItem.type == MESSAGE_CANCELLED,
         'publishment-history-item--status-back-to-edit': this.historyItem.type == MESSAGE_BACK_TO_EDIT,
+
         'publishment-history-item--received-message': this.isComment && !this.isSenderComment,
-        'publishment-history-item--sender-message': this.isSenderComment
+        'publishment-history-item--sender-message': this.isComment && this.isSenderComment
       }
     },
 
