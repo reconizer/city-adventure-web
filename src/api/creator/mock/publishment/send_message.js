@@ -1,15 +1,12 @@
-import { MESSAGE_COMMENT, MESSAGE_TYPE_CREATOR } from '@/config';
+import { MESSAGE_COMMENT_CREATOR } from '@/config';
 
 export default (adventureId, msg) => new Promise((resolve) => {
   setTimeout(() => {
     let message = {
       id: +new Date(),
-      type: MESSAGE_COMMENT,
+      type: MESSAGE_COMMENT_CREATOR,
       timestamp: +new Date(),
-      details: {
-        from_type: MESSAGE_TYPE_CREATOR,
-        content: msg
-      }
+      content: msg
     };
 
     resolve({ data: message });

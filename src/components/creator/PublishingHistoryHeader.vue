@@ -42,11 +42,11 @@ import { mapState } from 'vuex'
 
 const ACTION_NAMESPACE = 'publishment'
 
-import { LOAD_PUBLISHMENT_HISTORY, CREATE_PUBLISHMENT_MESSAGE } from '@/store/action-types'
-
 import Modal from '@/components/shared/Modal.vue'
 
 import {
+  LOAD_PUBLISHMENT_HISTORY,
+  CREATE_PUBLISHMENT_MESSAGE,
   REQUEST_REVIEW,
   PUBLISH,
   START_EDITING

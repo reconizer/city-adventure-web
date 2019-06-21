@@ -5,7 +5,8 @@ export default (adventureId) => new Promise((resolve) => {
     let message = {
       id: +new Date(),
       type: MESSAGE_REJECTED,
-      timestamp: +new Date()
+      timestamp: +new Date(),
+      content: null
     };
 
     resolve({ data: message });
