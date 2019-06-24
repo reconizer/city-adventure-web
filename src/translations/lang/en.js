@@ -142,12 +142,12 @@ export default {
     title: "Publishing",
 
     history_created: "Created",
-    history_review_request: "In Review",
+    history_in_review: "In Review",
     history_rejected: "Rejected",
     history_published: "Published",
-    history_accepted: "Ready to be published",
+    history_unpublished: "Ready to be published",
     history_cancelled: "Cancelled",
-    history_back_to_edit: "Pending",
+    history_pending: "Pending",
 
     history_author: "A",
     history_qa: "QA",

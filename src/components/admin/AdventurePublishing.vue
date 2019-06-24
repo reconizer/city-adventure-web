@@ -58,7 +58,7 @@ export default {
     return {
       page: 1,
       message: null,
-      timestamp: +new Date() //used for timestamp-based pagination
+      timestamp: (+new Date())/1000|0 //used for timestamp-based pagination
     }
   },
   computed: {
@@ -85,8 +85,6 @@ export default {
         this.$refs.historyContainer.scrollTop = this.$refs.historyContainer.scrollHeight;
       }, 0);
     });
-
-    this.$store.dispatch(`${ACTION_NAMESPACE}/${LOAD_PUBLISHMENT_HISTORY}`, { adventureId: this.$route.params.adventureId });
   },
   methods: {
     loadDataHandler($state) {

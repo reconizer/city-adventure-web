@@ -38,12 +38,6 @@ import {
   CREATE_PUBLISHMENT_MESSAGE
 } from '@/store/action-types'
 
-import {
-  ADVENTURES_PUBLISHED, ADVENTURES_PENDING,
-  ADVENTURES_REJECTED, ADVENTURES_IN_REVIEW,
-  ADVENTURES_UNPUBLISHED, ADVENTURES_CANCELLED
-} from '@/config'
-
 export default {
   name: 'AdventurePublishing',
   components: {
@@ -54,7 +48,7 @@ export default {
     return {
       page: 1,
       message: null,
-      timestamp: +new Date() //used for timestamp-based pagination
+      timestamp: (+new Date())/1000|0 //used for timestamp-based pagination
     }
   },
   computed: {

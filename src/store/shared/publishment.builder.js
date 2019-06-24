@@ -11,12 +11,14 @@ import {
 } from '@/store/action-types';
 
 import {
-  ADVENTURES_PENDING,
-  ADVENTURES_IN_REVIEW,
-  ADVENTURES_PUBLISHED
+  ADVENTURES_PENDING, ADVENTURES_IN_REVIEW,
+  ADVENTURES_PUBLISHED,
+
+  MESSAGE_PUBLISHED, MESSAGE_PUBLISHMENT_REQUEST,
+  MESSAGE_BACK_TO_EDIT
 } from '@/config'
 
-export default (api) => {
+export default (api, senderMessageType) => {
   return {
     namespaced: true,
     state: {
@@ -41,6 +43,7 @@ export default (api) => {
       },
 
       [ADD_PUBLISHMENT_HISTORY] (state, history) {
+        history.reverse();
         state.history.unshift(...history);
       },
 
@@ -83,7 +86,13 @@ export default (api) => {
         return api.publishment.sendMessage(adventureId, message)
           .then( response => {
             commit(SET_LOADING, false);
-            commit(ADD_MESSAGE, response.data);
+
+            commit(ADD_MESSAGE, {
+              id: +new Date(),
+              created_at: +new Date(),
+              content: message,
+              type: senderMessageType
+            });
 
             return response;
           })
@@ -96,8 +105,15 @@ export default (api) => {
         return api.publishment.requestReview(adventureId)
           .then( response => {
             commit(SET_LOADING, false);
+
             commit(`adventure/${SET_ADVENTURE_STATUS}`, ADVENTURES_IN_REVIEW, { root: true });
-            commit(ADD_MESSAGE, response.data);
+
+            commit(ADD_MESSAGE, {
+              id: +new Date(),
+              created_at: +new Date(),
+              content: null,
+              type: MESSAGE_PUBLISHMENT_REQUEST
+            });
 
             return response;
           })
@@ -110,8 +126,15 @@ export default (api) => {
         return api.publishment.publish(adventureId)
           .then( response => {
             commit(SET_LOADING, false);
+
             commit(`adventure/${SET_ADVENTURE_STATUS}`, ADVENTURES_PUBLISHED, { root: true });
-            commit(ADD_MESSAGE, response.data);
+
+            commit(ADD_MESSAGE, {
+              id: +new Date(),
+              created_at: +new Date(),
+              content: null,
+              type: MESSAGE_PUBLISHED
+            });
 
             return response;
           })
@@ -124,8 +147,15 @@ export default (api) => {
         return api.publishment.startEditing(adventureId)
           .then( response => {
             commit(SET_LOADING, false);
+
             commit(`adventure/${SET_ADVENTURE_STATUS}`, ADVENTURES_PENDING, { root: true });
-            commit(ADD_MESSAGE, response.data);
+
+            commit(ADD_MESSAGE, {
+              id: +new Date(),
+              created_at: +new Date(),
+              content: null,
+              type: MESSAGE_BACK_TO_EDIT
+            });
             
             return response;
           })
