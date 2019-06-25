@@ -61,6 +61,10 @@ export default {
     adventure_visibility: "Widoczność",
     adventure_public: "Publiczna",
     adventure_hidden: "Ukryta",
+    adventure_creator: "Twórca",
+
+    query_by_name: "Wyszukaj po nazwie",
+    query_by_author: "Wyszukaj po autorze",
 
     set_place: "Wpisz Lokalizację",
 
@@ -147,7 +151,7 @@ export default {
     history_published: "Opublikowana",
     history_unpublished: "Gotowa do publikacji",
     history_cancelled: "Anulowana",
-    history_pending: "W trakcie edycji",
+    history_pending: "W trakcie tworzenia",
 
     history_author: "A",
     history_qa: "QA",
@@ -331,6 +335,8 @@ export default {
   },
 
   general: {
+    all: "Wszystkie",
+
     name: "Nazwa",
     description: "Opis",
     sort_placeholder: "Sortowanie",

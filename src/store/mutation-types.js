@@ -13,7 +13,9 @@ export const REMOVE_USER = "removeUser";
 /**
  * ADVENTURES
  */
+export const CLEAR_ADVENTURES = "clearAdventures";
 export const SET_ADVENTURES = "setAdventures";
+export const ADD_ADVENTURES = "addAdventures";
 export const CLEAR_NEW_ADVENTURE = "clearNewAdventure";
 
 export const SET_ADVENTURE = "setAdventure";
@@ -68,8 +70,6 @@ export const SET_ADVENTURE_STATUS = "setAdventureStatus";
  * ADMIN
  */
 export const SET_TYPE = "setType";
-export const SET_COUNTERS = "setCounters";
-export const SET_TOTAL_PAGES = "setTotalPages";
 
 export const SET_PLAYERS = "setPlayers";
 export const SET_PLAYER = "setPlayer";

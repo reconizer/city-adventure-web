@@ -61,6 +61,10 @@ export default {
     adventure_visibility: "Visibility",
     adventure_public: "Public",
     adventure_hidden: "Hidden",
+    adventure_creator: "Author",
+
+    query_by_name: "Search by name",
+    query_by_author: "Search by creator",
 
     set_place: "Find place",
 
@@ -331,6 +335,8 @@ export default {
   },
 
   general: {
+    all: "All",
+
     name: "Name",
     description: "Description",
     sort_placeholder: "Sorting",

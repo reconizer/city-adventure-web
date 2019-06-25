@@ -9,8 +9,6 @@ import Login from '@/views/Login.vue'
  */
 import Adventures from '@/components/admin/Adventures.vue'
 
-import AdventureList from '@/components/admin/AdventureList.vue'
-
 import Adventure from '@/components/shared/Adventure.vue'
 import AdventureSettings from '@/views/AdventureSettings.vue'
 import AdventureSettingsForm from '@/components/shared/AdventureSettingsForm.vue'
@@ -107,59 +105,6 @@ const router = new Router({
         {
           path: 'adventures',
           component: Adventures,
-          children: [
-            {
-              path: '',
-              name: 'home',
-              redirect: 'published'
-            },
-            {
-              path: 'published',
-              name: 'adventuresPublished',
-              component: AdventureList,
-              props: {
-                listType: ADVENTURES_PUBLISHED
-              }
-            },
-            {
-              path: 'in-review',
-              name: 'adventuresInReview',
-              component: AdventureList,
-              props: {
-                listType: ADVENTURES_IN_REVIEW
-              }
-            },
-            {
-              path: 'unpublished',
-              name: 'adventuresUnpublished',
-              component: AdventureList,
-              props: {
-                listType: ADVENTURES_UNPUBLISHED
-              }
-            },
-            {
-              path: 'rejected',
-              name: 'adventuresRejected',
-              component: AdventureList,
-              props: {
-                listType: ADVENTURES_REJECTED
-              }
-            },
-            { path: 'cancelled',
-              name: 'adventuresCancelled',
-              component: AdventureList,
-              props: {
-                listType: ADVENTURES_CANCELLED
-              }
-            },
-            { path: 'pending',
-              name: 'adventuresPending',
-              component: AdventureList,
-              props: {
-                listType: ADVENTURES_PENDING
-              }
-            }
-          ]
         },
         {
           path: 'adventures/:adventureId',

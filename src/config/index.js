@@ -142,13 +142,6 @@ export const ADVENTURES_UNPUBLISHED = 'unpublished'
 export const ADVENTURES_PUBLISHED = 'published'
 export const ADVENTURES_CANCELLED = 'cancelled'
 
-export const ADVENTURE_SORTING_OPTIONS = [
-  'newest',
-  'oldest',
-  'top_rated',
-  'worst_rated'
-]
-
 /**
  * ADVENTURE PUBLISHMENT
  */

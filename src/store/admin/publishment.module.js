@@ -53,7 +53,7 @@ export default {
 
           commit(ADD_MESSAGE, {
             id: +new Date(),
-            created_at: +new Date(),
+            created_at: (+new Date())/1000|0,
             content: null,
             type: MESSAGE_REJECTED
           });
@@ -74,7 +74,7 @@ export default {
 
           commit(ADD_MESSAGE, {
             id: +new Date(),
-            created_at: +new Date(),
+            created_at: (+new Date())/1000|0,
             content: null,
             type: MESSAGE_CANCELLED
           });
@@ -95,7 +95,7 @@ export default {
 
           commit(ADD_MESSAGE, {
             id: +new Date(),
-            created_at: +new Date(),
+            created_at: (+new Date())/1000|0,
             content: null,
             type: MESSAGE_ACCEPTED
           });

@@ -7,42 +7,43 @@ import {
   ADVENTURES_PENDING
 } from '@/config'
 
-export default (status, page, query, sort) => new Promise((resolve) => {
+export default (status, page, filters) => new Promise((resolve) => {
   setTimeout(() => {
     let per_page = 12;
 
     let total_pages = 0;
 
-    switch(status) {
-      default:
-      case ADVENTURES_PUBLISHED:
-        total_pages = 13;
-        break;
-      case ADVENTURES_IN_REVIEW:
-        total_pages = 2;
-        break;
-      case ADVENTURES_UNPUBLISHED:
-        total_pages = 6;
-        break;
-      case ADVENTURES_REJECTED:
-        total_pages = 3;
-        break;
-      case ADVENTURES_CANCELLED:
-        total_pages = 1;
-        break;
-      case ADVENTURES_PENDING:
-        total_pages = 0;
-        break;
+    if(filters.by_status) {
+      switch(filters.by_status) {
+        default:
+        case ADVENTURES_PUBLISHED:
+          total_pages = 13;
+          break;
+        case ADVENTURES_IN_REVIEW:
+          total_pages = 2;
+          break;
+        case ADVENTURES_UNPUBLISHED:
+          total_pages = 6;
+          break;
+        case ADVENTURES_REJECTED:
+          total_pages = 3;
+          break;
+        case ADVENTURES_CANCELLED:
+          total_pages = 1;
+          break;
+        case ADVENTURES_PENDING:
+          total_pages = 0;
+          break;
+      }
+    } else {
+      total_pages = 2;
     }
 
     let response = {
-      data: {
-        adventures: [],
-        total_pages
-      }
+      data: []
     };
 
-    if(total_pages == 0) {
+    if(page > total_pages) {
       resolve(response);
       return;
     }
@@ -51,7 +52,7 @@ export default (status, page, query, sort) => new Promise((resolve) => {
       let id = i + (page - 1) * per_page;
       let rating = 1 + Math.random() * 4;
 
-      response.data.adventures.push({
+      response.data.push({
         id: id,
         name: `Adventure #${id}`,
         cover_url: "http://placehold.it/400x400",

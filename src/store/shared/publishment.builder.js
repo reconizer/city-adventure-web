@@ -89,7 +89,7 @@ export default (api, senderMessageType) => {
 
             commit(ADD_MESSAGE, {
               id: +new Date(),
-              created_at: +new Date(),
+              created_at: (+new Date())/1000|0,
               content: message,
               type: senderMessageType
             });
@@ -110,7 +110,7 @@ export default (api, senderMessageType) => {
 
             commit(ADD_MESSAGE, {
               id: +new Date(),
-              created_at: +new Date(),
+              created_at: (+new Date())/1000|0,
               content: null,
               type: MESSAGE_PUBLISHMENT_REQUEST
             });
@@ -131,7 +131,7 @@ export default (api, senderMessageType) => {
 
             commit(ADD_MESSAGE, {
               id: +new Date(),
-              created_at: +new Date(),
+              created_at: (+new Date())/1000|0,
               content: null,
               type: MESSAGE_PUBLISHED
             });
@@ -152,7 +152,7 @@ export default (api, senderMessageType) => {
 
             commit(ADD_MESSAGE, {
               id: +new Date(),
-              created_at: +new Date(),
+              created_at: (+new Date())/1000|0,
               content: null,
               type: MESSAGE_BACK_TO_EDIT
             });
