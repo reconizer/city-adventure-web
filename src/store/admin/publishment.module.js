@@ -13,12 +13,16 @@ import {
 } from '@/store/action-types'
 
 import {
-  ADVENTURES_REJECTED,
-  ADVENTURES_CANCELLED,
-  ADVENTURES_UNPUBLISHED
+  ADVENTURES_REJECTED, ADVENTURES_CANCELLED,
+  ADVENTURES_UNPUBLISHED,
+
+  MESSAGE_COMMENT_QA,
+
+  MESSAGE_REJECTED, MESSAGE_ACCEPTED,
+  MESSAGE_CANCELLED
 } from '@/config'
 
-let basePublishment = publishmentBuilder(api.admin);
+let basePublishment = publishmentBuilder(api.admin, MESSAGE_COMMENT_QA);
 
 export default {
   namespaced: true,
@@ -44,8 +48,15 @@ export default {
       return api.admin.publishment.reject(adventureId)
         .then( response => {
           commit(SET_LOADING, false);
+
           commit(`adventure/${SET_ADVENTURE_STATUS}`, ADVENTURES_REJECTED, { root: true });
-          commit(ADD_MESSAGE, response.data);
+
+          commit(ADD_MESSAGE, {
+            id: +new Date(),
+            created_at: (+new Date())/1000|0,
+            content: null,
+            type: MESSAGE_REJECTED
+          });
 
           return response;
         })
@@ -58,8 +69,15 @@ export default {
       return api.admin.publishment.cancel(adventureId)
         .then( response => {
           commit(SET_LOADING, false);
+
           commit(`adventure/${SET_ADVENTURE_STATUS}`, ADVENTURES_CANCELLED, { root: true });
-          commit(ADD_MESSAGE, response.data);
+
+          commit(ADD_MESSAGE, {
+            id: +new Date(),
+            created_at: (+new Date())/1000|0,
+            content: null,
+            type: MESSAGE_CANCELLED
+          });
 
           return response;
         })
@@ -72,8 +90,15 @@ export default {
       return api.admin.publishment.unpublish(adventureId)
         .then( response => {
           commit(SET_LOADING, false);
+
           commit(`adventure/${SET_ADVENTURE_STATUS}`, ADVENTURES_UNPUBLISHED, { root: true });
-          commit(ADD_MESSAGE, response.data);
+
+          commit(ADD_MESSAGE, {
+            id: +new Date(),
+            created_at: (+new Date())/1000|0,
+            content: null,
+            type: MESSAGE_ACCEPTED
+          });
 
           return response;
         })

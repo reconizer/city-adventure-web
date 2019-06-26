@@ -54,8 +54,6 @@ export const LOAD_ANALYTICS_USER_PROGRESS = "loadAnalyticsUserProgress";
 /**
  * ADMIN
  */
-export const LOAD_COUNTERS = "loadCounters";
-
 export const LOAD_PLAYER = "loadPlayer";
 export const LOAD_PLAYERS = "loadPlayers";
 export const CREATE_PLAYER = "createPlayer";

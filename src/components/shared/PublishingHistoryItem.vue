@@ -37,7 +37,7 @@ export default {
   },
   computed: {
     historyItemDate () {
-      return moment(this.historyItem.created_at).format('DD/MM/YYYY HH:mm');
+      return moment(this.historyItem.created_at * 1000).format('DD/MM/YYYY HH:mm');
     },
 
     isStatusMessage () {

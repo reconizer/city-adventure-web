@@ -8,6 +8,10 @@
       .adventure-list-item__name {{ adventure.name }}
 
     .col-2-12
+      .adventure-list-item__label {{ $t("adventures.adventure_creator") }}
+      span {{ adventure.creator_name }}
+
+    .col-2-12
       .adventure-list-item__label {{ $t("adventures.adventure_status") }}
       .adventure-list-item__status(
         :class="{ 'adventure-list-item__status--published': published, 'adventure-list-item__status--in-review': inReview }"
@@ -24,11 +28,7 @@
       span(v-if="!adventure.shown") {{ $t("adventures.adventure_hidden") }}
       span(v-else) {{ $t("adventures.adventure_public") }}
 
-    .col-1-12
-      .adventure-list-item__label Published At
-      span {{ publishedDate }}
-
-    .col-3-12
+    .col-2-12
       .text-right
         router-link.button.button--icon(:to="{ name: 'adventureMap', params: { adventureId: adventure.id } }")
           .icon.icon--pencil
@@ -38,6 +38,7 @@
 
 <script>
 import {
+  ADVENTURES_PENDING,
   ADVENTURES_PUBLISHED,
   ADVENTURES_IN_REVIEW,
   ADVENTURES_UNPUBLISHED,
@@ -72,6 +73,8 @@ export default {
     publishedLabel () {
       switch(this.adventure.status) {
         default:
+        case ADVENTURES_PENDING:
+          return this.$t("adventures.adventure_pending");
         case ADVENTURES_PUBLISHED:
           return this.$t("adventures.adventure_published");
         case ADVENTURES_IN_REVIEW:
@@ -83,10 +86,6 @@ export default {
         case ADVENTURES_CANCELLED:
           return this.$t("adventures.adventure_cancelled");
       }
-    },
-
-    publishedDate () {
-      return moment(this.adventure.published_at).format('DD/MM/YYYY');
     }
   }
 }

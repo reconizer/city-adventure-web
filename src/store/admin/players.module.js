@@ -11,8 +11,6 @@ import {
   SET_PLAYERS, SET_PLAYER,
   REMOVE_PLAYER,
 
-  SET_TOTAL_PAGES,
-
   SET_LOADING, SET_ERROR
 } from '@/store/mutation-types'
 
@@ -21,7 +19,6 @@ export default {
   state: {
     item: null,
     list: [],
-    totalPages: 1,
 
     loading: false,
     errors: {
@@ -33,10 +30,6 @@ export default {
   mutations: {
     [SET_PLAYERS] (state, players) {
       state.list = players;
-    },
-
-    [SET_TOTAL_PAGES] (state, totalPages) {
-      state.totalPages = totalPages;
     },
 
     [SET_PLAYER] (state, player) {
@@ -68,7 +61,6 @@ export default {
       return api.admin.players.loadPlayers(page, query)
         .then( response => {
           commit(SET_PLAYERS, response.data.players);
-          commit(SET_TOTAL_PAGES, response.data.total_pages);
           commit(SET_LOADING, false);
 
           return response;
