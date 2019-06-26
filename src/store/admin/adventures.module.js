@@ -1,15 +1,13 @@
 import api from '@/api';
 
 import {
-  SET_ADVENTURES, SET_TYPE,
-  SET_COUNTERS, SET_TOTAL_PAGES,
+  ADD_ADVENTURES, CLEAR_ADVENTURES,
 
   SET_LOADING, SET_ERROR
 } from '@/store/mutation-types'
 
 import {
-  LOAD_ADVENTURES, CREATE_ADVENTURE,
-  LOAD_COUNTERS
+  LOAD_ADVENTURES, CREATE_ADVENTURE
 } from '@/store/action-types';
 
 import {
@@ -25,7 +23,6 @@ export default {
   namespaced: true,
   state: {
     list: [],
-    totalPages: 1,
 
     counters: {
       [ADVENTURES_PUBLISHED]: null,
@@ -36,25 +33,16 @@ export default {
       [ADVENTURES_PENDING]: null
     },
 
-    currentType: null,
     loading: false,
     error: null
   },
   mutations: {
-    [SET_ADVENTURES] (state, adventures) {
-      state.list = adventures;
+    [ADD_ADVENTURES] (state, adventures) {
+      state.list.push(...adventures);
     },
 
-    [SET_TOTAL_PAGES] (state, totalPages) {
-      state.totalPages = totalPages;
-    },
-
-    [SET_TYPE] (state, type) {
-      state.currentType = type;
-    },
-
-    [SET_COUNTERS] (state, counters) {
-      state.counters = counters;
+    [CLEAR_ADVENTURES] (state) {
+      state.list = [];
     },
 
     [SET_LOADING] (state, loading) {
@@ -66,56 +54,12 @@ export default {
     }
   },
   actions: {
-    [LOAD_COUNTERS] ({ commit }) {
-      return api.admin.adventures.loadCounters()
-        .then( response => {
-          commit(SET_COUNTERS, response.data);
-
-          return response;
-        })
-        .catch( error => {
-          commit(SET_ERROR, error);
-        })
-    },
-
-    [LOAD_ADVENTURES] ({ commit, state }, { adventureType, page, query, sort }) {
+    [LOAD_ADVENTURES] ({ commit }, { searchParams }) {
       commit(SET_LOADING, true);
 
-      let action = null;
-
-      if(state.currentType != adventureType) {
-        commit(SET_ADVENTURES, []);
-        commit(SET_TOTAL_PAGES, 0);
-
-        commit(SET_TYPE, adventureType);
-      }
-
-      switch(adventureType) {
-        default:
-        case ADVENTURES_PUBLISHED:
-          action = api.admin.adventures.loadPublished;
-          break;
-        case ADVENTURES_IN_REVIEW:
-          action = api.admin.adventures.loadInReview;
-          break;
-        case ADVENTURES_UNPUBLISHED:
-          action = api.admin.adventures.loadUnpublished;
-          break;
-        case ADVENTURES_REJECTED:
-          action = api.admin.adventures.loadRejected;
-          break;
-        case ADVENTURES_CANCELLED:
-          action = api.admin.adventures.loadCancelled;
-          break;
-        case ADVENTURES_PENDING:
-          action = api.admin.adventures.loadPending;
-          break;
-      }
-
-      return action(page, query, sort)
+      return api.admin.adventures.loadAdventures(searchParams)
         .then( response => {
-          commit(SET_ADVENTURES, response.data.adventures);
-          commit(SET_TOTAL_PAGES, response.data.total_pages);
+          commit(ADD_ADVENTURES, response.data);
 
           commit(SET_LOADING, false);
 

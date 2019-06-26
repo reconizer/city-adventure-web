@@ -15,14 +15,14 @@ module.exports = {
       entry: 'src/creator.js',
       template: 'public/index.html',
       filename: 'index.html',
-      title: 'City Adventure - Creator Panel'
+      title: 'Unfold - Creator Panel'
     },
 
     admin: {
       entry: 'src/admin.js',
       template: 'public/index.html',
       filename: 'admin.html',
-      title: 'City Adventure - Admin Panel'
+      title: 'Unfold - Admin Panel'
     }
   },
 

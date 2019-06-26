@@ -33,13 +33,10 @@ const ACTION_NAMESPACE = 'publishment'
 import PublishingHistoryItem from '@/components/shared/PublishingHistoryItem.vue'
 import PublishingHistoryHeader from '@/components/creator/PublishingHistoryHeader.vue'
 
-import { LOAD_PUBLISHMENT_HISTORY, CREATE_PUBLISHMENT_MESSAGE } from '@/store/action-types'
-
 import {
-  ADVENTURES_PUBLISHED, ADVENTURES_PENDING,
-  ADVENTURES_REJECTED, ADVENTURES_IN_REVIEW,
-  ADVENTURES_UNPUBLISHED, ADVENTURES_CANCELLED
-} from '@/config'
+  LOAD_PUBLISHMENT_HISTORY,
+  CREATE_PUBLISHMENT_MESSAGE
+} from '@/store/action-types'
 
 export default {
   name: 'AdventurePublishing',
@@ -50,7 +47,8 @@ export default {
   data () {
     return {
       page: 1,
-      message: null
+      message: null,
+      timestamp: (+new Date())/1000|0 //used for timestamp-based pagination
     }
   },
   computed: {
@@ -73,13 +71,12 @@ export default {
         this.$refs.historyContainer.scrollTop = this.$refs.historyContainer.scrollHeight;
       }, 0);
     });
-
-    this.$store.dispatch(`${ACTION_NAMESPACE}/${LOAD_PUBLISHMENT_HISTORY}`, { adventureId: this.$route.params.adventureId });
   },
   methods: {
     loadDataHandler($state) {
       this.$store.dispatch(`${ACTION_NAMESPACE}/${LOAD_PUBLISHMENT_HISTORY}`, {
         adventureId: this.$route.params.adventureId,
+        timestamp: this.timestamp,
         page: this.page
       }).then( (response) => {
         if(response.data.length) {

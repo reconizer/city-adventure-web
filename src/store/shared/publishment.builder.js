@@ -11,19 +11,28 @@ import {
 } from '@/store/action-types';
 
 import {
-  ADVENTURES_PENDING,
-  ADVENTURES_IN_REVIEW,
-  ADVENTURES_PUBLISHED
+  ADVENTURES_PENDING, ADVENTURES_IN_REVIEW,
+  ADVENTURES_PUBLISHED,
+
+  MESSAGE_PUBLISHED, MESSAGE_PUBLISHMENT_REQUEST,
+  MESSAGE_BACK_TO_EDIT
 } from '@/config'
 
-export default (api) => {
+export default (api, senderMessageType) => {
   return {
     namespaced: true,
     state: {
       history: [],
 
       loading: false,
-      error: null
+      errors: {
+        [LOAD_PUBLISHMENT_HISTORY]: null,
+        [CREATE_PUBLISHMENT_MESSAGE]: null,
+
+        [REQUEST_REVIEW]: null,
+        [PUBLISH]: null,
+        [START_EDITING]: null
+      }
     },
     mutations: {
       /**
@@ -34,13 +43,8 @@ export default (api) => {
       },
 
       [ADD_PUBLISHMENT_HISTORY] (state, history) {
-        //To remove duplicates, only add entries older than oldest known
-        //TODO different way to paginate?
-        let elementsToAdd = history.filter((item) => {
-          return !state.history[0] || item.timestamp < state.history[0].timestamp
-        });
-
-        state.history.unshift(...elementsToAdd);
+        history.reverse();
+        state.history.unshift(...history);
       },
 
       [ADD_MESSAGE] (state, msg) {
@@ -54,27 +58,26 @@ export default (api) => {
         state.loading = loading;
       },
 
-      [SET_ERROR] (state, error) {
-        console.log(error);
-        state.error = error;
+      [SET_ERROR] (state, { key, error }) {
+        state.errors[key] = error;
       }
     },
     actions: {
-      [LOAD_PUBLISHMENT_HISTORY] ({ commit }, { page, adventureId }) {
+      [LOAD_PUBLISHMENT_HISTORY] ({ commit }, { page, timestamp, adventureId }) {
         commit(SET_LOADING, true);
 
         if(page == 1) {
           commit(CLEAR_PUBLISHMENT_HISTORY);
         }
 
-        return api.publishment.loadHistory(adventureId, page)
+        return api.publishment.loadHistory(adventureId, timestamp, page)
           .then( response => {
             commit(SET_LOADING, false);
             commit(ADD_PUBLISHMENT_HISTORY, response.data);
 
             return response;
           })
-          .catch( error => commit(SET_ERROR, error));
+          .catch( error => commit(SET_ERROR, { key: LOAD_PUBLISHMENT_HISTORY, error: error }));
       },
 
       [CREATE_PUBLISHMENT_MESSAGE] ({ commit }, { adventureId, message }) {
@@ -83,11 +86,17 @@ export default (api) => {
         return api.publishment.sendMessage(adventureId, message)
           .then( response => {
             commit(SET_LOADING, false);
-            commit(ADD_MESSAGE, response.data);
+
+            commit(ADD_MESSAGE, {
+              id: +new Date(),
+              created_at: (+new Date())/1000|0,
+              content: message,
+              type: senderMessageType
+            });
 
             return response;
           })
-          .catch( error => commit(SET_ERROR, error));
+          .catch( error => commit(SET_ERROR, { key: CREATE_PUBLISHMENT_MESSAGE, error: error }));
       },
 
       [REQUEST_REVIEW] ({ commit }, { adventureId }) {
@@ -96,12 +105,19 @@ export default (api) => {
         return api.publishment.requestReview(adventureId)
           .then( response => {
             commit(SET_LOADING, false);
+
             commit(`adventure/${SET_ADVENTURE_STATUS}`, ADVENTURES_IN_REVIEW, { root: true });
-            commit(ADD_MESSAGE, response.data);
+
+            commit(ADD_MESSAGE, {
+              id: +new Date(),
+              created_at: (+new Date())/1000|0,
+              content: null,
+              type: MESSAGE_PUBLISHMENT_REQUEST
+            });
 
             return response;
           })
-          .catch( error => commit(SET_ERROR, error));
+          .catch( error => commit(SET_ERROR, { key: REQUEST_REVIEW, error: error }));
       },
 
       [PUBLISH] ({ commit }, { adventureId }) {
@@ -110,12 +126,19 @@ export default (api) => {
         return api.publishment.publish(adventureId)
           .then( response => {
             commit(SET_LOADING, false);
+
             commit(`adventure/${SET_ADVENTURE_STATUS}`, ADVENTURES_PUBLISHED, { root: true });
-            commit(ADD_MESSAGE, response.data);
+
+            commit(ADD_MESSAGE, {
+              id: +new Date(),
+              created_at: (+new Date())/1000|0,
+              content: null,
+              type: MESSAGE_PUBLISHED
+            });
 
             return response;
           })
-          .catch( error => commit(SET_ERROR, error));
+          .catch( error => commit(SET_ERROR, { key: PUBLISH, error: error }));
       },
 
       [START_EDITING] ({ commit }, { adventureId }) {
@@ -124,12 +147,19 @@ export default (api) => {
         return api.publishment.startEditing(adventureId)
           .then( response => {
             commit(SET_LOADING, false);
+
             commit(`adventure/${SET_ADVENTURE_STATUS}`, ADVENTURES_PENDING, { root: true });
-            commit(ADD_MESSAGE, response.data);
+
+            commit(ADD_MESSAGE, {
+              id: +new Date(),
+              created_at: (+new Date())/1000|0,
+              content: null,
+              type: MESSAGE_BACK_TO_EDIT
+            });
             
             return response;
           })
-          .catch( error => commit(SET_ERROR, error));
+          .catch( error => commit(SET_ERROR, { key: START_EDITING, error: error }));
       }
     }
   };

@@ -45,7 +45,7 @@ import {
   ADVENTURES_REJECTED, ADVENTURES_IN_REVIEW,
   ADVENTURES_UNPUBLISHED, ADVENTURES_CANCELLED,
 
-  MESSAGE_TYPE_QA
+  MESSAGE_COMMENT_QA
 } from '@/config'
 
 export default {
@@ -57,7 +57,8 @@ export default {
   data () {
     return {
       page: 1,
-      message: null
+      message: null,
+      timestamp: (+new Date())/1000|0 //used for timestamp-based pagination
     }
   },
   computed: {
@@ -75,7 +76,7 @@ export default {
     },
 
     receiverType () {
-      return MESSAGE_TYPE_QA;
+      return MESSAGE_COMMENT_QA;
     }
   },
   created () {
@@ -84,13 +85,12 @@ export default {
         this.$refs.historyContainer.scrollTop = this.$refs.historyContainer.scrollHeight;
       }, 0);
     });
-
-    this.$store.dispatch(`${ACTION_NAMESPACE}/${LOAD_PUBLISHMENT_HISTORY}`, { adventureId: this.$route.params.adventureId });
   },
   methods: {
     loadDataHandler($state) {
       this.$store.dispatch(`${ACTION_NAMESPACE}/${LOAD_PUBLISHMENT_HISTORY}`, {
         adventureId: this.$route.params.adventureId,
+        timestamp: this.timestamp,
         page: this.page
       }).then( (response) => {
         if(response.data.length) {

@@ -3,47 +3,45 @@
     .adventure-list
       .adventure-list__header {{ $t("top_menu.adventures") }}
 
-      div(v-if="counters.published")
-        .tabs.tabs--simple
-          router-link.tabs__item(
-            active-class="tabs__item--active"
-            :to="{ name: 'adventuresPublished' }"
-          ) {{ $t("adventures.adventure_published") }} ({{ published }})
+      form.adventure-list__filters(@submit="search")
+        .form-control.form-control--inline
+          input.form-input(type="text" v-model="searchParams.filters.by_name" :placeholder="$t('adventures.query_by_name')")
 
-          router-link.tabs__item(
-            active-class="tabs__item--active"
-            :to="{ name: 'adventuresUnpublished' }"
-          ) {{ $t("adventures.adventure_unpublished") }} ({{ unpublished }})
+        .form-control.form-control--inline
+          input.form-input(type="text" v-model="searchParams.filters.by_creator_name" :placeholder="$t('adventures.query_by_author')")
 
-          router-link.tabs__item(
-            active-class="tabs__item--active"
-            :to="{ name: 'adventuresInReview' }"
-          ) {{ $t("adventures.adventure_in_review") }} ({{ inReview }})
+        .form-control.form-control--inline.filter-select
+          v-select(
+            :placeholder="$t('adventure_publishing.status')"
+            :clearable="false"
+            :value="currentStatus"
+            :options="statuses"
+            @input="changeStatus"
+          )
 
-          router-link.tabs__item(
-            active-class="tabs__item--active"
-            :to="{ name: 'adventuresRejected' }"
-          ) {{ $t("adventures.adventure_rejected") }} ({{ rejected }})
+        .form-control.form-control--inline
+          input.button.button--blue(type="submit" :value="$t('general.submit')")
 
-          router-link.tabs__item(
-            active-class="tabs__item--active"
-            :to="{ name: 'adventuresCancelled' }"
-          ) {{ $t("adventures.adventure_cancelled") }} ({{ cancelled }})
+      AdventureListItem(
+        v-for="adventureItem in adventures"
+        :key="adventureItem.id"
+        :adventure="adventureItem"
+      )
 
-          router-link.tabs__item(
-            active-class="tabs__item--active"
-            :to="{ name: 'adventuresPending' }"
-          ) {{ $t("adventures.adventure_pending") }} ({{ pending }})
+      infinite-loading(:identifier="identifier" @infinite="loadDataHandler")
+        div(slot="spinner")
+        div(slot="no-more")
+        div(slot="no-results")
 
-        router-view(:key="$route.fullPath")
-
-    Loader(v-if="counters.published == null || loading")
+    Loader(v-if="loading")
 </template>
 
 <script>
 import { mapState } from 'vuex'
 
-import { LOAD_COUNTERS } from '@/store/action-types'
+import { LOAD_ADVENTURES } from '@/store/action-types'
+
+import { CLEAR_ADVENTURES } from '@/store/mutation-types'
 
 import {
   ADVENTURES_PUBLISHED,
@@ -54,42 +52,121 @@ import {
   ADVENTURES_PENDING
 } from '@/config'
 
+import AdventureListItem from '@/components/admin/AdventureListItem.vue'
+
 import Loader from '@/views/Loader'
+
+import vSelect from 'vue-select'
 
 const ACTION_NAMESPACE = 'adventures'
 
 export default {
   name: 'Adventures',
   components: {
-    Loader
+    AdventureListItem,
+
+    Loader,
+
+    vSelect
+  },
+  data () {
+    return {
+      searchParams: {
+        page: 1,
+        filters: { 
+          by_status: null,
+          by_creator_name: null,
+          by_name: null
+        }
+      },
+      identifier: 0
+    }
   },
   computed: {
     ...mapState({
-      counters: state => state.adventures.counters,
+      adventures: state => state.adventures.list,
+      totalPages: state => state.adventures.totalPages,
 
-      loading: state => state.adventures.loading
+      loading: state => state.adventures.loading,
+      error: state => state.adventures.error
     }),
-    published () {
-      return this.counters[ADVENTURES_PUBLISHED];
+
+    statuses () {
+      return [
+        {
+          value: null,
+          label: this.$t('general.all')
+        },
+        {
+          value: ADVENTURES_PENDING,
+          label: this.$t('adventure_publishing.history_pending')
+        },
+        {
+          value: ADVENTURES_IN_REVIEW,
+          label: this.$t('adventure_publishing.history_in_review')
+        },
+        {
+          value: ADVENTURES_REJECTED,
+          label: this.$t('adventure_publishing.history_rejected')
+        },
+        {
+          value: ADVENTURES_UNPUBLISHED,
+          label: this.$t('adventure_publishing.history_unpublished')
+        },
+        {
+          value: ADVENTURES_PUBLISHED,
+          label: this.$t('adventure_publishing.history_published')
+        },
+        {
+          value: ADVENTURES_CANCELLED,
+          label: this.$t('adventure_publishing.history_cancelled')
+        }
+      ];
     },
-    inReview () {
-      return this.counters[ADVENTURES_IN_REVIEW];
-    },
-    unpublished () {
-      return this.counters[ADVENTURES_UNPUBLISHED];
-    },
-    rejected () {
-      return this.counters[ADVENTURES_REJECTED];
-    },
-    cancelled () {
-      return this.counters[ADVENTURES_CANCELLED];
-    },
-    pending () {
-      return this.counters[ADVENTURES_PENDING];
+
+    currentStatus () {
+      return this.statuses.find(st => st.value == this.searchParams.filters.by_status);
     }
   },
-  created () {
-    this.$store.dispatch(`${ACTION_NAMESPACE}/${LOAD_COUNTERS}`);
+  mounted () {
+    this.$store.commit(`${ACTION_NAMESPACE}/${CLEAR_ADVENTURES}`);
+  },
+  methods: {
+    loadDataHandler($state) {
+      this.$store.dispatch(`${ACTION_NAMESPACE}/${LOAD_ADVENTURES}`, {
+        page: this.page,
+        searchParams: this.searchParams
+      }).then( (response) => {
+        if(response.data.length) {
+          this.searchParams.page += 1;
+
+          $state.loaded();
+        } else {
+          $state.complete();
+        }
+      });
+    },
+
+    changeStatus (evt) {
+      if(evt.value == this.searchParams.filters.by_status) {
+        return;
+      }
+
+      this.searchParams.page = 1;
+      this.searchParams.filters.by_status = evt.value;
+
+      this.$store.commit(`${ACTION_NAMESPACE}/${CLEAR_ADVENTURES}`);
+
+      this.identifier += 1;
+    },
+
+    search () {
+      this.searchParams.page = 1;
+
+      this.$store.commit(`${ACTION_NAMESPACE}/${CLEAR_ADVENTURES}`);
+
+      this.identifier += 1;
+    }
   }
 }
 </script>

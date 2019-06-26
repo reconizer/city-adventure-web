@@ -1,42 +1,58 @@
 import axios from 'axios';
 
-import { BASE_URL } from '@/config';
+import { ADMIN_BASE_URL } from '@/config';
 
-import historyMock from './mock/publishment/history';
-import sendMessageMock from './mock/publishment/send_message';
-
-import publishMock from './mock/publishment/publish';
-import requestReviewMock from './mock/publishment/request_review';
-import startEditingMock from './mock/publishment/start_editing';
-import rejectMock from './mock/publishment/reject';
-import cancelMock from './mock/publishment/cancel';
-import unpublishMock from './mock/publishment/unpublish';
+import {
+  ADVENTURES_IN_REVIEW, ADVENTURES_PUBLISHED,
+  ADVENTURES_PENDING, ADVENTURES_CANCELLED,
+  ADVENTURES_UNPUBLISHED, ADVENTURES_REJECTED
+} from '@/config';
 
 export default {
-  loadHistory (adventureId, page) {
-    return historyMock(adventureId, page);
+  loadHistory (adventureId, timestamp, page) {
+    return axios.get(`${ADMIN_BASE_URL}/adventures/${adventureId}/qa?page=${page}&timestamp=${timestamp}`);
   },
   sendMessage (adventureId, msg) {
-    return sendMessageMock(adventureId, msg);
+    return axios.post(`${ADMIN_BASE_URL}/adventures/${adventureId}/qa`, {
+      content: msg
+    });
   },
 
   requestReview (adventureId) {
-    return requestReviewMock(adventureId);
+    return axios.patch(`${ADMIN_BASE_URL}/adventures`, {
+      adventure_id: adventureId,
+      status: ADVENTURES_IN_REVIEW
+    });
   },
   publish (adventureId) {
-    return publishMock(adventureId);
+    return axios.patch(`${ADMIN_BASE_URL}/adventures`, {
+      adventure_id: adventureId,
+      status: ADVENTURES_PUBLISHED
+    });
   },
   startEditing (adventureId) {
-    return startEditingMock(adventureId);
+    return axios.patch(`${ADMIN_BASE_URL}/adventures`, {
+      adventure_id: adventureId,
+      status: ADVENTURES_PENDING
+    });
   },
 
   cancel (adventureId) {
-    return cancelMock(adventureId);
+    return axios.patch(`${ADMIN_BASE_URL}/adventures`, {
+      adventure_id: adventureId,
+      status: ADVENTURES_CANCELLED
+    });
   },
   unpublish (adventureId) {
-    return unpublishMock(adventureId);
+    return axios.patch(`${ADMIN_BASE_URL}/adventures`, {
+      adventure_id: adventureId,
+      status: ADVENTURES_UNPUBLISHED
+    });
   },
   reject (adventureId) {
-    return rejectMock(adventureId);
+    return axios.patch(`${ADMIN_BASE_URL}/adventures`, {
+      adventure_id: adventureId,
+      status: ADVENTURES_REJECTED
+    });
   }
 }

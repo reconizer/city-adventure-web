@@ -1,6 +1,7 @@
 <template lang="pug">
   .adventure-publishment__header
     .adventure-publishment__summary {{ publishingSummary }}
+
     button.button.button--green.adventure-publishment__action(v-if="canRequestReview" @click="showReviewModal") {{ $t("adventure_publishing.action_request_review") }}
     button.button.button--blue.adventure-publishment__action(v-if="canGoToEdit" @click="showEditModal") {{ $t("adventure_publishing.action_edit") }}
     button.button.button--green.adventure-publishment__action(v-if="canPublish" @click="showPublishModal") {{ $t("adventure_publishing.action_publish") }}
@@ -11,7 +12,7 @@
       p {{ $t("adventure_publishing.modal_edit_1") }}
       p {{ $t("adventure_publishing.modal_edit_2") }}
 
-      .text-center
+      .text-center(slot="footer")
         button.button.button--blue.button--push-right(@click="backToEdit") {{ $t("general.i_understand_confirm") }}
         button.button.button--light-gray(@click="closeModals") {{ $t("general.cancel") }}
 
@@ -22,7 +23,7 @@
       p {{ $t("adventure_publishing.modal_review_2") }}
       p {{ $t("adventure_publishing.modal_review_3") }}
 
-      .text-center
+      .text-center(slot="footer")
         button.button.button--blue.button--push-right(@click="requestReview") {{ $t("general.i_understand_confirm") }}
         button.button.button--light-gray(@click="closeModals") {{ $t("general.cancel") }}
 
@@ -31,7 +32,7 @@
 
       p {{ $t("adventure_publishing.modal_publish_1") }}
 
-      .text-center
+      .text-center(slot="footer")
         button.button.button--blue.button--push-right(@click="publish") {{ $t("general.i_understand_confirm") }}
         button.button.button--light-gray(@click="closeModals") {{ $t("general.cancel") }}
 </template>
@@ -41,11 +42,11 @@ import { mapState } from 'vuex'
 
 const ACTION_NAMESPACE = 'publishment'
 
-import { LOAD_PUBLISHMENT_HISTORY, CREATE_PUBLISHMENT_MESSAGE } from '@/store/action-types'
-
 import Modal from '@/components/shared/Modal.vue'
 
 import {
+  LOAD_PUBLISHMENT_HISTORY,
+  CREATE_PUBLISHMENT_MESSAGE,
   REQUEST_REVIEW,
   PUBLISH,
   START_EDITING

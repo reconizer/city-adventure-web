@@ -2,8 +2,7 @@ import axios from 'axios';
 
 import { ADMIN_BASE_URL } from '@/config';
 
-import adventureListMock from './mock/adventure_list';
-import countersMock from './mock/counters';
+import { objectToQuery } from '@/utils';
 
 import {
   ADVENTURES_PUBLISHED,
@@ -14,36 +13,19 @@ import {
   ADVENTURES_PENDING
 } from '@/config'
 
+
 export default {
   /**
    * ADVENTURES
    */
-  loadPublished (page = 1, query, sort) {
-    return adventureListMock(ADVENTURES_PUBLISHED, page, query, sort);
-  },
+  loadAdventures (searchParams) {
+    const query = objectToQuery(searchParams);
 
-  loadInReview (page = 1, query, sort) {
-    return adventureListMock(ADVENTURES_IN_REVIEW, page, query, sort);
-  },
-
-  loadUnpublished (page = 1, query, sort) {
-    return adventureListMock(ADVENTURES_UNPUBLISHED, page, query, sort);
-  },
-
-  loadRejected (page = 1, query, sort) {
-    return adventureListMock(ADVENTURES_REJECTED, page, query, sort);
-  },
-
-  loadCancelled (page = 1, query, sort) {
-    return adventureListMock(ADVENTURES_CANCELLED, page, query, sort);
-  },
-
-  loadPending (page = 1, query, sort) {
-    return adventureListMock(ADVENTURES_PENDING, page, query, sort);
-  },
-
-  loadCounters () {
-    return countersMock();
+    if(query) {
+      return axios.get(`${ADMIN_BASE_URL}/adventures?${query}`);
+    } else {
+      return axios.get(`${ADMIN_BASE_URL}/adventures`);
+    }
   },
 
   loadAdventure (adventureId) {
@@ -105,7 +87,7 @@ export default {
     }
   },
   destroyGalleryImage (adventureId, galleryImageId) {
-    return axios.post(`${BASE_URL}/adventures/gallery_image/remove`, {
+    return axios.post(`${ADMIN_BASE_URL}/adventures/gallery_image/remove`, {
       adventure_id: adventureId,
       image_id: galleryImageId
     });

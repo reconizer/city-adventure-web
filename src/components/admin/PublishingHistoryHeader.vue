@@ -18,8 +18,6 @@ import { mapState } from 'vuex'
 
 const ACTION_NAMESPACE = 'publishment'
 
-import { LOAD_PUBLISHMENT_HISTORY, CREATE_PUBLISHMENT_MESSAGE } from '@/store/action-types'
-
 import vSelect from 'vue-select'
 
 import Modal from '@/components/shared/Modal.vue'
@@ -57,6 +55,7 @@ export default {
     adventure () {
       let adventure = this.$store.state.adventure.item;
 
+      // eslint-disable-next-line
       this.status = adventure.status;
 
       return adventure;
@@ -66,11 +65,11 @@ export default {
       return [
         {
           value: ADVENTURES_PENDING,
-          label: this.$t('adventure_publishing.history_back_to_edit')
+          label: this.$t('adventure_publishing.history_pending')
         },
         {
           value: ADVENTURES_IN_REVIEW,
-          label: this.$t('adventure_publishing.history_review_request')
+          label: this.$t('adventure_publishing.history_in_review')
         },
         {
           value: ADVENTURES_REJECTED,
@@ -78,7 +77,7 @@ export default {
         },
         {
           value: ADVENTURES_UNPUBLISHED,
-          label: this.$t('adventure_publishing.history_accepted')
+          label: this.$t('adventure_publishing.history_unpublished')
         },
         {
           value: ADVENTURES_PUBLISHED,
