@@ -2,8 +2,6 @@ import axios from 'axios';
 
 import { ADMIN_BASE_URL } from '@/config';
 
-import adventureListMock from './mock/adventure_list';
-
 import { objectToQuery } from '@/utils';
 
 import {

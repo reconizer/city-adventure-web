@@ -54,7 +54,7 @@ export default {
     }
   },
   actions: {
-    [LOAD_ADVENTURES] ({ commit, state }, { page, searchParams }) {
+    [LOAD_ADVENTURES] ({ commit }, { searchParams }) {
       commit(SET_LOADING, true);
 
       return api.admin.adventures.loadAdventures(searchParams)

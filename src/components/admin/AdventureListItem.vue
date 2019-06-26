@@ -48,8 +48,6 @@ import {
 
 import RatingStars from '@/components/shared/RatingStars.vue'
 
-import moment from 'moment'
-
 export default {
   name: 'AdventureListItem',
   components: {

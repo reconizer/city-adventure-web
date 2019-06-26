@@ -18,8 +18,6 @@ import { mapState } from 'vuex'
 
 const ACTION_NAMESPACE = 'publishment'
 
-import { LOAD_PUBLISHMENT_HISTORY, CREATE_PUBLISHMENT_MESSAGE } from '@/store/action-types'
-
 import vSelect from 'vue-select'
 
 import Modal from '@/components/shared/Modal.vue'
@@ -57,6 +55,7 @@ export default {
     adventure () {
       let adventure = this.$store.state.adventure.item;
 
+      // eslint-disable-next-line
       this.status = adventure.status;
 
       return adventure;

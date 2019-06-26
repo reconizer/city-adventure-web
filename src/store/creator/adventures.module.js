@@ -7,7 +7,7 @@ import {
 } from '@/store/mutation-types';
 
 import {
-  LOAD_ADVENTURES, CREATE_ADVENTURE,
+  LOAD_ADVENTURES,
   REMOVE_ADVENTURE
 } from '@/store/action-types';
 

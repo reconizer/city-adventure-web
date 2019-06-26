@@ -58,8 +58,6 @@ import Loader from '@/views/Loader'
 
 import vSelect from 'vue-select'
 
-import cloneDeep from 'lodash.clonedeep'
-
 const ACTION_NAMESPACE = 'adventures'
 
 export default {
